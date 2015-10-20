@@ -1,0 +1,7 @@
+*/*.log
+*/*.class
+*/*.classpath
+*/*.prefs
+*/bin
+*/.project
+*/.settings
