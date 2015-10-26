@@ -1,10 +1,9 @@
 package editor;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.*;
-
 import javax.swing.*;
+import javax.tools.*;
 
 public class EditorMenu extends JMenuBar {
 
@@ -15,11 +14,13 @@ public class EditorMenu extends JMenuBar {
 
 		FileMenu fm = new FileMenu(ta);
 		EditMenu em = new EditMenu(ta);
+		JavaMenu jm = new JavaMenu(ta);
 		ViewMenu vm = new ViewMenu(ta);
 		HelpMenu hm = new HelpMenu(ta);
 
 		add(fm);
 		add(em);
+		add(jm);
 		add(vm);
 		add(hm);
 	}
@@ -42,13 +43,13 @@ class FileMenu extends AbstMenu {
 	private static final long serialVersionUID = 1L;
 
 	public FileMenu(JTextArea ta) {
-		super(ta, "ƒtƒ@ƒCƒ‹");
+		super(ta, "ï¿½tï¿½@ï¿½Cï¿½ï¿½");
 
-		menuItem.add(new JMenuItem("V‹Kì¬"));
-		menuItem.add(new JMenuItem("ŠJ‚­"));
-		menuItem.add(new JMenuItem("ã‘‚«•Û‘¶"));
-		menuItem.add(new JMenuItem("–¼‘O‚ğ‚Â‚¯‚Ä•Û‘¶"));
-		menuItem.add(new JMenuItem("•Â‚¶‚é"));
+		menuItem.add(new JMenuItem("ï¿½Vï¿½Kï¿½ì¬"));
+		menuItem.add(new JMenuItem("ï¿½Jï¿½ï¿½"));
+		menuItem.add(new JMenuItem("ï¿½ã‘ï¿½ï¿½ï¿½Û‘ï¿½"));
+		menuItem.add(new JMenuItem("ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Â‚ï¿½ï¿½Ä•Û‘ï¿½"));
+		menuItem.add(new JMenuItem("ï¿½Â‚ï¿½ï¿½ï¿½"));
 
 		for (JMenuItem mi : menuItem) {
 			add(mi);
@@ -65,18 +66,18 @@ class FileMenu extends AbstMenu {
 			ta.setText("");
 			EditorStatus.FILENAME = "";
 		} else if (command == menuItem.get(1).getText()) {
-			// ƒeƒLƒXƒgƒGƒŠƒA‚ğ‹ó—“‚É‚µ‚Äƒtƒ@ƒCƒ‹“Ç‚İ‚İ
+			// ï¿½eï¿½Lï¿½Xï¿½gï¿½Gï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ó—“‚É‚ï¿½ï¿½Äƒtï¿½@ï¿½Cï¿½ï¿½ï¿½Ç‚İï¿½ï¿½ï¿½
 			ta.setText("");
 			fa.fileOpen(ta);
 		} else if (command == menuItem.get(2).getText()) {
-			// ƒtƒ@ƒCƒ‹‚ğŠJ‚¢‚Ä‚¢‚é‚È‚çã‘‚«A‚»‚êˆÈŠO‚Í–¼‘O‚ğ‚Â‚¯‚Ä•Û‘¶
+			// ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Jï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½È‚ï¿½ã‘ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ÈŠOï¿½Í–ï¿½ï¿½Oï¿½ï¿½ï¿½Â‚ï¿½ï¿½Ä•Û‘ï¿½
 			if (EditorStatus.FILENAME == "") {
 				fa.fileSave(ta);
 			} else {
 				fa.overWrite(ta);
 			}
 		} else if (command == menuItem.get(3).getText()) {
-			// –¼‘O‚ğ‚Â‚¯‚Ä•Û‘¶
+			// ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½Â‚ï¿½ï¿½Ä•Û‘ï¿½
 			fa.fileSave(ta);
 		} else if (command == menuItem.get(4).getText()) {
 			System.exit(0);
@@ -90,12 +91,12 @@ class EditMenu extends AbstMenu {
 	private static final long serialVersionUID = 1L;
 
 	public EditMenu(JTextArea ta) {
-		super(ta, "•ÒW");
+		super(ta, "ï¿½ÒW");
 
-		menuItem.add(new JMenuItem("Ø‚èæ‚è"));
-		menuItem.add(new JMenuItem("ƒRƒs["));
-		menuItem.add(new JMenuItem("“\‚è•t‚¯"));
-		menuItem.add(new JMenuItem("‚·‚×‚Ä‘I‘ğ"));
+		menuItem.add(new JMenuItem(""));
+		menuItem.add(new JMenuItem(""));
+		menuItem.add(new JMenuItem(""));
+		menuItem.add(new JMenuItem(""));
 
 		for (JMenuItem mi : menuItem) {
 			add(mi);
@@ -110,17 +111,48 @@ class EditMenu extends AbstMenu {
 
 }
 
+class JavaMenu extends AbstMenu {
+
+	private static final long serialVersionUID = 1L;
+
+	public JavaMenu(JTextArea ta) {
+		super(ta, "Java");
+
+		menuItem.add(new JMenuItem("ï¿½Rï¿½ï¿½ï¿½pï¿½Cï¿½ï¿½"));
+		menuItem.add(new JMenuItem("ï¿½ï¿½ï¿½s"));
+
+		for (JMenuItem mi : menuItem) {
+			add(mi);
+			mi.addActionListener(this);
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String command = e.getActionCommand();
+
+		if (command == menuItem.get(0).getText()) {
+			System.out.println("ï¿½Rï¿½ï¿½ï¿½pï¿½Cï¿½ï¿½ï¿½Xï¿½^ï¿½[ï¿½g");
+			System.out.println(EditorStatus.FILENAME);
+			JavaCompiler c = ToolProvider.getSystemJavaCompiler();
+			int r = c.run(null, System.out, System.out, EditorStatus.FILENAME);
+			System.out.println("ï¿½ß‚ï¿½lï¿½F" + r);
+			System.out.println("ï¿½Rï¿½ï¿½ï¿½pï¿½Cï¿½ï¿½ï¿½Xï¿½gï¿½bï¿½v");
+		}
+	}
+}
+
 class ViewMenu extends AbstMenu {
 
 	private static final long serialVersionUID = 1L;
 
 	public ViewMenu(JTextArea ta) {
-		super(ta, "•\¦");
+		super(ta, "");
 
-		menuItem.add(new JMenuItem("Šg‘å"));
-		menuItem.add(new JMenuItem("k¬"));
-		menuItem.add(new JMenuItem("ƒtƒHƒ“ƒgƒTƒCƒY"));
-		menuItem.add(new JMenuItem("ƒ^ƒuƒTƒCƒY"));
+		menuItem.add(new JMenuItem("ï¿½gï¿½ï¿½"));
+		menuItem.add(new JMenuItem("ï¿½kï¿½ï¿½"));
+		menuItem.add(new JMenuItem("ï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½Tï¿½Cï¿½Y"));
+		menuItem.add(new JMenuItem("ï¿½^ï¿½uï¿½Tï¿½Cï¿½Y"));
 
 		for (JMenuItem mi : menuItem) {
 			add(mi);
@@ -140,10 +172,10 @@ class HelpMenu extends AbstMenu {
 	private static final long serialVersionUID = 1L;
 
 	public HelpMenu(JTextArea ta) {
-		super(ta, "ƒwƒ‹ƒv");
+		super(ta, "ï¿½wï¿½ï¿½ï¿½v");
 
-		menuItem.add(new JMenuItem("ƒwƒ‹ƒv"));
-		menuItem.add(new JMenuItem("ƒo[ƒWƒ‡ƒ“î•ñ"));
+		menuItem.add(new JMenuItem("ï¿½wï¿½ï¿½ï¿½v"));
+		menuItem.add(new JMenuItem("ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"));
 
 		for (JMenuItem mi : menuItem) {
 			add(mi);
@@ -157,10 +189,10 @@ class HelpMenu extends AbstMenu {
 		String command = e.getActionCommand();
 
 		if (command == menuItem.get(0).getText()) {
-			JOptionPane.showMessageDialog(null, "–¢À‘•", "–¢À‘•",
+			JOptionPane.showMessageDialog(null, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½",
 					JOptionPane.ERROR_MESSAGE);
 		} else if (command == menuItem.get(1).getText()) {
-			JOptionPane.showMessageDialog(null, "ƒo[ƒWƒ‡ƒ“î•ñ", "ƒo[ƒWƒ‡ƒ“î•ñ",
+			JOptionPane.showMessageDialog(null, "ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½",
 					JOptionPane.INFORMATION_MESSAGE);
 		}
 	}

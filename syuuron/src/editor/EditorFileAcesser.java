@@ -8,19 +8,18 @@ public class EditorFileAcesser {
 	JFileChooser fc;
 
 	public EditorFileAcesser() {
-		fc = new JFileChooser();
+		fc = new JFileChooser("C:/Users/lab/Desktop");
 	}
 
 	public void fileOpen(JTextArea ta) {
 
 		int selected = fc.showOpenDialog(null);
-		if(selected == JFileChooser.CANCEL_OPTION) {
-			return;
-		}else if(selected == JFileChooser.ERROR_OPTION){
+		if (selected == JFileChooser.CANCEL_OPTION
+				|| selected == JFileChooser.ERROR_OPTION) {
 			return;
 		}
+		
 		File f = fc.getSelectedFile();
-
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(f));
 			String s;
@@ -38,9 +37,9 @@ public class EditorFileAcesser {
 	public void fileSave(JTextArea ta) {
 
 		int selected = fc.showOpenDialog(null);
-		if(selected == JFileChooser.CANCEL_OPTION) {
+		if (selected == JFileChooser.CANCEL_OPTION) {
 			return;
-		}else if(selected == JFileChooser.ERROR_OPTION){
+		} else if (selected == JFileChooser.ERROR_OPTION) {
 			return;
 		}
 		File f = fc.getSelectedFile();
@@ -63,21 +62,20 @@ public class EditorFileAcesser {
 		EditorStatus.FILENAME = f.getPath();
 	}
 
-	public void overWrite(JTextArea ta){
+	public void overWrite(JTextArea ta) {
 		File f = new File(EditorStatus.FILENAME);
 
-		try{
-			PrintWriter pw = new PrintWriter(new FileWriter(f,false));
+		try {
+			PrintWriter pw = new PrintWriter(new FileWriter(f, false));
 
 			String s = ta.getText();
 			String st[] = s.split("\n");
-			for (int i = 0;i < st.length;i++){
+			for (int i = 0; i < st.length; i++) {
 				pw.println(st[i]);
 			}
 
 			pw.close();
-		}
-		catch(IOException e){
+		} catch (IOException e) {
 			return;
 		}
 	}
