@@ -2,9 +2,9 @@ package sample;
 
 public class Heapsort2 {
 
-	public int[] heap; // ƒf[ƒ^‚Ì”z—ñ
-	public int num; // Œ»İ‚Ì—v‘f”
-	int target; // Œ»İ‚Ì’…–Úƒ‰ƒCƒ“
+	public int[] heap; // ãƒ‡ãƒ¼ã‚¿ã®é…åˆ—
+	public int num; // ç¾åœ¨ã®è¦ç´ æ•°
+	int target; // ç¾åœ¨ã®ç€ç›®ãƒ©ã‚¤ãƒ³
 
 	public static void main(String[] args) {
 		int[] original = { 3, 7, 2, 6, 4, 5 };
@@ -16,7 +16,7 @@ public class Heapsort2 {
 	}
 
 	/*
-	 * ‘}“ü
+	 * æŒ¿å…¥
 	 */
 	public void insert(int a) {
 		heap[num++] = a;
@@ -31,7 +31,7 @@ public class Heapsort2 {
 	}
 
 	/*
-	 * æ“ª‚Ì—v‘f‚ğæ‚èœ‚«A•Ô‚·
+	 * å…ˆé ­ã®è¦ç´ ã‚’å–ã‚Šé™¤ãã€è¿”ã™
 	 */
 	public int deletemin() {
 		int r = heap[0];
@@ -52,20 +52,20 @@ public class Heapsort2 {
 	}
 
 	/*
-	 * ƒ\[ƒg
+	 * ã‚½ãƒ¼ãƒˆ
 	 */
 	public void sort(int[] a) {
 
-		// •K—v‚Èƒq[ƒv—p”z—ñ‚ğŠm•Û‚µ‚Ü‚·
+		// å¿…è¦ãªãƒ’ãƒ¼ãƒ—ç”¨é…åˆ—ã‚’ç¢ºä¿ã—ã¾ã™
 		heap = new int[a.length];
 		num = 0;
 
-		// ƒq[ƒv‚É—v‘f‚ğ’Ç‰Á‚µ‚Ü‚·
+		// ãƒ’ãƒ¼ãƒ—ã«è¦ç´ ã‚’è¿½åŠ ã—ã¾ã™
 		for (target = 0; target < a.length; target++) {
 			insert(a[target]);
 		}
 
-		// ƒq[ƒv‚©‚çæ‚èo‚µ‚È‚ª‚ç”z—ñ‚ÉŠi”[‚µ‚Ü‚·B
+		// ãƒ’ãƒ¼ãƒ—ã‹ã‚‰å–ã‚Šå‡ºã—ãªãŒã‚‰é…åˆ—ã«æ ¼ç´ã—ã¾ã™ã€‚
 		for (target = 0; num > 0; target++) {
 			a[target] = deletemin();
 		}

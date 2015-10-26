@@ -17,24 +17,24 @@ public class Heapsort {
 
 	public void insert(int a) {
 		heap[num++] = a;
-		// int i = num + 1, j = i / 2;// –³‘Ê‚É+1 ”z—ñŠOQÆ
-		// int i = num, j = i / 2 + 1;// –³‘Ê‚É+1 –â‘è‚È‚µ
-		// int i = num, j = num / 2 + 1;// num/2 –â‘è‚È‚µ
-		int i = num, j = i / 2;// ³‰ğƒpƒ^[ƒ“
+		// int i = num + 1, j = i / 2;// ç„¡é§„ã«+1ï¼šé…åˆ—å¤–å‚ç…§
+		// int i = num, j = i / 2 + 1;// ç„¡é§„ã«+1ï¼šå•é¡Œãªã—
+		// int i = num, j = num / 2 + 1;// num/2ï¼šå•é¡Œãªã—
+		int i = num, j = i / 2;// æ­£è§£ãƒ‘ã‚¿ãƒ¼ãƒ³
 
-		// while (heap[i - 1] < heap[j - 1]) {// i>1‚È‚µ ”z—ñŠOQÆ
-		// while (i >= 1 && heap[i - 1] < heap[j - 1]) {// i>=1 ”z—ñŠOQÆ
-		// while (i < 1 && heap[i - 1] < heap[j - 1]) {// •s“™†ƒ~ƒX1 Œ‹‰ÊŠÔˆá‚¢
-		// while (i > 1 && heap[i - 1] > heap[j - 1]) {// •s“™†ƒ~ƒX2 Œ‹‰ÊŠÔˆá‚¢
-		// while (i > 1 && heap[i] < heap[j]) {// -1‚È‚µ ”z—ñŠOQÆ
-		while (i > 1 && heap[i - 1] < heap[j - 1]) {// ³‰ğƒpƒ^[ƒ“
-			// “ü‚ê‘Ö‚¦
+		// while (heap[i - 1] < heap[j - 1]) {// i>1ãªã—ï¼šé…åˆ—å¤–å‚ç…§
+		// while (i >= 1 && heap[i - 1] < heap[j - 1]) {// i>=1ï¼šé…åˆ—å¤–å‚ç…§
+		// while (i < 1 && heap[i - 1] < heap[j - 1]) {// ä¸ç­‰å·ãƒŸã‚¹1ï¼šçµæœé–“é•ã„
+		// while (i > 1 && heap[i - 1] > heap[j - 1]) {// ä¸ç­‰å·ãƒŸã‚¹2ï¼šçµæœé–“é•ã„
+		// while (i > 1 && heap[i] < heap[j]) {// -1ãªã—ï¼šé…åˆ—å¤–å‚ç…§
+		while (i > 1 && heap[i - 1] < heap[j - 1]) {// æ­£è§£ãƒ‘ã‚¿ãƒ¼ãƒ³
+			// å…¥ã‚Œæ›¿ãˆ
 			int t = heap[i - 1];
-			// heap[j - 1] = heap[i - 1];// i‚Æj‚Ì“ü‚ê‘Ö‚¦ Œ‹‰ÊŠÔˆá‚¢
-			heap[i - 1] = heap[j - 1];// ³‰ğƒpƒ^[ƒ“
+			// heap[j - 1] = heap[i - 1];// iã¨jã®å…¥ã‚Œæ›¿ãˆï¼šçµæœé–“é•ã„
+			heap[i - 1] = heap[j - 1];// æ­£è§£ãƒ‘ã‚¿ãƒ¼ãƒ³
 			heap[j - 1] = t;
 
-			// i‚Æj‚ÌXV
+			// iã¨jã®æ›´æ–°
 			i = j;
 			j = i / 2;
 		}
@@ -42,34 +42,34 @@ public class Heapsort {
 	}
 
 	public int deletemin() {
-		// æ“ªæ‚èo‚µ
+		// å…ˆé ­å–ã‚Šå‡ºã—
 		int r = heap[0];
 
-		// ÅŒã‚ğæ“ª‚É
-		// heap[0] = heap[num--] // ƒ|ƒXƒgƒfƒNƒŠƒƒ“ƒg
-		// heap[--num] = heap[0]; // ‡˜‹t
-		heap[0] = heap[--num];// ³‰ğƒpƒ^[ƒ“
+		// æœ€å¾Œã‚’å…ˆé ­ã«
+		// heap[0] = heap[num--]; // ãƒã‚¹ãƒˆãƒ‡ã‚¯ãƒªãƒ¡ãƒ³ãƒˆï¼šé…åˆ—å¤–å‚ç…§
+		// heap[--num] = heap[0]; // é †åºé€†ï¼šçµæœé–“é•ã„
+		 heap[0] = heap[--num];// æ­£è§£ãƒ‘ã‚¿ãƒ¼ãƒ³
 
-		int i = 0, j = i * 2 + 1;
-		// int i = 1, j = i * 2 + 1; // –³‘Ê‚É+1
+		// int i = 0, j = i * 2;// +1å¿˜ã‚Œï¼šç„¡é™ãƒ«ãƒ¼ãƒ—
+		int i = 0, j = i * 2 + 1;// æ­£è§£ãƒ‘ã‚¿ãƒ¼ãƒ³
 
-		// ƒq[ƒv‚ğÄ\’z
-		// while (j < num) { // =‚È‚µ
-		// while (j >= num) { // •s“™†‹t
-		// while (i <= num) { // i‚Æ”äŠr
-		while (j <= num) { // ³‰ğƒpƒ^[ƒ“
+		// ãƒ’ãƒ¼ãƒ—ã‚’å†æ§‹ç¯‰
+		// while (j < num) { // =ãªã—ï¼šå•é¡Œãªã—
+		// while (j >= num) { // ä¸ç­‰å·é€†ï¼šé…åˆ—å¤–å‚ç…§
+		// while (i <= num) { // iã¨æ¯”è¼ƒï¼šé…åˆ—å¤–å‚ç…§
+		while (j <= num) { // æ­£è§£ãƒ‘ã‚¿ãƒ¼ãƒ³
 
-			// j+1‚ªÅ‘å’l(num)“à‚©‚Âq(j‚Æj+1)‚Å¬‚³‚¢•û‚ğ‘I‘ğ
-			// if (j + 1 <= num && heap[j] < heap[j + 1]) {// •s“™†‹t
-			// if (j + 1 >= num && heap[j] > heap[j + 1]) {// j+1‚Ænum‚Ì•s“™†‹t
-			// if (heap[j] > heap[j + 1]) {// j+1 <= num‚È‚µ
-			if (j + 1 <= num && heap[j] > heap[j + 1]) {// ³‰ğƒpƒ^[ƒ“
+			// j+1ãŒæœ€å¤§å€¤(num)å†…ã‹ã¤å­(jã¨j+1)ã§å°ã•ã„æ–¹ã‚’é¸æŠ
+			// if (j + 1 <= num && heap[j] < heap[j + 1]) {// ä¸ç­‰å·é€†ï¼šçµæœé–“é•ã„
+			// if (j + 1 >= num && heap[j] > heap[j + 1]) {// j+1ã¨numã®ä¸ç­‰å·é€†ï¼šçµæœé–“é•ã„
+			// if (heap[j] > heap[j + 1]) {// j+1 <= numãªã—ï¼šçµæœé–“é•ã„
+			 if (j + 1 <= num && heap[j] > heap[j + 1]) {// æ­£è§£ãƒ‘ã‚¿ãƒ¼ãƒ³
 				j++;
 			}
 
-			// e‚Æq‚Åq‚Ì‚Ù‚¤‚ª¬‚³‚¯‚ê‚Î“ü‚ê‘Ö‚¦
-			// if (heap[i] < heap[j]) {// •s“™†‹t
-			if (heap[i] > heap[j]) {// ³‰ğƒpƒ^[ƒ“
+			// è¦ªã¨å­ã§å­ã®ã»ã†ãŒå°ã•ã‘ã‚Œã°å…¥ã‚Œæ›¿ãˆ
+			// if (heap[i] < heap[j]) {// ä¸ç­‰å·é€†ï¼šçµæœé–“é•ã„
+			if (heap[i] > heap[j]) {// æ­£è§£ãƒ‘ã‚¿ãƒ¼ãƒ³
 				int t = heap[i];
 				heap[i] = heap[j];
 				heap[j] = t;
@@ -83,18 +83,18 @@ public class Heapsort {
 
 	public void sort(int[] a) {
 
-		// •K—v‚Èƒq[ƒv—p”z—ñ‚ğŠm•Û‚µ‚Ü‚·
+		// å¿…è¦ãªãƒ’ãƒ¼ãƒ—ç”¨é…åˆ—ã‚’ç¢ºä¿ã—ã¾ã™
 		heap = new int[a.length];
 		num = 0;
 
 		// print(heap,"heap");
-		// ƒq[ƒv‚É—v‘f‚ğ’Ç‰Á‚µ‚Ü‚·
+		// ãƒ’ãƒ¼ãƒ—ã«è¦ç´ ã‚’è¿½åŠ ã—ã¾ã™
 		for (target = 0; target < a.length; target++) {
 			insert(a[target]);
 		}
 		// print(heap,"heap");
 
-		// ƒq[ƒv‚©‚çæ‚èo‚µ‚È‚ª‚ç”z—ñ‚ÉŠi”[‚µ‚Ü‚·B
+		// ãƒ’ãƒ¼ãƒ—ã‹ã‚‰å–ã‚Šå‡ºã—ãªãŒã‚‰é…åˆ—ã«æ ¼ç´ã—ã¾ã™ã€‚
 		for (target = 0; num > 0; target++) {
 			a[target] = deletemin();
 		}
