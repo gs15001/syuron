@@ -6,15 +6,6 @@ public class Heapsort {
 	public int num;
 	int target;
 
-	public static void main(String[] args) {
-		int[] original = { 3, 7, 2, 6, 4, 5 };
-		Heapsort hs = new Heapsort();
-
-		hs.print(original, "original");
-		hs.sort(original);
-		hs.print(original, "original");
-	}
-
 	public void insert(int a) {
 		heap[num++] = a;
 		// int i = num + 1, j = i / 2;// 無駄に+1：配列外参照
@@ -22,6 +13,7 @@ public class Heapsort {
 		// int i = num, j = num / 2 + 1;// num/2：問題なし
 		int i = num, j = i / 2;// 正解パターン
 
+		// System.out.println("i = " + i + ",j = " + j);// デバッグ用
 		// while (heap[i - 1] < heap[j - 1]) {// i>1なし：配列外参照
 		// while (i >= 1 && heap[i - 1] < heap[j - 1]) {// i>=1：配列外参照
 		// while (i < 1 && heap[i - 1] < heap[j - 1]) {// 不等号ミス1：結果間違い
@@ -48,7 +40,7 @@ public class Heapsort {
 		// 最後を先頭に
 		// heap[0] = heap[num--]; // ポストデクリメント：配列外参照
 		// heap[--num] = heap[0]; // 順序逆：結果間違い
-		 heap[0] = heap[--num];// 正解パターン
+		heap[0] = heap[--num];// 正解パターン
 
 		// int i = 0, j = i * 2;// +1忘れ：無限ループ
 		int i = 0, j = i * 2 + 1;// 正解パターン
@@ -63,7 +55,7 @@ public class Heapsort {
 			// if (j + 1 <= num && heap[j] < heap[j + 1]) {// 不等号逆：結果間違い
 			// if (j + 1 >= num && heap[j] > heap[j + 1]) {// j+1とnumの不等号逆：結果間違い
 			// if (heap[j] > heap[j + 1]) {// j+1 <= numなし：結果間違い
-			 if (j + 1 <= num && heap[j] > heap[j + 1]) {// 正解パターン
+			if (j + 1 <= num && heap[j] > heap[j + 1]) {// 正解パターン
 				j++;
 			}
 
@@ -87,26 +79,20 @@ public class Heapsort {
 		heap = new int[a.length];
 		num = 0;
 
-		// print(heap,"heap");
+		Starter.print(heap, "heap");
 		// ヒープに要素を追加します
 		for (target = 0; target < a.length; target++) {
+			// System.out.println(target);
+			// print(heap,"heap");
 			insert(a[target]);
 		}
-		// print(heap,"heap");
+		Starter.print(heap, "heap");
 
 		// ヒープから取り出しながら配列に格納します。
 		for (target = 0; num > 0; target++) {
 			a[target] = deletemin();
 		}
 		// print(a,"result");
-	}
-
-	public void print(int[] a, String t) {
-		System.out.print(t + " : ");
-		for (int e : a) {
-			System.out.print(e + " ");
-		}
-		System.out.println();
 	}
 
 }
