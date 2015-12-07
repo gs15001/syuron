@@ -58,6 +58,8 @@ public class GUI extends JPanel {
 	private ThreadTreeTool threadTreeTool;
 	private StackTraceTool stackTool;
 	private MonitorTool monitorTool;
+	
+	private final Environment env = new Environment();
 
 	public static final String progname = "javadt";
 	public static final String version = "1.0Beta"; // ### FIX ME.
@@ -65,7 +67,7 @@ public class GUI extends JPanel {
 
 	private Font fixedFont = new Font("monospaced", Font.PLAIN, 10);
 
-	private GUI(Environment env) {
+	public GUI() {
 		setLayout(new BorderLayout());
 
 		setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -158,13 +160,12 @@ public class GUI extends JPanel {
 				+ " prompt");
 	}
 
-	public static void main(String argv[]) {
+	public void run(String argv[]) {
 		String clsName = "";
 		String progArgs = "";
 		String javaArgs = "";
-		final Environment env = new Environment();
 
-		JPanel mainPanel = new GUI(env);
+		JPanel mainPanel = this;
 
 		ContextManager context = env.getContextManager();
 		ExecutionManager runtime = env.getExecutionManager();
