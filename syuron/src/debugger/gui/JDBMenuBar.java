@@ -34,6 +34,7 @@
 package debugger.gui;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
@@ -171,13 +172,30 @@ class JDBMenuBar extends JMenuBar {
 	}
 
 	private void openCommand() {
-		JFileChooser chooser = new JFileChooser();
+		JFileChooser chooser = new JFileChooser("D:\\TEMP");
 		JDBFileFilter filter = new JDBFileFilter("java", "Java source code");
 		chooser.setFileFilter(filter);
 		int result = chooser.showOpenDialog(this);
 		if (result == JFileChooser.APPROVE_OPTION) {
-			System.out.println("Chose file: "
-					+ chooser.getSelectedFile().getName());
+			// 選択された場合、必要情報の書き換え
+			env.getClassManager().setClassPath(
+					new SearchPath(chooser.getSelectedFile().getParent()));
+			env.getSourceManager().setSourcePath(
+					new SearchPath(chooser.getSelectedFile().getParent()));
+
+			// MainClassNameの書き換え(引数は基本的になし)
+			String clsname = chooser.getSelectedFile().getName();
+			clsname = clsname.substring(0, clsname.lastIndexOf("."));
+			env.getContextManager().setMainClassName(clsname);
+			env.getContextManager().setProgramArguments("");
+
+			//選択したファイルの表示
+			env.viewSource(chooser.getSelectedFile().getName());
+			
+			// System.out.println("Chose file: "
+			// + chooser.getSelectedFile().getName());
+			// System.out.println("Chose file: "
+			// + chooser.getSelectedFile().getParent());
 		}
 	}
 
