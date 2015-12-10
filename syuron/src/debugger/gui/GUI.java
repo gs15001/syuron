@@ -58,7 +58,8 @@ public class GUI extends JPanel {
 	private ThreadTreeTool threadTreeTool;
 	private StackTraceTool stackTool;
 	private MonitorTool monitorTool;
-	
+	private JPanel supportTool;//未実装 とりあえずパネル配置
+
 	private final Environment env = new Environment();
 
 	public static final String progname = "javadt";
@@ -74,49 +75,63 @@ public class GUI extends JPanel {
 
 		add(new JDBToolBar(env), BorderLayout.NORTH);
 
+		//ソースビュー
 		srcTool = new SourceTool(env);
-		srcTool.setPreferredSize(new java.awt.Dimension(500, 300));
+		srcTool.setPreferredSize(new java.awt.Dimension(500, 450));
 		srcTool.setTextFont(fixedFont);
 
-		stackTool = new StackTraceTool(env);
-		stackTool.setPreferredSize(new java.awt.Dimension(500, 100));
-
+		//デバッグ情報ビュー
 		monitorTool = new MonitorTool(env);
-		monitorTool.setPreferredSize(new java.awt.Dimension(500, 50));
+		monitorTool.setPreferredSize(new java.awt.Dimension(500, 150));
+		
+		stackTool = new StackTraceTool(env);
+		stackTool.setPreferredSize(new java.awt.Dimension(500, 150));
 
-		JSplitPane right = new JSplitPane(JSplitPane.VERTICAL_SPLIT, srcTool,
-				new JSplitPane(JSplitPane.VERTICAL_SPLIT, stackTool,
-						monitorTool));
+		//デバッグ情報ビューをタブ化
+		JTabbedPane infoPane = new JTabbedPane(SwingConstants.TOP);
+		infoPane.addTab("変数", monitorTool);
+		infoPane.addTab("呼び出し階層", stackTool);
+		
+		//支援情報ビュー
+		supportTool = new JPanel();
+		supportTool.setPreferredSize(new java.awt.Dimension(500, 150));
 
+		JSplitPane right = new JSplitPane(JSplitPane.VERTICAL_SPLIT, infoPane,
+				supportTool);
+
+		// Treeは使わないので非表示に 一応オブジェクトは生成しておく
 		sourceTreeTool = new SourceTreeTool(env);
-		sourceTreeTool.setPreferredSize(new java.awt.Dimension(200, 450));
-
 		classTreeTool = new ClassTreeTool(env);
-		classTreeTool.setPreferredSize(new java.awt.Dimension(200, 450));
-
 		threadTreeTool = new ThreadTreeTool(env);
-		threadTreeTool.setPreferredSize(new java.awt.Dimension(200, 450));
 
-		JTabbedPane treePane = new JTabbedPane(SwingConstants.BOTTOM);
-		treePane.addTab("Source", null, sourceTreeTool);
-		treePane.addTab("Classes", null, classTreeTool);
-		treePane.addTab("Threads", null, threadTreeTool);
+		// sourceTreeTool.setPreferredSize(new java.awt.Dimension(200, 450));
+		// classTreeTool.setPreferredSize(new java.awt.Dimension(200, 450));
+		// threadTreeTool.setPreferredSize(new java.awt.Dimension(200, 450));
+
+		// JTabbedPane treePane = new JTabbedPane(SwingConstants.BOTTOM);
+		// treePane.addTab("Source", null, sourceTreeTool);
+		// treePane.addTab("Classes", null, classTreeTool);
+		// treePane.addTab("Threads", null, threadTreeTool);
 
 		JSplitPane centerTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-				treePane, right);
+				srcTool, right);
 
+		// cmdToolは使わないので非表示に 一応オブジェクトは生成しておく
 		cmdTool = new CommandTool(env);
-		cmdTool.setPreferredSize(new java.awt.Dimension(700, 150));
+		// cmdTool.setPreferredSize(new java.awt.Dimension(700, 150));
 
 		appTool = new ApplicationTool(env);
-		appTool.setPreferredSize(new java.awt.Dimension(700, 200));
+		appTool.setPreferredSize(new java.awt.Dimension(1000, 200));
 
-		JSplitPane centerBottom = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-				cmdTool, appTool);
+		// cmdTool削除によりcenterBottomのスプリット消失
+		// JSplitPane centerBottom = new
+		// JSplitPane(JSplitPane.VERTICAL_SPLIT,cmdTool, appTool);
+
+		// 初期から
 		// centerBottom.setPreferredSize(new java.awt.Dimension(700, 350));
 
 		JSplitPane center = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-				centerTop, centerBottom);
+				centerTop, appTool);
 
 		add(center, BorderLayout.CENTER);
 
