@@ -37,6 +37,7 @@ import java.io.*;
 import java.util.*;
 
 import javax.swing.*;
+
 import java.awt.BorderLayout;
 import java.awt.event.*;
 
@@ -152,6 +153,7 @@ public class CommandTool extends JPanel {
 		@Override
 		public void locationTrigger(LocationTriggerEventSet e) {
 			String locString = locationString(e);
+			System.out.println("locString" + locString);
 			setThread(e);
 			for (EventIterator it = e.eventIterator(); it.hasNext();) {
 				Event evt = it.nextEvent();
@@ -159,6 +161,35 @@ public class CommandTool extends JPanel {
 					diagnostics.putString("Breakpoint hit: " + locString);
 				} else if (evt instanceof StepEvent) {
 					diagnostics.putString("Step completed: " + locString);
+
+					// ステップイベント完了後の処理
+					try {
+						ThreadReference current = context.getCurrentThread();
+						if (current == null) {
+							env.failure("No thread");
+							return;
+						}
+						if (current.frameCount() <= 0) {
+							env.failure("Threads have not yet created any stack frames.");
+							return;
+						}
+
+						LinkedList<StackFrame> frames = new LinkedList<StackFrame>(
+								current.frames());
+						StackFrame currentFrame = frames.getFirst();
+						List<LocalVariable> vars = currentFrame
+								.visibleVariables();
+						MonitorListModel mlm = env.getMonitorListModel();
+						mlm.clear();
+						for (LocalVariable var : vars) {
+							mlm.add(var.name());
+						}
+
+					} catch (IncompatibleThreadStateException e1) {
+						e1.printStackTrace();
+					} catch (AbsentInformationException e1) {
+						e1.printStackTrace();
+					}
 				} else if (evt instanceof MethodEntryEvent) {
 					diagnostics.putString("Method entered: " + locString);
 				} else if (evt instanceof MethodExitEvent) {

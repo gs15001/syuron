@@ -59,6 +59,12 @@ public class MonitorListModel extends AbstractListModel {
 	public int getSize() {
 		return monitors.size();
 	}
+	
+	public void clear() {
+		monitors.clear();
+		int newIndex = monitors.size(); 
+		fireIntervalRemoved(this, newIndex, newIndex);
+	}
 
 	public void add(String expr) {
 		monitors.add(expr);

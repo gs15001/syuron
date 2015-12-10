@@ -55,7 +55,7 @@ public abstract class AbstractEventSet extends EventObject implements EventSet {
 
 	public static AbstractEventSet toSpecificEventSet(EventSet jdiEventSet) {
 		Event evt = jdiEventSet.eventIterator().nextEvent();
-		//System.out.println(evt);
+		//System.out.println("Event : " + evt);
 		if (evt instanceof LocatableEvent) {
 			if (evt instanceof ExceptionEvent) {
 				return new ExceptionEventSet(jdiEventSet);
