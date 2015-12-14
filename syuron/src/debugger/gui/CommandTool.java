@@ -61,6 +61,8 @@ public class CommandTool extends JPanel {
 
 	private static final String DEFAULT_CMD_PROMPT = "Command:";
 
+	final CommandInterpreter interpreter;
+
 	public CommandTool(Environment env) {
 
 		super(new BorderLayout());
@@ -73,7 +75,7 @@ public class CommandTool extends JPanel {
 		script = new TypeScript(DEFAULT_CMD_PROMPT, false); // no echo
 		this.add(script);
 
-		final CommandInterpreter interpreter = new CommandInterpreter(env);
+		interpreter = new CommandInterpreter(env);
 
 		// Establish handler for incoming commands.
 
@@ -150,6 +152,40 @@ public class CommandTool extends JPanel {
 			diagnostics.putString("Exception: " + name);
 		}
 
+		private void addMonitorList() {
+			try {
+				// 現在のスレッドを取得 基本mainスレッド
+				ThreadReference current = context.getCurrentThread();
+				if (current == null) {
+					env.failure("No thread");
+					return;
+				}
+				if (current.frameCount() <= 0) {
+					env.failure("Threads have not yet created any stack frames.");
+					return;
+				}
+
+				// 現在のスレッドのstackframeのリストを取得
+				LinkedList<StackFrame> frames = new LinkedList<StackFrame>(
+						current.frames());
+				// stackframeの先頭（現在実行されているメソッドに相当)を取得
+				StackFrame frame = frames.getFirst();
+				// stackframeから見えてるローカル変数を取得
+				List<LocalVariable> vars = frame.visibleVariables();
+				// モニターリストを初期化し、新たに設定
+				MonitorListModel mlm = env.getMonitorListModel();
+				mlm.clear();
+				for (LocalVariable var : vars) {
+					mlm.add(var.name());
+				}
+
+			} catch (IncompatibleThreadStateException e1) {
+				e1.printStackTrace();
+			} catch (AbsentInformationException e1) {
+				e1.printStackTrace();
+			}
+		}
+
 		@Override
 		public void locationTrigger(LocationTriggerEventSet e) {
 			String locString = locationString(e);
@@ -159,36 +195,19 @@ public class CommandTool extends JPanel {
 				Event evt = it.nextEvent();
 				if (evt instanceof BreakpointEvent) {
 					diagnostics.putString("Breakpoint hit: " + locString);
+					//addMonitorList();
 				} else if (evt instanceof StepEvent) {
 					diagnostics.putString("Step completed: " + locString);
 
-					// ステップイベント完了後の処理
-					try {
-						ThreadReference current = context.getCurrentThread();
-						if (current == null) {
-							env.failure("No thread");
-							return;
-						}
-						if (current.frameCount() <= 0) {
-							env.failure("Threads have not yet created any stack frames.");
-							return;
-						}
-
-						LinkedList<StackFrame> frames = new LinkedList<StackFrame>(
-								current.frames());
-						StackFrame currentFrame = frames.getFirst();
-						List<LocalVariable> vars = currentFrame
-								.visibleVariables();
-						MonitorListModel mlm = env.getMonitorListModel();
-						mlm.clear();
-						for (LocalVariable var : vars) {
-							mlm.add(var.name());
-						}
-
-					} catch (IncompatibleThreadStateException e1) {
-						e1.printStackTrace();
-					} catch (AbsentInformationException e1) {
-						e1.printStackTrace();
+					// locstringからクラス名を取得
+					String classname = locString.substring(locString
+							.indexOf(" ") + 1);
+					// javaから始まる処理はスキップ
+					if (!classname.startsWith("java.")) {
+						// ステップイベント完了後の処理
+						addMonitorList();
+					} else {
+						interpreter.executeCommand("next");
 					}
 				} else if (evt instanceof MethodEntryEvent) {
 					diagnostics.putString("Method entered: " + locString);
