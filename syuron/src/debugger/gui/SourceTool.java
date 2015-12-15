@@ -138,6 +138,9 @@ public class SourceTool extends JPanel {
 		@Override
 		public void breakpointDeleted(SpecEvent e) {
 			BreakpointRequest req = (BreakpointRequest) e.getEventRequest();
+			if (req == null) {
+				return;
+			}
 			Location loc = req.location();
 			if (loc != null) {
 				try {
@@ -350,6 +353,32 @@ public class SourceTool extends JPanel {
 		public void mouseReleased(MouseEvent e) {
 			if (e.isPopupTrigger()) {
 				showPopupMenu((Component) e.getSource(), e.getX(), e.getY());
+			}
+		}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if (e.getClickCount() >= 2) {
+				setOrClearBreakPoint((Component) e.getSource());
+			}
+		}
+
+		private void setOrClearBreakPoint(Component invoker) {
+			JList list = (JList) invoker;
+			int ln = list.getSelectedIndex() + 1;
+			SourceModel.Line line = (SourceModel.Line) list.getSelectedValue();
+			if (line != null) {
+				if (line.isExecutable()) {
+					// 実行中の場合
+					String className = line.refType.name();
+					if (line.hasBreakpoint()) {
+						interpreter.executeCommand("clear " + className + ":"
+								+ ln);
+					} else {
+						interpreter.executeCommand("stop at " + className + ":"
+								+ ln);
+					}
+				}
 			}
 		}
 

@@ -66,7 +66,7 @@ public class GUI extends JPanel {
 	public static final String version = "1.0Beta"; // ### FIX ME.
 	public static final String windowBanner = "Java(tm) platform Debug Tool";
 
-	private Font fixedFont = new Font("monospaced", Font.PLAIN, 10);
+	private Font fixedFont = new Font("consolas", Font.PLAIN, 10);
 
 	public GUI() {
 		setLayout(new BorderLayout());
