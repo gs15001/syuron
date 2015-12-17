@@ -79,7 +79,14 @@ public class GUI extends JPanel {
 		srcTool = new SourceTool(env);
 		srcTool.setPreferredSize(new java.awt.Dimension(500, 450));
 		srcTool.setTextFont(fixedFont);
-
+		
+		//ソースツリービュー
+		sourceTreeTool = new SourceTreeTool(env);
+		sourceTreeTool.setPreferredSize(new java.awt.Dimension(200, 450));
+		
+		JSplitPane left = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sourceTreeTool,
+				srcTool);
+		
 		//デバッグ情報ビュー
 		monitorTool = new MonitorTool(env);
 		monitorTool.setPreferredSize(new java.awt.Dimension(500, 150));
@@ -100,11 +107,9 @@ public class GUI extends JPanel {
 				supportTool);
 
 		// Treeは使わないので非表示に 一応オブジェクトは生成しておく
-		sourceTreeTool = new SourceTreeTool(env);
 		classTreeTool = new ClassTreeTool(env);
 		threadTreeTool = new ThreadTreeTool(env);
 
-		// sourceTreeTool.setPreferredSize(new java.awt.Dimension(200, 450));
 		// classTreeTool.setPreferredSize(new java.awt.Dimension(200, 450));
 		// threadTreeTool.setPreferredSize(new java.awt.Dimension(200, 450));
 
@@ -114,7 +119,7 @@ public class GUI extends JPanel {
 		// treePane.addTab("Threads", null, threadTreeTool);
 
 		JSplitPane centerTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-				srcTool, right);
+				left, right);
 
 		// cmdToolは使わないので非表示に 一応オブジェクトは生成しておく
 		cmdTool = new CommandTool(env);
