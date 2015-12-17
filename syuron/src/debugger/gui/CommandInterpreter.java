@@ -368,8 +368,8 @@ public class CommandInterpreter {
 			throws NoSessionException {
 
 		String className = context.getMainClassName();
-		String token = className + ".main";
-		//System.out.println(token);
+		String token = className + ".run";
+		// System.out.println(token);
 		executeCommand("stop in " + token);
 
 		String clname;
@@ -876,7 +876,7 @@ public class CommandInterpreter {
 			}
 			String methodName = token.substring(idot + 1);
 			String classId = token.substring(0, idot);
-			List<String> argumentList = null;
+			List<String> argumentList = new ArrayList<String>();
 			if (rest != null) {
 				if (!rest.startsWith("(") || !rest.endsWith(")")) {
 					// ### Should throw exception with error message
@@ -938,8 +938,18 @@ public class CommandInterpreter {
 			return;
 		}
 		// ### need 'clear all'
-		BreakpointSpec bpSpec = parseBreakpointSpec(t.nextToken());
-		if (bpSpec != null) {
+		String cmd = t.nextToken();
+		BreakpointSpec bpSpec = parseBreakpointSpec(cmd);
+		if (cmd.equals("all")) {
+			List<EventRequestSpec> specs = runtime.eventRequestSpecs();
+			if (!specs.isEmpty()) {
+				for (EventRequestSpec spec : specs) {
+					if (spec instanceof BreakpointSpec) {
+						runtime.delete(spec);
+					}
+				}
+			}
+		} else if (bpSpec != null) {
 			List<EventRequestSpec> specs = runtime.eventRequestSpecs();
 
 			if (specs.isEmpty()) {
@@ -1442,6 +1452,9 @@ public class CommandInterpreter {
 					// ignore
 				}
 				env.terminate();
+			} else if (cmd.equals("last")) {
+				executeCommand("clear all");
+				executeCommand("cont");
 			} else {
 				// ### Dubious repeat-count feature inherited from 'jdb'
 				if (t.hasMoreTokens()) {

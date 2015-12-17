@@ -58,38 +58,18 @@ class JDBToolBar extends JToolBar {
 
 		// ===== Configure toolbar here =====
 
-		addTool("Run application", "run", "run");
-		addTool("Connect to application", "connect", "connect");
+		addTool("Run", "実行", "run");
 		addSeparator();
 
-		addTool("Step into next line", "step", "step");
-		addTool("Step over next line", "next", "next");
-		// addSeparator();
-
-		// addTool("Step into next instruction", "stepi", "stepi");
-		// addTool("Step over next instruction", "nexti", "nexti");
-		// addSeparator();
-
-		addTool("Step out of current method call", "step up", "step up");
+		addTool("Step Into", "次の命令", "step");
+		addTool("Step Over", "次の行", "next");
+		addTool("Step Return", "メソッドの最後", "step up");
 		addSeparator();
-
-		addTool("Suspend execution", "interrupt", "interrupt");
-		addTool("Continue execution", "cont", "cont");
+		addTool("Continue", "次のBP", "cont");
 		addSeparator();
-
-		// addTool("Display current stack", "where", "where");
-		// addSeparator();
-
-		addTool("Move up one stack frame", "up", "up");
-		addTool("Move down one stack frame", "down", "down");
-		// addSeparator();
-
-		// addTool("Display command list", "help", "help");
-		// addSeparator();
-
-		// addTool("Exit debugger", "exit", "exit");
-
-		// ==================================
+		addTool("Last", "最後まで", "last");
+		addSeparator();
+		addTool("Clear", "全てのBP削除", "clear all");
 
 	}
 
