@@ -72,6 +72,7 @@ public class SourceTool extends JPanel {
 
 		runtime = env.getExecutionManager();
 		sourceManager = env.getSourceManager();
+		sourceManager.setSourceTool(this);
 		this.context = env.getContextManager();
 		this.interpreter = new CommandInterpreter(env, true);
 
@@ -96,6 +97,13 @@ public class SourceTool extends JPanel {
 	public void setTextFont(Font f) {
 		list.setFont(f);
 		list.setPrototypeCellValue(SourceModel.prototypeCellValue);
+	}
+
+	public SourceModel getSourceModel() {
+		if (sourceModel instanceof DefaultListModel) {
+			return null;
+		}
+		return (SourceModel) sourceModel;
 	}
 
 	private class SourceToolListener implements ContextListener,

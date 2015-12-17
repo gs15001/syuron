@@ -352,6 +352,25 @@ public class CommandInterpreter {
 	// Command: run
 
 	private void commandRun(StringTokenizer t) throws NoSessionException {
+		// 現在開いているファイルを実行するように
+		SourceModel sourceModel = env.getSourceManager().getSourceTool()
+				.getSourceModel();
+		if (sourceModel == null) {
+			System.out.println("No sourceModel");
+			return;
+		}
+		File sourceFile = sourceModel.fileName();
+		// 必要情報の書き換え
+		env.getClassManager().setClassPath(
+				new SearchPath(sourceFile.getParent()));
+		env.getSourceManager().setSourcePath(
+				new SearchPath(sourceFile.getParent()));
+		// MainClassNameの書き換え(引数は基本的になし)
+		String clsname = sourceFile.getName();
+		clsname = clsname.substring(0, clsname.lastIndexOf("."));
+		env.getContextManager().setMainClassName(clsname);
+		env.getContextManager().setProgramArguments("");
+
 		if (doLoad(false, t)) {
 			env.notice("Running ...");
 		}

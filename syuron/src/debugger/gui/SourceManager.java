@@ -57,6 +57,8 @@ public class SourceManager {
 
 	private Environment env;
 
+	private SourceTool sourceTool;
+
 	/**
 	 * Hold on to it so it can be removed.
 	 */
@@ -165,6 +167,14 @@ public class SourceManager {
 			sourceList.add(0, sm);
 		}
 		return sm;
+	}
+
+	public SourceTool getSourceTool() {
+		return sourceTool;
+	}
+
+	public void setSourceTool(SourceTool sourceTool) {
+		this.sourceTool = sourceTool;
 	}
 
 	private class SMClassListener extends JDIAdapter implements JDIListener {
