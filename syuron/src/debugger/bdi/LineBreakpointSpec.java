@@ -58,6 +58,7 @@ public class LineBreakpointSpec extends BreakpointSpec {
 		Location location = location((ClassType) refType);
 		setRequest(refType.virtualMachine().eventRequestManager()
 				.createBreakpointRequest(location));
+		System.out.println("Create LineBP");
 	}
 
 	private Location location(ClassType clazz) throws LineNotFoundException {

@@ -34,6 +34,7 @@
 package debugger.bdi;
 
 import com.sun.jdi.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +65,7 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 		Location location = location((ClassType) refType);
 		setRequest(refType.virtualMachine().eventRequestManager()
 				.createBreakpointRequest(location));
+		System.out.println("Create MethodBP");
 	}
 
 	private Location location(ClassType clazz) throws AmbiguousMethodException,
@@ -279,7 +281,7 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 
 		// Normalize the argument string once before looping below.
 		List<String> argTypeNames = null;
-		if (methodArgs() != null) {
+		if (methodArgs() != null && methodArgs().size() > 0) {
 			argTypeNames = new ArrayList<String>(methodArgs().size());
 			for (String name : methodArgs()) {
 				name = normalizeArgTypeName(name);
