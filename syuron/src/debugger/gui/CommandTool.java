@@ -152,10 +152,10 @@ public class CommandTool extends JPanel {
 			diagnostics.putString("Exception: " + name);
 		}
 
-		private void addMonitorList() {
+		private void addMonitorList(LocationTriggerEventSet e) {
 			try {
 				// 現在のスレッドを取得 基本mainスレッド
-				ThreadReference current = context.getCurrentThread();
+				ThreadReference current = e.getThread();
 				if (current == null) {
 					env.failure("No thread");
 					return;
@@ -164,12 +164,11 @@ public class CommandTool extends JPanel {
 					env.failure("Threads have not yet created any stack frames.");
 					return;
 				}
-
 				// 現在のスレッドのstackframeのリストを取得
 				LinkedList<StackFrame> frames = new LinkedList<StackFrame>(
 						current.frames());
 				// stackframeの先頭（現在実行されているメソッドに相当)を取得
-				StackFrame frame = frames.getFirst();
+				StackFrame frame = frames.get(0);
 				// stackframeから見えてるローカル変数を取得
 				List<LocalVariable> vars = frame.visibleVariables();
 				// モニターリストを初期化し、新たに設定
@@ -182,20 +181,20 @@ public class CommandTool extends JPanel {
 			} catch (IncompatibleThreadStateException e1) {
 				e1.printStackTrace();
 			} catch (AbsentInformationException e1) {
-				e1.printStackTrace();
+				// e1.printStackTrace();
 			}
 		}
 
 		@Override
 		public void locationTrigger(LocationTriggerEventSet e) {
 			String locString = locationString(e);
-			System.out.println("locString" + locString);
+			// System.out.println("locString : " + locString);
 			setThread(e);
 			for (EventIterator it = e.eventIterator(); it.hasNext();) {
 				Event evt = it.nextEvent();
 				if (evt instanceof BreakpointEvent) {
 					diagnostics.putString("Breakpoint hit: " + locString);
-					//addMonitorList();
+					addMonitorList(e);
 				} else if (evt instanceof StepEvent) {
 					diagnostics.putString("Step completed: " + locString);
 
@@ -205,7 +204,7 @@ public class CommandTool extends JPanel {
 					// javaから始まる処理はスキップ
 					if (!classname.startsWith("java.")) {
 						// ステップイベント完了後の処理
-						addMonitorList();
+						addMonitorList(e);
 					} else {
 						interpreter.executeCommand("next");
 					}
@@ -233,6 +232,7 @@ public class CommandTool extends JPanel {
 			if (context.getVerboseFlag()) {
 				diagnostics.putString("Thread " + e.getThread() + " ended.");
 			}
+			
 		}
 
 		@Override
@@ -252,6 +252,8 @@ public class CommandTool extends JPanel {
 		public void vmDisconnect(VMDisconnectEventSet e) {
 			script.setPrompt(DEFAULT_CMD_PROMPT);
 			diagnostics.putString("Disconnected from VM");
+			// VMとの接続を切断したらソースを初期値に戻す
+			sourceManager.getSourceTool().showSourceFile(sourceManager.getFirstSourceModel());
 		}
 
 		@Override

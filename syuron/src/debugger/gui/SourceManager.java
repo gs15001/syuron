@@ -58,6 +58,7 @@ public class SourceManager {
 	private Environment env;
 
 	private SourceTool sourceTool;
+	private String firestSourceModel;
 
 	/**
 	 * Hold on to it so it can be removed.
@@ -177,6 +178,14 @@ public class SourceManager {
 		this.sourceTool = sourceTool;
 	}
 
+	public String getFirstSourceModel() {
+		return firestSourceModel;
+	}
+	
+	public void setFirstSourceModel(String sourceModel) {
+		firestSourceModel = sourceModel;
+	}
+	
 	private class SMClassListener extends JDIAdapter implements JDIListener {
 
 		@Override

@@ -359,6 +359,7 @@ public class CommandInterpreter {
 			System.out.println("No sourceModel");
 			return;
 		}
+		env.getSourceManager().setFirstSourceModel(sourceModel.fileName().getName());
 		File sourceFile = sourceModel.fileName();
 		// 必要情報の書き換え
 		env.getClassManager().setClassPath(
@@ -387,7 +388,7 @@ public class CommandInterpreter {
 			throws NoSessionException {
 
 		String className = context.getMainClassName();
-		String token = className + ".run";
+		String token = className + ".main";
 		// System.out.println(token);
 		executeCommand("stop in " + token);
 
