@@ -116,6 +116,7 @@ public class SourceTool extends JPanel {
 	public JList getList() {
 		return list;
 	}
+
 	private class SourceToolListener implements ContextListener,
 			SourceListener, SpecListener {
 
@@ -261,7 +262,7 @@ public class SourceTool extends JPanel {
 			}
 		}
 		// Here if we could not display source.
-		showSourceUnavailable();
+		// showSourceUnavailable();
 		return false;
 	}
 
@@ -274,7 +275,7 @@ public class SourceTool extends JPanel {
 			file = sourcePath.resolve(fileName);
 			if (file == null) {
 				// env.failure("Source not found on current source path.");
-				showSourceUnavailable();
+				// showSourceUnavailable();
 				return false;
 			}
 		} else {
@@ -287,7 +288,7 @@ public class SourceTool extends JPanel {
 			showSource(source);
 			return true;
 		}
-		showSourceUnavailable();
+		// showSourceUnavailable();
 		return false;
 	}
 
@@ -308,10 +309,11 @@ public class SourceTool extends JPanel {
 		}
 	}
 
-	private void showSourceUnavailable() {
-		SourceModel model = new SourceModel("[Source code is not available]");
-		setViewModel(model);
-	}
+	// 使わないので削除
+	// private void showSourceUnavailable() {
+	// SourceModel model = new SourceModel("[Source code is not available]");
+	// setViewModel(model);
+	// }
 
 	private void setViewModel(SourceModel model) {
 		if (model != sourceModel) {
