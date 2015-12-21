@@ -169,6 +169,10 @@ public class CommandTool extends JPanel {
 						current.frames());
 				// stackframeの先頭（現在実行されているメソッドに相当)を取得
 				StackFrame frame = frames.get(0);
+				// 現在の命令の位置を取得
+				sourceManager.getSourceTool().setExcuteLine(
+						frame.location().lineNumber());
+				System.out.println("現在の命令 : " + frame.location().lineNumber());
 				// stackframeから見えてるローカル変数を取得
 				List<LocalVariable> vars = frame.visibleVariables();
 				// モニターリストを初期化し、新たに設定
@@ -216,6 +220,8 @@ public class CommandTool extends JPanel {
 					diagnostics.putString("UNKNOWN event: " + e);
 				}
 			}
+			//リペイントのタイミングがわからないためとりあえずここに
+			sourceManager.getSourceTool().getList().repaint();
 		}
 
 		@Override
@@ -232,7 +238,7 @@ public class CommandTool extends JPanel {
 			if (context.getVerboseFlag()) {
 				diagnostics.putString("Thread " + e.getThread() + " ended.");
 			}
-			
+
 		}
 
 		@Override
@@ -253,7 +259,10 @@ public class CommandTool extends JPanel {
 			script.setPrompt(DEFAULT_CMD_PROMPT);
 			diagnostics.putString("Disconnected from VM");
 			// VMとの接続を切断したらソースを初期値に戻す
-			sourceManager.getSourceTool().showSourceFile(sourceManager.getFirstSourceModel());
+			sourceManager.getSourceTool().showSourceFile(
+					sourceManager.getFirstSourceModel());
+			// 実行行を初期値に戻す
+			sourceManager.getSourceTool().setExcuteLine(-1);
 		}
 
 		@Override

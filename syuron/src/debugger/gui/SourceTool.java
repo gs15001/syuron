@@ -36,12 +36,14 @@ package debugger.gui;
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
+
 import javax.swing.*;
 
 import com.sun.jdi.*;
 import com.sun.jdi.request.*;
 
 import debugger.bdi.*;
+import debugger.gui.SourceModel.Line;
 
 public class SourceTool extends JPanel {
 
@@ -63,6 +65,7 @@ public class SourceTool extends JPanel {
 	private String sourceName; // relative path name, if showSourceFile
 	private Location sourceLocn; // location, if showSourceForLocation
 	private CommandInterpreter interpreter;
+	private int excuteLine = -1;
 
 	public SourceTool(Environment env) {
 
@@ -106,6 +109,13 @@ public class SourceTool extends JPanel {
 		return (SourceModel) sourceModel;
 	}
 
+	public void setExcuteLine(int excuteLine) {
+		this.excuteLine = excuteLine;
+	}
+
+	public JList getList() {
+		return list;
+	}
 	private class SourceToolListener implements ContextListener,
 			SourceListener, SpecListener {
 
@@ -291,8 +301,10 @@ public class SourceTool extends JPanel {
 			list.setSelectedIndex(lineNo);
 			if (lineNo + 4 < model.getSize()) {
 				list.ensureIndexIsVisible(lineNo + 4); // give some context
+				list.clearSelection();
 			}
 			list.ensureIndexIsVisible(lineNo);
+			list.clearSelection();
 		}
 	}
 
@@ -315,36 +327,81 @@ public class SourceTool extends JPanel {
 		public Component getListCellRendererComponent(JList list, Object value,
 				int index, boolean isSelected, boolean cellHasFocus) {
 
-			// ### Should set background highlight and/or icon if breakpoint on
-			// this line.
-			// Configures "this"
 			super.getListCellRendererComponent(list, value, index, isSelected,
 					cellHasFocus);
 
 			SourceModel.Line line = (SourceModel.Line) value;
+			String text = line.text;
 
-			// ### Tab expansion is now done when source file is read in,
-			// ### to speed up display. This costs a lot of space, slows
-			// ### down source file loading, and has not been demonstrated
-			// ### to yield an observable improvement in display performance.
-			// ### Measurements may be appropriate here.
-			// String sourceLine = expandTabs((String)value);
-			setText(line.text);
-			if (line.hasBreakpoint) {
-				setIcon(Icons.stopSignIcon);
-			} else if (line.isExecutable()) {
-				setIcon(Icons.execIcon);
-			} else {
-				setIcon(Icons.blankIcon);
+			MyJTextPane pane = new MyJTextPane();
+			boolean isExecute = index + 1 == excuteLine; // 現在のラインが実行される行か
+			if (isSelected) {
+				pane.setForeground(list.getSelectionForeground());
+				pane.setBackground(list.getSelectionBackground());
 			}
+			pane.setExecution(isExecute);
+			pane.setBreakpoint(line.hasBreakpoint);
+			pane.setFont(list.getFont());
+			pane.setText(text);
+			pane.setMargin(new Insets(0, 5, 0, 0));
+			return pane;
 
-			return this;
+			// setText(line.text);
+			// if (line.hasBreakpoint) {
+			// setIcon(Icons.stopSignIcon);
+			// } else if (line.isExecutable()) {
+			// setIcon(Icons.execIcon);
+			// } else {
+			// setIcon(Icons.blankIcon);
+			// }
+			// return this;
 		}
 
 		@Override
 		public Dimension getPreferredSize() {
 			Dimension dim = super.getPreferredSize();
 			return new Dimension(dim.width, dim.height - 5);
+		}
+
+		protected void paintComponent(Graphics g) {
+			super.paintComponents(g);
+			if (this.getComponent(0) instanceof MyJTextPane) {
+				MyJTextPane mjtp = (MyJTextPane) this.getComponent(0);
+				mjtp.paintComponent(g);
+			}
+		}
+
+		protected class MyJTextPane extends JTextPane {
+			private static final long serialVersionUID = 1L;
+
+			private boolean isExecution;
+			private boolean hasBreakpoint;
+
+			public MyJTextPane() {
+				super();
+			}
+
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				int red = hasBreakpoint || !(hasBreakpoint || isExecution) ? 255
+						: 0;
+				int green = !(hasBreakpoint || isExecution) ? 255 : 0;
+				int blue = isExecution || !(hasBreakpoint || isExecution) ? 255
+						: 0;
+				g.setColor(new Color(red, green, blue));
+				g.drawLine(0, 0, env.getSourceManager().getSourceTool()
+						.getPreferredSize().width, 0);
+			}
+
+			public void setExecution(boolean b) {
+				isExecution = b;
+			}
+
+			public void setBreakpoint(boolean b) {
+				hasBreakpoint = b;
+			}
+
 		}
 
 	}
