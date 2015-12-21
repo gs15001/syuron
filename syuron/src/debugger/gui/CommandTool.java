@@ -172,7 +172,8 @@ public class CommandTool extends JPanel {
 				// 現在の命令の位置を取得
 				sourceManager.getSourceTool().setExcuteLine(
 						frame.location().lineNumber());
-				System.out.println("現在の命令 : " + frame.location().lineNumber());
+				// System.out.println("現在の命令 : " +
+				// frame.location().lineNumber());
 				// stackframeから見えてるローカル変数を取得
 				List<LocalVariable> vars = frame.visibleVariables();
 				// モニターリストを初期化し、新たに設定
@@ -192,7 +193,7 @@ public class CommandTool extends JPanel {
 		@Override
 		public void locationTrigger(LocationTriggerEventSet e) {
 			String locString = locationString(e);
-			// System.out.println("locString : " + locString);
+			System.out.println("locString : " + locString);
 			setThread(e);
 			for (EventIterator it = e.eventIterator(); it.hasNext();) {
 				Event evt = it.nextEvent();
@@ -220,7 +221,7 @@ public class CommandTool extends JPanel {
 					diagnostics.putString("UNKNOWN event: " + e);
 				}
 			}
-			//リペイントのタイミングがわからないためとりあえずここに
+			// リペイントのタイミングがわからないためとりあえずここに
 			sourceManager.getSourceTool().getList().repaint();
 		}
 
@@ -263,6 +264,10 @@ public class CommandTool extends JPanel {
 					sourceManager.getFirstSourceModel());
 			// 実行行を初期値に戻す
 			sourceManager.getSourceTool().setExcuteLine(-1);
+			// BPや実行可能行情報を削除
+			sourceManager.clearmarkClassLines();
+			// リペイントのタイミングがわからないためとりあえずここに
+			sourceManager.getSourceTool().getList().repaint();
 		}
 
 		@Override

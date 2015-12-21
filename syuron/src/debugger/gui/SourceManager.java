@@ -186,6 +186,12 @@ public class SourceManager {
 		firestSourceModel = sourceModel;
 	}
 	
+	public void clearmarkClassLines() {
+		for(SourceModel sm : sourceList) {
+			sm.clearClassLines();
+		}
+	}
+	
 	private class SMClassListener extends JDIAdapter implements JDIListener {
 
 		@Override

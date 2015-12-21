@@ -107,6 +107,13 @@ public class SourceModel extends AbstractListModel {
 		sourceLines.add(new Line(message));
 	}
 
+	public void clearClassLines() {
+		for(Line line : sourceLines) {
+			line.hasBreakpoint = false;
+			line.refType = null;
+		}
+	}
+	
 	// **** Implement ListModel *****
 
 	@Override
