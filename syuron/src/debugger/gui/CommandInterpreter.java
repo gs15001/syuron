@@ -957,6 +957,9 @@ public class CommandInterpreter {
 			listEventRequests();
 			return;
 		}
+		if(runtime.vm() == null) {
+			return;
+		}
 		// ### need 'clear all'
 		String cmd = t.nextToken();
 		BreakpointSpec bpSpec = parseBreakpointSpec(cmd);
