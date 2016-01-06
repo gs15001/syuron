@@ -69,6 +69,7 @@ public class SourceModel extends AbstractListModel {
 	public static class Line {
 		public String text;
 		public boolean hasBreakpoint = false;
+		public boolean preBreakpoint = false;
 		public ReferenceType refType = null;
 
 		Line(String text) {

@@ -359,7 +359,8 @@ public class CommandInterpreter {
 			System.out.println("No sourceModel");
 			return;
 		}
-		env.getSourceManager().setFirstSourceModel(sourceModel.fileName().getName());
+		env.getSourceManager().setFirstSourceModel(
+				sourceModel.fileName().getName());
 		File sourceFile = sourceModel.fileName();
 		// 必要情報の書き換え
 		env.getClassManager().setClassPath(
@@ -945,6 +946,7 @@ public class CommandInterpreter {
 			if (bpSpec != null) {
 				// ### Add sanity-checks for deferred breakpoint.
 				runtime.install(bpSpec);
+				sourceManager.getSourceTool().getLineNumberView().repaint();
 			} else {
 				env.error("Ill-formed breakpoint specification.");
 			}
@@ -957,9 +959,10 @@ public class CommandInterpreter {
 			listEventRequests();
 			return;
 		}
-		if(runtime.vm() == null) {
-			return;
-		}
+		//一旦コメントアウト
+		// if (runtime.vm() == null) {
+		// return;
+		// }
 		// ### need 'clear all'
 		String cmd = t.nextToken();
 		BreakpointSpec bpSpec = parseBreakpointSpec(cmd);
@@ -990,6 +993,7 @@ public class CommandInterpreter {
 				}
 				for (EventRequestSpec spec : toDelete) {
 					runtime.delete(spec);
+					sourceManager.getSourceTool().getLineNumberView().repaint();
 				}
 			}
 		} else {
