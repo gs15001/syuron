@@ -110,7 +110,7 @@ class EventRequestSpecList {
 		synchronized (eventRequestSpecs) {
 			eventRequestSpecs.remove(ers);
 		}
-		if (request != null) {
+		if (request != null && runtime.vm() != null) {
 			request.virtualMachine().eventRequestManager()
 					.deleteEventRequest(request);
 		}
