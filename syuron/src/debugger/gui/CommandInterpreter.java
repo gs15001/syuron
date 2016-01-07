@@ -37,6 +37,8 @@ import java.io.*;
 import java.util.*;
 
 import com.sun.jdi.*;
+import com.sun.jdi.request.BreakpointRequest;
+import com.sun.jdi.request.EventRequestManager;
 
 import debugger.bdi.*;
 
@@ -547,6 +549,28 @@ public class CommandInterpreter {
 		}
 	}
 
+	// Command: last
+
+	private void commandLast() throws NoSessionException {
+		try {
+			EventRequestManager erm = runtime.eventRequestManager();
+			List<BreakpointRequest> bprList = erm.breakpointRequests();
+			//一旦全てのBPを無効に
+			for (BreakpointRequest bpr : bprList) {
+				bpr.disable();
+			}
+			//最後まで実行
+			runtime.go();
+			//再度BPを有効に
+			for (BreakpointRequest bpr : bprList) {
+				bpr.enable();
+			}
+		} catch (VMNotInterruptedException e) {
+			// ### failure?
+			env.notice("Target VM is already running.");
+		}
+	}
+
 	// Command: step
 
 	private void commandStep(StringTokenizer t) throws NoSessionException {
@@ -959,7 +983,7 @@ public class CommandInterpreter {
 			listEventRequests();
 			return;
 		}
-		//一旦コメントアウト
+		// 一旦コメントアウト
 		// if (runtime.vm() == null) {
 		// return;
 		// }
@@ -972,7 +996,8 @@ public class CommandInterpreter {
 				for (EventRequestSpec spec : specs) {
 					if (spec instanceof BreakpointSpec) {
 						runtime.delete(spec);
-						sourceManager.getSourceTool().getLineNumberView().repaint();
+						sourceManager.getSourceTool().getLineNumberView()
+								.repaint();
 					}
 				}
 			}
@@ -1411,6 +1436,8 @@ public class CommandInterpreter {
 				commandResume(t);
 			} else if (cmd.equals("cont")) {
 				commandCont();
+			} else if (cmd.equals("last")) {
+				commandLast();
 			} else if (cmd.equals("threadgroups")) {
 				commandThreadGroups();
 			} else if (cmd.equals("threadgroup")) {
@@ -1482,9 +1509,6 @@ public class CommandInterpreter {
 					// ignore
 				}
 				env.terminate();
-			} else if (cmd.equals("last")) {
-				executeCommand("clear all");
-				executeCommand("cont");
 			} else {
 				// ### Dubious repeat-count feature inherited from 'jdb'
 				if (t.hasMoreTokens()) {
