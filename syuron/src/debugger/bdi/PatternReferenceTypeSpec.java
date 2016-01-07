@@ -36,7 +36,7 @@ package debugger.bdi;
 import com.sun.jdi.*;
 import java.util.StringTokenizer;
 
-class PatternReferenceTypeSpec implements ReferenceTypeSpec {
+public class PatternReferenceTypeSpec implements ReferenceTypeSpec {
 	final boolean isWild;
 	final String classId;
 

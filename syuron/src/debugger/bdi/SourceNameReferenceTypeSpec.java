@@ -35,7 +35,7 @@ package debugger.bdi;
 
 import com.sun.jdi.*;
 
-class SourceNameReferenceTypeSpec implements ReferenceTypeSpec {
+public class SourceNameReferenceTypeSpec implements ReferenceTypeSpec {
 	final String sourceName;
 	final int linenumber;
 

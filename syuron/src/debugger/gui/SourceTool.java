@@ -587,11 +587,20 @@ public class SourceTool extends JPanel {
 						.eventRequestSpecs()) {
 					if (evt instanceof LineBreakpointSpec) {
 						LineBreakpointSpec levt = (LineBreakpointSpec) evt;
-						if (levt.lineNumber() == i + 1) {
-							g.drawImage(Icons.stopSignIcon.getImage(),
-									(DEBUG_BUTTON_MARGIN - fontHeight) / 2,
-									y - 3, fontHeight - 2, fontHeight - 2,
-									getBackground(), this);
+						PatternReferenceTypeSpec prts = (PatternReferenceTypeSpec) levt
+								.getRefSpec();
+						String className = getSourceModel().fileName()
+								.toString();
+						className = className.substring(
+								className.lastIndexOf("\\") + 1,
+								className.lastIndexOf("."));
+						if (prts.toString().equals(className)) {
+							if (levt.lineNumber() == i + 1) {
+								g.drawImage(Icons.stopSignIcon.getImage(),
+										(DEBUG_BUTTON_MARGIN - fontHeight) / 2,
+										y - 3, fontHeight - 2, fontHeight - 2,
+										getBackground(), this);
+							}
 						}
 					}
 				}

@@ -87,6 +87,10 @@ public class LineBreakpointSpec extends BreakpointSpec {
 		return lineNumber;
 	}
 
+	public ReferenceTypeSpec getRefSpec() {
+		return refSpec;
+	}
+
 	@Override
 	public int hashCode() {
 		return refSpec.hashCode() + lineNumber;

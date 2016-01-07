@@ -972,6 +972,7 @@ public class CommandInterpreter {
 				for (EventRequestSpec spec : specs) {
 					if (spec instanceof BreakpointSpec) {
 						runtime.delete(spec);
+						sourceManager.getSourceTool().getLineNumberView().repaint();
 					}
 				}
 			}
@@ -1129,6 +1130,7 @@ public class CommandInterpreter {
 			String name = t.nextToken();
 			if (name.endsWith(".java") || name.indexOf(File.separatorChar) >= 0) {
 				env.viewSource(name);
+				sourceManager.getSourceTool().getLineNumberView().repaint();
 			} else {
 				// ### JDI crashes taking line number for class.
 				/*****
@@ -1139,6 +1141,7 @@ public class CommandInterpreter {
 				String fileName = name.replace('.', File.separatorChar)
 						+ ".java";
 				env.viewSource(fileName);
+				sourceManager.getSourceTool().getLineNumberView().repaint();
 			}
 		}
 	}
