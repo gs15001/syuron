@@ -46,6 +46,7 @@ public class Environment {
 	private ExecutionManager runtime;
 
 	private PrintWriter typeScript;
+	private VariableTool variableTool;
 
 	private boolean verbose;
 
@@ -78,6 +79,14 @@ public class Environment {
 
 	public ExecutionManager getExecutionManager() {
 		return runtime;
+	}
+	
+	public void setVariableTool(VariableTool variableTool) {
+		this.variableTool = variableTool;
+	}
+	
+	public VariableTool getVariableTool() {
+		return variableTool;
 	}
 
 	// ### TODO:
