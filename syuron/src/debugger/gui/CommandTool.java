@@ -186,30 +186,30 @@ public class CommandTool extends JPanel {
 			} catch (IncompatibleThreadStateException e1) {
 				e1.printStackTrace();
 			} catch (AbsentInformationException e1) {
-				// e1.printStackTrace();
+				e1.printStackTrace();
 			}
 		}
 
 		@Override
 		public void locationTrigger(LocationTriggerEventSet e) {
 			String locString = locationString(e);
-			System.out.println("locString : " + locString);
+			// System.out.println("locString : " + locString);
 			setThread(e);
 			for (EventIterator it = e.eventIterator(); it.hasNext();) {
 				Event evt = it.nextEvent();
 				if (evt instanceof BreakpointEvent) {
-					diagnostics.putString("Breakpoint hit: " + locString);
-					addMonitorList(e);
+					// diagnostics.putString("Breakpoint hit: " + locString);
+					env.getVariableTool().update();
 				} else if (evt instanceof StepEvent) {
-					diagnostics.putString("Step completed: " + locString);
+					// diagnostics.putString("Step completed: " + locString);
 
 					// locstringからクラス名を取得
-					String classname = locString.substring(locString
-							.indexOf(" ") + 1);
+					String clsname = locString.substring(
+							locString.indexOf(" ") + 1, locString.indexOf("."));
 					// javaから始まる処理はスキップ
-					if (!classname.startsWith("java.")) {
+					if (!clsname.startsWith("java.")) {
 						// ステップイベント完了後の処理
-						addMonitorList(e);
+						env.getVariableTool().update();
 					} else {
 						interpreter.executeCommand("next");
 					}

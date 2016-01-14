@@ -34,12 +34,15 @@
 package debugger.gui;
 
 import java.io.*;
+
 import javax.swing.*;
 import javax.swing.border.*;
+
 import java.awt.*;
 import java.awt.event.*;
 
 import com.sun.jdi.*;
+
 import debugger.bdi.*;
 
 public class GUI extends JPanel {
@@ -57,9 +60,9 @@ public class GUI extends JPanel {
 	private ClassTreeTool classTreeTool;
 	private ThreadTreeTool threadTreeTool;
 	private StackTraceTool stackTool;
-	//private MonitorTool monitorTool;
+	// private MonitorTool monitorTool;
 	private VariableTool variableTool;
-	private JPanel supportTool;//未実装 とりあえずパネル配置
+	private JPanel supportTool;// 未実装 とりあえずパネル配置
 
 	private final Environment env = new Environment();
 
@@ -76,33 +79,33 @@ public class GUI extends JPanel {
 
 		add(new JDBToolBar(env), BorderLayout.NORTH);
 
-		//ソースビュー
+		// ソースビュー
 		srcTool = new SourceTool(env);
 		srcTool.setPreferredSize(new java.awt.Dimension(500, 450));
 		srcTool.setTextFont(fixedFont);
-		
-		//ソースツリービュー
+
+		// ソースツリービュー
 		sourceTreeTool = new SourceTreeTool(env);
 		sourceTreeTool.setPreferredSize(new java.awt.Dimension(200, 450));
-		
-		JSplitPane left = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sourceTreeTool,
-				srcTool);
-		
-		//デバッグ情報ビュー
-		//monitorTool = new MonitorTool(env);
-		//monitorTool.setPreferredSize(new java.awt.Dimension(500, 150));
+
+		JSplitPane left = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+				sourceTreeTool, srcTool);
+
+		// デバッグ情報ビュー
+		// monitorTool = new MonitorTool(env);
+		// monitorTool.setPreferredSize(new java.awt.Dimension(500, 150));
 		variableTool = new VariableTool(env);
 		variableTool.setPreferredSize(new java.awt.Dimension(500, 150));
-		
+
 		stackTool = new StackTraceTool(env);
 		stackTool.setPreferredSize(new java.awt.Dimension(500, 150));
 
-		//デバッグ情報ビューをタブ化
+		// デバッグ情報ビューをタブ化
 		JTabbedPane infoPane = new JTabbedPane(SwingConstants.TOP);
 		infoPane.addTab("変数", variableTool);
 		infoPane.addTab("呼び出し階層", stackTool);
-		
-		//支援情報ビュー
+
+		// 支援情報ビュー
 		supportTool = new JPanel();
 		supportTool.setPreferredSize(new java.awt.Dimension(500, 150));
 
