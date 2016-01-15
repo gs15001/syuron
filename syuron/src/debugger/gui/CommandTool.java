@@ -152,44 +152,6 @@ public class CommandTool extends JPanel {
 			diagnostics.putString("Exception: " + name);
 		}
 
-		private void addMonitorList(LocationTriggerEventSet e) {
-			try {
-				// 現在のスレッドを取得 基本mainスレッド
-				ThreadReference current = e.getThread();
-				if (current == null) {
-					env.failure("No thread");
-					return;
-				}
-				if (current.frameCount() <= 0) {
-					env.failure("Threads have not yet created any stack frames.");
-					return;
-				}
-				// 現在のスレッドのstackframeのリストを取得
-				LinkedList<StackFrame> frames = new LinkedList<StackFrame>(
-						current.frames());
-				// stackframeの先頭（現在実行されているメソッドに相当)を取得
-				StackFrame frame = frames.get(0);
-				// 現在の命令の位置を取得
-				sourceManager.getSourceTool().setExcuteLine(
-						frame.location().lineNumber());
-				// System.out.println("現在の命令 : " +
-				// frame.location().lineNumber());
-				// stackframeから見えてるローカル変数を取得
-				List<LocalVariable> vars = frame.visibleVariables();
-				// モニターリストを初期化し、新たに設定
-				MonitorListModel mlm = env.getMonitorListModel();
-				mlm.clear();
-				for (LocalVariable var : vars) {
-					mlm.add(var.name());
-				}
-
-			} catch (IncompatibleThreadStateException e1) {
-				e1.printStackTrace();
-			} catch (AbsentInformationException e1) {
-				e1.printStackTrace();
-			}
-		}
-
 		@Override
 		public void locationTrigger(LocationTriggerEventSet e) {
 			String locString = locationString(e);
@@ -198,20 +160,29 @@ public class CommandTool extends JPanel {
 			for (EventIterator it = e.eventIterator(); it.hasNext();) {
 				Event evt = it.nextEvent();
 				if (evt instanceof BreakpointEvent) {
-					// diagnostics.putString("Breakpoint hit: " + locString);
+					diagnostics.putString("Breakpoint hit: " + locString);
 					env.getVariableTool().update();
 				} else if (evt instanceof StepEvent) {
-					// diagnostics.putString("Step completed: " + locString);
+					diagnostics.putString("Step completed: " + locString);
 
-					// locstringからクラス名を取得
-					String clsname = locString.substring(
-							locString.indexOf(" ") + 1, locString.indexOf("."));
-					// javaから始まる処理はスキップ
-					if (!clsname.startsWith("java.")) {
+					// locstringからパッケージ名を取得
+					String pacName = locString.substring(
+							locString.indexOf(" ") + 1,
+							locString.indexOf(".") + 1);
+					// locstringからメソッド名を取得
+					String methodName = locString.substring(
+							locString.indexOf(" ") + 1,
+							locString.lastIndexOf(" ") - 1);
+
+					if (pacName.startsWith("java.")) {
+						// パッケージ名がjavaから始まる処理はスキップ
+						interpreter.executeCommand("next");
+					} else if (methodName.endsWith("<init>()")) {
+						// メソッド名が<init>()で終わる場合はスキップ
+						interpreter.executeCommand("step");
+					} else {
 						// ステップイベント完了後の処理
 						env.getVariableTool().update();
-					} else {
-						interpreter.executeCommand("next");
 					}
 				} else if (evt instanceof MethodEntryEvent) {
 					diagnostics.putString("Method entered: " + locString);

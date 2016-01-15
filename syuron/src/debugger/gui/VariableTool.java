@@ -21,6 +21,9 @@ public class VariableTool extends JPanel {
 	private JTable table;
 	private DefaultTableModel tableModel;
 
+	private List<Object[]> beforeVariables = new ArrayList<Object[]>();
+	private List<Object[]> currentVariables = new ArrayList<Object[]>();
+
 	private String[] columnNames = { "変数名", "値", "型", "宣言元" };
 
 	public VariableTool(Environment env) {
@@ -39,6 +42,9 @@ public class VariableTool extends JPanel {
 	}
 
 	public void update() {
+		tableModel.setRowCount(0);
+		beforeVariables = currentVariables;
+		currentVariables = new ArrayList<Object[]>();
 		refreshTable();
 	}
 
@@ -62,18 +68,14 @@ public class VariableTool extends JPanel {
 			// 現在の命令の位置を取得(ライン表示に必要）
 			env.getSourceManager().getSourceTool()
 					.setExcuteLine(Currentframe.location().lineNumber());
+
 			// 全てのstackframeから見えてるローカル変数を取得
 			for (StackFrame frame : frames) {
 				List<LocalVariable> vars = frame.visibleVariables();
 				for (LocalVariable var : vars) {
-					Value v = frame.getValue(var);
-					if (v instanceof IntegerValue) {
-						IntegerValue iv = (IntegerValue) v;
-						Object data[] = { var.name(), iv.value(),
-								var.type().name(), frame.toString() };
-						tableModel.addRow(data);
-					}
-
+					Object[] data = valueToTableData(var, frame);
+					tableModel.addRow(data);
+					currentVariables.add(data);
 				}
 			}
 
@@ -84,6 +86,44 @@ public class VariableTool extends JPanel {
 		} catch (ClassNotLoadedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private Object[] valueToTableData(LocalVariable var, StackFrame frame)
+			throws ClassNotLoadedException {
+		Value v = frame.getValue(var);
+		Object[] data = new Object[4];
+		if (v instanceof StringReference || v instanceof PrimitiveValue) {
+			data[0] = var.name();
+			data[1] = v.toString();
+			data[2] = var.type().name();
+			if (data[2].equals("java.lang.String")) {
+				data[2] = "String";
+			}
+			data[3] = frameToMethodName(frame);
+		} else if (v instanceof ArrayReference) {
+			ArrayReference ar = (ArrayReference) v;
+		} else if (v instanceof ObjectReference) {
+			ObjectReference or = (ObjectReference) v;
+		}
+		return data;
+	}
+
+	private String frameToMethodName(StackFrame f) {
+		Method method = f.location().method();
+		StringBuffer buf = new StringBuffer();
+		buf.append(method.name());
+		buf.append("(");
+		int argNum = 0;
+		for (Value value : f.getArgumentValues()) {
+			String s = value.type().name();
+			s = s.substring(s.lastIndexOf(".") + 1);
+			buf.append(s);
+			if (argNum > 0) {
+				buf.append(", ");
+			}
+		}
+		buf.append(")");
+		return buf.toString();
 	}
 
 	private class VariableCellRenderer extends DefaultTableCellRenderer {
