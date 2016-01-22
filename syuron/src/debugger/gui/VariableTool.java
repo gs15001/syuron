@@ -8,7 +8,6 @@ import javax.swing.table.*;
 import javax.swing.tree.*;
 
 import org.jdesktop.swingx.*;
-import org.jdesktop.swingx.decorator.ColorHighlighter;
 
 import com.sun.jdi.*;
 
@@ -143,9 +142,11 @@ public class VariableTool extends JPanel {
 
 			super.getTreeCellRendererComponent(tree, value, sel, expanded,
 					leaf, row, hasFocus);
-			setClosedIcon(null);
-			setLeafIcon(null);
-			setOpenIcon(null);
+
+			setClosedIcon(Icons.closeIcon);
+			setLeafIcon(Icons.openIcon);
+			setOpenIcon(Icons.openIcon);
+
 			// if (row < variableNum - currentVariableNum) {
 			// // setBackground(Color.LIGHT_GRAY);
 			// setBackgroundNonSelectionColor(Color.LIGHT_GRAY);

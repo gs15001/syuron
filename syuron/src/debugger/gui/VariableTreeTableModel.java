@@ -2,8 +2,6 @@ package debugger.gui;
 
 import java.util.*;
 
-import javax.swing.tree.*;
-
 import com.sun.jdi.*;
 
 import org.jdesktop.swingx.treetable.*;

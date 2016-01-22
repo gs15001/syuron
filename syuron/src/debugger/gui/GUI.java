@@ -82,12 +82,12 @@ public class GUI extends JPanel {
 
 		// ソースビュー
 		srcTool = new SourceTool(env);
-		srcTool.setPreferredSize(new java.awt.Dimension(500, 450));
+		srcTool.setPreferredSize(new java.awt.Dimension(500, 650));
 		srcTool.setTextFont(fixedFont);
 
 		// ソースツリービュー
 		sourceTreeTool = new SourceTreeTool(env);
-		sourceTreeTool.setPreferredSize(new java.awt.Dimension(200, 450));
+		sourceTreeTool.setPreferredSize(new java.awt.Dimension(200, 650));
 
 		JSplitPane left = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				sourceTreeTool, srcTool);
@@ -99,10 +99,10 @@ public class GUI extends JPanel {
 		// variableTool.setPreferredSize(new java.awt.Dimension(500, 150));
 
 		variableTreeTable = new VariableTool(env);
-		variableTreeTable.setPreferredSize(new java.awt.Dimension(500, 150));
+		variableTreeTable.setPreferredSize(new java.awt.Dimension(500, 350));
 
 		stackTool = new StackTraceTool(env);
-		stackTool.setPreferredSize(new java.awt.Dimension(500, 150));
+		stackTool.setPreferredSize(new java.awt.Dimension(500, 350));
 
 		// デバッグ情報ビューをタブ化
 		JTabbedPane infoPane = new JTabbedPane(SwingConstants.TOP);
@@ -111,7 +111,7 @@ public class GUI extends JPanel {
 
 		// 支援情報ビュー
 		supportTool = new JPanel();
-		supportTool.setPreferredSize(new java.awt.Dimension(500, 150));
+		supportTool.setPreferredSize(new java.awt.Dimension(500, 300));
 
 		JSplitPane right = new JSplitPane(JSplitPane.VERTICAL_SPLIT, infoPane,
 				supportTool);
@@ -136,7 +136,7 @@ public class GUI extends JPanel {
 		// cmdTool.setPreferredSize(new java.awt.Dimension(700, 150));
 
 		appTool = new ApplicationTool(env);
-		appTool.setPreferredSize(new java.awt.Dimension(1000, 200));
+		appTool.setPreferredSize(new java.awt.Dimension(1000, 150));
 
 		// cmdTool削除によりcenterBottomのスプリット消失
 		// JSplitPane centerBottom = new

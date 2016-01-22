@@ -182,4 +182,7 @@ class Icons {
 	static ImageIcon blankIcon = new ImageIcon(wordsToBytes(blank));
 	static ImageIcon execIcon = new ImageIcon(wordsToBytes(exec));
 
+	static ImageIcon openIcon = new ImageIcon("./res/open.png");
+	static ImageIcon closeIcon = new ImageIcon("./res/close.png");
+
 }
