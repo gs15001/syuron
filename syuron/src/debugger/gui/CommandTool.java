@@ -113,6 +113,7 @@ public class CommandTool extends JPanel {
 			SpecListener, ContextListener {
 
 		private OutputListener diagnostics;
+		private List<String> waitCommand = new ArrayList<>();
 
 		TTYDebugListener(OutputListener diagnostics) {
 			this.diagnostics = diagnostics;
@@ -157,6 +158,13 @@ public class CommandTool extends JPanel {
 			String locString = locationString(e);
 			// System.out.println("locString : " + locString);
 			setThread(e);
+			// 実行待ちコマンドを実行
+			for (String s : waitCommand) {
+				interpreter.executeCommand(s);
+			}
+			sourceManager.getSourceTool().repaint();
+			waitCommand.clear();
+
 			for (EventIterator it = e.eventIterator(); it.hasNext();) {
 				Event evt = it.nextEvent();
 				if (evt instanceof BreakpointEvent) {
@@ -298,6 +306,13 @@ public class CommandTool extends JPanel {
 		@Override
 		public void breakpointError(SpecErrorEvent e) {
 			EventRequestSpec spec = e.getEventRequestSpec();
+			if (spec instanceof LineBreakpointSpec) {
+				LineBreakpointSpec bp = (LineBreakpointSpec) spec;
+				PatternReferenceTypeSpec prSpec = (PatternReferenceTypeSpec) bp
+						.getRefSpec();
+				waitCommand.add("clear " + prSpec.toString() + ":"
+						+ bp.lineNumber());
+			}
 			diagnostics.putString("Deferred breakpoint at " + spec
 					+ " could not be resolved:" + e.getReason());
 		}
