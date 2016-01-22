@@ -33,7 +33,6 @@
 
 package debugger.gui;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 class Icons {
@@ -181,6 +180,6 @@ class Icons {
 
 	static ImageIcon stopSignIcon = new ImageIcon("./res/BP.png");
 	static ImageIcon blankIcon = new ImageIcon(wordsToBytes(blank));
-
 	static ImageIcon execIcon = new ImageIcon(wordsToBytes(exec));
+
 }

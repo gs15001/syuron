@@ -122,7 +122,7 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 			List<Field> fields = ct.fields();
 			children = new ArrayList<>();
 
-			//フィールド1つ1つに対して子ノードを作成
+			// フィールド1つ1つに対して子ノードを作成
 			for (Field f : fields) {
 				Value v = or.getValue(f);
 				children.add(createNode(f.name(), v, f.typeName(), varDec));
@@ -247,6 +247,11 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 
 		public void setChildren(List<MyTreeTableNode> children) {
 			this.children = children;
+		}
+
+		@Override
+		public String toString() {
+			return varList.get(0);
 		}
 	}
 }
