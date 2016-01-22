@@ -47,7 +47,7 @@ public class Environment {
 
 	private PrintWriter typeScript;
 	private VariableTool variableTool;
-
+	
 	private boolean verbose;
 
 	public Environment() {
@@ -84,7 +84,7 @@ public class Environment {
 	public void setVariableTool(VariableTool variableTool) {
 		this.variableTool = variableTool;
 	}
-	
+
 	public VariableTool getVariableTool() {
 		return variableTool;
 	}

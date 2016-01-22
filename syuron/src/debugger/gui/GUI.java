@@ -61,7 +61,8 @@ public class GUI extends JPanel {
 	private ThreadTreeTool threadTreeTool;
 	private StackTraceTool stackTool;
 	// private MonitorTool monitorTool;
-	private VariableTool variableTool;
+	// private VariableTool variableTool;
+	private VariableTool variableTreeTable;
 	private JPanel supportTool;// 未実装 とりあえずパネル配置
 
 	private final Environment env = new Environment();
@@ -94,15 +95,18 @@ public class GUI extends JPanel {
 		// デバッグ情報ビュー
 		// monitorTool = new MonitorTool(env);
 		// monitorTool.setPreferredSize(new java.awt.Dimension(500, 150));
-		variableTool = new VariableTool(env);
-		variableTool.setPreferredSize(new java.awt.Dimension(500, 150));
+		// variableTool = new VariableTool(env);
+		// variableTool.setPreferredSize(new java.awt.Dimension(500, 150));
+
+		variableTreeTable = new VariableTool(env);
+		variableTreeTable.setPreferredSize(new java.awt.Dimension(500, 150));
 
 		stackTool = new StackTraceTool(env);
 		stackTool.setPreferredSize(new java.awt.Dimension(500, 150));
 
 		// デバッグ情報ビューをタブ化
 		JTabbedPane infoPane = new JTabbedPane(SwingConstants.TOP);
-		infoPane.addTab("変数", variableTool);
+		infoPane.addTab("変数", variableTreeTable);
 		infoPane.addTab("呼び出し階層", stackTool);
 
 		// 支援情報ビュー

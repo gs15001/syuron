@@ -1,13 +1,23 @@
 package debugger.gui;
 
-import java.util.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-import java.awt.*;
 
 import javax.swing.*;
-import javax.swing.table.*;
+import javax.swing.tree.DefaultTreeCellRenderer;
 
-import com.sun.jdi.*;
+import org.jdesktop.swingx.*;
+import org.jdesktop.swingx.treetable.*;
+
+import com.sun.jdi.AbsentInformationException;
+import com.sun.jdi.ClassNotLoadedException;
+import com.sun.jdi.IncompatibleThreadStateException;
+import com.sun.jdi.LocalVariable;
+import com.sun.jdi.StackFrame;
+import com.sun.jdi.ThreadReference;
 
 import debugger.bdi.ExecutionManager;
 
@@ -18,11 +28,8 @@ public class VariableTool extends JPanel {
 	private ExecutionManager runtime;
 	private ContextManager context;
 
-	private JTable table;
-	private DefaultTableModel tableModel;
-
-	private List<Object[]> beforeVariables = new ArrayList<Object[]>();
-	private List<Object[]> currentVariables = new ArrayList<Object[]>();
+	private JXTreeTable treeTable;
+	private VariableTreeTableModel tableModel;
 
 	private String[] columnNames = { "変数名", "値", "型", "宣言元" };
 
@@ -33,18 +40,15 @@ public class VariableTool extends JPanel {
 		this.context = env.getContextManager();
 		env.setVariableTool(this);
 
-		tableModel = new DefaultTableModel(columnNames, 0);
-		table = new JTable(tableModel);
-		table.setDefaultRenderer(String.class, new VariableCellRenderer());
+		tableModel = new VariableTreeTableModel();
+		treeTable = new JXTreeTable(tableModel);
+		// treeTable.setTreeCellRenderer(new VariableTreeCellRenderer());
 
-		JScrollPane listView = new JScrollPane(table);
+		JScrollPane listView = new JScrollPane(treeTable);
 		add(listView);
 	}
 
 	public void update() {
-		tableModel.setRowCount(0);
-		beforeVariables = currentVariables;
-		currentVariables = new ArrayList<Object[]>();
 		refreshTable();
 	}
 
@@ -61,21 +65,22 @@ public class VariableTool extends JPanel {
 				return;
 			}
 			// 現在のスレッドのstackframeのリストを取得
-			LinkedList<StackFrame> frames = new LinkedList<StackFrame>(
-					current.frames());
+			List<StackFrame> frames = current.frames();
 			// stackframeの先頭（現在実行されているメソッドに相当)を取得
-			StackFrame Currentframe = frames.getFirst();
+			StackFrame Currentframe = frames.get(0);
 			// 現在の命令の位置を取得(ライン表示に必要）
 			env.getSourceManager().getSourceTool()
 					.setExcuteLine(Currentframe.location().lineNumber());
 
+			// 既にある変数を一旦削除
+			tableModel.clear();
+
 			// 全てのstackframeから見えてるローカル変数を取得
-			for (StackFrame frame : frames) {
+			for (int i = frames.size() - 1; 0 <= i; i--) {
+				StackFrame frame = frames.get(i);
 				List<LocalVariable> vars = frame.visibleVariables();
 				for (LocalVariable var : vars) {
-					Object[] data = valueToTableData(var, frame);
-					tableModel.addRow(data);
-					currentVariables.add(data);
+					tableModel.addNode(var, frame);
 				}
 			}
 
@@ -88,57 +93,18 @@ public class VariableTool extends JPanel {
 		}
 	}
 
-	private Object[] valueToTableData(LocalVariable var, StackFrame frame)
-			throws ClassNotLoadedException {
-		Value v = frame.getValue(var);
-		Object[] data = new Object[4];
-		if (v instanceof StringReference || v instanceof PrimitiveValue) {
-			data[0] = var.name();
-			data[1] = v.toString();
-			data[2] = var.type().name();
-			if (data[2].equals("java.lang.String")) {
-				data[2] = "String";
-			}
-			data[3] = frameToMethodName(frame);
-		} else if (v instanceof ArrayReference) {
-			ArrayReference ar = (ArrayReference) v;
-		} else if (v instanceof ObjectReference) {
-			ObjectReference or = (ObjectReference) v;
-		}
-		return data;
-	}
-
-	private String frameToMethodName(StackFrame f) {
-		Method method = f.location().method();
-		StringBuffer buf = new StringBuffer();
-		buf.append(method.name());
-		buf.append("(");
-		int argNum = 0;
-		for (Value value : f.getArgumentValues()) {
-			String s = value.type().name();
-			s = s.substring(s.lastIndexOf(".") + 1);
-			buf.append(s);
-			if (argNum > 0) {
-				buf.append(", ");
-			}
-		}
-		buf.append(")");
-		return buf.toString();
-	}
-
-	private class VariableCellRenderer extends DefaultTableCellRenderer {
+	private class VariableTreeCellRenderer extends DefaultTreeCellRenderer {
 
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public Component getTableCellRendererComponent(JTable table,
-				Object value, boolean isSelected, boolean hasFocus, int row,
-				int column) {
-			super.getTableCellRendererComponent(table, value, isSelected,
-					hasFocus, row, column);
+		public Component getTreeCellRendererComponent(JTree tree, Object value,
+				boolean sel, boolean expanded, boolean leaf, int row,
+				boolean hasFocus) {
 
+			super.getTreeCellRendererComponent(tree, value, sel, expanded,
+					leaf, row, hasFocus);
 			return this;
 		}
-
 	}
 }
