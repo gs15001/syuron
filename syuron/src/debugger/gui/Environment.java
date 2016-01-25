@@ -10,6 +10,8 @@
 package debugger.gui;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import com.sun.jdi.*;
 import debugger.bdi.*;
 
@@ -23,8 +25,10 @@ public class Environment {
 
 	private PrintWriter typeScript;
 	private VariableTool variableTool;
-	
+
 	private TypeScript appScript;
+	private List<String> waitCommand = new ArrayList<>();
+	private final CommandInterpreter interpreter;
 
 	private boolean verbose;
 
@@ -35,6 +39,7 @@ public class Environment {
 		this.sourceManager = new SourceManager(this);
 		this.contextManager = new ContextManager(this);
 		this.monitorListModel = new MonitorListModel(this);
+		interpreter = new CommandInterpreter(this);
 	}
 
 	// Services used by debugging tools.
@@ -66,13 +71,28 @@ public class Environment {
 	public VariableTool getVariableTool() {
 		return variableTool;
 	}
-	
+
 	public void setScript(TypeScript script) {
 		appScript = script;
 	}
-	
-	public TypeScript getScript() {
-		return appScript;
+
+	public void executeWaitCommand() {
+		// 実行待ちコマンドを実行
+		for (String s : waitCommand) {
+			interpreter.executeCommand(s);
+			if (s.startsWith("clear")) {
+				String classname = s.substring(s.indexOf(" ") + 1, s.indexOf(":"));
+				String line = s.substring(s.indexOf(":") + 1, s.length());
+				appScript.append("不適切なBPを削除しました : " + classname + "の" + line + "行目");
+				appScript.newline();
+			}
+		}
+		sourceManager.getSourceTool().repaint();
+		waitCommand.clear();
+	}
+
+	public void addWaitCommand(String command) {
+		waitCommand.add(command);
 	}
 
 	// ### TODO:

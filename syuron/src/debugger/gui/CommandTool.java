@@ -84,23 +84,9 @@ public class CommandTool extends JPanel {
 	private class TTYDebugListener implements JDIListener, SessionListener, SpecListener, ContextListener {
 
 		private OutputListener diagnostics;
-		private List<String> waitCommand = new ArrayList<>();
 
 		TTYDebugListener(OutputListener diagnostics) {
 			this.diagnostics = diagnostics;
-		}
-
-		public void executeWaitCommand() {
-			// 実行待ちコマンドを実行
-			for (String s : waitCommand) {
-				interpreter.executeCommand(s);
-				String classname = s.substring(s.indexOf(" ") + 1, s.indexOf(":"));
-				String line = s.substring(s.indexOf(":") + 1, s.length());
-				env.getScript().append("不適切なBPを削除しました : " + classname + "の" + line + "行目");
-				env.getScript().newline();
-			}
-			sourceManager.getSourceTool().repaint();
-			waitCommand.clear();
 		}
 
 		// JDIListener
@@ -141,9 +127,8 @@ public class CommandTool extends JPanel {
 			String locString = locationString(e);
 			// System.out.println("locString : " + locString);
 			setThread(e);
-			// 実行待ちコマンドを実行
-			executeWaitCommand();
 
+			env.executeWaitCommand();
 			for (EventIterator it = e.eventIterator(); it.hasNext();) {
 				Event evt = it.nextEvent();
 				if (evt instanceof BreakpointEvent) {
@@ -188,7 +173,6 @@ public class CommandTool extends JPanel {
 			if (context.getVerboseFlag()) {
 				diagnostics.putString("Thread " + e.getThread() + " ended.");
 			}
-			executeWaitCommand();
 		}
 
 		@Override
@@ -275,7 +259,7 @@ public class CommandTool extends JPanel {
 			if (spec instanceof LineBreakpointSpec) {
 				LineBreakpointSpec bp = (LineBreakpointSpec) spec;
 				PatternReferenceTypeSpec prSpec = (PatternReferenceTypeSpec) bp.getRefSpec();
-				waitCommand.add("clear " + prSpec.toString() + ":" + bp.lineNumber());
+				env.addWaitCommand(("clear " + prSpec.toString() + ":" + bp.lineNumber()));
 			}
 			diagnostics.putString("Deferred breakpoint at " + spec + " could not be resolved:" + e.getReason());
 		}

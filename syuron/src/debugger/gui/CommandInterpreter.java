@@ -334,6 +334,7 @@ public class CommandInterpreter {
 
 		if (doLoad(false, t)) {
 			env.notice("Running ...");
+			env.executeWaitCommand();
 		}
 	}
 

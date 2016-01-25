@@ -426,7 +426,7 @@ public class SourceTool extends JPanel {
 					} else {
 						interpreter.executeCommand("stop at " + className + ":" + ln);
 					}
-				} else {
+				} else if (env.getExecutionManager().vm() == null) {
 					String className = getSourceModel().fileName().toString();
 					className = className.substring(className.lastIndexOf("\\") + 1, className.lastIndexOf("."));
 					if (line.preBreakpoint) {
