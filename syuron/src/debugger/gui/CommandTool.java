@@ -198,6 +198,11 @@ public class CommandTool extends JPanel {
 			sourceManager.getSourceTool().setExcuteLine(-1);
 			// BPや実行可能行情報を削除
 			sourceManager.clearmarkClassLines();
+			// 既存のBPの状態をunresolvedに
+			List<EventRequestSpec> specs = runtime.eventRequestSpecs();
+			for (EventRequestSpec spec : specs) {
+				spec.setStateUnResolved();
+			}
 			// リペイントのタイミングがわからないためとりあえずここに
 			sourceManager.getSourceTool().getList().repaint();
 		}

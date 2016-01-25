@@ -144,4 +144,8 @@ abstract public class EventRequestSpec {
 			return ("Internal error; unable to set" + this);
 		}
 	}
+
+	public void setStateUnResolved() {
+		status = STATUS_UNRESOLVED;
+	}
 }
