@@ -150,15 +150,10 @@ public class CommandTool extends JPanel {
 
 					// locstringからパッケージ名を取得
 					String pacName = locString.substring(locString.indexOf(" ") + 1, locString.indexOf(".") + 1);
-					// locstringからメソッド名を取得
-					String methodName = locString.substring(locString.indexOf(" ") + 1, locString.lastIndexOf(" ") - 1);
 
 					if (pacName.startsWith("java.")) {
 						// パッケージ名がjavaから始まる処理はスキップ
 						interpreter.executeCommand("next");
-					} else if (methodName.endsWith("<init>()")) {
-						// メソッド名が<init>()で終わる場合はスキップ
-						interpreter.executeCommand("step");
 					} else {
 						// ステップイベント完了後の処理
 						env.getVariableTool().update();
