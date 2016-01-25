@@ -119,6 +119,15 @@ public class CommandTool extends JPanel {
 			this.diagnostics = diagnostics;
 		}
 
+		public void executeWaitCommand() {
+			// 実行待ちコマンドを実行
+			for (String s : waitCommand) {
+				interpreter.executeCommand(s);
+			}
+			sourceManager.getSourceTool().repaint();
+			waitCommand.clear();
+		}
+
 		// JDIListener
 
 		@Override
@@ -159,11 +168,7 @@ public class CommandTool extends JPanel {
 			// System.out.println("locString : " + locString);
 			setThread(e);
 			// 実行待ちコマンドを実行
-			for (String s : waitCommand) {
-				interpreter.executeCommand(s);
-			}
-			sourceManager.getSourceTool().repaint();
-			waitCommand.clear();
+			executeWaitCommand();
 
 			for (EventIterator it = e.eventIterator(); it.hasNext();) {
 				Event evt = it.nextEvent();
@@ -218,7 +223,7 @@ public class CommandTool extends JPanel {
 			if (context.getVerboseFlag()) {
 				diagnostics.putString("Thread " + e.getThread() + " ended.");
 			}
-
+			executeWaitCommand();
 		}
 
 		@Override
