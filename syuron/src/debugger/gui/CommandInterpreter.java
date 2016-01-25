@@ -11,6 +11,7 @@ package debugger.gui;
 
 import java.io.*;
 import java.util.*;
+import javax.swing.JButton;
 import com.sun.jdi.*;
 import com.sun.jdi.request.BreakpointRequest;
 import com.sun.jdi.request.EventRequestManager;
@@ -332,9 +333,15 @@ public class CommandInterpreter {
 		env.getContextManager().setMainClassName(clsname);
 		env.getContextManager().setProgramArguments("");
 
+		for (JButton button : env.getToolBar().buttonList) {
+			if (button.getText().equals("実行")) {
+				button.setEnabled(false);
+			} else {
+				button.setEnabled(true);
+			}
+		}
 		if (doLoad(false, t)) {
 			env.notice("Running ...");
-			env.executeWaitCommand();
 		}
 	}
 
@@ -1461,8 +1468,8 @@ public class CommandInterpreter {
 		} catch (Exception e) {
 			out.println("Internal exception: " + e.toString());
 			out.flush();
-			System.out.println("JDB internal exception: " + e.toString());
-			e.printStackTrace();
+			// System.out.println("JDB internal exception: " + e.toString());
+			// e.printStackTrace();
 		}
 		out.show();
 	}

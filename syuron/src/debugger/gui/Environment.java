@@ -25,6 +25,7 @@ public class Environment {
 
 	private PrintWriter typeScript;
 	private VariableTool variableTool;
+	private JDBToolBar toolBar;
 
 	private TypeScript appScript;
 	private List<String> waitCommand = new ArrayList<>();
@@ -74,6 +75,14 @@ public class Environment {
 
 	public void setScript(TypeScript script) {
 		appScript = script;
+	}
+	
+	public void setToolBar(JDBToolBar toolBar) {
+		this.toolBar = toolBar;
+	}
+	
+	public JDBToolBar getToolBar() {
+		return toolBar;
 	}
 
 	public void executeWaitCommand() {

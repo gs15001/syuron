@@ -11,9 +11,12 @@ package debugger.gui;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.*;
 import debugger.bdi.*;
 
 class JDBToolBar extends JToolBar {
+
+	private static final long serialVersionUID = 1L;
 
 	Environment env;
 
@@ -22,6 +25,7 @@ class JDBToolBar extends JToolBar {
 	SourceManager sourceManager;
 
 	CommandInterpreter interpreter;
+	List<JButton> buttonList = new ArrayList<>();
 
 	JDBToolBar(Environment env) {
 
@@ -31,25 +35,28 @@ class JDBToolBar extends JToolBar {
 		this.sourceManager = env.getSourceManager();
 		this.interpreter = new CommandInterpreter(env, true);
 
+		env.setToolBar(this);
 		// ===== Configure toolbar here =====
 
-		addTool("Run", "実行", "run");
+		addTool("Run", "実行", "run", true);
 		addSeparator();
 
-		addTool("Step Into", "次の命令", "step");
-		addTool("Step Over", "次の行", "next");
-		addTool("Step Return", "メソッドの最後", "step up");
+		addTool("Step Into", "次の命令", "step", false);
+		addTool("Step Over", "次の行", "next", false);
+		addTool("Step Return", "メソッドの最後", "step up", false);
 		addSeparator();
-		addTool("Continue", "次のBP", "cont");
+		addTool("Continue", "次のBP", "cont", false);
 		addSeparator();
-		addTool("Last", "最後まで", "last");
+		addTool("Last", "最後まで", "last", false);
 		addSeparator();
-		addTool("Clear", "全てのBP削除", "clear all");
+		addTool("Clear", "全てのBP削除", "clear all", true);
 
 	}
 
-	private void addTool(String toolTip, String labelText, String command) {
+	private void addTool(String toolTip, String labelText, String command, boolean state) {
 		JButton button = new JButton(labelText);
+		button.setEnabled(state);
+		buttonList.add(button);
 		button.setToolTipText(toolTip);
 		final String cmd = command;
 		button.addActionListener(new ActionListener() {
@@ -57,6 +64,7 @@ class JDBToolBar extends JToolBar {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				interpreter.executeCommand(cmd);
+				env.executeWaitCommand();
 			}
 		});
 		this.add(button);
