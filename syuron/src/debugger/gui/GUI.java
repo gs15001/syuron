@@ -1,48 +1,20 @@
-/*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
+/* Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms. */
 
-/*
- * This source code is provided to illustrate the usage of a given feature
+/* This source code is provided to illustrate the usage of a given feature
  * or technique and has been deliberately simplified. Additional steps
  * required for a production-quality application, such as security checks,
  * input validation and proper error handling, might not be present in
- * this sample code.
- */
+ * this sample code. */
 
 package debugger.gui;
 
 import java.io.*;
-
 import javax.swing.*;
 import javax.swing.border.*;
-
 import java.awt.*;
 import java.awt.event.*;
-
 import com.sun.jdi.*;
-
 import debugger.bdi.*;
 
 public class GUI extends JPanel {
@@ -89,8 +61,7 @@ public class GUI extends JPanel {
 		sourceTreeTool = new SourceTreeTool(env);
 		sourceTreeTool.setPreferredSize(new java.awt.Dimension(200, 650));
 
-		JSplitPane left = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-				sourceTreeTool, srcTool);
+		JSplitPane left = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sourceTreeTool, srcTool);
 
 		// デバッグ情報ビュー
 		// monitorTool = new MonitorTool(env);
@@ -113,8 +84,7 @@ public class GUI extends JPanel {
 		supportTool = new JPanel();
 		supportTool.setPreferredSize(new java.awt.Dimension(500, 300));
 
-		JSplitPane right = new JSplitPane(JSplitPane.VERTICAL_SPLIT, infoPane,
-				supportTool);
+		JSplitPane right = new JSplitPane(JSplitPane.VERTICAL_SPLIT, infoPane, supportTool);
 
 		// Treeは使わないので非表示に 一応オブジェクトは生成しておく
 		classTreeTool = new ClassTreeTool(env);
@@ -128,8 +98,7 @@ public class GUI extends JPanel {
 		// treePane.addTab("Classes", null, classTreeTool);
 		// treePane.addTab("Threads", null, threadTreeTool);
 
-		JSplitPane centerTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-				left, right);
+		JSplitPane centerTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, left, right);
 
 		// cmdToolは使わないので非表示に 一応オブジェクトは生成しておく
 		cmdTool = new CommandTool(env);
@@ -145,8 +114,7 @@ public class GUI extends JPanel {
 		// 初期から
 		// centerBottom.setPreferredSize(new java.awt.Dimension(700, 350));
 
-		JSplitPane center = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-				centerTop, appTool);
+		JSplitPane center = new JSplitPane(JSplitPane.VERTICAL_SPLIT, centerTop, appTool);
 
 		add(center, BorderLayout.CENTER);
 
@@ -154,40 +122,28 @@ public class GUI extends JPanel {
 
 	private static void usage() {
 		String separator = File.pathSeparator;
-		System.out.println("Usage: " + progname
-				+ " <options> <class> <arguments>");
+		System.out.println("Usage: " + progname + " <options> <class> <arguments>");
 		System.out.println();
 		System.out.println("where options include:");
-		System.out
-				.println("    -help             print out this message and exit");
-		System.out.println("    -sourcepath <directories separated by \""
-				+ separator + "\">");
-		System.out
-				.println("                      list directories in which to look for source files");
+		System.out.println("    -help             print out this message and exit");
+		System.out.println("    -sourcepath <directories separated by \"" + separator + "\">");
+		System.out.println("                      list directories in which to look for source files");
 		System.out.println("    -remote <hostname>:<port-number>");
-		System.out
-				.println("                      host machine and port number of interpreter to attach to");
-		System.out.println("    -dbgtrace [flags] print info for debugging "
-				+ progname);
+		System.out.println("                      host machine and port number of interpreter to attach to");
+		System.out.println("    -dbgtrace [flags] print info for debugging " + progname);
 		System.out.println();
 		System.out.println("options forwarded to debuggee process:");
 		System.out.println("    -v -verbose[:class|gc|jni]");
 		System.out.println("                      turn on verbose mode");
 		System.out.println("    -D<name>=<value>  set a system property");
-		System.out.println("    -classpath <directories separated by \""
-				+ separator + "\">");
-		System.out
-				.println("                      list directories in which to look for classes");
-		System.out
-				.println("    -X<option>        non-standard debuggee VM option");
+		System.out.println("    -classpath <directories separated by \"" + separator + "\">");
+		System.out.println("                      list directories in which to look for classes");
+		System.out.println("    -X<option>        non-standard debuggee VM option");
 		System.out.println();
-		System.out
-				.println("<class> is the name of the class to begin debugging");
-		System.out
-				.println("<arguments> are the arguments passed to the main() method of <class>");
+		System.out.println("<class> is the name of the class to begin debugging");
+		System.out.println("<arguments> are the arguments passed to the main() method of <class>");
 		System.out.println();
-		System.out.println("For command help type 'help' at " + progname
-				+ " prompt");
+		System.out.println("For command help type 'help' at " + progname + " prompt");
 	}
 
 	public void run(String argv[]) {
@@ -203,16 +159,14 @@ public class GUI extends JPanel {
 		for (int i = 0; i < argv.length; i++) {
 			String token = argv[i];
 			if (token.equals("-dbgtrace")) {
-				if ((i == argv.length - 1)
-						|| !Character.isDigit(argv[i + 1].charAt(0))) {
+				if ((i == argv.length - 1) || !Character.isDigit(argv[i + 1].charAt(0))) {
 					runtime.setTraceMode(VirtualMachine.TRACE_ALL);
 				} else {
 					String flagStr = argv[++i];
 					runtime.setTraceMode(Integer.decode(flagStr).intValue());
 				}
 			} else if (token.equals("-X")) {
-				System.out
-						.println("Use 'java -X' to see the available non-standard options");
+				System.out.println("Use 'java -X' to see the available non-standard options");
 				System.out.println();
 				usage();
 				System.exit(1);
@@ -231,11 +185,9 @@ public class GUI extends JPanel {
 					// Old-style options
 					// (These should remain in place as long as the standard VM
 					// accepts them)
-					token.equals("-noasyncgc") || token.equals("-prof")
-					|| token.equals("-verify") || token.equals("-noverify")
-					|| token.equals("-verifyremote")
-					|| token.equals("-verbosegc") || token.startsWith("-ms")
-					|| token.startsWith("-mx") || token.startsWith("-ss")
+					token.equals("-noasyncgc") || token.equals("-prof") || token.equals("-verify")
+					|| token.equals("-noverify") || token.equals("-verifyremote") || token.equals("-verbosegc")
+					|| token.startsWith("-ms") || token.startsWith("-mx") || token.startsWith("-ss")
 					|| token.startsWith("-oss")) {
 				javaArgs += token + " ";
 			} else if (token.equals("-sourcepath")) {
@@ -285,8 +237,7 @@ public class GUI extends JPanel {
 
 		// Force Cross Platform L&F
 		try {
-			UIManager.setLookAndFeel(UIManager
-					.getCrossPlatformLookAndFeelClassName());
+			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 			// If you want the System L&F instead, comment out the above line
 			// and
 			// uncomment the following:
@@ -302,6 +253,7 @@ public class GUI extends JPanel {
 		frame.setContentPane(mainPanel);
 
 		frame.addWindowListener(new WindowAdapter() {
+
 			@Override
 			public void windowClosing(WindowEvent e) {
 				env.terminate();

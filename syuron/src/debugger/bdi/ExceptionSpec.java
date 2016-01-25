@@ -1,35 +1,11 @@
-/*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
+/* Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms. */
 
-/*
- * This source code is provided to illustrate the usage of a given feature
+/* This source code is provided to illustrate the usage of a given feature
  * or technique and has been deliberately simplified. Additional steps
  * required for a production-quality application, such as security checks,
  * input validation and proper error handling, might not be present in
- * this sample code.
- */
+ * this sample code. */
 
 package debugger.bdi;
 
@@ -40,8 +16,7 @@ public class ExceptionSpec extends EventRequestSpec {
 	boolean notifyCaught;
 	boolean notifyUncaught;
 
-	ExceptionSpec(EventRequestSpecList specs, ReferenceTypeSpec refSpec,
-			boolean notifyCaught, boolean notifyUncaught) {
+	ExceptionSpec(EventRequestSpecList specs, ReferenceTypeSpec refSpec, boolean notifyCaught, boolean notifyUncaught) {
 		super(specs, refSpec);
 		this.notifyCaught = notifyCaught;
 		this.notifyUncaught = notifyUncaught;
@@ -77,8 +52,8 @@ public class ExceptionSpec extends EventRequestSpec {
 	 */
 	@Override
 	void resolve(ReferenceType refType) {
-		setRequest(refType.virtualMachine().eventRequestManager()
-				.createExceptionRequest(refType, notifyCaught, notifyUncaught));
+		setRequest(refType.virtualMachine().eventRequestManager().createExceptionRequest(refType, notifyCaught,
+				notifyUncaught));
 	}
 
 	@Override

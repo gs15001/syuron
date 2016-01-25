@@ -1,35 +1,11 @@
-/*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
+/* Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms. */
 
-/*
- * This source code is provided to illustrate the usage of a given feature
+/* This source code is provided to illustrate the usage of a given feature
  * or technique and has been deliberately simplified. Additional steps
  * required for a production-quality application, such as security checks,
  * input validation and proper error handling, might not be present in
- * this sample code.
- */
+ * this sample code. */
 
 package debugger.gui;
 
@@ -38,7 +14,7 @@ import java.util.Hashtable;
 import java.util.Enumeration;
 import javax.swing.filechooser.*;
 
-//### Renamed from 'ExampleFileFilter.java' provided with Swing demos.
+// ### Renamed from 'ExampleFileFilter.java' provided with Swing demos.
 
 /**
  * A convenience implementation of FileFilter that filters out all files except
@@ -155,8 +131,7 @@ public class JDBFileFilter extends FileFilter {
 			String extension = getExtension(f);
 			if (extension != null && filters.get(getExtension(f)) != null) {
 				return true;
-			}
-			;
+			};
 		}
 		return false;
 	}
@@ -173,8 +148,7 @@ public class JDBFileFilter extends FileFilter {
 			int i = filename.lastIndexOf('.');
 			if (i > 0 && i < filename.length() - 1) {
 				return filename.substring(i + 1).toLowerCase();
-			}
-			;
+			};
 		}
 		return null;
 	}
@@ -211,8 +185,7 @@ public class JDBFileFilter extends FileFilter {
 	public String getDescription() {
 		if (fullDescription == null) {
 			if (description == null || isExtensionListInDescription()) {
-				fullDescription = description == null ? "(" : description
-						+ " (";
+				fullDescription = description == null ? "(" : description + " (";
 				// build the description from the extension list
 				Enumeration<String> extensions = filters.keys();
 				if (extensions != null) {

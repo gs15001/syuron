@@ -1,44 +1,18 @@
-/*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
+/* Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms. */
 
-/*
- * This source code is provided to illustrate the usage of a given feature
+/* This source code is provided to illustrate the usage of a given feature
  * or technique and has been deliberately simplified. Additional steps
  * required for a production-quality application, such as security checks,
  * input validation and proper error handling, might not be present in
- * this sample code.
- */
+ * this sample code. */
 
 package debugger.gui;
 
 import java.io.*;
 import java.util.*;
-
 import com.sun.jdi.*;
 import com.sun.jdi.request.*;
-
 import javax.swing.*;
 
 /**
@@ -67,6 +41,7 @@ public class SourceModel extends AbstractListModel {
 	private List<Line> sourceLines = null;
 
 	public static class Line {
+
 		public String text;
 		public boolean hasBreakpoint = false;
 		public boolean preBreakpoint = false;
@@ -86,11 +61,8 @@ public class SourceModel extends AbstractListModel {
 	};
 
 	// 132 characters long, all printable characters.
-	public static final Line prototypeCellValue = new Line(
-			"abcdefghijklmnopqrstuvwxyz" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-					+ "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-					+ "1234567890~!@#$%^&*()_+{}|"
-					+ ":<>?`-=[];',.XXXXXXXXXXXX/\\\"");
+	public static final Line prototypeCellValue = new Line("abcdefghijklmnopqrstuvwxyz" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+			+ "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "1234567890~!@#$%^&*()_+{}|" + ":<>?`-=[];',.XXXXXXXXXXXX/\\\"");
 
 	SourceModel(Environment env, File path) {
 		this.env = env;
@@ -109,12 +81,12 @@ public class SourceModel extends AbstractListModel {
 	}
 
 	public void clearClassLines() {
-		for(Line line : sourceLines) {
+		for (Line line : sourceLines) {
 			line.hasBreakpoint = false;
 			line.refType = null;
 		}
 	}
-	
+
 	// **** Implement ListModel *****
 
 	@Override
@@ -213,8 +185,7 @@ public class SourceModel extends AbstractListModel {
 				// do nothing
 			}
 		}
-		for (BreakpointRequest bp : env.getExecutionManager()
-				.eventRequestManager().breakpointRequests()) {
+		for (BreakpointRequest bp : env.getExecutionManager().eventRequestManager().breakpointRequests()) {
 			if (bp.location() != null) {
 				Location loc = bp.location();
 				if (loc.declaringType().equals(refType)) {

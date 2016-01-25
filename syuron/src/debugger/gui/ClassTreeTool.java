@@ -1,45 +1,19 @@
-/*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
+/* Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms. */
 
-/*
- * This source code is provided to illustrate the usage of a given feature
+/* This source code is provided to illustrate the usage of a given feature
  * or technique and has been deliberately simplified. Additional steps
  * required for a production-quality application, such as security checks,
  * input validation and proper error handling, might not be present in
- * this sample code.
- */
+ * this sample code. */
 
 package debugger.gui;
 
 import java.util.*;
-
 import javax.swing.*;
 import javax.swing.tree.*;
 import java.awt.*;
 import java.awt.event.*;
-
 import com.sun.jdi.*;
 import debugger.event.*;
 import debugger.bdi.*;
@@ -91,20 +65,19 @@ public class ClassTreeTool extends JPanel {
 		 ******/
 
 		MouseListener ml = new MouseAdapter() {
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int selRow = tree.getRowForLocation(e.getX(), e.getY());
 				TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
 				if (selRow != -1) {
 					if (e.getClickCount() == 1) {
-						ClassTreeNode node = (ClassTreeNode) selPath
-								.getLastPathComponent();
+						ClassTreeNode node = (ClassTreeNode) selPath.getLastPathComponent();
 						// If user clicks on leaf, select it, and issue 'view'
 						// command.
 						if (node.isLeaf()) {
 							tree.setSelectionPath(selPath);
-							interpreter.executeCommand("view "
-									+ node.getReferenceTypeName());
+							interpreter.executeCommand("view " + node.getReferenceTypeName());
 						}
 					}
 				}
@@ -123,8 +96,7 @@ public class ClassTreeTool extends JPanel {
 		// ### remove listeners on exit!
 	}
 
-	private class ClassTreeToolListener extends JDIAdapter implements
-			JDIListener, SessionListener {
+	private class ClassTreeToolListener extends JDIAdapter implements JDIListener, SessionListener {
 
 		// SessionListener
 

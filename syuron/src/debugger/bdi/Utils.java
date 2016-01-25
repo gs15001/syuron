@@ -1,37 +1,13 @@
-/*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
+/* Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms. */
 
-/*
- * This source code is provided to illustrate the usage of a given feature
+/* This source code is provided to illustrate the usage of a given feature
  * or technique and has been deliberately simplified. Additional steps
  * required for a production-quality application, such as security checks,
  * input validation and proper error handling, might not be present in
- * this sample code.
- */
+ * this sample code. */
 
-package debugger.bdi; //### does it belong here?
+package debugger.bdi; // ### does it belong here?
 
 import com.sun.jdi.*;
 
@@ -44,26 +20,26 @@ public class Utils {
 		int status = thr.status();
 		String result;
 		switch (status) {
-		case ThreadReference.THREAD_STATUS_UNKNOWN:
-			result = "unknown status";
-			break;
-		case ThreadReference.THREAD_STATUS_ZOMBIE:
-			result = "zombie";
-			break;
-		case ThreadReference.THREAD_STATUS_RUNNING:
-			result = "running";
-			break;
-		case ThreadReference.THREAD_STATUS_SLEEPING:
-			result = "sleeping";
-			break;
-		case ThreadReference.THREAD_STATUS_MONITOR:
-			result = "waiting to acquire a monitor lock";
-			break;
-		case ThreadReference.THREAD_STATUS_WAIT:
-			result = "waiting on a condition";
-			break;
-		default:
-			result = "<invalid thread status>";
+			case ThreadReference.THREAD_STATUS_UNKNOWN:
+				result = "unknown status";
+				break;
+			case ThreadReference.THREAD_STATUS_ZOMBIE:
+				result = "zombie";
+				break;
+			case ThreadReference.THREAD_STATUS_RUNNING:
+				result = "running";
+				break;
+			case ThreadReference.THREAD_STATUS_SLEEPING:
+				result = "sleeping";
+				break;
+			case ThreadReference.THREAD_STATUS_MONITOR:
+				result = "waiting to acquire a monitor lock";
+				break;
+			case ThreadReference.THREAD_STATUS_WAIT:
+				result = "waiting on a condition";
+				break;
+			default:
+				result = "<invalid thread status>";
 		}
 		if (thr.isSuspended()) {
 			result += " (suspended)";
@@ -112,8 +88,7 @@ public class Utils {
 	 * Convert hexadecimal strings to longs.
 	 */
 	public static long fromHex(String hexStr) {
-		String str = hexStr.startsWith("0x") ? hexStr.substring(2)
-				.toLowerCase() : hexStr.toLowerCase();
+		String str = hexStr.startsWith("0x") ? hexStr.substring(2).toLowerCase() : hexStr.toLowerCase();
 		if (hexStr.length() == 0) {
 			throw new NumberFormatException();
 		}
@@ -132,13 +107,10 @@ public class Utils {
 		return ret;
 	}
 
-	/*
-	 * The next two methods are used by this class and by EventHandler to print
-	 * consistent locations and error messages.
-	 */
+	/* The next two methods are used by this class and by EventHandler to print
+	 * consistent locations and error messages. */
 	public static String locationString(Location loc) {
-		return loc.declaringType().name() + "." + loc.method().name()
-				+ "(), line=" + loc.lineNumber();
+		return loc.declaringType().name() + "." + loc.method().name() + "(), line=" + loc.lineNumber();
 	}
 
 	// ### UNUSED.
@@ -153,8 +125,7 @@ public class Utils {
 	 ************************/
 
 	public static boolean isValidMethodName(String s) {
-		return isJavaIdentifier(s) || s.equals("<init>")
-				|| s.equals("<clinit>");
+		return isJavaIdentifier(s) || s.equals("<init>") || s.equals("<clinit>");
 	}
 
 	public static boolean isJavaIdentifier(String s) {
@@ -165,8 +136,7 @@ public class Utils {
 		if (!Character.isJavaIdentifierStart(cp)) {
 			return false;
 		}
-		for (int i = Character.charCount(cp); i < s.length(); i += Character
-				.charCount(cp)) {
+		for (int i = Character.charCount(cp); i < s.length(); i += Character.charCount(cp)) {
 			cp = s.codePointAt(i);
 			if (!Character.isJavaIdentifierPart(cp)) {
 				return false;

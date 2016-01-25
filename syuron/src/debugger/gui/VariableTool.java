@@ -2,15 +2,11 @@ package debugger.gui;
 
 import java.awt.*;
 import java.util.List;
-
 import javax.swing.*;
 import javax.swing.table.*;
 import javax.swing.tree.*;
-
 import org.jdesktop.swingx.*;
-
 import com.sun.jdi.*;
-
 import debugger.bdi.ExecutionManager;
 
 public class VariableTool extends JPanel {
@@ -67,13 +63,10 @@ public class VariableTool extends JPanel {
 			List<StackFrame> frames = current.frames();
 			// stackframeの先頭（現在実行されているメソッドに相当)を取得
 			StackFrame currentFrame = frames.get(0);
-			treeRenderer.setCurrentVariableNum(currentFrame.visibleVariables()
-					.size());
-			tableRenderer.setCurrentVariableNum(currentFrame.visibleVariables()
-					.size());
+			treeRenderer.setCurrentVariableNum(currentFrame.visibleVariables().size());
+			tableRenderer.setCurrentVariableNum(currentFrame.visibleVariables().size());
 			// 現在の命令の位置を取得(ライン表示に必要）
-			env.getSourceManager().getSourceTool()
-					.setExcuteLine(currentFrame.location().lineNumber());
+			env.getSourceManager().getSourceTool().setExcuteLine(currentFrame.location().lineNumber());
 
 			// 既にある変数を一旦削除
 			tableModel.clear();
@@ -106,12 +99,10 @@ public class VariableTool extends JPanel {
 		private int currentVariableNum;
 		private int variableNum;
 
-		public Component getTableCellRendererComponent(JTable table,
-				Object value, boolean isSelected, boolean hasFocus, int row,
-				int column) {
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+				boolean hasFocus, int row, int column) {
 
-			super.getTableCellRendererComponent(table, value, isSelected,
-					hasFocus, row, column);
+			super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
 			// if (row < variableNum - currentVariableNum) {
 			// setBackground(Color.LIGHT_GRAY);
@@ -136,12 +127,10 @@ public class VariableTool extends JPanel {
 		private int variableNum;
 
 		@Override
-		public Component getTreeCellRendererComponent(JTree tree, Object value,
-				boolean sel, boolean expanded, boolean leaf, int row,
-				boolean hasFocus) {
+		public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded,
+				boolean leaf, int row, boolean hasFocus) {
 
-			super.getTreeCellRendererComponent(tree, value, sel, expanded,
-					leaf, row, hasFocus);
+			super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 
 			setClosedIcon(Icons.closeIcon);
 			setLeafIcon(Icons.openIcon);
@@ -164,17 +153,15 @@ public class VariableTool extends JPanel {
 		}
 	}
 
-	private class CustomRenderer extends JLabel implements TreeCellRenderer,
-			TableCellRenderer {
+	private class CustomRenderer extends JLabel implements TreeCellRenderer, TableCellRenderer {
 
 		private static final long serialVersionUID = 1L;
 		private int currentVariableNum;
 		private int variableNum;
 
 		@Override
-		public Component getTreeCellRendererComponent(JTree tree, Object value,
-				boolean selected, boolean expanded, boolean leaf, int row,
-				boolean hasFocus) {
+		public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded,
+				boolean leaf, int row, boolean hasFocus) {
 
 			if (row < variableNum - currentVariableNum) {
 				setBackground(Color.LIGHT_GRAY);
@@ -184,9 +171,8 @@ public class VariableTool extends JPanel {
 		}
 
 		@Override
-		public Component getTableCellRendererComponent(JTable table,
-				Object value, boolean isSelected, boolean hasFocus, int row,
-				int column) {
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+				boolean hasFocus, int row, int column) {
 
 			setText(value != null ? value.toString() : "<null>");
 			if (row < variableNum - currentVariableNum) {

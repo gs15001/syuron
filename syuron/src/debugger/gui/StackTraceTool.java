@@ -1,35 +1,11 @@
-/*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
+/* Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms. */
 
-/*
- * This source code is provided to illustrate the usage of a given feature
+/* This source code is provided to illustrate the usage of a given feature
  * or technique and has been deliberately simplified. Additional steps
  * required for a production-quality application, such as security checks,
  * input validation and proper error handling, might not be present in
- * this sample code.
- */
+ * this sample code. */
 
 package debugger.gui;
 
@@ -77,8 +53,7 @@ public class StackTraceTool extends JPanel {
 		// ### remove listeners on exit!
 	}
 
-	private class StackTraceToolListener implements ContextListener,
-			ListSelectionListener {
+	private class StackTraceToolListener implements ContextListener, ListSelectionListener {
 
 		// ContextListener
 
@@ -123,24 +98,22 @@ public class StackTraceTool extends JPanel {
 	private class StackFrameRenderer extends DefaultListCellRenderer {
 
 		@Override
-		public Component getListCellRendererComponent(JList list, Object value,
-				int index, boolean isSelected, boolean cellHasFocus) {
+		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+				boolean cellHasFocus) {
 
 			// ### We should indicate the current thread independently of the
 			// ### selection, e.g., with an icon, because the user may change
 			// ### the selection graphically without affecting the current
 			// ### thread.
 
-			super.getListCellRendererComponent(list, value, index, isSelected,
-					cellHasFocus);
+			super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 			if (value == null) {
 				this.setText("<unavailable>");
 			} else {
 				StackFrame frame = (StackFrame) value;
 				Location loc = frame.location();
 				Method meth = loc.method();
-				String methName = meth.declaringType().name() + '.'
-						+ meth.name();
+				String methName = meth.declaringType().name() + '.' + meth.name();
 				String position = "";
 				if (meth.isNative()) {
 					position = " (native method)";

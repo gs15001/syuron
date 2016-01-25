@@ -1,46 +1,20 @@
-/*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
+/* Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms. */
 
-/*
- * This source code is provided to illustrate the usage of a given feature
+/* This source code is provided to illustrate the usage of a given feature
  * or technique and has been deliberately simplified. Additional steps
  * required for a production-quality application, such as security checks,
  * input validation and proper error handling, might not be present in
- * this sample code.
- */
+ * this sample code. */
 
 package debugger.gui;
 
 import java.io.*;
 import java.util.*;
-
 import javax.swing.*;
 import javax.swing.tree.*;
 import java.awt.*;
 import java.awt.event.*;
-
 import debugger.bdi.*;
 
 public class SourceTreeTool extends JPanel {
@@ -86,20 +60,19 @@ public class SourceTreeTool extends JPanel {
 		 ******/
 
 		MouseListener ml = new MouseAdapter() {
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int selRow = tree.getRowForLocation(e.getX(), e.getY());
 				TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
 				if (selRow != -1) {
 					if (e.getClickCount() == 1) {
-						SourceTreeNode node = (SourceTreeNode) selPath
-								.getLastPathComponent();
+						SourceTreeNode node = (SourceTreeNode) selPath.getLastPathComponent();
 						// If user clicks on leaf, select it, and issue 'view'
 						// command.
 						if (node.isLeaf()) {
 							tree.setSelectionPath(selPath);
-							interpreter.executeCommand("view "
-									+ node.getRelativePath());
+							interpreter.executeCommand("view " + node.getRelativePath());
 						}
 					}
 				}
@@ -130,6 +103,7 @@ public class SourceTreeTool extends JPanel {
 	}
 
 	private static class SourceOrDirectoryFilter implements FilenameFilter {
+
 		@Override
 		public boolean accept(File dir, String name) {
 			return (name.endsWith(".java") || new File(dir, name).isDirectory());
@@ -156,8 +130,7 @@ public class SourceTreeTool extends JPanel {
 		private String relativePath;
 		private boolean isExpanded;
 
-		private SourceTreeNode(String label, SourceTreeNode parent,
-				String relativePath, boolean isDirectory) {
+		private SourceTreeNode(String label, SourceTreeNode parent, String relativePath, boolean isDirectory) {
 			this.name = label;
 			this.relativePath = relativePath;
 			this.parent = parent;
@@ -179,12 +152,11 @@ public class SourceTreeTool extends JPanel {
 					String[] files = sourcePath.children(relativePath, filter);
 					children = new SourceTreeNode[files.length];
 					for (int i = 0; i < files.length; i++) {
-						String childName = (relativePath.equals("")) ? files[i]
-								: relativePath + File.separator + files[i];
+						String childName = (relativePath.equals("")) ? files[i] : relativePath + File.separator
+								+ files[i];
 						File file = sourcePath.resolve(childName);
 						boolean isDir = (file != null && file.isDirectory());
-						children[i] = new SourceTreeNode(files[i], this,
-								childName, isDir);
+						children[i] = new SourceTreeNode(files[i], this, childName, isDir);
 					}
 				}
 				isExpanded = true;
@@ -196,10 +168,8 @@ public class SourceTreeTool extends JPanel {
 
 		// -- interface TreeNode --
 
-		/*
-		 * Returns the child <code>TreeNode</code> at index
-		 * <code>childIndex</code>.
-		 */
+		/* Returns the child <code>TreeNode</code> at index
+		 * <code>childIndex</code>. */
 		@Override
 		public TreeNode getChildAt(int childIndex) {
 			expandIfNeeded();
@@ -263,6 +233,7 @@ public class SourceTreeTool extends JPanel {
 		public Enumeration children() {
 			expandIfNeeded();
 			return new Enumeration() {
+
 				int i = 0;
 
 				@Override

@@ -1,48 +1,22 @@
-/*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
+/* Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms. */
 
-/*
- * This source code is provided to illustrate the usage of a given feature
+/* This source code is provided to illustrate the usage of a given feature
  * or technique and has been deliberately simplified. Additional steps
  * required for a production-quality application, such as security checks,
  * input validation and proper error handling, might not be present in
- * this sample code.
- */
+ * this sample code. */
 
 package debugger.gui;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
 import java.util.List;
-
 import debugger.bdi.*;
 
-//### This is currently just a placeholder!
+// ### This is currently just a placeholder!
 
 class JDBMenuBar extends JMenuBar {
 
@@ -65,6 +39,7 @@ class JDBMenuBar extends JMenuBar {
 
 		JMenuItem openItem = new JMenuItem("Open...", 'O');
 		openItem.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				openCommand();
@@ -79,14 +54,11 @@ class JDBMenuBar extends JMenuBar {
 		addTool(cmdMenu, "Step over next line", "Next", "next");
 		cmdMenu.addSeparator();
 
-		addTool(cmdMenu, "Step into next instruction", "Step Instruction",
-				"stepi");
-		addTool(cmdMenu, "Step over next instruction", "Next Instruction",
-				"nexti");
+		addTool(cmdMenu, "Step into next instruction", "Step Instruction", "stepi");
+		addTool(cmdMenu, "Step over next instruction", "Next Instruction", "nexti");
 		cmdMenu.addSeparator();
 
-		addTool(cmdMenu, "Step out of current method call", "Step Up",
-				"step up");
+		addTool(cmdMenu, "Step out of current method call", "Step Up", "step up");
 		cmdMenu.addSeparator();
 
 		addTool(cmdMenu, "Suspend execution", "Interrupt", "interrupt");
@@ -102,6 +74,7 @@ class JDBMenuBar extends JMenuBar {
 
 		JMenuItem monitorItem = new JMenuItem("Monitor Expression...", 'M');
 		monitorItem.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				monitorCommand();
@@ -111,6 +84,7 @@ class JDBMenuBar extends JMenuBar {
 
 		JMenuItem unmonitorItem = new JMenuItem("Unmonitor Expression...");
 		unmonitorItem.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				unmonitorCommand();
@@ -121,6 +95,7 @@ class JDBMenuBar extends JMenuBar {
 		JMenu breakpointMenu = new JMenu("Breakpoint");
 		JMenuItem stopItem = new JMenuItem("Stop in...", 'S');
 		stopItem.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				buildBreakpoint();
@@ -152,8 +127,7 @@ class JDBMenuBar extends JMenuBar {
 	}
 
 	private void monitorCommand() {
-		String expr = (String) JOptionPane.showInputDialog(null,
-				"Expression to monitor:", "Add Monitor",
+		String expr = (String) JOptionPane.showInputDialog(null, "Expression to monitor:", "Add Monitor",
 				JOptionPane.QUESTION_MESSAGE, null, null, null);
 		if (expr != null) {
 			interpreter.executeCommand("monitor " + expr);
@@ -162,10 +136,8 @@ class JDBMenuBar extends JMenuBar {
 
 	private void unmonitorCommand() {
 		List monitors = env.getMonitorListModel().monitors();
-		String expr = (String) JOptionPane.showInputDialog(null,
-				"Expression to unmonitor:", "Remove Monitor",
-				JOptionPane.QUESTION_MESSAGE, null, monitors.toArray(),
-				monitors.get(monitors.size() - 1));
+		String expr = (String) JOptionPane.showInputDialog(null, "Expression to unmonitor:", "Remove Monitor",
+				JOptionPane.QUESTION_MESSAGE, null, monitors.toArray(), monitors.get(monitors.size() - 1));
 		if (expr != null) {
 			interpreter.executeCommand("unmonitor " + expr);
 		}
@@ -178,10 +150,8 @@ class JDBMenuBar extends JMenuBar {
 		int result = chooser.showOpenDialog(this);
 		if (result == JFileChooser.APPROVE_OPTION) {
 			// 選択された場合、必要情報の書き換え
-			env.getClassManager().setClassPath(
-					new SearchPath(chooser.getSelectedFile().getParent()));
-			env.getSourceManager().setSourcePath(
-					new SearchPath(chooser.getSelectedFile().getParent()));
+			env.getClassManager().setClassPath(new SearchPath(chooser.getSelectedFile().getParent()));
+			env.getSourceManager().setSourcePath(new SearchPath(chooser.getSelectedFile().getParent()));
 
 			// MainClassNameの書き換え(引数は基本的になし)
 			String clsname = chooser.getSelectedFile().getName();
@@ -189,9 +159,9 @@ class JDBMenuBar extends JMenuBar {
 			env.getContextManager().setMainClassName(clsname);
 			env.getContextManager().setProgramArguments("");
 
-			//選択したファイルの表示
+			// 選択したファイルの表示
 			env.viewSource(chooser.getSelectedFile().getName());
-			
+
 			// System.out.println("Chose file: "
 			// + chooser.getSelectedFile().getName());
 			// System.out.println("Chose file: "
@@ -199,12 +169,12 @@ class JDBMenuBar extends JMenuBar {
 		}
 	}
 
-	private void addTool(JMenu menu, String toolTip, String labelText,
-			String command) {
+	private void addTool(JMenu menu, String toolTip, String labelText, String command) {
 		JMenuItem mi = new JMenuItem(labelText);
 		mi.setToolTipText(toolTip);
 		final String cmd = command;
 		mi.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				interpreter.executeCommand(cmd);

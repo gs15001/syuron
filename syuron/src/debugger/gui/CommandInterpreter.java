@@ -1,45 +1,19 @@
-/*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
+/* Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms. */
 
-/*
- * This source code is provided to illustrate the usage of a given feature
+/* This source code is provided to illustrate the usage of a given feature
  * or technique and has been deliberately simplified. Additional steps
  * required for a production-quality application, such as security checks,
  * input validation and proper error handling, might not be present in
- * this sample code.
- */
+ * this sample code. */
 
 package debugger.gui;
 
 import java.io.*;
 import java.util.*;
-
 import com.sun.jdi.*;
 import com.sun.jdi.request.BreakpointRequest;
 import com.sun.jdi.request.EventRequestManager;
-
 import debugger.bdi.*;
 
 public class CommandInterpreter {
@@ -71,13 +45,11 @@ public class CommandInterpreter {
 
 	private ThreadReference[] threads = null;
 
-	/*
-	 * The numbering of threads is relative to the current set of threads, and
+	/* The numbering of threads is relative to the current set of threads, and
 	 * may be affected by the creation and termination of new threads. Commands
 	 * issued using such thread ids will only give reliable behavior relative to
 	 * what was shown earlier in 'list' commands if the VM is interrupted. We
-	 * need a better scheme.
-	 */
+	 * need a better scheme. */
 
 	private ThreadReference[] threads() throws NoSessionException {
 		if (threads == null) {
@@ -91,8 +63,7 @@ public class CommandInterpreter {
 		return threads;
 	}
 
-	private ThreadReference findThread(String idToken)
-			throws NoSessionException {
+	private ThreadReference findThread(String idToken) throws NoSessionException {
 		String id;
 		ThreadReference thread = null;
 		if (idToken.startsWith("t@")) {
@@ -126,8 +97,7 @@ public class CommandInterpreter {
 		return new ThreadIterator(runtime.topLevelThreadGroups());
 	}
 
-	private ThreadIterator currentThreadGroupThreads()
-			throws NoSessionException {
+	private ThreadIterator currentThreadGroupThreads() throws NoSessionException {
 		threads = null;
 		return new ThreadIterator(getDefaultThreadGroup());
 	}
@@ -139,8 +109,7 @@ public class CommandInterpreter {
 
 	private ThreadGroupReference defaultThreadGroup;
 
-	private ThreadGroupReference getDefaultThreadGroup()
-			throws NoSessionException {
+	private ThreadGroupReference getDefaultThreadGroup() throws NoSessionException {
 		if (defaultThreadGroup == null) {
 			defaultThreadGroup = runtime.systemThreadGroup();
 		}
@@ -151,9 +120,7 @@ public class CommandInterpreter {
 		defaultThreadGroup = tg;
 	}
 
-	/*
-	 * Command handlers.
-	 */
+	/* Command handlers. */
 
 	// Command: classes
 
@@ -180,8 +147,7 @@ public class CommandInterpreter {
 			OutputSink out = env.getOutputSink();
 			for (int i = 0; i < methods.size(); i++) {
 				Method method = methods.get(i);
-				out.print(method.declaringType().name() + " " + method.name()
-						+ "(");
+				out.print(method.declaringType().name() + " " + method.name() + "(");
 				Iterator<String> it = method.argumentTypeNames().iterator();
 				if (it.hasNext()) {
 					while (true) {
@@ -202,8 +168,7 @@ public class CommandInterpreter {
 	}
 
 	private ReferenceType findClass(String pattern) throws NoSessionException {
-		List<ReferenceType> results = runtime
-				.findClassesMatchingPattern(pattern);
+		List<ReferenceType> results = runtime.findClassesMatchingPattern(pattern);
 		if (results.size() > 0) {
 			// ### Should handle multiple results sensibly.
 			return results.get(0);
@@ -231,8 +196,7 @@ public class CommandInterpreter {
 		}
 	}
 
-	private ThreadGroupReference findThreadGroup(String name)
-			throws NoSessionException {
+	private ThreadGroupReference findThreadGroup(String name) throws NoSessionException {
 		// ### Issue: Uniqueness of thread group names is not enforced.
 		ThreadGroupIterator tgi = allThreadGroups();
 		while (tgi.hasNext()) {
@@ -244,8 +208,7 @@ public class CommandInterpreter {
 		return null;
 	}
 
-	private int printThreadGroup(OutputSink out, ThreadGroupReference tg,
-			int iThread) {
+	private int printThreadGroup(OutputSink out, ThreadGroupReference tg, int iThread) {
 		out.println("Group " + tg.name() + ":");
 		List<ThreadReference> tlist = tg.threads();
 		int maxId = 0;
@@ -313,8 +276,7 @@ public class CommandInterpreter {
 		while (it.hasNext()) {
 			ThreadGroupReference tg = it.nextThreadGroup();
 			++cnt;
-			out.println("" + cnt + ". " + Utils.description(tg) + " "
-					+ tg.name());
+			out.println("" + cnt + ". " + Utils.description(tg) + " " + tg.name());
 		}
 		out.show();
 	}
@@ -335,8 +297,7 @@ public class CommandInterpreter {
 
 	// Command: threadgroup
 
-	private void commandThreadGroup(StringTokenizer t)
-			throws NoSessionException {
+	private void commandThreadGroup(StringTokenizer t) throws NoSessionException {
 		if (!t.hasMoreTokens()) {
 			env.error("Threadgroup name not specified.");
 			return;
@@ -355,20 +316,16 @@ public class CommandInterpreter {
 
 	private void commandRun(StringTokenizer t) throws NoSessionException {
 		// 現在開いているファイルを実行するように
-		SourceModel sourceModel = env.getSourceManager().getSourceTool()
-				.getSourceModel();
+		SourceModel sourceModel = env.getSourceManager().getSourceTool().getSourceModel();
 		if (sourceModel == null) {
 			System.out.println("No sourceModel");
 			return;
 		}
-		env.getSourceManager().setFirstSourceModel(
-				sourceModel.fileName().getName());
+		env.getSourceManager().setFirstSourceModel(sourceModel.fileName().getName());
 		File sourceFile = sourceModel.fileName();
 		// 必要情報の書き換え
-		env.getClassManager().setClassPath(
-				new SearchPath(sourceFile.getParent()));
-		env.getSourceManager().setSourcePath(
-				new SearchPath(sourceFile.getParent()));
+		env.getClassManager().setClassPath(new SearchPath(sourceFile.getParent()));
+		env.getSourceManager().setSourcePath(new SearchPath(sourceFile.getParent()));
 		// MainClassNameの書き換え(引数は基本的になし)
 		String clsname = sourceFile.getName();
 		clsname = clsname.substring(0, clsname.lastIndexOf("."));
@@ -387,8 +344,7 @@ public class CommandInterpreter {
 		}
 	}
 
-	private boolean doLoad(boolean suspended, StringTokenizer t)
-			throws NoSessionException {
+	private boolean doLoad(boolean suspended, StringTokenizer t) throws NoSessionException {
 
 		String className = context.getMainClassName();
 		String token = className + ".main";
@@ -403,12 +359,10 @@ public class CommandInterpreter {
 				// Run from prevously-set class name.
 				try {
 					String vmArgs = context.getVmArguments();
-					runtime.run(suspended, vmArgs, clname,
-							context.getProgramArguments());
+					runtime.run(suspended, vmArgs, clname, context.getProgramArguments());
 					return true;
 				} catch (VMLaunchFailureException e) {
-					env.failure("Attempt to launch main class \"" + clname
-							+ "\" failed.");
+					env.failure("Attempt to launch main class \"" + clname + "\" failed.");
 				}
 			} else {
 				env.failure("No main class specified and no current default defined.");
@@ -433,8 +387,7 @@ public class CommandInterpreter {
 				context.setProgramArguments(args);
 				return true;
 			} catch (VMLaunchFailureException e) {
-				env.failure("Attempt to launch main class \"" + clname
-						+ "\" failed.");
+				env.failure("Attempt to launch main class \"" + clname + "\" failed.");
 			}
 		}
 		return false;
@@ -460,8 +413,7 @@ public class CommandInterpreter {
 				try {
 					runtime.attach(portName);
 				} catch (VMLaunchFailureException e) {
-					env.failure("Attempt to attach to port \"" + portName
-							+ "\" failed.");
+					env.failure("Attempt to attach to port \"" + portName + "\" failed.");
 				}
 			} else {
 				env.failure("No port specified and no current default defined.");
@@ -471,8 +423,7 @@ public class CommandInterpreter {
 			try {
 				runtime.attach(portName);
 			} catch (VMLaunchFailureException e) {
-				env.failure("Attempt to attach to port \"" + portName
-						+ "\" failed.");
+				env.failure("Attempt to attach to port \"" + portName + "\" failed.");
 			}
 			context.setRemotePort(portName);
 		}
@@ -555,13 +506,13 @@ public class CommandInterpreter {
 		try {
 			EventRequestManager erm = runtime.eventRequestManager();
 			List<BreakpointRequest> bprList = erm.breakpointRequests();
-			//一旦全てのBPを無効に
+			// 一旦全てのBPを無効に
 			for (BreakpointRequest bpr : bprList) {
 				bpr.disable();
 			}
-			//最後まで実行
+			// 最後まで実行
 			runtime.go();
-			//再度BPを有効に
+			// 再度BPを有効に
 			for (BreakpointRequest bpr : bprList) {
 				bpr.enable();
 			}
@@ -586,8 +537,7 @@ public class CommandInterpreter {
 				runtime.stepIntoLine(current);
 			}
 		} catch (AbsentInformationException e) {
-			env.failure("No linenumber information available -- "
-					+ "Try \"stepi\" to step by instructions.");
+			env.failure("No linenumber information available -- " + "Try \"stepi\" to step by instructions.");
 		}
 	}
 
@@ -613,8 +563,7 @@ public class CommandInterpreter {
 		try {
 			runtime.stepOverLine(current);
 		} catch (AbsentInformationException e) {
-			env.failure("No linenumber information available -- "
-					+ "Try \"nexti\" to step by instructions.");
+			env.failure("No linenumber information available -- " + "Try \"nexti\" to step by instructions.");
 		}
 	}
 
@@ -662,8 +611,7 @@ public class CommandInterpreter {
 						return;
 					}
 				}
-				env.failure("\"" + idToken
-						+ "\" is not a valid threadgroup or id.");
+				env.failure("\"" + idToken + "\" is not a valid threadgroup or id.");
 			}
 		}
 	}
@@ -730,8 +678,7 @@ public class CommandInterpreter {
 			if (delta == 0) {
 				env.notice("Already at bottom of stack.");
 			} else if (delta < nLevels) {
-				env.notice("Moved down " + delta
-						+ " frames to bottom of stack.");
+				env.notice("Moved down " + delta + " frames to bottom of stack.");
 			}
 		} catch (VMNotInterruptedException e) {
 			env.failure("Target VM must be in interrupted state.");
@@ -781,8 +728,7 @@ public class CommandInterpreter {
 	// ### There is an inconsistency between the 'where' command
 	// ### and 'up' and 'down' in this respect.
 
-	private void commandWhere(StringTokenizer t, boolean showPC)
-			throws NoSessionException {
+	private void commandWhere(StringTokenizer t, boolean showPC) throws NoSessionException {
 		ThreadReference current = context.getCurrentThread();
 		if (!t.hasMoreTokens()) {
 			if (current == null) {
@@ -939,8 +885,7 @@ public class CommandInterpreter {
 				}
 			}
 
-			bpSpec = runtime.createMethodBreakpoint(classId, methodName,
-					argumentList);
+			bpSpec = runtime.createMethodBreakpoint(classId, methodName, argumentList);
 		}
 		// } catch (Exception e) {
 		// env.error("Exception attempting to create breakpoint: " + e);
@@ -996,8 +941,7 @@ public class CommandInterpreter {
 				for (EventRequestSpec spec : specs) {
 					if (spec instanceof BreakpointSpec) {
 						runtime.delete(spec);
-						sourceManager.getSourceTool().getLineNumberView()
-								.repaint();
+						sourceManager.getSourceTool().getLineNumberView().repaint();
 					}
 				}
 			}
@@ -1053,8 +997,7 @@ public class CommandInterpreter {
 				env.failure("Current method is native.");
 				return;
 			}
-			env.failure("No source available for " + Utils.locationString(loc)
-					+ ".");
+			env.failure("No source available for " + Utils.locationString(loc) + ".");
 			return;
 		}
 		ReferenceType refType = loc.declaringType();
@@ -1068,12 +1011,10 @@ public class CommandInterpreter {
 				// It isn't -- see if it's a method name.
 				List<Method> meths = refType.methodsByName(id);
 				if (meths == null || meths.size() == 0) {
-					env.failure(id + " is not a valid line number or "
-							+ "method name for class " + refType.name());
+					env.failure(id + " is not a valid line number or " + "method name for class " + refType.name());
 					return;
 				} else if (meths.size() > 1) {
-					env.failure(id + " is an ambiguous method name in"
-							+ refType.name());
+					env.failure(id + " is an ambiguous method name in" + refType.name());
 					return;
 				}
 				loc = meths.get(0).location();
@@ -1084,8 +1025,7 @@ public class CommandInterpreter {
 		int endLine = startLine + 9;
 		String sourceLine = source.sourceLine(lineno);
 		if (sourceLine == null) {
-			env.failure("" + lineno + " is an invalid line number for "
-					+ refType.name());
+			env.failure("" + lineno + " is an invalid line number for " + refType.name());
 		} else {
 			OutputSink out = env.getOutputSink();
 			for (int i = startLine; i <= endLine; i++) {
@@ -1163,8 +1103,7 @@ public class CommandInterpreter {
 				 * env.viewLocation(cls.location()); } else {
 				 * env.failure("No such class"); }
 				 *****/
-				String fileName = name.replace('.', File.separatorChar)
-						+ ".java";
+				String fileName = name.replace('.', File.separatorChar) + ".java";
 				env.viewSource(fileName);
 				sourceManager.getSourceTool().getLineNumberView().repaint();
 			}
@@ -1177,8 +1116,7 @@ public class CommandInterpreter {
 	private void commandLocals() throws NoSessionException {
 		ThreadReference current = context.getCurrentThread();
 		if (current == null) {
-			env.failure("No default thread specified: "
-					+ "use the \"thread\" command first.");
+			env.failure("No default thread specified: " + "use the \"thread\" command first.");
 			return;
 		}
 		StackFrame frame;
@@ -1260,8 +1198,7 @@ public class CommandInterpreter {
 	// Command: print
 	// Evaluate an expression.
 
-	private void commandPrint(StringTokenizer t, boolean dumpObject)
-			throws NoSessionException {
+	private void commandPrint(StringTokenizer t, boolean dumpObject) throws NoSessionException {
 		if (!t.hasMoreTokens()) {
 			// ### Probably confused if expresion contains whitespace.
 			env.error("No expression specified.");
@@ -1269,8 +1206,7 @@ public class CommandInterpreter {
 		}
 		ThreadReference current = context.getCurrentThread();
 		if (current == null) {
-			env.failure("No default thread specified: "
-					+ "use the \"thread\" command first.");
+			env.failure("No default thread specified: " + "use the \"thread\" command first.");
 			return;
 		}
 		StackFrame frame;
@@ -1297,8 +1233,7 @@ public class CommandInterpreter {
 				return; // Error message already printed
 			}
 			OutputSink out = env.getOutputSink();
-			if (dumpObject && (val instanceof ObjectReference)
-					&& !(val instanceof StringReference)) {
+			if (dumpObject && (val instanceof ObjectReference) && !(val instanceof StringReference)) {
 				ObjectReference obj = (ObjectReference) val;
 				ReferenceType refType = obj.referenceType();
 				out.println(expr + " = " + val.toString() + " {");
@@ -1311,8 +1246,7 @@ public class CommandInterpreter {
 		}
 	}
 
-	private void dump(OutputSink out, ObjectReference obj,
-			ReferenceType refType, ReferenceType refTypeBase) {
+	private void dump(OutputSink out, ObjectReference obj, ReferenceType refType, ReferenceType refTypeBase) {
 		for (Field field : refType.fields()) {
 			out.print("    ");
 			if (!refType.equals(refTypeBase)) {
@@ -1328,16 +1262,13 @@ public class CommandInterpreter {
 				dump(out, obj, sup, refTypeBase);
 			}
 		} else if (refType instanceof InterfaceType) {
-			for (InterfaceType sup : ((InterfaceType) refType)
-					.superinterfaces()) {
+			for (InterfaceType sup : ((InterfaceType) refType).superinterfaces()) {
 				dump(out, obj, sup, refTypeBase);
 			}
 		}
 	}
 
-	/*
-	 * Display help message.
-	 */
+	/* Display help message. */
 
 	private void help() {
 		out.println("** command list **");
@@ -1395,9 +1326,7 @@ public class CommandInterpreter {
 		out.println("exit (or quit)            -- exit debugger");
 	}
 
-	/*
-	 * Execute a command.
-	 */
+	/* Execute a command. */
 
 	public void executeCommand(String command) {
 		// ### Treatment of 'out' here is dirty...

@@ -1,49 +1,21 @@
-/*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
+/* Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms. */
 
-/*
- * This source code is provided to illustrate the usage of a given feature
+/* This source code is provided to illustrate the usage of a given feature
  * or technique and has been deliberately simplified. Additional steps
  * required for a production-quality application, such as security checks,
  * input validation and proper error handling, might not be present in
- * this sample code.
- */
+ * this sample code. */
 
 package debugger.gui;
 
 import java.io.*;
 import java.util.*;
-
 import javax.swing.*;
-
 import java.awt.BorderLayout;
 import java.awt.event.*;
-
 import com.sun.jdi.*;
 import com.sun.jdi.event.*;
-
 import debugger.bdi.*;
 import debugger.event.*;
 
@@ -80,6 +52,7 @@ public class CommandTool extends JPanel {
 		// Establish handler for incoming commands.
 
 		script.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				interpreter.executeCommand(script.readln());
@@ -88,8 +61,7 @@ public class CommandTool extends JPanel {
 
 		// Establish ourselves as the listener for VM diagnostics.
 
-		OutputListener diagnosticsListener = new TypeScriptOutputListener(
-				script, true);
+		OutputListener diagnosticsListener = new TypeScriptOutputListener(script, true);
 		runtime.addDiagnosticsListener(diagnosticsListener);
 
 		// Establish ourselves as the shared debugger typescript.
@@ -109,8 +81,7 @@ public class CommandTool extends JPanel {
 
 	}
 
-	private class TTYDebugListener implements JDIListener, SessionListener,
-			SpecListener, ContextListener {
+	private class TTYDebugListener implements JDIListener, SessionListener, SpecListener, ContextListener {
 
 		private OutputListener diagnostics;
 		private List<String> waitCommand = new ArrayList<>();
@@ -150,8 +121,7 @@ public class CommandTool extends JPanel {
 		@Override
 		public void classUnload(ClassUnloadEventSet e) {
 			if (context.getVerboseFlag()) {
-				diagnostics.putString("Class " + e.getClassName()
-						+ " unloaded.");
+				diagnostics.putString("Class " + e.getClassName() + " unloaded.");
 			}
 		}
 
@@ -179,13 +149,9 @@ public class CommandTool extends JPanel {
 					diagnostics.putString("Step completed: " + locString);
 
 					// locstringからパッケージ名を取得
-					String pacName = locString.substring(
-							locString.indexOf(" ") + 1,
-							locString.indexOf(".") + 1);
+					String pacName = locString.substring(locString.indexOf(" ") + 1, locString.indexOf(".") + 1);
 					// locstringからメソッド名を取得
-					String methodName = locString.substring(
-							locString.indexOf(" ") + 1,
-							locString.lastIndexOf(" ") - 1);
+					String methodName = locString.substring(locString.indexOf(" ") + 1, locString.lastIndexOf(" ") - 1);
 
 					if (pacName.startsWith("java.")) {
 						// パッケージ名がjavaから始まる処理はスキップ
@@ -244,8 +210,7 @@ public class CommandTool extends JPanel {
 			script.setPrompt(DEFAULT_CMD_PROMPT);
 			diagnostics.putString("Disconnected from VM");
 			// VMとの接続を切断したらソースを初期値に戻す
-			sourceManager.getSourceTool().showSourceFile(
-					sourceManager.getFirstSourceModel());
+			sourceManager.getSourceTool().showSourceFile(sourceManager.getFirstSourceModel());
 			// 実行行を初期値に戻す
 			sourceManager.getSourceTool().setExcuteLine(-1);
 			// BPや実行可能行情報を削除
@@ -290,22 +255,19 @@ public class CommandTool extends JPanel {
 		@Override
 		public void breakpointDeferred(SpecEvent e) {
 			EventRequestSpec spec = e.getEventRequestSpec();
-			diagnostics.putString("Breakpoint will be set at " + spec
-					+ " when its class is loaded.");
+			diagnostics.putString("Breakpoint will be set at " + spec + " when its class is loaded.");
 		}
 
 		@Override
 		public void breakpointDeleted(SpecEvent e) {
 			EventRequestSpec spec = e.getEventRequestSpec();
-			diagnostics.putString("Breakpoint at " + spec.toString()
-					+ " deleted.");
+			diagnostics.putString("Breakpoint at " + spec.toString() + " deleted.");
 		}
 
 		@Override
 		public void breakpointResolved(SpecEvent e) {
 			EventRequestSpec spec = e.getEventRequestSpec();
-			diagnostics.putString("Breakpoint resolved to " + spec.toString()
-					+ ".");
+			diagnostics.putString("Breakpoint resolved to " + spec.toString() + ".");
 		}
 
 		@Override
@@ -313,13 +275,10 @@ public class CommandTool extends JPanel {
 			EventRequestSpec spec = e.getEventRequestSpec();
 			if (spec instanceof LineBreakpointSpec) {
 				LineBreakpointSpec bp = (LineBreakpointSpec) spec;
-				PatternReferenceTypeSpec prSpec = (PatternReferenceTypeSpec) bp
-						.getRefSpec();
-				waitCommand.add("clear " + prSpec.toString() + ":"
-						+ bp.lineNumber());
+				PatternReferenceTypeSpec prSpec = (PatternReferenceTypeSpec) bp.getRefSpec();
+				waitCommand.add("clear " + prSpec.toString() + ":" + bp.lineNumber());
 			}
-			diagnostics.putString("Deferred breakpoint at " + spec
-					+ " could not be resolved:" + e.getReason());
+			diagnostics.putString("Deferred breakpoint at " + spec + " could not be resolved:" + e.getReason());
 		}
 
 		// ### Add info for watchpoints and exceptions
@@ -381,8 +340,7 @@ public class CommandTool extends JPanel {
 
 	private String locationString(LocatableEventSet e) {
 		Location loc = e.getLocation();
-		return "thread=\"" + e.getThread().name() + "\", "
-				+ Utils.locationString(loc);
+		return "thread=\"" + e.getThread().name() + "\", " + Utils.locationString(loc);
 	}
 
 	private void setThread(LocatableEventSet e) {

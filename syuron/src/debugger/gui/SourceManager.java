@@ -1,43 +1,17 @@
-/*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
+/* Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms. */
 
-/*
- * This source code is provided to illustrate the usage of a given feature
+/* This source code is provided to illustrate the usage of a given feature
  * or technique and has been deliberately simplified. Additional steps
  * required for a production-quality application, such as security checks,
  * input validation and proper error handling, might not be present in
- * this sample code.
- */
+ * this sample code. */
 
 package debugger.gui;
 
 import java.io.*;
 import java.util.*;
-
 import com.sun.jdi.*;
-
 import debugger.event.*;
 
 /**
@@ -96,8 +70,7 @@ public class SourceManager {
 	}
 
 	private void notifySourcepathChanged() {
-		ArrayList<SourceListener> l = new ArrayList<SourceListener>(
-				sourceListeners);
+		ArrayList<SourceListener> l = new ArrayList<SourceListener>(sourceListeners);
 		SourcepathChangedEvent evt = new SourcepathChangedEvent(this);
 		for (int i = 0; i < l.size(); i++) {
 			l.get(i).sourcepathChanged(evt);
@@ -181,17 +154,17 @@ public class SourceManager {
 	public String getFirstSourceModel() {
 		return firestSourceModel;
 	}
-	
+
 	public void setFirstSourceModel(String sourceModel) {
 		firestSourceModel = sourceModel;
 	}
-	
+
 	public void clearmarkClassLines() {
-		for(SourceModel sm : sourceList) {
+		for (SourceModel sm : sourceList) {
 			sm.clearClassLines();
 		}
 	}
-	
+
 	private class SMClassListener extends JDIAdapter implements JDIListener {
 
 		@Override

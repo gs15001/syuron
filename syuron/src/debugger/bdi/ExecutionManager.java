@@ -1,35 +1,11 @@
-/*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
+/* Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms. */
 
-/*
- * This source code is provided to illustrate the usage of a given feature
+/* This source code is provided to illustrate the usage of a given feature
  * or technique and has been deliberately simplified. Additional steps
  * required for a production-quality application, such as security checks,
  * input validation and proper error handling, might not be present in
- * this sample code.
- */
+ * this sample code. */
 
 package debugger.bdi;
 
@@ -38,12 +14,9 @@ import com.sun.jdi.request.*;
 import com.sun.jdi.connect.*;
 import com.sun.tools.example.debug.expr.ExpressionParser;
 import com.sun.tools.example.debug.expr.ParseException;
-
 import java.io.*;
 import java.util.*;
-
 import debugger.event.*;
-
 import javax.swing.SwingUtilities;
 
 /**
@@ -217,8 +190,7 @@ public class ExecutionManager {
 	 * In general, we must return a list of types, because multiple class
 	 * loaders could have loaded a class with the same fully-qualified name.
 	 */
-	public List<ReferenceType> findClassesByName(String name)
-			throws NoSessionException {
+	public List<ReferenceType> findClassesByName(String name) throws NoSessionException {
 		ensureActiveSession();
 		return vm().classesByName(name);
 	}
@@ -230,8 +202,7 @@ public class ExecutionManager {
 	 * fully-qualified class name in which the first component may optionally be
 	 * a "*" character, designating an arbitrary prefix.
 	 */
-	public List<ReferenceType> findClassesMatchingPattern(String pattern)
-			throws NoSessionException {
+	public List<ReferenceType> findClassesMatchingPattern(String pattern) throws NoSessionException {
 		ensureActiveSession();
 		List<ReferenceType> result = new ArrayList<ReferenceType>(); // ### Is
 																		// default
@@ -252,55 +223,43 @@ public class ExecutionManager {
 		}
 	}
 
-	/*
-	 * Return a list of ThreadReference objects corresponding to the threads
+	/* Return a list of ThreadReference objects corresponding to the threads
 	 * that are currently active in the VM. A thread is removed from the list
-	 * just before the thread terminates.
-	 */
+	 * just before the thread terminates. */
 
 	public List<ThreadReference> allThreads() throws NoSessionException {
 		ensureActiveSession();
 		return vm().allThreads();
 	}
 
-	/*
-	 * Return a list of ThreadGroupReference objects corresponding to the
+	/* Return a list of ThreadGroupReference objects corresponding to the
 	 * top-level threadgroups that are currently active in the VM. Note that a
-	 * thread group may be empty, or contain no threads as descendents.
-	 */
+	 * thread group may be empty, or contain no threads as descendents. */
 
-	public List<ThreadGroupReference> topLevelThreadGroups()
-			throws NoSessionException {
+	public List<ThreadGroupReference> topLevelThreadGroups() throws NoSessionException {
 		ensureActiveSession();
 		return vm().topLevelThreadGroups();
 	}
 
-	/*
-	 * Return the system threadgroup.
-	 */
+	/* Return the system threadgroup. */
 
 	public ThreadGroupReference systemThreadGroup() throws NoSessionException {
 		ensureActiveSession();
 		return vm().topLevelThreadGroups().get(0);
 	}
 
-	/*
-	 * Evaluate an expression.
-	 */
+	/* Evaluate an expression. */
 
-	public Value evaluate(final StackFrame f, String expr)
-			throws ParseException, InvocationException, InvalidTypeException,
-			ClassNotLoadedException, NoSessionException,
-			IncompatibleThreadStateException {
+	public Value evaluate(final StackFrame f, String expr) throws ParseException, InvocationException,
+			InvalidTypeException, ClassNotLoadedException, NoSessionException, IncompatibleThreadStateException {
 		ExpressionParser.GetFrame frameGetter = null;
 		ensureActiveSession();
 		if (f != null) {
 			frameGetter = new ExpressionParser.GetFrame() {
+
 				@Override
-				public StackFrame get() /*
-										 * throws
-										 * IncompatibleThreadStateException
-										 */{
+				public StackFrame get() /* throws
+										 * IncompatibleThreadStateException */{
 					return f;
 				}
 			};
@@ -308,12 +267,9 @@ public class ExecutionManager {
 		return ExpressionParser.evaluate(expr, vm(), frameGetter);
 	}
 
-	/*
-	 * Start a new VM.
-	 */
+	/* Start a new VM. */
 
-	public void run(boolean suspended, String vmArgs, String className,
-			String args) throws VMLaunchFailureException {
+	public void run(boolean suspended, String vmArgs, String className, String args) throws VMLaunchFailureException {
 
 		endSession();
 
@@ -331,13 +287,10 @@ public class ExecutionManager {
 		}
 
 		String cmdLine = className + " " + args;
-		startSession(new ChildSession(this, vmArgs, cmdLine, appInput,
-				appOutput, appError, diagnostics));
+		startSession(new ChildSession(this, vmArgs, cmdLine, appInput, appOutput, appError, diagnostics));
 	}
 
-	/*
-	 * Attach to an existing VM.
-	 */
+	/* Attach to an existing VM. */
 	public void attach(String portName) throws VMLaunchFailureException {
 		endSession();
 
@@ -346,14 +299,11 @@ public class ExecutionManager {
 		// ### method is intended to encapsulate all of the various
 		// ### ways in which session start-up can fail. (maddox 12/18/98)
 
-		/*
-		 * Now that attaches and launches both go through Connectors, it may be
-		 * worth creating a new subclass of Session for attach sessions.
-		 */
+		/* Now that attaches and launches both go through Connectors, it may be
+		 * worth creating a new subclass of Session for attach sessions. */
 		VirtualMachineManager mgr = Bootstrap.virtualMachineManager();
 		AttachingConnector connector = mgr.attachingConnectors().get(0);
-		Map<String, Connector.Argument> arguments = connector
-				.defaultArguments();
+		Map<String, Connector.Argument> arguments = connector.defaultArguments();
 		arguments.get("port").setValue(portName);
 
 		Session newSession = internalAttach(connector, arguments);
@@ -362,44 +312,34 @@ public class ExecutionManager {
 		}
 	}
 
-	private Session internalAttach(AttachingConnector connector,
-			Map<String, Connector.Argument> arguments) {
+	private Session internalAttach(AttachingConnector connector, Map<String, Connector.Argument> arguments) {
 		try {
 			VirtualMachine vm = connector.attach(arguments);
 			return new Session(vm, this, diagnostics);
 		} catch (IOException ioe) {
-			diagnostics.putString("\n Unable to attach to target VM: "
-					+ ioe.getMessage());
+			diagnostics.putString("\n Unable to attach to target VM: " + ioe.getMessage());
 		} catch (IllegalConnectorArgumentsException icae) {
-			diagnostics.putString("\n Invalid connector arguments: "
-					+ icae.getMessage());
+			diagnostics.putString("\n Invalid connector arguments: " + icae.getMessage());
 		}
 		return null;
 	}
 
-	private Session internalListen(ListeningConnector connector,
-			Map<String, Connector.Argument> arguments) {
+	private Session internalListen(ListeningConnector connector, Map<String, Connector.Argument> arguments) {
 		try {
 			VirtualMachine vm = connector.accept(arguments);
 			return new Session(vm, this, diagnostics);
 		} catch (IOException ioe) {
-			diagnostics
-					.putString("\n Unable to accept connection to target VM: "
-							+ ioe.getMessage());
+			diagnostics.putString("\n Unable to accept connection to target VM: " + ioe.getMessage());
 		} catch (IllegalConnectorArgumentsException icae) {
-			diagnostics.putString("\n Invalid connector arguments: "
-					+ icae.getMessage());
+			diagnostics.putString("\n Invalid connector arguments: " + icae.getMessage());
 		}
 		return null;
 	}
 
-	/*
-	 * Connect via user specified arguments
+	/* Connect via user specified arguments
 	 * 
-	 * @return true on success
-	 */
-	public boolean explictStart(Connector connector,
-			Map<String, Connector.Argument> arguments)
+	 * @return true on success */
+	public boolean explictStart(Connector connector, Map<String, Connector.Argument> arguments)
 			throws VMLaunchFailureException {
 		Session newSession = null;
 
@@ -407,14 +347,12 @@ public class ExecutionManager {
 
 		if (connector instanceof LaunchingConnector) {
 			// we were launched, use ChildSession
-			newSession = new ChildSession(this, (LaunchingConnector) connector,
-					arguments, appInput, appOutput, appError, diagnostics);
+			newSession = new ChildSession(this, (LaunchingConnector) connector, arguments, appInput, appOutput,
+					appError, diagnostics);
 		} else if (connector instanceof AttachingConnector) {
-			newSession = internalAttach((AttachingConnector) connector,
-					arguments);
+			newSession = internalAttach((AttachingConnector) connector, arguments);
 		} else if (connector instanceof ListeningConnector) {
-			newSession = internalListen((ListeningConnector) connector,
-					arguments);
+			newSession = internalListen((ListeningConnector) connector, arguments);
 		} else {
 			diagnostics.putString("\n Unknown connector: " + connector);
 		}
@@ -424,9 +362,7 @@ public class ExecutionManager {
 		return newSession != null;
 	}
 
-	/*
-	 * Detach from VM. If VM was started by debugger, terminate it.
-	 */
+	/* Detach from VM. If VM was started by debugger, terminate it. */
 	public void detach() throws NoSessionException {
 		ensureActiveSession();
 		endSession();
@@ -438,8 +374,7 @@ public class ExecutionManager {
 		}
 		session = s;
 		EventRequestManager em = vm().eventRequestManager();
-		ClassPrepareRequest classPrepareRequest = em
-				.createClassPrepareRequest();
+		ClassPrepareRequest classPrepareRequest = em.createClassPrepareRequest();
 		// ### We must allow the deferred breakpoints to be resolved before
 		// ### we continue executing the class. We could optimize if there
 		// ### were no deferred breakpoints outstanding for a particular class.
@@ -455,8 +390,7 @@ public class ExecutionManager {
 		ThreadDeathRequest threadDeathRequest = em.createThreadDeathRequest();
 		threadDeathRequest.setSuspendPolicy(EventRequest.SUSPEND_NONE);
 		threadDeathRequest.enable();
-		ExceptionRequest exceptionRequest = em.createExceptionRequest(null,
-				false, true);
+		ExceptionRequest exceptionRequest = em.createExceptionRequest(null, false, true);
 		exceptionRequest.setSuspendPolicy(EventRequest.SUSPEND_ALL);
 		exceptionRequest.enable();
 		validateThreadInfo();
@@ -473,9 +407,7 @@ public class ExecutionManager {
 		}
 	}
 
-	/*
-	 * Suspend all VM activity.
-	 */
+	/* Suspend all VM activity. */
 
 	public void interrupt() throws NoSessionException {
 		ensureActiveSession();
@@ -486,9 +418,7 @@ public class ExecutionManager {
 		notifyInterrupted();
 	}
 
-	/*
-	 * Resume interrupted VM.
-	 */
+	/* Resume interrupted VM. */
 
 	public void go() throws NoSessionException, VMNotInterruptedException {
 		ensureActiveSession();
@@ -498,14 +428,10 @@ public class ExecutionManager {
 		vm().resume();
 	}
 
-	/*
-	 * Stepping.
-	 */
+	/* Stepping. */
 	void clearPreviousStep(ThreadReference thread) {
-		/*
-		 * A previous step may not have completed on this thread; if so, it gets
-		 * removed here.
-		 */
+		/* A previous step may not have completed on this thread; if so, it gets
+		 * removed here. */
 		EventRequestManager mgr = vm().eventRequestManager();
 		for (StepRequest request : mgr.stepRequests()) {
 			if (request.thread().equals(thread)) {
@@ -515,8 +441,7 @@ public class ExecutionManager {
 		}
 	}
 
-	private void generalStep(ThreadReference thread, int size, int depth)
-			throws NoSessionException {
+	private void generalStep(ThreadReference thread, int size, int depth) throws NoSessionException {
 		ensureActiveSession();
 		invalidateThreadInfo();
 		session.interrupted = false;
@@ -531,23 +456,19 @@ public class ExecutionManager {
 		vm().resume();
 	}
 
-	public void stepIntoInstruction(ThreadReference thread)
-			throws NoSessionException {
+	public void stepIntoInstruction(ThreadReference thread) throws NoSessionException {
 		generalStep(thread, StepRequest.STEP_MIN, StepRequest.STEP_INTO);
 	}
 
-	public void stepOverInstruction(ThreadReference thread)
-			throws NoSessionException {
+	public void stepOverInstruction(ThreadReference thread) throws NoSessionException {
 		generalStep(thread, StepRequest.STEP_MIN, StepRequest.STEP_OVER);
 	}
 
-	public void stepIntoLine(ThreadReference thread) throws NoSessionException,
-			AbsentInformationException {
+	public void stepIntoLine(ThreadReference thread) throws NoSessionException, AbsentInformationException {
 		generalStep(thread, StepRequest.STEP_LINE, StepRequest.STEP_INTO);
 	}
 
-	public void stepOverLine(ThreadReference thread) throws NoSessionException,
-			AbsentInformationException {
+	public void stepOverLine(ThreadReference thread) throws NoSessionException, AbsentInformationException {
 		generalStep(thread, StepRequest.STEP_LINE, StepRequest.STEP_OVER);
 	}
 
@@ -555,9 +476,7 @@ public class ExecutionManager {
 		generalStep(thread, StepRequest.STEP_MIN, StepRequest.STEP_OUT);
 	}
 
-	/*
-	 * Thread control.
-	 */
+	/* Thread control. */
 
 	public void suspendThread(ThreadReference thread) throws NoSessionException {
 		ensureActiveSession();
@@ -575,9 +494,7 @@ public class ExecutionManager {
 		// thread.stop();
 	}
 
-	/*
-	 * ThreadInfo objects -- Allow query of thread status and stack.
-	 */
+	/* ThreadInfo objects -- Allow query of thread status and stack. */
 
 	private List<ThreadInfo> threadInfoList = new LinkedList<ThreadInfo>();
 	// ### Should be weak! (in the value, not the key)
@@ -626,13 +543,10 @@ public class ExecutionManager {
 		}
 	}
 
-	/*
-	 * Listen for Session control events.
-	 */
+	/* Listen for Session control events. */
 
 	private void notifyInterrupted() {
-		ArrayList<SessionListener> l = new ArrayList<SessionListener>(
-				sessionListeners);
+		ArrayList<SessionListener> l = new ArrayList<SessionListener>(sessionListeners);
 		EventObject evt = new EventObject(this);
 		for (int i = 0; i < l.size(); i++) {
 			l.get(i).sessionInterrupt(evt);
@@ -640,8 +554,7 @@ public class ExecutionManager {
 	}
 
 	private void notifyContinued() {
-		ArrayList<SessionListener> l = new ArrayList<SessionListener>(
-				sessionListeners);
+		ArrayList<SessionListener> l = new ArrayList<SessionListener>(sessionListeners);
 		EventObject evt = new EventObject(this);
 		for (int i = 0; i < l.size(); i++) {
 			l.get(i).sessionContinue(evt);
@@ -649,8 +562,7 @@ public class ExecutionManager {
 	}
 
 	private void notifySessionStart() {
-		ArrayList<SessionListener> l = new ArrayList<SessionListener>(
-				sessionListeners);
+		ArrayList<SessionListener> l = new ArrayList<SessionListener>(sessionListeners);
 		EventObject evt = new EventObject(this);
 		for (int i = 0; i < l.size(); i++) {
 			l.get(i).sessionStart(evt);
@@ -666,11 +578,9 @@ public class ExecutionManager {
 		 ****/
 	}
 
-	/*
-	 * Listen for input and output requests from the application being debugged.
+	/* Listen for input and output requests from the application being debugged.
 	 * These are generated only when the debuggee is spawned as a child of the
-	 * debugger.
-	 */
+	 * debugger. */
 
 	private Object inputLock = new Object();
 	private LinkedList<String> inputBuffer = new LinkedList<String>();
@@ -689,6 +599,7 @@ public class ExecutionManager {
 	}
 
 	private InputListener appInput = new InputListener() {
+
 		@Override
 		public String getLine() {
 			// Don't allow reader to be interrupted -- catch and retry.
@@ -710,6 +621,7 @@ public class ExecutionManager {
 			// Run in Swing event dispatcher thread.
 			final String input = line;
 			SwingUtilities.invokeLater(new Runnable() {
+
 				@Override
 				public void run() {
 					echoInputLine(input);
@@ -722,8 +634,7 @@ public class ExecutionManager {
 	private static String newline = System.getProperty("line.separator");
 
 	private void echoInputLine(String line) {
-		ArrayList<OutputListener> l = new ArrayList<OutputListener>(
-				appEchoListeners);
+		ArrayList<OutputListener> l = new ArrayList<OutputListener>(appEchoListeners);
 		for (int i = 0; i < l.size(); i++) {
 			OutputListener ol = l.get(i);
 			ol.putString(line);
@@ -732,10 +643,10 @@ public class ExecutionManager {
 	}
 
 	private OutputListener appOutput = new OutputListener() {
+
 		@Override
 		public void putString(String string) {
-			ArrayList<OutputListener> l = new ArrayList<OutputListener>(
-					appEchoListeners);
+			ArrayList<OutputListener> l = new ArrayList<OutputListener>(appEchoListeners);
 			for (int i = 0; i < l.size(); i++) {
 				l.get(i).putString(string);
 			}
@@ -743,10 +654,10 @@ public class ExecutionManager {
 	};
 
 	private OutputListener appError = new OutputListener() {
+
 		@Override
 		public void putString(String string) {
-			ArrayList<OutputListener> l = new ArrayList<OutputListener>(
-					appEchoListeners);
+			ArrayList<OutputListener> l = new ArrayList<OutputListener>(appEchoListeners);
 			for (int i = 0; i < l.size(); i++) {
 				l.get(i).putString(string);
 			}
@@ -754,10 +665,10 @@ public class ExecutionManager {
 	};
 
 	private OutputListener diagnostics = new OutputListener() {
+
 		@Override
 		public void putString(String string) {
-			ArrayList<OutputListener> l = new ArrayList<OutputListener>(
-					diagnosticsListeners);
+			ArrayList<OutputListener> l = new ArrayList<OutputListener>(diagnosticsListeners);
 			for (int i = 0; i < l.size(); i++) {
 				l.get(i).putString(string);
 			}
@@ -772,30 +683,23 @@ public class ExecutionManager {
 		return specList.createSourceLineBreakpoint(sourceName, line);
 	}
 
-	public BreakpointSpec createClassLineBreakpoint(String classPattern,
-			int line) {
+	public BreakpointSpec createClassLineBreakpoint(String classPattern, int line) {
 		return specList.createClassLineBreakpoint(classPattern, line);
 	}
 
-	public BreakpointSpec createMethodBreakpoint(String classPattern,
-			String methodId, List<String> methodArgs) {
-		return specList.createMethodBreakpoint(classPattern, methodId,
-				methodArgs);
+	public BreakpointSpec createMethodBreakpoint(String classPattern, String methodId, List<String> methodArgs) {
+		return specList.createMethodBreakpoint(classPattern, methodId, methodArgs);
 	}
 
-	public ExceptionSpec createExceptionIntercept(String classPattern,
-			boolean notifyCaught, boolean notifyUncaught) {
-		return specList.createExceptionIntercept(classPattern, notifyCaught,
-				notifyUncaught);
+	public ExceptionSpec createExceptionIntercept(String classPattern, boolean notifyCaught, boolean notifyUncaught) {
+		return specList.createExceptionIntercept(classPattern, notifyCaught, notifyUncaught);
 	}
 
-	public AccessWatchpointSpec createAccessWatchpoint(String classPattern,
-			String fieldId) {
+	public AccessWatchpointSpec createAccessWatchpoint(String classPattern, String fieldId) {
 		return specList.createAccessWatchpoint(classPattern, fieldId);
 	}
 
-	public ModificationWatchpointSpec createModificationWatchpoint(
-			String classPattern, String fieldId) {
+	public ModificationWatchpointSpec createModificationWatchpoint(String classPattern, String fieldId) {
 		return specList.createModificationWatchpoint(classPattern, fieldId);
 	}
 

@@ -1,42 +1,17 @@
-/*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
+/* Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms. */
 
-/*
- * This source code is provided to illustrate the usage of a given feature
+/* This source code is provided to illustrate the usage of a given feature
  * or technique and has been deliberately simplified. Additional steps
  * required for a production-quality application, such as security checks,
  * input validation and proper error handling, might not be present in
- * this sample code.
- */
+ * this sample code. */
 
 package debugger.gui;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
 import debugger.bdi.*;
 
 public class ApplicationTool extends JPanel {
@@ -59,6 +34,7 @@ public class ApplicationTool extends JPanel {
 		this.add(script);
 
 		script.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				runtime.sendLineToApplication(script.readln());
@@ -66,8 +42,7 @@ public class ApplicationTool extends JPanel {
 		});
 
 		runtime.addApplicationEchoListener(new TypeScriptOutputListener(script));
-		runtime.addApplicationOutputListener(new TypeScriptOutputListener(
-				script));
+		runtime.addApplicationOutputListener(new TypeScriptOutputListener(script));
 		runtime.addApplicationErrorListener(new TypeScriptOutputListener(script));
 
 		// ### should clean up on exit!

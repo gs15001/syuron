@@ -1,49 +1,24 @@
-/*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
+/* Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms. */
 
-/*
- * This source code is provided to illustrate the usage of a given feature
+/* This source code is provided to illustrate the usage of a given feature
  * or technique and has been deliberately simplified. Additional steps
  * required for a production-quality application, such as security checks,
  * input validation and proper error handling, might not be present in
- * this sample code.
- */
+ * this sample code. */
 
 package debugger.bdi;
 
 import com.sun.jdi.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class MethodBreakpointSpec extends BreakpointSpec {
+
 	String methodId;
 	List<String> methodArgs;
 
-	MethodBreakpointSpec(EventRequestSpecList specs, ReferenceTypeSpec refSpec,
-			String methodId, List<String> methodArgs) {
+	MethodBreakpointSpec(EventRequestSpecList specs, ReferenceTypeSpec refSpec, String methodId, List<String> methodArgs) {
 		super(specs, refSpec);
 		this.methodId = methodId;
 		this.methodArgs = methodArgs;
@@ -53,9 +28,8 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 	 * The 'refType' is known to match.
 	 */
 	@Override
-	void resolve(ReferenceType refType) throws MalformedMemberNameException,
-			AmbiguousMethodException, InvalidTypeException,
-			NoSuchMethodException, NoSessionException {
+	void resolve(ReferenceType refType) throws MalformedMemberNameException, AmbiguousMethodException,
+			InvalidTypeException, NoSuchMethodException, NoSessionException {
 		if (!isValidMethodName(methodId)) {
 			throw new MalformedMemberNameException(methodId);
 		}
@@ -63,13 +37,12 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 			throw new InvalidTypeException();
 		}
 		Location location = location((ClassType) refType);
-		setRequest(refType.virtualMachine().eventRequestManager()
-				.createBreakpointRequest(location));
+		setRequest(refType.virtualMachine().eventRequestManager().createBreakpointRequest(location));
 		System.out.println("Create MethodBP");
 	}
 
-	private Location location(ClassType clazz) throws AmbiguousMethodException,
-			NoSuchMethodException, NoSessionException {
+	private Location location(ClassType clazz) throws AmbiguousMethodException, NoSuchMethodException,
+			NoSessionException {
 		Method method = findMatchingMethod(clazz);
 		Location location = method.location();
 		return location;
@@ -85,8 +58,7 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 
 	@Override
 	public int hashCode() {
-		return refSpec.hashCode()
-				+ ((methodId != null) ? methodId.hashCode() : 0)
+		return refSpec.hashCode() + ((methodId != null) ? methodId.hashCode() : 0)
 				+ ((methodArgs != null) ? methodArgs.hashCode() : 0);
 	}
 
@@ -95,8 +67,7 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 		if (obj instanceof MethodBreakpointSpec) {
 			MethodBreakpointSpec breakpoint = (MethodBreakpointSpec) obj;
 
-			return methodId.equals(breakpoint.methodId)
-					&& methodArgs.equals(breakpoint.methodArgs)
+			return methodId.equals(breakpoint.methodId) && methodArgs.equals(breakpoint.methodArgs)
 					&& refSpec.equals(breakpoint.refSpec);
 		} else {
 			return false;
@@ -107,9 +78,7 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 	public String errorMessageFor(Exception e) {
 		if (e instanceof AmbiguousMethodException) {
 			return ("Method " + methodName() + " is overloaded; specify arguments");
-			/*
-			 * TO DO: list the methods here
-			 */
+			/* TO DO: list the methods here */
 		} else if (e instanceof NoSuchMethodException) {
 			return ("No method " + methodName() + " in " + refSpec);
 		} else if (e instanceof InvalidTypeException) {
@@ -144,16 +113,13 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 	}
 
 	private boolean isValidMethodName(String s) {
-		return isJavaIdentifier(s) || s.equals("<init>")
-				|| s.equals("<clinit>");
+		return isJavaIdentifier(s) || s.equals("<init>") || s.equals("<clinit>");
 	}
 
-	/*
-	 * Compare a method's argument types with a Vector of type names. Return
+	/* Compare a method's argument types with a Vector of type names. Return
 	 * true if each argument type has a name identical to the corresponding
 	 * string in the vector (allowing for varargs) and if the number of
-	 * arguments in the method matches the number of names passed
-	 */
+	 * arguments in the method matches the number of names passed */
 	private boolean compareArgTypes(Method method, List<String> nameList) {
 		List<String> argTypeNames = method.argumentTypeNames();
 
@@ -168,22 +134,17 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 			String comp1 = argTypeNames.get(i);
 			String comp2 = nameList.get(i);
 			if (!comp1.equals(comp2)) {
-				/*
-				 * We have to handle varargs. EG, the method's last arg type is
+				/* We have to handle varargs. EG, the method's last arg type is
 				 * xxx[] while the nameList contains xxx... Note that the
 				 * nameList can also contain xxx[] in which case we don't get
-				 * here.
-				 */
-				if (i != nTypes - 1 || !method.isVarArgs()
-						|| !comp2.endsWith("...")) {
+				 * here. */
+				if (i != nTypes - 1 || !method.isVarArgs() || !comp2.endsWith("...")) {
 					return false;
 				}
-				/*
-				 * The last types differ, it is a varargs method and the
+				/* The last types differ, it is a varargs method and the
 				 * nameList item is varargs. We just have to compare the type
 				 * names, eg, make sure we don't have xxx[] for the method arg
-				 * type and yyy... for the nameList item.
-				 */
+				 * type and yyy... for the nameList item. */
 				int comp1Length = comp1.length();
 				if (comp1Length + 1 != comp2.length()) {
 					// The type names are different lengths
@@ -210,19 +171,15 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 	 * if necessary and possible.
 	 */
 	private String normalizeArgTypeName(String name) throws NoSessionException {
-		/*
-		 * Separate the type name from any array modifiers, stripping whitespace
-		 * after the name ends.
-		 */
+		/* Separate the type name from any array modifiers, stripping whitespace
+		 * after the name ends. */
 		int i = 0;
 		StringBuffer typePart = new StringBuffer();
 		StringBuffer arrayPart = new StringBuffer();
 		name = name.trim();
 		int nameLength = name.length();
-		/*
-		 * For varargs, there can be spaces before the ... but not within the
-		 * ... So, we will just ignore the ... while stripping blanks.
-		 */
+		/* For varargs, there can be spaces before the ... but not within the
+		 * ... So, we will just ignore the ... while stripping blanks. */
 		boolean isVarArgs = name.endsWith("...");
 		if (isVarArgs) {
 			nameLength -= 3;
@@ -249,10 +206,8 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 
 		name = typePart.toString();
 
-		/*
-		 * When there's no sign of a package name already, try to expand the the
-		 * name to a fully qualified class name
-		 */
+		/* When there's no sign of a package name already, try to expand the the
+		 * name to a fully qualified class name */
 		if ((name.indexOf('.') == -1) || name.startsWith("*.")) {
 			try {
 				List<?> refs = specs.runtime.findClassesMatchingPattern(name);
@@ -270,13 +225,10 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 		return name;
 	}
 
-	/*
-	 * Attempt an unambiguous match of the method name and argument
+	/* Attempt an unambiguous match of the method name and argument
 	 * specification to a method. If no arguments are specified, the method must
-	 * not be overloaded. Otherwise, the argument types much match exactly
-	 */
-	private Method findMatchingMethod(ClassType clazz)
-			throws AmbiguousMethodException, NoSuchMethodException,
+	 * not be overloaded. Otherwise, the argument types much match exactly */
+	private Method findMatchingMethod(ClassType clazz) throws AmbiguousMethodException, NoSuchMethodException,
 			NoSessionException {
 
 		// Normalize the argument string once before looping below.
@@ -303,8 +255,7 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 				}
 
 				// If argument types were specified, check against candidate
-				if ((argTypeNames != null)
-						&& compareArgTypes(candidate, argTypeNames) == true) {
+				if ((argTypeNames != null) && compareArgTypes(candidate, argTypeNames) == true) {
 					exactMatch = candidate;
 					break;
 				}

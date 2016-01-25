@@ -1,42 +1,17 @@
-/*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
+/* Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms. */
 
-/*
- * This source code is provided to illustrate the usage of a given feature
+/* This source code is provided to illustrate the usage of a given feature
  * or technique and has been deliberately simplified. Additional steps
  * required for a production-quality application, such as security checks,
  * input validation and proper error handling, might not be present in
- * this sample code.
- */
+ * this sample code. */
 
 package debugger.event;
 
 import com.sun.jdi.*;
 import com.sun.jdi.event.*;
 import com.sun.jdi.request.*;
-
 import java.util.*;
 
 public abstract class AbstractEventSet extends EventObject implements EventSet {
@@ -55,7 +30,7 @@ public abstract class AbstractEventSet extends EventObject implements EventSet {
 
 	public static AbstractEventSet toSpecificEventSet(EventSet jdiEventSet) {
 		Event evt = jdiEventSet.eventIterator().nextEvent();
-		//System.out.println("Event : " + evt);
+		// System.out.println("Event : " + evt);
 		if (evt instanceof LocatableEvent) {
 			if (evt instanceof ExceptionEvent) {
 				return new ExceptionEventSet(jdiEventSet);
@@ -149,8 +124,7 @@ public abstract class AbstractEventSet extends EventObject implements EventSet {
 
 	/**
 	 * Returns the number of elements in this set (its cardinality). If this set
-	 * contains more than <tt>Integer.MAX_VALUE</tt> elements, returns
-	 * <tt>Integer.MAX_VALUE</tt>.
+	 * contains more than <tt>Integer.MAX_VALUE</tt> elements, returns <tt>Integer.MAX_VALUE</tt>.
 	 *
 	 * @return the number of elements in this set (its cardinality).
 	 */
@@ -207,8 +181,8 @@ public abstract class AbstractEventSet extends EventObject implements EventSet {
 
 	/**
 	 * Returns an array containing all of the elements in this set whose runtime
-	 * type is that of the specified array. Obeys the general contract of the
-	 * <tt>Collection.toArray(Object[])</tt> method.
+	 * type is that of the specified array. Obeys the general contract of the <tt>Collection.toArray(Object[])</tt>
+	 * method.
 	 *
 	 * @param a
 	 *            the array into which the elements of this set are to be

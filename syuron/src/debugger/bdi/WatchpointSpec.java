@@ -1,43 +1,19 @@
-/*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
+/* Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms. */
 
-/*
- * This source code is provided to illustrate the usage of a given feature
+/* This source code is provided to illustrate the usage of a given feature
  * or technique and has been deliberately simplified. Additional steps
  * required for a production-quality application, such as security checks,
  * input validation and proper error handling, might not be present in
- * this sample code.
- */
+ * this sample code. */
 
 package debugger.bdi;
 
 public abstract class WatchpointSpec extends EventRequestSpec {
+
 	final String fieldId;
 
-	WatchpointSpec(EventRequestSpecList specs, ReferenceTypeSpec refSpec,
-			String fieldId) {
+	WatchpointSpec(EventRequestSpecList specs, ReferenceTypeSpec refSpec, String fieldId) {
 		super(specs, refSpec);
 		this.fieldId = fieldId;
 		// if (!isJavaIdentifier(fieldId)) {
@@ -80,8 +56,7 @@ public abstract class WatchpointSpec extends EventRequestSpec {
 		if (obj instanceof WatchpointSpec) {
 			WatchpointSpec watchpoint = (WatchpointSpec) obj;
 
-			return fieldId.equals(watchpoint.fieldId)
-					&& refSpec.equals(watchpoint.refSpec)
+			return fieldId.equals(watchpoint.fieldId) && refSpec.equals(watchpoint.refSpec)
 					&& getClass().equals(watchpoint.getClass());
 		} else {
 			return false;

@@ -1,47 +1,20 @@
-/*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
+/* Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms. */
 
-/*
- * This source code is provided to illustrate the usage of a given feature
+/* This source code is provided to illustrate the usage of a given feature
  * or technique and has been deliberately simplified. Additional steps
  * required for a production-quality application, such as security checks,
  * input validation and proper error handling, might not be present in
- * this sample code.
- */
+ * this sample code. */
 
 package debugger.gui;
 
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
-
 import com.sun.jdi.*;
 import com.sun.jdi.request.*;
-
 import debugger.bdi.*;
 
 public class SourceTool extends JPanel {
@@ -125,8 +98,7 @@ public class SourceTool extends JPanel {
 		return lineNumberView;
 	}
 
-	private class SourceToolListener implements ContextListener,
-			SourceListener, SpecListener {
+	private class SourceToolListener implements ContextListener, SourceListener, SpecListener {
 
 		// ContextListener
 
@@ -334,11 +306,10 @@ public class SourceTool extends JPanel {
 	private class SourceLineRenderer extends DefaultListCellRenderer {
 
 		@Override
-		public Component getListCellRendererComponent(JList list, Object value,
-				int index, boolean isSelected, boolean cellHasFocus) {
+		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+				boolean cellHasFocus) {
 
-			super.getListCellRendererComponent(list, value, index, isSelected,
-					cellHasFocus);
+			super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
 			SourceModel.Line line = (SourceModel.Line) value;
 			String text = line.text;
@@ -382,6 +353,7 @@ public class SourceTool extends JPanel {
 		}
 
 		protected class MyJTextPane extends JTextPane {
+
 			private static final long serialVersionUID = 1L;
 
 			private boolean isExecution;
@@ -403,8 +375,7 @@ public class SourceTool extends JPanel {
 				int green = !isExecution ? 255 : 0;
 				int blue = 255;
 				g.setColor(new Color(red, green, blue));
-				g.drawLine(0, 0, env.getSourceManager().getSourceTool()
-						.getPreferredSize().width, 0);
+				g.drawLine(0, 0, env.getSourceManager().getSourceTool().getPreferredSize().width, 0);
 			}
 
 			public void setExecution(boolean b) {
@@ -420,6 +391,7 @@ public class SourceTool extends JPanel {
 	}
 
 	private class STMouseListener extends MouseAdapter implements MouseListener {
+
 		@Override
 		public void mousePressed(MouseEvent e) {
 			if (e.isPopupTrigger()) {
@@ -450,24 +422,18 @@ public class SourceTool extends JPanel {
 					// 実行中の場合
 					String className = line.refType.name();
 					if (line.hasBreakpoint()) {
-						interpreter.executeCommand("clear " + className + ":"
-								+ ln);
+						interpreter.executeCommand("clear " + className + ":" + ln);
 					} else {
-						interpreter.executeCommand("stop at " + className + ":"
-								+ ln);
+						interpreter.executeCommand("stop at " + className + ":" + ln);
 					}
 				} else {
 					String className = getSourceModel().fileName().toString();
-					className = className.substring(
-							className.lastIndexOf("\\") + 1,
-							className.lastIndexOf("."));
+					className = className.substring(className.lastIndexOf("\\") + 1, className.lastIndexOf("."));
 					if (line.preBreakpoint) {
-						interpreter.executeCommand("clear " + className + ":"
-								+ ln);
+						interpreter.executeCommand("clear " + className + ":" + ln);
 						line.preBreakpoint = false;
 					} else {
-						interpreter.executeCommand("stop at " + className + ":"
-								+ ln);
+						interpreter.executeCommand("stop at " + className + ":" + ln);
 						line.preBreakpoint = true;
 					}
 				}
@@ -485,23 +451,21 @@ public class SourceTool extends JPanel {
 			} else if (line.isExecutable()) {
 				String className = line.refType.name();
 				if (line.hasBreakpoint()) {
-					popup.add(commandItem("Clear Breakpoint", "clear "
-							+ className + ":" + ln));
+					popup.add(commandItem("Clear Breakpoint", "clear " + className + ":" + ln));
 				} else {
-					popup.add(commandItem("Set Breakpoint", "stop at "
-							+ className + ":" + ln));
+					popup.add(commandItem("Set Breakpoint", "stop at " + className + ":" + ln));
 				}
 			} else {
 				popup.add(new JMenuItem("not an executable line"));
 			}
 
-			popup.show(invoker, x + popup.getWidth() / 2, y + popup.getHeight()
-					/ 2);
+			popup.show(invoker, x + popup.getWidth() / 2, y + popup.getHeight() / 2);
 		}
 
 		private JMenuItem commandItem(String label, final String cmd) {
 			JMenuItem item = new JMenuItem(label);
 			item.addActionListener(new ActionListener() {
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					interpreter.executeCommand(cmd);
@@ -534,6 +498,7 @@ public class SourceTool extends JPanel {
 			setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.GRAY));
 
 			this.addMouseListener(new MouseAdapter() {
+
 				public void mousePressed(MouseEvent e) {
 					// int pos = getLineAtPoint(e.getY());
 					// pos = pos + 1;
@@ -576,30 +541,21 @@ public class SourceTool extends JPanel {
 			int base = -src.y - topInset;
 			int start = getLineAtPoint(base);
 			int end = getLineAtPoint(base + clip.height);
-			int rest = base % fontHeight == 0 ? 0 : base % fontHeight
-					+ (fontHeight - fontAscent);
+			int rest = base % fontHeight == 0 ? 0 : base % fontHeight + (fontHeight - fontAscent);
 			int y = topInset + clip.y - rest - 5;
 			for (int i = start; i <= end; i++) {
 				String text = String.valueOf(i + 1);
-				int x = DEBUG_BUTTON_MARGIN + getLineTextWidth() - MARGIN
-						- fontMetrics.stringWidth(text);
-				for (EventRequestSpec evt : env.getExecutionManager()
-						.eventRequestSpecs()) {
+				int x = DEBUG_BUTTON_MARGIN + getLineTextWidth() - MARGIN - fontMetrics.stringWidth(text);
+				for (EventRequestSpec evt : env.getExecutionManager().eventRequestSpecs()) {
 					if (evt instanceof LineBreakpointSpec) {
 						LineBreakpointSpec levt = (LineBreakpointSpec) evt;
-						PatternReferenceTypeSpec prts = (PatternReferenceTypeSpec) levt
-								.getRefSpec();
-						String className = getSourceModel().fileName()
-								.toString();
-						className = className.substring(
-								className.lastIndexOf("\\") + 1,
-								className.lastIndexOf("."));
+						PatternReferenceTypeSpec prts = (PatternReferenceTypeSpec) levt.getRefSpec();
+						String className = getSourceModel().fileName().toString();
+						className = className.substring(className.lastIndexOf("\\") + 1, className.lastIndexOf("."));
 						if (prts.toString().equals(className)) {
 							if (levt.lineNumber() == i + 1) {
-								g.drawImage(Icons.stopSignIcon.getImage(),
-										(DEBUG_BUTTON_MARGIN - fontHeight) / 2,
-										y - 3, fontHeight - 2, fontHeight - 2,
-										getBackground(), this);
+								g.drawImage(Icons.stopSignIcon.getImage(), (DEBUG_BUTTON_MARGIN - fontHeight) / 2,
+										y - 3, fontHeight - 2, fontHeight - 2, getBackground(), this);
 							}
 						}
 					}
@@ -608,8 +564,7 @@ public class SourceTool extends JPanel {
 				g.drawString(text, x, y);
 			}
 			g.setColor(Color.black);
-			g.drawLine(DEBUG_BUTTON_MARGIN, 0, DEBUG_BUTTON_MARGIN,
-					srcTool.getHeight());
+			g.drawLine(DEBUG_BUTTON_MARGIN, 0, DEBUG_BUTTON_MARGIN, srcTool.getHeight());
 			g.setColor(Color.blue);
 
 		}

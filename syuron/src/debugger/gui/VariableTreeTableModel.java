@@ -1,9 +1,7 @@
 package debugger.gui;
 
 import java.util.*;
-
 import com.sun.jdi.*;
-
 import org.jdesktop.swingx.treetable.*;
 
 public class VariableTreeTableModel extends AbstractTreeTableModel {
@@ -19,8 +17,7 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 		myroot.getChildren().clear();
 	}
 
-	public void addNode(LocalVariable var, StackFrame frame)
-			throws ClassNotLoadedException {
+	public void addNode(LocalVariable var, StackFrame frame) throws ClassNotLoadedException {
 
 		String varName;
 		String varValue = "";
@@ -44,8 +41,7 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 		} else if (value instanceof ArrayReference) {
 			ArrayReference ar = (ArrayReference) value;
 			// 配列なら変数名を変更
-			varName += varType.substring(varType.indexOf("["),
-					varType.lastIndexOf("]") + 1);
+			varName += varType.substring(varType.indexOf("["), varType.lastIndexOf("]") + 1);
 
 			// 子ノードのリストを作成
 			children = new ArrayList<>();
@@ -53,14 +49,11 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 			for (int i = 0; i < valList.size(); i++) {
 				// 子ノードの変数名生成
 				StringBuilder sb = new StringBuilder(varName);
-				String childName = sb.insert(sb.indexOf("[]") + 1, i)
-						.toString();
+				String childName = sb.insert(sb.indexOf("[]") + 1, i).toString();
 				// 子ノードの型生成
 				sb = new StringBuilder(varType);
-				String childType = sb.delete(sb.length() - 2, sb.length())
-						.toString();
-				children.add(createNode(childName, valList.get(i), childType,
-						varDec));
+				String childType = sb.delete(sb.length() - 2, sb.length()).toString();
+				children.add(createNode(childName, valList.get(i), childType, varDec));
 			}
 
 		} else if (value instanceof ObjectReference) {
@@ -77,8 +70,7 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 		}
 
 		// ノードの作成及び追加
-		MyTreeTableNode node = new MyTreeTableNode(varName, varValue, varType,
-				varDec);
+		MyTreeTableNode node = new MyTreeTableNode(varName, varValue, varType, varDec);
 		// 子ノードのリストがあれば追加
 		if (children != null) {
 			node.setChildren(children);
@@ -89,8 +81,7 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 
 	}
 
-	public MyTreeTableNode createNode(String varName, Value value,
-			String varType, String varDec) {
+	public MyTreeTableNode createNode(String varName, Value value, String varType, String varDec) {
 
 		String varValue = "";
 		List<MyTreeTableNode> children = null;
@@ -104,14 +95,11 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 			for (int i = 0; i < vals.size(); i++) {
 				// 子ノードの変数名生成
 				StringBuilder sb = new StringBuilder(varName);
-				String childName = sb.insert(sb.indexOf("[]") + 1, i)
-						.toString();
+				String childName = sb.insert(sb.indexOf("[]") + 1, i).toString();
 				// 子ノードの型生成
 				sb = new StringBuilder(varType);
-				String childType = sb.delete(sb.length() - 2, sb.length())
-						.toString();
-				children.add(createNode(childName, vals.get(i), childType,
-						varDec));
+				String childType = sb.delete(sb.length() - 2, sb.length()).toString();
+				children.add(createNode(childName, vals.get(i), childType, varDec));
 			}
 
 		} else if (value instanceof ObjectReference) {
@@ -128,8 +116,7 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 		}
 
 		// ノードの作成及び追加
-		MyTreeTableNode node = new MyTreeTableNode(varName, varValue, varType,
-				varDec);
+		MyTreeTableNode node = new MyTreeTableNode(varName, varValue, varType, varDec);
 		// 子ノードのリストがあれば追加
 		if (children != null) {
 			node.setChildren(children);
@@ -221,8 +208,7 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 		private List<String> varList = new ArrayList<>();
 		private List<MyTreeTableNode> children = new ArrayList<>();
 
-		public MyTreeTableNode(String varName, String varValue, String varType,
-				String varDec) {
+		public MyTreeTableNode(String varName, String varValue, String varType, String varDec) {
 			this.varName = varName;
 			this.varValue = varValue;
 			this.varType = varType;

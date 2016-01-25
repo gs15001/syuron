@@ -3,12 +3,9 @@ package debugger.gui;
 import java.util.*;
 import java.util.List;
 import java.awt.*;
-
 import javax.swing.*;
 import javax.swing.table.*;
-
 import com.sun.jdi.*;
-
 import debugger.bdi.ExecutionManager;
 
 public class VariableTool2 extends JPanel {
@@ -61,13 +58,11 @@ public class VariableTool2 extends JPanel {
 				return;
 			}
 			// 現在のスレッドのstackframeのリストを取得
-			LinkedList<StackFrame> frames = new LinkedList<StackFrame>(
-					current.frames());
+			LinkedList<StackFrame> frames = new LinkedList<StackFrame>(current.frames());
 			// stackframeの先頭（現在実行されているメソッドに相当)を取得
 			StackFrame Currentframe = frames.getFirst();
 			// 現在の命令の位置を取得(ライン表示に必要）
-			env.getSourceManager().getSourceTool()
-					.setExcuteLine(Currentframe.location().lineNumber());
+			env.getSourceManager().getSourceTool().setExcuteLine(Currentframe.location().lineNumber());
 
 			// 全てのstackframeから見えてるローカル変数を取得
 			for (StackFrame frame : frames) {
@@ -88,8 +83,7 @@ public class VariableTool2 extends JPanel {
 		}
 	}
 
-	private Object[] valueToTableData(LocalVariable var, StackFrame frame)
-			throws ClassNotLoadedException {
+	private Object[] valueToTableData(LocalVariable var, StackFrame frame) throws ClassNotLoadedException {
 		Value v = frame.getValue(var);
 		Object[] data = new Object[4];
 		if (v instanceof StringReference || v instanceof PrimitiveValue) {
@@ -131,11 +125,9 @@ public class VariableTool2 extends JPanel {
 		private static final long serialVersionUID = 1L;
 
 		@Override
-		public Component getTableCellRendererComponent(JTable table,
-				Object value, boolean isSelected, boolean hasFocus, int row,
-				int column) {
-			super.getTableCellRendererComponent(table, value, isSelected,
-					hasFocus, row, column);
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+				boolean hasFocus, int row, int column) {
+			super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
 			return this;
 		}

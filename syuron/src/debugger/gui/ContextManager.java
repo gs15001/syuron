@@ -1,41 +1,16 @@
-/*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
+/* Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms. */
 
-/*
- * This source code is provided to illustrate the usage of a given feature
+/* This source code is provided to illustrate the usage of a given feature
  * or technique and has been deliberately simplified. Additional steps
  * required for a production-quality application, such as security checks,
  * input validation and proper error handling, might not be present in
- * this sample code.
- */
+ * this sample code. */
 
 package debugger.gui;
 
 import java.io.*;
 import java.util.*;
-
 import com.sun.jdi.*;
 import debugger.event.*;
 import debugger.bdi.*;
@@ -168,18 +143,15 @@ public class ContextManager {
 		}
 	}
 
-	public int moveCurrentFrameIndex(ThreadReference t, int count)
-			throws VMNotInterruptedException {
+	public int moveCurrentFrameIndex(ThreadReference t, int count) throws VMNotInterruptedException {
 		return setCurrentFrameIndex(t, count, true);
 	}
 
-	public int setCurrentFrameIndex(ThreadReference t, int newIndex)
-			throws VMNotInterruptedException {
+	public int setCurrentFrameIndex(ThreadReference t, int newIndex) throws VMNotInterruptedException {
 		return setCurrentFrameIndex(t, newIndex, false);
 	}
 
-	public int setCurrentFrameIndex(int newIndex)
-			throws VMNotInterruptedException {
+	public int setCurrentFrameIndex(int newIndex) throws VMNotInterruptedException {
 		if (currentThread == null) {
 			return 0;
 		} else {
@@ -187,8 +159,7 @@ public class ContextManager {
 		}
 	}
 
-	private int setCurrentFrameIndex(ThreadReference t, int x, boolean relative)
-			throws VMNotInterruptedException {
+	private int setCurrentFrameIndex(ThreadReference t, int x, boolean relative) throws VMNotInterruptedException {
 		boolean sameThread = t.equals(currentThread);
 		ThreadInfo tinfo = runtime.threadInfo(t);
 		if (tinfo == null) {
@@ -221,13 +192,11 @@ public class ContextManager {
 		return getCurrentFrame(runtime.threadInfo(currentThread));
 	}
 
-	public StackFrame getCurrentFrame(ThreadReference t)
-			throws VMNotInterruptedException {
+	public StackFrame getCurrentFrame(ThreadReference t) throws VMNotInterruptedException {
 		return getCurrentFrame(runtime.threadInfo(t));
 	}
 
-	public StackFrame getCurrentFrame(ThreadInfo tinfo)
-			throws VMNotInterruptedException {
+	public StackFrame getCurrentFrame(ThreadInfo tinfo) throws VMNotInterruptedException {
 		int index = getCurrentFrameIndex(tinfo);
 		try {
 			// It is possible, though unlikely, that the VM was interrupted
@@ -277,19 +246,15 @@ public class ContextManager {
 		notifyCurrentFrameChanged(runtime.threadInfo(t), index, false);
 	}
 
-	private void notifyCurrentFrameChanged(ThreadInfo tinfo, int index,
-			boolean invalidate) {
-		ArrayList<ContextListener> l = new ArrayList<ContextListener>(
-				contextListeners);
-		CurrentFrameChangedEvent evt = new CurrentFrameChangedEvent(this,
-				tinfo, index, invalidate);
+	private void notifyCurrentFrameChanged(ThreadInfo tinfo, int index, boolean invalidate) {
+		ArrayList<ContextListener> l = new ArrayList<ContextListener>(contextListeners);
+		CurrentFrameChangedEvent evt = new CurrentFrameChangedEvent(this, tinfo, index, invalidate);
 		for (int i = 0; i < l.size(); i++) {
 			l.get(i).currentFrameChanged(evt);
 		}
 	}
 
-	private class ContextManagerListener extends JDIAdapter implements
-			SessionListener, JDIListener {
+	private class ContextManagerListener extends JDIAdapter implements SessionListener, JDIListener {
 
 		// SessionListener
 

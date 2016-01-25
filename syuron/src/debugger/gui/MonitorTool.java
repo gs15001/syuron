@@ -1,35 +1,11 @@
-/*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- */
+/* Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms. */
 
-/*
- * This source code is provided to illustrate the usage of a given feature
+/* This source code is provided to illustrate the usage of a given feature
  * or technique and has been deliberately simplified. Additional steps
  * required for a production-quality application, such as security checks,
  * input validation and proper error handling, might not be present in
- * this sample code.
- */
+ * this sample code. */
 
 package debugger.gui;
 
@@ -67,6 +43,7 @@ public class MonitorTool extends JPanel {
 	}
 
 	private class MonitorToolListener implements ListSelectionListener {
+
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
 			int index = list.getSelectedIndex();
@@ -75,10 +52,10 @@ public class MonitorTool extends JPanel {
 		}
 	}
 
-	private Value evaluate(String expr) throws ParseException,
-			InvocationException, InvalidTypeException, ClassNotLoadedException,
-			IncompatibleThreadStateException {
+	private Value evaluate(String expr) throws ParseException, InvocationException, InvalidTypeException,
+			ClassNotLoadedException, IncompatibleThreadStateException {
 		ExpressionParser.GetFrame frameGetter = new ExpressionParser.GetFrame() {
+
 			@Override
 			public StackFrame get() throws IncompatibleThreadStateException {
 				try {
@@ -94,16 +71,15 @@ public class MonitorTool extends JPanel {
 	private class MonitorRenderer extends DefaultListCellRenderer {
 
 		@Override
-		public Component getListCellRendererComponent(JList list, Object value,
-				int index, boolean isSelected, boolean cellHasFocus) {
+		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+				boolean cellHasFocus) {
 
 			// ### We should indicate the current thread independently of the
 			// ### selection, e.g., with an icon, because the user may change
 			// ### the selection graphically without affecting the current
 			// ### thread.
 
-			super.getListCellRendererComponent(list, value, index, isSelected,
-					cellHasFocus);
+			super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 			if (value == null) {
 				this.setText("<unavailable>");
 			} else {
