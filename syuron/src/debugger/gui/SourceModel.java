@@ -81,9 +81,11 @@ public class SourceModel extends AbstractListModel {
 	}
 
 	public void clearClassLines() {
-		for (Line line : sourceLines) {
-			line.hasBreakpoint = false;
-			line.refType = null;
+		if (sourceLines != null) {
+			for (Line line : sourceLines) {
+				line.hasBreakpoint = false;
+				line.refType = null;
+			}
 		}
 	}
 
