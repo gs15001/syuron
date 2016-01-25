@@ -33,6 +33,8 @@ public class ApplicationTool extends JPanel {
 		this.script = new TypeScript(PROMPT, false); // No implicit echo.
 		this.add(script);
 
+		env.setScript(script);
+		
 		script.addActionListener(new ActionListener() {
 
 			@Override

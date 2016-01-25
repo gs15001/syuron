@@ -23,6 +23,8 @@ public class Environment {
 
 	private PrintWriter typeScript;
 	private VariableTool variableTool;
+	
+	private TypeScript appScript;
 
 	private boolean verbose;
 
@@ -63,6 +65,14 @@ public class Environment {
 
 	public VariableTool getVariableTool() {
 		return variableTool;
+	}
+	
+	public void setScript(TypeScript script) {
+		appScript = script;
+	}
+	
+	public TypeScript getScript() {
+		return appScript;
 	}
 
 	// ### TODO:

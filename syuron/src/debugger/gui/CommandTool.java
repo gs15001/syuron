@@ -94,6 +94,10 @@ public class CommandTool extends JPanel {
 			// 実行待ちコマンドを実行
 			for (String s : waitCommand) {
 				interpreter.executeCommand(s);
+				String classname = s.substring(s.indexOf(" ") + 1, s.indexOf(":"));
+				String line = s.substring(s.indexOf(":") + 1, s.length());
+				env.getScript().append("不適切なBPを削除しました : " + classname + "の" + line + "行目");
+				env.getScript().newline();
 			}
 			sourceManager.getSourceTool().repaint();
 			waitCommand.clear();
