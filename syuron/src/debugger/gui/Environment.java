@@ -92,7 +92,8 @@ public class Environment {
 			if (s.startsWith("clear")) {
 				String classname = s.substring(s.indexOf(" ") + 1, s.indexOf(":"));
 				String line = s.substring(s.indexOf(":") + 1, s.length());
-				appScript.append("不適切なBPを削除しました : " + classname + "の" + line + "行目");
+				appScript.append("この行はBPを設定することができない行のため、BPを削除しました ： ");
+				appScript.append(classname + "の" + line + "行目");
 				appScript.newline();
 			}
 		}
