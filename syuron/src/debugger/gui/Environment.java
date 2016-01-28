@@ -32,6 +32,8 @@ public class Environment {
 	private final CommandInterpreter interpreter;
 
 	private boolean verbose;
+	private boolean autoStopMode = false;
+	private boolean lineMode = false;
 
 	public Environment() {
 		this.classManager = new ClassManager(this);
@@ -83,6 +85,26 @@ public class Environment {
 	
 	public JDBToolBar getToolBar() {
 		return toolBar;
+	}
+
+	
+	public boolean isAutoStopMode() {
+		return autoStopMode;
+	}
+
+	
+	public void setAutoStopMode(boolean autoStopMode) {
+		this.autoStopMode = autoStopMode;
+	}
+
+	
+	public boolean isLineMode() {
+		return lineMode;
+	}
+
+	
+	public void setLineMode(boolean lineMode) {
+		this.lineMode = lineMode;
 	}
 
 	public void executeWaitCommand() {

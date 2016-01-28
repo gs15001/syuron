@@ -12,13 +12,14 @@ package debugger.gui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Vector;
-import java.util.List;
+import java.util.*;
 import debugger.bdi.*;
 
 // ### This is currently just a placeholder!
 
 class JDBMenuBar extends JMenuBar {
+
+	private static final long serialVersionUID = 1L;
 
 	Environment env;
 
@@ -50,97 +51,99 @@ class JDBMenuBar extends JMenuBar {
 
 		JMenu cmdMenu = new JMenu("Commands");
 
-		addTool(cmdMenu, "Step into next line", "Step", "step");
-		addTool(cmdMenu, "Step over next line", "Next", "next");
+		addTool(cmdMenu, "実行", "Run", "run");
 		cmdMenu.addSeparator();
-
-		addTool(cmdMenu, "Step into next instruction", "Step Instruction", "stepi");
-		addTool(cmdMenu, "Step over next instruction", "Next Instruction", "nexti");
+		addTool(cmdMenu, "次の命令を実行", "StepInto", "step");
+		addTool(cmdMenu, "次の行を実行", "StepOver", "next");
+		addTool(cmdMenu, "メソッドの最後まで実行", "StepReturn", "step up");
 		cmdMenu.addSeparator();
-
-		addTool(cmdMenu, "Step out of current method call", "Step Up", "step up");
+		addTool(cmdMenu, "次のBPまで実行", "Continue", "cont");
 		cmdMenu.addSeparator();
-
-		addTool(cmdMenu, "Suspend execution", "Interrupt", "interrupt");
-		addTool(cmdMenu, "Continue execution", "Continue", "cont");
+		addTool(cmdMenu, "最後まで実行", "Last", "last");
 		cmdMenu.addSeparator();
+		addTool(cmdMenu, "全てのBP削除", "ClearBP", "clear all");
 
-		addTool(cmdMenu, "Display current stack", "Where", "where");
-		cmdMenu.addSeparator();
-
-		addTool(cmdMenu, "Move up one stack frame", "Up", "up");
-		addTool(cmdMenu, "Move down one stack frame", "Down", "down");
-		cmdMenu.addSeparator();
-
-		JMenuItem monitorItem = new JMenuItem("Monitor Expression...", 'M');
-		monitorItem.addActionListener(new ActionListener() {
+		JMenu optionMenu = new JMenu("Option");
+		JMenu optionSubMenu1 = new JMenu("実行行表示方法");
+		optionSubMenu1.setToolTipText("実行時の今の処理位置の表示方法を選択します");
+		ButtonGroup group1 = new ButtonGroup();
+		JRadioButtonMenuItem radiomenuitem1 = new JRadioButtonMenuItem("行表示", false);
+		radiomenuitem1.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				monitorCommand();
+				env.setLineMode(radiomenuitem1.isSelected());
+				sourceManager.getSourceTool().getList().repaint();
 			}
 		});
-		cmdMenu.add(monitorItem);
-
-		JMenuItem unmonitorItem = new JMenuItem("Unmonitor Expression...");
-		unmonitorItem.addActionListener(new ActionListener() {
+		JRadioButtonMenuItem radiomenuitem2 = new JRadioButtonMenuItem("線表示", true);
+		radiomenuitem2.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				unmonitorCommand();
+				env.setLineMode(radiomenuitem1.isSelected());
+				sourceManager.getSourceTool().getList().repaint();
 			}
 		});
-		cmdMenu.add(unmonitorItem);
+		group1.add(radiomenuitem1);
+		group1.add(radiomenuitem2);
+		optionSubMenu1.add(radiomenuitem1);
+		optionSubMenu1.add(radiomenuitem2);
 
-		JMenu breakpointMenu = new JMenu("Breakpoint");
-		JMenuItem stopItem = new JMenuItem("Stop in...", 'S');
-		stopItem.addActionListener(new ActionListener() {
+		JMenu optionSubMenu2 = new JMenu("自動停止モード");
+		optionSubMenu2.setToolTipText("ONにするとmainメソッドの最初の命令で停止します");
+		ButtonGroup group2 = new ButtonGroup();
+		JRadioButtonMenuItem radiomenuitem3 = new JRadioButtonMenuItem("ON", false);
+		radiomenuitem3.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				buildBreakpoint();
+				env.setAutoStopMode(radiomenuitem3.isSelected());
 			}
 		});
-		breakpointMenu.add(stopItem);
+		JRadioButtonMenuItem radiomenuitem4 = new JRadioButtonMenuItem("OFF", true);
+		radiomenuitem4.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				env.setAutoStopMode(radiomenuitem3.isSelected());
+			}
+		});
+		group2.add(radiomenuitem3);
+		group2.add(radiomenuitem4);
+		optionSubMenu2.add(radiomenuitem3);
+		optionSubMenu2.add(radiomenuitem4);
+
+		optionMenu.add(optionSubMenu1);
+		optionMenu.add(optionSubMenu2);
 
 		JMenu helpMenu = new JMenu("Help");
-		addTool(helpMenu, "Display command list", "Help", "help");
+		JMenuItem helpItem = new JMenuItem("Help");
+		helpItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				showHelp();
+			}
+		});
+		helpMenu.add(helpItem);
 
 		this.add(fileMenu);
 		this.add(cmdMenu);
-		// this.add(breakpointMenu);
+		this.add(optionMenu);
 		this.add(helpMenu);
 	}
 
-	private void buildBreakpoint() {
+	private void showHelp() {
 		Frame frame = JOptionPane.getRootFrame();
-		JDialog dialog = new JDialog(frame, "Specify Breakpoint");
+		JDialog dialog = new JDialog(frame, "Help");
 		Container contents = dialog.getContentPane();
-		Vector<String> classes = new Vector<String>();
-		classes.add("Foo");
-		classes.add("Bar");
-		JList list = new JList(classes);
-		JScrollPane scrollPane = new JScrollPane(list);
-		contents.add(scrollPane);
-		dialog.show();
+		JLabel label = new JLabel("Help is no implement");
+		contents.setLayout(new FlowLayout());
+		contents.add(label);
+		dialog.setSize(150, 70);
+		dialog.setVisible(true);
 
-	}
-
-	private void monitorCommand() {
-		String expr = (String) JOptionPane.showInputDialog(null, "Expression to monitor:", "Add Monitor",
-				JOptionPane.QUESTION_MESSAGE, null, null, null);
-		if (expr != null) {
-			interpreter.executeCommand("monitor " + expr);
-		}
-	}
-
-	private void unmonitorCommand() {
-		List monitors = env.getMonitorListModel().monitors();
-		String expr = (String) JOptionPane.showInputDialog(null, "Expression to unmonitor:", "Remove Monitor",
-				JOptionPane.QUESTION_MESSAGE, null, monitors.toArray(), monitors.get(monitors.size() - 1));
-		if (expr != null) {
-			interpreter.executeCommand("unmonitor " + expr);
-		}
 	}
 
 	private void openCommand() {

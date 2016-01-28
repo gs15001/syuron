@@ -205,7 +205,7 @@ public class CommandTool extends JPanel {
 			}
 			// ボタンの押せる状態を変更
 			for (JButton button : env.getToolBar().buttonList) {
-				if (button.getText().equals("実行") || button.getText().equals("全てのBP削除")) {
+				if (button.getText().equals("Run") || button.getText().equals("ClearBP")) {
 					button.setEnabled(true);
 				} else {
 					button.setEnabled(false);

@@ -334,7 +334,7 @@ public class CommandInterpreter {
 		env.getContextManager().setProgramArguments("");
 
 		for (JButton button : env.getToolBar().buttonList) {
-			if (button.getText().equals("実行")) {
+			if (button.getText().equals("Run")) {
 				button.setEnabled(false);
 			} else {
 				button.setEnabled(true);
@@ -354,10 +354,10 @@ public class CommandInterpreter {
 
 	private boolean doLoad(boolean suspended, StringTokenizer t) throws NoSessionException {
 
-		String className = context.getMainClassName();
-		String token = className + ".main";
-		// System.out.println(token);
-		executeCommand("stop in " + token);
+		String token = context.getMainClassName() + ".main";
+		if (env.isAutoStopMode()) {
+			executeCommand("stop in " + token);
+		}
 
 		String clname;
 

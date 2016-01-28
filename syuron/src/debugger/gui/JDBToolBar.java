@@ -38,18 +38,17 @@ class JDBToolBar extends JToolBar {
 		env.setToolBar(this);
 		// ===== Configure toolbar here =====
 
-		addTool("Run", "実行", "run", true);
+		addTool("実行", "Run", "run", true);
 		addSeparator();
-
-		addTool("Step Into", "次の命令", "step", false);
-		addTool("Step Over", "次の行", "next", false);
-		addTool("Step Return", "メソッドの最後", "step up", false);
+		addTool("次の命令を実行", "StepInto", "step", false);
+		addTool("次の行を実行", "StepOver", "next", false);
+		addTool("メソッドの最後まで実行", "StepReturn", "step up", false);
 		addSeparator();
-		addTool("Continue", "次のBP", "cont", false);
+		addTool("次のBPまで実行", "Continue", "cont", false);
 		addSeparator();
-		addTool("Last", "最後まで", "last", false);
+		addTool("最後まで実行", "Last", "last", false);
 		addSeparator();
-		addTool("Clear", "全てのBP削除", "clear all", true);
+		addTool("全てのBP削除", "ClearBP", "clear all", true);
 
 	}
 

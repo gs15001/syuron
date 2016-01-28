@@ -305,6 +305,8 @@ public class SourceTool extends JPanel {
 
 	private class SourceLineRenderer extends DefaultListCellRenderer {
 
+		private static final long serialVersionUID = 1L;
+
 		@Override
 		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
 				boolean cellHasFocus) {
@@ -316,7 +318,7 @@ public class SourceTool extends JPanel {
 
 			MyJTextPane pane = new MyJTextPane();
 			boolean isExecute = index + 1 == excuteLine; // 現在のラインが実行される行か
-			if (isSelected) {
+			if (isExecute && env.isLineMode()) {
 				pane.setForeground(list.getSelectionForeground());
 				pane.setBackground(list.getSelectionBackground());
 			}
@@ -375,7 +377,9 @@ public class SourceTool extends JPanel {
 				int green = !isExecution ? 255 : 0;
 				int blue = 255;
 				g.setColor(new Color(red, green, blue));
-				g.drawLine(0, 0, env.getSourceManager().getSourceTool().getPreferredSize().width, 0);
+				if (!env.isLineMode()) {
+					g.drawLine(0, 0, env.getSourceManager().getSourceTool().getPreferredSize().width, 0);
+				}
 			}
 
 			public void setExecution(boolean b) {
@@ -451,9 +455,19 @@ public class SourceTool extends JPanel {
 			} else if (line.isExecutable()) {
 				String className = line.refType.name();
 				if (line.hasBreakpoint()) {
-					popup.add(commandItem("Clear Breakpoint", "clear " + className + ":" + ln));
+					popup.add(commandItem("Clear BP", "clear " + className + ":" + ln));
 				} else {
-					popup.add(commandItem("Set Breakpoint", "stop at " + className + ":" + ln));
+					popup.add(commandItem("Set BP", "stop at " + className + ":" + ln));
+				}
+			} else if (env.getExecutionManager().vm() == null) {
+				String className = getSourceModel().fileName().toString();
+				className = className.substring(className.lastIndexOf("\\") + 1, className.lastIndexOf("."));
+				if (line.preBreakpoint) {
+					popup.add(commandItem("Clear BP", "clear " + className + ":" + ln));
+					line.preBreakpoint = false;
+				} else {
+					popup.add(commandItem("Set BP", "stop at " + className + ":" + ln));
+					line.preBreakpoint = true;
 				}
 			} else {
 				popup.add(new JMenuItem("not an executable line"));
