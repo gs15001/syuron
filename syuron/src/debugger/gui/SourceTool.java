@@ -422,22 +422,16 @@ public class SourceTool extends JPanel {
 			int ln = list.getSelectedIndex() + 1;
 			SourceModel.Line line = (SourceModel.Line) list.getSelectedValue();
 			if (line != null) {
-				if (line.isExecutable()) {
-					// 実行中の場合
-					String className = line.refType.name();
-					if (line.hasBreakpoint()) {
-						interpreter.executeCommand("clear " + className + ":" + ln);
-					} else {
-						interpreter.executeCommand("stop at " + className + ":" + ln);
-					}
-				} else if (env.getExecutionManager().vm() == null) {
-					String className = getSourceModel().fileName().toString();
-					className = className.substring(className.lastIndexOf("\\") + 1, className.lastIndexOf("."));
-					if (line.preBreakpoint) {
-						interpreter.executeCommand("clear " + className + ":" + ln);
+				String className = getSourceModel().fileName().toString();
+				className = className.substring(className.lastIndexOf("\\") + 1, className.lastIndexOf("."));
+				if (line.preBreakpoint) {
+					interpreter.executeCommand("clear " + className + ":" + ln);
+					if (env.getExecutionManager().vm() == null) {
 						line.preBreakpoint = false;
-					} else {
-						interpreter.executeCommand("stop at " + className + ":" + ln);
+					}
+				} else {
+					interpreter.executeCommand("stop at " + className + ":" + ln);
+					if (env.getExecutionManager().vm() == null) {
 						line.preBreakpoint = true;
 					}
 				}
@@ -452,25 +446,20 @@ public class SourceTool extends JPanel {
 
 			if (line == null) {
 				popup.add(new JMenuItem("please select a line"));
-			} else if (line.isExecutable()) {
-				String className = line.refType.name();
-				if (line.hasBreakpoint()) {
-					popup.add(commandItem("Clear BP", "clear " + className + ":" + ln));
-				} else {
-					popup.add(commandItem("Set BP", "stop at " + className + ":" + ln));
-				}
-			} else if (env.getExecutionManager().vm() == null) {
+			} else {
 				String className = getSourceModel().fileName().toString();
 				className = className.substring(className.lastIndexOf("\\") + 1, className.lastIndexOf("."));
 				if (line.preBreakpoint) {
 					popup.add(commandItem("Clear BP", "clear " + className + ":" + ln));
-					line.preBreakpoint = false;
+					if (env.getExecutionManager().vm() == null) {
+						line.preBreakpoint = false;
+					}
 				} else {
 					popup.add(commandItem("Set BP", "stop at " + className + ":" + ln));
-					line.preBreakpoint = true;
+					if (env.getExecutionManager().vm() == null) {
+						line.preBreakpoint = true;
+					}
 				}
-			} else {
-				popup.add(new JMenuItem("not an executable line"));
 			}
 
 			popup.show(invoker, x + popup.getWidth() / 2, y + popup.getHeight() / 2);
