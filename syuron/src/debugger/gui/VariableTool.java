@@ -42,6 +42,11 @@ public class VariableTool extends JPanel {
 		add(listView);
 	}
 
+	public void clear() {
+		tableModel.clear();
+		treeTable.updateUI();
+	}
+
 	public void update() {
 		refreshTable();
 		treeTable.updateUI();

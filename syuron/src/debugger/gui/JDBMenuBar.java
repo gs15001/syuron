@@ -52,6 +52,7 @@ class JDBMenuBar extends JMenuBar {
 		JMenu cmdMenu = new JMenu("Commands");
 
 		addTool(cmdMenu, "実行", "Run", "run");
+		addTool(cmdMenu, "停止", "Stop", "quit");
 		cmdMenu.addSeparator();
 		addTool(cmdMenu, "次の命令を実行", "StepInto", "step");
 		addTool(cmdMenu, "次の行を実行", "StepOver", "next");

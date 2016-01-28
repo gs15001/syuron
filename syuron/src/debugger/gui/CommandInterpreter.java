@@ -1439,7 +1439,14 @@ public class CommandInterpreter {
 				// readCommand(t);
 			} else if (cmd.equals("help") || cmd.equals("?")) {
 				help();
-			} else if (cmd.equals("quit") || cmd.equals("exit")) {
+			} else if (cmd.equals("quit")) {
+				try {
+					runtime.detach();
+				} catch (NoSessionException e) {
+					// ignore
+				}
+				env.endProcess();
+			} else if (cmd.equals("exit")) {
 				try {
 					runtime.detach();
 				} catch (NoSessionException e) {

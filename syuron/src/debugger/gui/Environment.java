@@ -12,6 +12,7 @@ package debugger.gui;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JButton;
 import com.sun.jdi.*;
 import debugger.bdi.*;
 
@@ -140,6 +141,31 @@ public class Environment {
 	// public void addTool(Tool t);
 	// public void removeTool(Tool t);
 
+	public void endProcess() {
+		// VMとの接続を切断したらソースを初期値に戻す
+		sourceManager.getSourceTool().showSourceFile(sourceManager.getFirstSourceModel());
+		// 実行行を初期値に戻す
+		sourceManager.getSourceTool().setExcuteLine(-1);
+		// BPや実行可能行情報を削除
+		sourceManager.clearmarkClassLines();
+		// 既存のBPの状態をunresolvedに
+		List<EventRequestSpec> specs = runtime.eventRequestSpecs();
+		for (EventRequestSpec spec : specs) {
+			spec.setStateUnResolved();
+		}
+		// ボタンの押せる状態を変更
+		for (JButton button : toolBar.buttonList) {
+			if (button.getText().equals("Run") || button.getText().equals("ClearBP")) {
+				button.setEnabled(true);
+			} else {
+				button.setEnabled(false);
+			}
+		}
+		// リペイントのタイミングがわからないためとりあえずここに
+		sourceManager.getSourceTool().getList().repaint();
+		variableTool.clear();
+	}
+	
 	public void terminate() {
 		System.exit(0);
 	}
