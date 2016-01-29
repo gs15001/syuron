@@ -38,7 +38,7 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 		}
 		Location location = location((ClassType) refType);
 		setRequest(refType.virtualMachine().eventRequestManager().createBreakpointRequest(location));
-		System.out.println("Create MethodBP");
+		// System.out.println("Create MethodBP");
 	}
 
 	private Location location(ClassType clazz) throws AmbiguousMethodException, NoSuchMethodException,

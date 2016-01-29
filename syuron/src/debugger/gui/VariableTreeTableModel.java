@@ -124,7 +124,7 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 		return node;
 	}
 
-	private String frameToMethodName(StackFrame f) {
+	public String frameToMethodName(StackFrame f) {
 		Method method = f.location().method();
 		StringBuffer buf = new StringBuffer();
 		buf.append(method.name());
@@ -200,20 +200,10 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 
 	class MyTreeTableNode {
 
-		private String varName;
-		private String varValue;
-		private String varType;
-		private String varDec;
-
 		private List<String> varList = new ArrayList<>();
 		private List<MyTreeTableNode> children = new ArrayList<>();
 
 		public MyTreeTableNode(String varName, String varValue, String varType, String varDec) {
-			this.varName = varName;
-			this.varValue = varValue;
-			this.varType = varType;
-			this.varDec = varDec;
-
 			varList.add(varName);
 			varList.add(varValue);
 			varList.add(varType);

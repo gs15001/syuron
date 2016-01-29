@@ -16,11 +16,10 @@ public class VariableTool extends JPanel {
 	private ExecutionManager runtime;
 	private ContextManager context;
 
-	private JXTreeTable treeTable;
+	private MyJXTreeTable treeTable;
 	private VariableTreeTableModel tableModel;
 	private VariableTreeCellRenderer treeRenderer;
 	private VariableTableCellRenderer tableRenderer;
-	// private CustomRenderer renderer;
 
 	private String[] columnNames = { "変数名", "値", "型", "宣言元" };
 
@@ -32,7 +31,7 @@ public class VariableTool extends JPanel {
 		env.setVariableTool(this);
 
 		tableModel = new VariableTreeTableModel();
-		treeTable = new JXTreeTable(tableModel);
+		treeTable = new MyJXTreeTable(tableModel);
 		treeRenderer = new VariableTreeCellRenderer();
 		tableRenderer = new VariableTableCellRenderer();
 		treeTable.setDefaultRenderer(Object.class, tableRenderer);
@@ -68,8 +67,7 @@ public class VariableTool extends JPanel {
 			List<StackFrame> frames = current.frames();
 			// stackframeの先頭（現在実行されているメソッドに相当)を取得
 			StackFrame currentFrame = frames.get(0);
-			treeRenderer.setCurrentVariableNum(currentFrame.visibleVariables().size());
-			tableRenderer.setCurrentVariableNum(currentFrame.visibleVariables().size());
+			treeTable.setCurrentVariableNum(tableModel.frameToMethodName(currentFrame));
 			// 現在の命令の位置を取得(ライン表示に必要）
 			env.getSourceManager().getSourceTool().setExcuteLine(currentFrame.location().lineNumber());
 
@@ -77,17 +75,13 @@ public class VariableTool extends JPanel {
 			tableModel.clear();
 
 			// 全てのstackframeから見えてるローカル変数を取得
-			int variableNum = 0;
 			for (int i = frames.size() - 1; 0 <= i; i--) {
 				StackFrame frame = frames.get(i);
 				List<LocalVariable> vars = frame.visibleVariables();
 				for (LocalVariable var : vars) {
 					tableModel.addNode(var, frame);
-					variableNum++;
 				}
 			}
-			treeRenderer.setVariableNum(variableNum);
-			tableRenderer.setVariableNum(variableNum);
 
 		} catch (IncompatibleThreadStateException e1) {
 			e1.printStackTrace();
@@ -98,38 +92,60 @@ public class VariableTool extends JPanel {
 		}
 	}
 
+	private class MyJXTreeTable extends JXTreeTable {
+
+		private static final long serialVersionUID = 1L;
+
+		private String currentVariableMethodName;
+
+		public MyJXTreeTable(VariableTreeTableModel tableModel) {
+			super(tableModel);
+		}
+
+		public void setCurrentVariableNum(String currentVariableMethodName) {
+			this.currentVariableMethodName = currentVariableMethodName;
+		}
+
+		@Override
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+
+			int variableNum = getRowCount();
+			int currentVariableNum = 0;
+			for (int i = 0; i < variableNum; i++) {
+				if (((String) getValueAt(i, 3)).equals(currentVariableMethodName)) {
+					currentVariableNum++;
+				}
+				g.setColor(new Color(100, 100, 100, 120));
+				Rectangle r = getCellRect(i, 0, true);
+				g.drawLine(0, r.y + r.height, getWidth(), r.y + r.height);
+			}
+
+			for (int i = 0; i < variableNum - currentVariableNum; i++) {
+				g.setColor(new Color(100, 100, 100, 80));
+				Rectangle r = getCellRect(i, 0, true);
+				g.fillRect(0, r.y, getWidth(), r.height);
+			}
+		}
+	}
+
 	private class VariableTableCellRenderer extends DefaultTableCellRenderer {
 
 		private static final long serialVersionUID = 1L;
-		private int currentVariableNum;
-		private int variableNum;
 
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
 				boolean hasFocus, int row, int column) {
 
 			super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-			// if (row < variableNum - currentVariableNum) {
-			// setBackground(Color.LIGHT_GRAY);
-			// }
-
 			return this;
 		}
 
-		public void setCurrentVariableNum(int num) {
-			currentVariableNum = num;
-		}
-
-		public void setVariableNum(int num) {
-			variableNum = num;
-		}
 	}
 
 	private class VariableTreeCellRenderer extends DefaultTreeCellRenderer {
 
 		private static final long serialVersionUID = 1L;
-		private int currentVariableNum;
-		private int variableNum;
 
 		@Override
 		public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded,
@@ -137,62 +153,18 @@ public class VariableTool extends JPanel {
 
 			super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 
-			setClosedIcon(Icons.closeIcon);
-			setLeafIcon(Icons.openIcon);
-			setOpenIcon(Icons.openIcon);
+			// アイコンを付ける場合
+			// setClosedIcon(Icons.closeIcon);
+			// setLeafIcon(Icons.openIcon);
+			// setOpenIcon(Icons.openIcon);
 
-			// if (row < variableNum - currentVariableNum) {
-			// // setBackground(Color.LIGHT_GRAY);
-			// setBackgroundNonSelectionColor(Color.LIGHT_GRAY);
-			// }
-
-			return this;
-		}
-
-		public void setCurrentVariableNum(int num) {
-			currentVariableNum = num;
-		}
-
-		public void setVariableNum(int num) {
-			variableNum = num;
-		}
-	}
-
-	private class CustomRenderer extends JLabel implements TreeCellRenderer, TableCellRenderer {
-
-		private static final long serialVersionUID = 1L;
-		private int currentVariableNum;
-		private int variableNum;
-
-		@Override
-		public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded,
-				boolean leaf, int row, boolean hasFocus) {
-
-			if (row < variableNum - currentVariableNum) {
-				setBackground(Color.LIGHT_GRAY);
-			}
+			// アイコンを付けない場合
+			setClosedIcon(null);
+			setLeafIcon(null);
+			setOpenIcon(null);
 
 			return this;
 		}
 
-		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-				boolean hasFocus, int row, int column) {
-
-			setText(value != null ? value.toString() : "<null>");
-			if (row < variableNum - currentVariableNum) {
-				setBackground(Color.LIGHT_GRAY);
-			}
-
-			return this;
-		}
-
-		public void setCurrentVariableNum(int num) {
-			currentVariableNum = num;
-		}
-
-		public void setVariableNum(int num) {
-			variableNum = num;
-		}
 	}
 }
