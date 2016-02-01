@@ -35,6 +35,9 @@ public class CommandTool extends JPanel {
 
 	final CommandInterpreter interpreter;
 
+	private int preExcuteLine;
+	private String preExcuteClass;
+
 	public CommandTool(Environment env) {
 
 		super(new BorderLayout());
@@ -125,7 +128,7 @@ public class CommandTool extends JPanel {
 		@Override
 		public void locationTrigger(LocationTriggerEventSet e) {
 			String locString = locationString(e);
-			// System.out.println("locString : " + locString);
+			System.out.println("locString : " + locString);
 			setThread(e);
 
 			env.executeWaitCommand();
@@ -137,14 +140,23 @@ public class CommandTool extends JPanel {
 				} else if (evt instanceof StepEvent) {
 					diagnostics.putString("Step completed: " + locString);
 
+					int excuteLine = Integer.parseInt(locString.substring(locString.lastIndexOf("=") + 1, locString
+							.length()));
+					String excuteClass = locString.substring(locString.indexOf(" ") + 1, locString.lastIndexOf("."));
+
 					// locstringからパッケージ名を取得
 					String pacName = locString.substring(locString.indexOf(" ") + 1, locString.indexOf(".") + 1);
 
 					if (pacName.startsWith("java.")) {
 						// パッケージ名がjavaから始まる処理はスキップ
 						interpreter.executeCommand("next");
+					} else if (excuteClass.equals(preExcuteClass) && excuteLine == preExcuteLine) {
+						// 前回実行行と同じならステップ
+						interpreter.executeCommand("step");
 					} else {
 						// ステップイベント完了後の処理
+						preExcuteLine = excuteLine;
+						preExcuteClass = excuteClass;
 						env.getVariableTool().update();
 					}
 				} else if (evt instanceof MethodEntryEvent) {

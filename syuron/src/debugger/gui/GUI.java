@@ -236,15 +236,15 @@ public class GUI extends JPanel {
 		context.setVmArguments(javaArgs);
 
 		// Force Cross Platform L&F
-		try {
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-			// If you want the System L&F instead, comment out the above line
-			// and
-			// uncomment the following:
-			// UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception exc) {
-			System.err.println("Error loading L&F: " + exc);
-		}
+		// try {
+		// UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+		// If you want the System L&F instead, comment out the above line
+		// and
+		// uncomment the following:
+		// UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		// } catch (Exception exc) {
+		// System.err.println("Error loading L&F: " + exc);
+		// }
 
 		JFrame frame = new JFrame();
 		frame.setBackground(Color.lightGray);
@@ -262,6 +262,13 @@ public class GUI extends JPanel {
 
 		frame.pack();
 		frame.setVisible(true);
+
+		// try {
+		// UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+		// SwingUtilities.updateComponentTreeUI(frame);
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
 
 	}
 
