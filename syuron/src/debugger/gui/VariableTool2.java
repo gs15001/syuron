@@ -49,11 +49,11 @@ public class VariableTool2 extends JPanel {
 		try {
 			// 現在のスレッドを取得 基本mainスレッド
 			ThreadReference current = context.getCurrentThread();
-			if (current == null) {
+			if(current == null) {
 				env.failure("No thread");
 				return;
 			}
-			if (current.frameCount() <= 0) {
+			if(current.frameCount() <= 0) {
 				env.failure("Threads have not yet created any stack frames.");
 				return;
 			}
@@ -86,17 +86,17 @@ public class VariableTool2 extends JPanel {
 	private Object[] valueToTableData(LocalVariable var, StackFrame frame) throws ClassNotLoadedException {
 		Value v = frame.getValue(var);
 		Object[] data = new Object[4];
-		if (v instanceof StringReference || v instanceof PrimitiveValue) {
+		if(v instanceof StringReference || v instanceof PrimitiveValue) {
 			data[0] = var.name();
 			data[1] = v.toString();
 			data[2] = var.type().name();
-			if (data[2].equals("java.lang.String")) {
+			if(data[2].equals("java.lang.String")) {
 				data[2] = "String";
 			}
 			data[3] = frameToMethodName(frame);
-		} else if (v instanceof ArrayReference) {
+		} else if(v instanceof ArrayReference) {
 			ArrayReference ar = (ArrayReference) v;
-		} else if (v instanceof ObjectReference) {
+		} else if(v instanceof ObjectReference) {
 			ObjectReference or = (ObjectReference) v;
 		}
 		return data;
@@ -112,7 +112,7 @@ public class VariableTool2 extends JPanel {
 			String s = value.type().name();
 			s = s.substring(s.lastIndexOf(".") + 1);
 			buf.append(s);
-			if (argNum > 0) {
+			if(argNum > 0) {
 				buf.append(", ");
 			}
 		}

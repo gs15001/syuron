@@ -26,7 +26,7 @@ public class LineBreakpointSpec extends BreakpointSpec {
 	 */
 	@Override
 	void resolve(ReferenceType refType) throws InvalidTypeException, LineNotFoundException {
-		if (!(refType instanceof ClassType)) {
+		if(!(refType instanceof ClassType)) {
 			throw new InvalidTypeException();
 		}
 		Location location = location((ClassType) refType);
@@ -38,12 +38,12 @@ public class LineBreakpointSpec extends BreakpointSpec {
 		Location location = null;
 		try {
 			List<Location> locs = clazz.locationsOfLine(lineNumber());
-			if (locs.size() == 0) {
+			if(locs.size() == 0) {
 				throw new LineNotFoundException();
 			}
 			// TODO handle multiple locations
 			location = locs.get(0);
-			if (location.method() == null) {
+			if(location.method() == null) {
 				throw new LineNotFoundException();
 			}
 		} catch (AbsentInformationException e) {
@@ -69,7 +69,7 @@ public class LineBreakpointSpec extends BreakpointSpec {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof LineBreakpointSpec) {
+		if(obj instanceof LineBreakpointSpec) {
 			LineBreakpointSpec breakpoint = (LineBreakpointSpec) obj;
 
 			return refSpec.equals(breakpoint.refSpec) && (lineNumber == breakpoint.lineNumber);
@@ -80,9 +80,9 @@ public class LineBreakpointSpec extends BreakpointSpec {
 
 	@Override
 	public String errorMessageFor(Exception e) {
-		if (e instanceof LineNotFoundException) {
+		if(e instanceof LineNotFoundException) {
 			return ("No code at line " + lineNumber() + " in " + refSpec);
-		} else if (e instanceof InvalidTypeException) {
+		} else if(e instanceof InvalidTypeException) {
 			return ("Breakpoints can be located only in classes. " + refSpec + " is an interface or array");
 		} else {
 			return super.errorMessageFor(e);

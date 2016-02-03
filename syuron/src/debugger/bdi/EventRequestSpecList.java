@@ -39,7 +39,7 @@ class EventRequestSpecList {
 		synchronized (eventRequestSpecs) {
 			eventRequestSpecs.add(ers);
 		}
-		if (vm != null) {
+		if(vm != null) {
 			ers.attemptImmediateResolve(vm);
 		}
 	}
@@ -79,7 +79,7 @@ class EventRequestSpecList {
 		synchronized (eventRequestSpecs) {
 			eventRequestSpecs.remove(ers);
 		}
-		if (request != null && runtime.vm() != null) {
+		if(request != null && runtime.vm() != null) {
 			request.virtualMachine().eventRequestManager().deleteEventRequest(request);
 		}
 		notifyDeleted(ers);

@@ -44,7 +44,7 @@ public class SearchPath {
 	public File resolve(String relativeFileName) {
 		for (String element : pathArray) {
 			File path = new File(element, relativeFileName);
-			if (path.exists()) {
+			if(path.exists()) {
 				return path;
 			}
 		}
@@ -62,11 +62,11 @@ public class SearchPath {
 		SortedSet<String> s = new TreeSet<String>(); // sorted, no duplicates
 		for (String element : pathArray) {
 			File path = new File(element, relativeDirName);
-			if (path.exists()) {
+			if(path.exists()) {
 				String[] childArray = path.list(filter);
-				if (childArray != null) {
+				if(childArray != null) {
 					for (int j = 0; j < childArray.length; j++) {
-						if (!s.contains(childArray[j])) {
+						if(!s.contains(childArray[j])) {
 							s.add(childArray[j]);
 						}
 					}

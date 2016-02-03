@@ -44,7 +44,7 @@ class Session {
 
 	public void setTraceMode(int traceFlags) {
 		this.traceFlags = traceFlags;
-		if (!dead) {
+		if(!dead) {
 			vm.setDebugTraceMode(traceFlags);
 		}
 	}
@@ -58,7 +58,7 @@ class Session {
 	}
 
 	public void detach() {
-		if (!dead) {
+		if(!dead) {
 			eventSourceThread.interrupt();
 			eventSourceThread = null;
 			// ### The VM may already be disconnected

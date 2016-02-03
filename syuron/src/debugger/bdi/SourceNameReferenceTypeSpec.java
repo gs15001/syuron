@@ -27,7 +27,7 @@ public class SourceNameReferenceTypeSpec implements ReferenceTypeSpec {
 	@Override
 	public boolean matches(ReferenceType refType) {
 		try {
-			if (refType.sourceName().equals(sourceName)) {
+			if(refType.sourceName().equals(sourceName)) {
 				try {
 					refType.locationsOfLine(linenumber);
 					// if we don't throw an exception then it was found
@@ -49,7 +49,7 @@ public class SourceNameReferenceTypeSpec implements ReferenceTypeSpec {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof SourceNameReferenceTypeSpec) {
+		if(obj instanceof SourceNameReferenceTypeSpec) {
 			SourceNameReferenceTypeSpec spec = (SourceNameReferenceTypeSpec) obj;
 
 			return sourceName.equals(spec.sourceName) && (linenumber == spec.linenumber);

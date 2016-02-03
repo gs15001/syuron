@@ -70,12 +70,12 @@ public class ClassTreeTool extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				int selRow = tree.getRowForLocation(e.getX(), e.getY());
 				TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
-				if (selRow != -1) {
-					if (e.getClickCount() == 1) {
+				if(selRow != -1) {
+					if(e.getClickCount() == 1) {
 						ClassTreeNode node = (ClassTreeNode) selPath.getLastPathComponent();
 						// If user clicks on leaf, select it, and issue 'view'
 						// command.
-						if (node.isLeaf()) {
+						if(node.isLeaf()) {
 							tree.setSelectionPath(selPath);
 							interpreter.executeCommand("view " + node.getReferenceTypeName());
 						}
@@ -184,11 +184,11 @@ public class ClassTreeTool extends JPanel {
 		}
 
 		private void addClass(String className, ReferenceType refTy) {
-			if (className.equals("")) {
+			if(className.equals("")) {
 				return;
 			}
 			int pos = className.indexOf('.');
-			if (pos < 0) {
+			if(pos < 0) {
 				insertNode(className, refTy);
 			} else {
 				String head = className.substring(0, pos);
@@ -202,10 +202,10 @@ public class ClassTreeTool extends JPanel {
 			for (int i = 0; i < getChildCount(); i++) {
 				ClassTreeNode child = (ClassTreeNode) getChildAt(i);
 				int cmp = name.compareTo(child.toString());
-				if (cmp == 0) {
+				if(cmp == 0) {
 					// like-named node already exists
 					return child;
-				} else if (cmp < 0) {
+				} else if(cmp < 0) {
 					// insert new node before the child
 					ClassTreeNode newChild = new ClassTreeNode(name, refTy);
 					treeModel.insertNodeInto(newChild, this, i);
@@ -219,13 +219,13 @@ public class ClassTreeTool extends JPanel {
 		}
 
 		public void removeClass(String className) {
-			if (className.equals("")) {
+			if(className.equals("")) {
 				return;
 			}
 			int pos = className.indexOf('.');
-			if (pos < 0) {
+			if(pos < 0) {
 				ClassTreeNode child = findNode(className);
-				if (!isPackage()) {
+				if(!isPackage()) {
 					treeModel.removeNodeFromParent(child);
 				}
 			} else {
@@ -233,7 +233,7 @@ public class ClassTreeTool extends JPanel {
 				String tail = className.substring(pos + 1);
 				ClassTreeNode child = findNode(head);
 				child.removeClass(tail);
-				if (isPackage() && child.getChildCount() < 1) {
+				if(isPackage() && child.getChildCount() < 1) {
 					// Prune non-leaf nodes with no children.
 					treeModel.removeNodeFromParent(child);
 				}
@@ -244,9 +244,9 @@ public class ClassTreeTool extends JPanel {
 			for (int i = 0; i < getChildCount(); i++) {
 				ClassTreeNode child = (ClassTreeNode) getChildAt(i);
 				int cmp = name.compareTo(child.toString());
-				if (cmp == 0) {
+				if(cmp == 0) {
 					return child;
-				} else if (cmp > 0) {
+				} else if(cmp > 0) {
 					// not found, since children are sorted
 					return null;
 				}

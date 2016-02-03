@@ -22,11 +22,11 @@ public class AccessWatchpointSpec extends WatchpointSpec {
 	 */
 	@Override
 	void resolve(ReferenceType refType) throws InvalidTypeException, NoSuchFieldException {
-		if (!(refType instanceof ClassType)) {
+		if(!(refType instanceof ClassType)) {
 			throw new InvalidTypeException();
 		}
 		Field field = refType.fieldByName(fieldId);
-		if (field == null) {
+		if(field == null) {
 			throw new NoSuchFieldException(fieldId);
 		}
 		setRequest(refType.virtualMachine().eventRequestManager().createAccessWatchpointRequest(field));

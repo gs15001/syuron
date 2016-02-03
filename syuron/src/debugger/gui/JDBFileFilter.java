@@ -74,10 +74,10 @@ public class JDBFileFilter extends FileFilter {
 	 */
 	public JDBFileFilter(String extension, String description) {
 		this();
-		if (extension != null) {
+		if(extension != null) {
 			addExtension(extension);
 		}
-		if (description != null) {
+		if(description != null) {
 			setDescription(description);
 		}
 	}
@@ -108,7 +108,7 @@ public class JDBFileFilter extends FileFilter {
 			// add filters one by one
 			addExtension(filter);
 		}
-		if (description != null) {
+		if(description != null) {
 			setDescription(description);
 		}
 	}
@@ -124,12 +124,12 @@ public class JDBFileFilter extends FileFilter {
 	 */
 	@Override
 	public boolean accept(File f) {
-		if (f != null) {
-			if (f.isDirectory()) {
+		if(f != null) {
+			if(f.isDirectory()) {
 				return true;
 			}
 			String extension = getExtension(f);
-			if (extension != null && filters.get(getExtension(f)) != null) {
+			if(extension != null && filters.get(getExtension(f)) != null) {
 				return true;
 			};
 		}
@@ -143,10 +143,10 @@ public class JDBFileFilter extends FileFilter {
 	 * @see FileFilter#accept
 	 */
 	public String getExtension(File f) {
-		if (f != null) {
+		if(f != null) {
 			String filename = f.getName();
 			int i = filename.lastIndexOf('.');
-			if (i > 0 && i < filename.length() - 1) {
+			if(i > 0 && i < filename.length() - 1) {
 				return filename.substring(i + 1).toLowerCase();
 			};
 		}
@@ -165,7 +165,7 @@ public class JDBFileFilter extends FileFilter {
 	 * Note that the "." before the extension is not needed and will be ignored.
 	 */
 	public void addExtension(String extension) {
-		if (filters == null) {
+		if(filters == null) {
 			filters = new Hashtable<String, JDBFileFilter>(5);
 		}
 		filters.put(extension.toLowerCase(), this);
@@ -183,12 +183,12 @@ public class JDBFileFilter extends FileFilter {
 	 */
 	@Override
 	public String getDescription() {
-		if (fullDescription == null) {
-			if (description == null || isExtensionListInDescription()) {
+		if(fullDescription == null) {
+			if(description == null || isExtensionListInDescription()) {
 				fullDescription = description == null ? "(" : description + " (";
 				// build the description from the extension list
 				Enumeration<String> extensions = filters.keys();
-				if (extensions != null) {
+				if(extensions != null) {
 					fullDescription += "." + extensions.nextElement();
 					while (extensions.hasMoreElements()) {
 						fullDescription += ", " + extensions.nextElement();

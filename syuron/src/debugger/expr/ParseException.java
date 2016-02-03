@@ -97,19 +97,19 @@ public class ParseException extends Exception {
 	 */
 	@Override
 	public String getMessage() {
-		if (!specialConstructor) {
+		if(!specialConstructor) {
 			return super.getMessage();
 		}
 		String expected = "";
 		int maxSize = 0;
 		for (int[] expectedTokenSequence : expectedTokenSequences) {
-			if (maxSize < expectedTokenSequence.length) {
+			if(maxSize < expectedTokenSequence.length) {
 				maxSize = expectedTokenSequence.length;
 			}
 			for (int j = 0; j < expectedTokenSequence.length; j++) {
 				expected += tokenImage[expectedTokenSequence[j]] + " ";
 			}
-			if (expectedTokenSequence[expectedTokenSequence.length - 1] != 0) {
+			if(expectedTokenSequence[expectedTokenSequence.length - 1] != 0) {
 				expected += "...";
 			}
 			expected += eol + "    ";
@@ -117,10 +117,10 @@ public class ParseException extends Exception {
 		String retval = "Encountered \"";
 		Token tok = currentToken.next;
 		for (int i = 0; i < maxSize; i++) {
-			if (i != 0) {
+			if(i != 0) {
 				retval += " ";
 			}
-			if (tok.kind == 0) {
+			if(tok.kind == 0) {
 				retval += tokenImage[0];
 				break;
 			}
@@ -128,7 +128,7 @@ public class ParseException extends Exception {
 			tok = tok.next;
 		}
 		retval += "\" at line " + currentToken.next.beginLine + ", column " + currentToken.next.beginColumn + "." + eol;
-		if (expectedTokenSequences.length == 1) {
+		if(expectedTokenSequences.length == 1) {
 			retval += "Was expecting:" + eol + "    ";
 		} else {
 			retval += "Was expecting one of:" + eol + "    ";
@@ -178,7 +178,7 @@ public class ParseException extends Exception {
 					retval.append("\\\\");
 					continue;
 				default:
-					if ((ch = str.charAt(i)) < 0x20 || ch > 0x7e) {
+					if((ch = str.charAt(i)) < 0x20 || ch > 0x7e) {
 						String s = "0000" + Integer.toString(ch, 16);
 						retval.append("\\u" + s.substring(s.length() - 4, s.length()));
 					} else {

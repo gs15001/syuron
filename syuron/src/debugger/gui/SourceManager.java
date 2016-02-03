@@ -97,7 +97,7 @@ public class SourceManager {
 	 */
 	public SourceModel sourceForClass(ReferenceType refType) {
 		SourceModel sm = classToSource.get(refType);
-		if (sm != null) {
+		if(sm != null) {
 			return sm;
 		}
 		try {
@@ -107,7 +107,7 @@ public class SourceManager {
 			String pkgName = (iDot >= 0) ? refName.substring(0, iDot + 1) : "";
 			String full = pkgName.replace('.', File.separatorChar) + filename;
 			File path = sourcePath.resolve(full);
-			if (path != null) {
+			if(path != null) {
 				sm = sourceForFile(path);
 				classToSource.put(refType, sm);
 				return sm;
@@ -127,16 +127,16 @@ public class SourceManager {
 		SourceModel sm = null;
 		while (iter.hasNext()) {
 			SourceModel candidate = iter.next();
-			if (candidate.fileName().equals(path)) {
+			if(candidate.fileName().equals(path)) {
 				sm = candidate;
 				iter.remove(); // Will move to start of list.
 				break;
 			}
 		}
-		if (sm == null && path.exists()) {
+		if(sm == null && path.exists()) {
 			sm = new SourceModel(env, path);
 		}
-		if (sm != null) {
+		if(sm != null) {
 			// At start of list for faster access
 			sourceList.add(0, sm);
 		}
@@ -171,7 +171,7 @@ public class SourceManager {
 		public void classPrepare(ClassPrepareEventSet e) {
 			ReferenceType refType = e.getReferenceType();
 			SourceModel sm = sourceForClass(refType);
-			if (sm != null) {
+			if(sm != null) {
 				sm.addClass(refType);
 			}
 		}

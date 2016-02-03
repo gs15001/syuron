@@ -152,7 +152,7 @@ class JDBMenuBar extends JMenuBar {
 		JDBFileFilter filter = new JDBFileFilter("java", "Java source code");
 		chooser.setFileFilter(filter);
 		int result = chooser.showOpenDialog(this);
-		if (result == JFileChooser.APPROVE_OPTION) {
+		if(result == JFileChooser.APPROVE_OPTION) {
 			// 選択された場合、必要情報の書き換え
 			env.getClassManager().setClassPath(new SearchPath(chooser.getSelectedFile().getParent()));
 			env.getSourceManager().setSourcePath(new SearchPath(chooser.getSelectedFile().getParent()));

@@ -81,7 +81,7 @@ public class SourceModel extends AbstractListModel {
 	}
 
 	public void clearClassLines() {
-		if (sourceLines != null) {
+		if(sourceLines != null) {
 			for (Line line : sourceLines) {
 				line.hasBreakpoint = false;
 				line.refType = null;
@@ -93,7 +93,7 @@ public class SourceModel extends AbstractListModel {
 
 	@Override
 	public Object getElementAt(int index) {
-		if (sourceLines == null) {
+		if(sourceLines == null) {
 			initialize();
 		}
 		return sourceLines.get(index);
@@ -101,7 +101,7 @@ public class SourceModel extends AbstractListModel {
 
 	@Override
 	public int getSize() {
-		if (sourceLines == null) {
+		if(sourceLines == null) {
 			initialize();
 		}
 		return sourceLines.size();
@@ -118,11 +118,11 @@ public class SourceModel extends AbstractListModel {
 	}
 
 	public Line line(int lineNo) {
-		if (sourceLines == null) {
+		if(sourceLines == null) {
 			initialize();
 		}
 		int index = lineNo - 1; // list is 0-indexed
-		if (index >= sourceLines.size() || index < 0) {
+		if(index >= sourceLines.size() || index < 0) {
 			return null;
 		} else {
 			return sourceLines.get(index);
@@ -131,7 +131,7 @@ public class SourceModel extends AbstractListModel {
 
 	public String sourceLine(int lineNo) {
 		Line line = line(lineNo);
-		if (line == null) {
+		if(line == null) {
 			return null;
 		} else {
 			return line.text;
@@ -140,9 +140,9 @@ public class SourceModel extends AbstractListModel {
 
 	void addClass(ReferenceType refType) {
 		// Logically is Set
-		if (classes.indexOf(refType) == -1) {
+		if(classes.indexOf(refType) == -1) {
 			classes.add(refType);
-			if (sourceLines != null) {
+			if(sourceLines != null) {
 				markClassLines(refType);
 			}
 		}
@@ -188,9 +188,9 @@ public class SourceModel extends AbstractListModel {
 			}
 		}
 		for (BreakpointRequest bp : env.getExecutionManager().eventRequestManager().breakpointRequests()) {
-			if (bp.location() != null) {
+			if(bp.location() != null) {
 				Location loc = bp.location();
-				if (loc.declaringType().equals(refType)) {
+				if(loc.declaringType().equals(refType)) {
 					showBreakpoint(loc.lineNumber(), true);
 				}
 			}
@@ -221,7 +221,7 @@ public class SourceModel extends AbstractListModel {
 		for (int i = 0; i < len; i++) {
 			char c = s.charAt(i);
 			sb.append(c);
-			if (c == '\t') {
+			if(c == '\t') {
 				int pad = (8 - (col % 8));
 				for (int j = 0; j < pad; j++) {
 					sb.append(' ');

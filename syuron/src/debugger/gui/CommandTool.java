@@ -105,7 +105,7 @@ public class CommandTool extends JPanel {
 
 		@Override
 		public void classPrepare(ClassPrepareEventSet e) {
-			if (context.getVerboseFlag()) {
+			if(context.getVerboseFlag()) {
 				String name = e.getReferenceType().name();
 				diagnostics.putString("Class " + name + " loaded");
 			}
@@ -113,7 +113,7 @@ public class CommandTool extends JPanel {
 
 		@Override
 		public void classUnload(ClassUnloadEventSet e) {
-			if (context.getVerboseFlag()) {
+			if(context.getVerboseFlag()) {
 				diagnostics.putString("Class " + e.getClassName() + " unloaded.");
 			}
 		}
@@ -134,10 +134,10 @@ public class CommandTool extends JPanel {
 			env.executeWaitCommand();
 			for (EventIterator it = e.eventIterator(); it.hasNext();) {
 				Event evt = it.nextEvent();
-				if (evt instanceof BreakpointEvent) {
+				if(evt instanceof BreakpointEvent) {
 					diagnostics.putString("Breakpoint hit: " + locString);
 					env.getVariableTool().update();
-				} else if (evt instanceof StepEvent) {
+				} else if(evt instanceof StepEvent) {
 					diagnostics.putString("Step completed: " + locString);
 
 					int excuteLine = Integer.parseInt(locString.substring(locString.lastIndexOf("=") + 1, locString
@@ -147,10 +147,10 @@ public class CommandTool extends JPanel {
 					// locstringからパッケージ名を取得
 					String pacName = locString.substring(locString.indexOf(" ") + 1, locString.indexOf(".") + 1);
 
-					if (pacName.startsWith("java.")) {
+					if(pacName.startsWith("java.")) {
 						// パッケージ名がjavaから始まる処理はスキップ
 						interpreter.executeCommand("next");
-					} else if (excuteClass.equals(preExcuteClass) && excuteLine == preExcuteLine) {
+					} else if(excuteClass.equals(preExcuteClass) && excuteLine == preExcuteLine) {
 						// 前回実行行と同じならステップ
 						interpreter.executeCommand("step");
 					} else {
@@ -159,9 +159,9 @@ public class CommandTool extends JPanel {
 						preExcuteClass = excuteClass;
 						env.getVariableTool().update();
 					}
-				} else if (evt instanceof MethodEntryEvent) {
+				} else if(evt instanceof MethodEntryEvent) {
 					diagnostics.putString("Method entered: " + locString);
-				} else if (evt instanceof MethodExitEvent) {
+				} else if(evt instanceof MethodExitEvent) {
 					diagnostics.putString("Method exited: " + locString);
 				} else {
 					diagnostics.putString("UNKNOWN event: " + e);
@@ -182,14 +182,14 @@ public class CommandTool extends JPanel {
 
 		@Override
 		public void threadDeath(ThreadDeathEventSet e) {
-			if (context.getVerboseFlag()) {
+			if(context.getVerboseFlag()) {
 				diagnostics.putString("Thread " + e.getThread() + " ended.");
 			}
 		}
 
 		@Override
 		public void threadStart(ThreadStartEventSet e) {
-			if (context.getVerboseFlag()) {
+			if(context.getVerboseFlag()) {
 				diagnostics.putString("Thread " + e.getThread() + " started.");
 			}
 		}
@@ -261,7 +261,7 @@ public class CommandTool extends JPanel {
 		@Override
 		public void breakpointError(SpecErrorEvent e) {
 			EventRequestSpec spec = e.getEventRequestSpec();
-			if (spec instanceof LineBreakpointSpec) {
+			if(spec instanceof LineBreakpointSpec) {
 				LineBreakpointSpec bp = (LineBreakpointSpec) spec;
 				PatternReferenceTypeSpec prSpec = (PatternReferenceTypeSpec) bp.getRefSpec();
 				env.addWaitCommand(("clear " + prSpec.toString() + ":" + bp.lineNumber()));
@@ -319,7 +319,7 @@ public class CommandTool extends JPanel {
 		public void currentFrameChanged(CurrentFrameChangedEvent e) {
 			// Update prompt only if affect thread is current.
 			ThreadReference thread = e.getThread();
-			if (thread == context.getCurrentThread()) {
+			if(thread == context.getCurrentThread()) {
 				script.setPrompt(promptString(thread, e.getIndex()));
 			}
 		}
@@ -332,7 +332,7 @@ public class CommandTool extends JPanel {
 	}
 
 	private void setThread(LocatableEventSet e) {
-		if (!e.suspendedNone()) {
+		if(!e.suspendedNone()) {
 			Thread.yield(); // fetch output
 			script.setPrompt(promptString(e.getThread(), 0));
 			// ### Current thread should be set elsewhere, e.g.,
@@ -342,7 +342,7 @@ public class CommandTool extends JPanel {
 	}
 
 	private String promptString(ThreadReference thread, int frameIndex) {
-		if (thread == null) {
+		if(thread == null) {
 			return DEFAULT_CMD_PROMPT;
 		} else {
 			// Frame indices are presented to user as indexed from 1.

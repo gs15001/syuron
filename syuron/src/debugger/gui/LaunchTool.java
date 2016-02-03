@@ -125,7 +125,7 @@ class LaunchTool {
 
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				if (radioGroup.getSelection() == null) {
+				if(radioGroup.getSelection() == null) {
 					JOptionPane.showMessageDialog(dialog, "Please select a connector type", "No Selection",
 							JOptionPane.ERROR_MESSAGE);
 				} else {
@@ -160,7 +160,7 @@ class LaunchTool {
 		final List<ArgRep> argReps = new ArrayList<ArgRep>(args.size());
 		for (Connector.Argument arg : args.values()) {
 			ArgRep ar;
-			if (arg instanceof Connector.BooleanArgument) {
+			if(arg instanceof Connector.BooleanArgument) {
 				ar = new BooleanArgRep((Connector.BooleanArgument) arg, guts);
 			} else {
 				ar = new StringArgRep(arg, guts);
@@ -174,12 +174,12 @@ class LaunchTool {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				for (ArgRep ar : argReps) {
-					if (!ar.isSpecified()) {
+					if(!ar.isSpecified()) {
 						JOptionPane.showMessageDialog(dialog, ar.arg.label() + ": Argument must be specified",
 								"No argument", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-					if (!ar.isValid()) {
+					if(!ar.isValid()) {
 						JOptionPane.showMessageDialog(dialog, ar.arg.label() + ": Bad argument value: " + ar.getText(),
 								"Bad argument", JOptionPane.ERROR_MESSAGE);
 						return;
@@ -187,7 +187,7 @@ class LaunchTool {
 					ar.install();
 				}
 				try {
-					if (runtime.explictStart(connector, args)) {
+					if(runtime.explictStart(connector, args)) {
 						dialog.setVisible(false);
 						dialog.dispose();
 					} else {
@@ -226,7 +226,7 @@ class LaunchTool {
 	static void queryAndLaunchVM(ExecutionManager runtime) throws VMLaunchFailureException {
 		LaunchTool lt = new LaunchTool(runtime);
 		Connector connector = lt.selectConnector();
-		if (connector != null) {
+		if(connector != null) {
 			lt.configureAndConnect(connector);
 		}
 	}

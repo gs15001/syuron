@@ -53,7 +53,7 @@ public class CommandInterpreter {
 	 * need a better scheme. */
 
 	private ThreadReference[] threads() throws NoSessionException {
-		if (threads == null) {
+		if(threads == null) {
 			ThreadIterator ti = new ThreadIterator(getDefaultThreadGroup());
 			List<ThreadReference> tlist = new ArrayList<ThreadReference>();
 			while (ti.hasNext()) {
@@ -67,7 +67,7 @@ public class CommandInterpreter {
 	private ThreadReference findThread(String idToken) throws NoSessionException {
 		String id;
 		ThreadReference thread = null;
-		if (idToken.startsWith("t@")) {
+		if(idToken.startsWith("t@")) {
 			id = idToken.substring(2);
 		} else {
 			id = idToken;
@@ -76,12 +76,12 @@ public class CommandInterpreter {
 			ThreadReference[] threads = threads();
 			long threadID = Long.parseLong(id, 16);
 			for (ThreadReference thread2 : threads) {
-				if (thread2.uniqueID() == threadID) {
+				if(thread2.uniqueID() == threadID) {
 					thread = thread2;
 					break;
 				}
 			}
-			if (thread == null) {
+			if(thread == null) {
 				// env.failure("No thread for id \"" + idToken + "\"");
 				env.failure("\"" + idToken + "\" is not a valid thread id.");
 			}
@@ -111,7 +111,7 @@ public class CommandInterpreter {
 	private ThreadGroupReference defaultThreadGroup;
 
 	private ThreadGroupReference getDefaultThreadGroup() throws NoSessionException {
-		if (defaultThreadGroup == null) {
+		if(defaultThreadGroup == null) {
 			defaultThreadGroup = runtime.systemThreadGroup();
 		}
 		return defaultThreadGroup;
@@ -137,23 +137,23 @@ public class CommandInterpreter {
 	// Command: methods
 
 	private void commandMethods(StringTokenizer t) throws NoSessionException {
-		if (!t.hasMoreTokens()) {
+		if(!t.hasMoreTokens()) {
 			env.error("No class specified.");
 			return;
 		}
 		String idClass = t.nextToken();
 		ReferenceType cls = findClass(idClass);
-		if (cls != null) {
+		if(cls != null) {
 			List<Method> methods = cls.allMethods();
 			OutputSink out = env.getOutputSink();
 			for (int i = 0; i < methods.size(); i++) {
 				Method method = methods.get(i);
 				out.print(method.declaringType().name() + " " + method.name() + "(");
 				Iterator<String> it = method.argumentTypeNames().iterator();
-				if (it.hasNext()) {
+				if(it.hasNext()) {
 					while (true) {
 						out.print(it.next());
-						if (!it.hasNext()) {
+						if(!it.hasNext()) {
 							break;
 						}
 						out.print(", ");
@@ -170,7 +170,7 @@ public class CommandInterpreter {
 
 	private ReferenceType findClass(String pattern) throws NoSessionException {
 		List<ReferenceType> results = runtime.findClassesMatchingPattern(pattern);
-		if (results.size() > 0) {
+		if(results.size() > 0) {
 			// ### Should handle multiple results sensibly.
 			return results.get(0);
 		}
@@ -180,7 +180,7 @@ public class CommandInterpreter {
 	// Command: threads
 
 	private void commandThreads(StringTokenizer t) throws NoSessionException {
-		if (!t.hasMoreTokens()) {
+		if(!t.hasMoreTokens()) {
 			OutputSink out = env.getOutputSink();
 			printThreadGroup(out, getDefaultThreadGroup(), 0);
 			out.show();
@@ -188,7 +188,7 @@ public class CommandInterpreter {
 		}
 		String name = t.nextToken();
 		ThreadGroupReference tg = findThreadGroup(name);
-		if (tg == null) {
+		if(tg == null) {
 			env.failure(name + " is not a valid threadgroup name.");
 		} else {
 			OutputSink out = env.getOutputSink();
@@ -202,7 +202,7 @@ public class CommandInterpreter {
 		ThreadGroupIterator tgi = allThreadGroups();
 		while (tgi.hasNext()) {
 			ThreadGroupReference tg = tgi.nextThreadGroup();
-			if (tg.name().equals(name)) {
+			if(tg.name().equals(name)) {
 				return tg;
 			}
 		}
@@ -217,15 +217,15 @@ public class CommandInterpreter {
 		for (int i = 0; i < tlist.size(); i++) {
 			ThreadReference thr = tlist.get(i);
 			int len = Utils.description(thr).length();
-			if (len > maxId) {
+			if(len > maxId) {
 				maxId = len;
 			}
 			String name = thr.name();
 			int iDot = name.lastIndexOf('.');
-			if (iDot >= 0 && name.length() > iDot) {
+			if(iDot >= 0 && name.length() > iDot) {
 				name = name.substring(iDot + 1);
 			}
-			if (name.length() > maxName) {
+			if(name.length() > maxName) {
 				maxName = name.length();
 			}
 		}
@@ -251,7 +251,7 @@ public class CommandInterpreter {
 			iBuf += maxId + 1;
 			String name = thr.name();
 			int iDot = name.lastIndexOf('.');
-			if (iDot >= 0 && name.length() > iDot) {
+			if(iDot >= 0 && name.length() > iDot) {
 				name = name.substring(iDot + 1);
 			}
 			sbOut.insert(iBuf, name);
@@ -261,7 +261,7 @@ public class CommandInterpreter {
 			out.println(sbOut.toString());
 		}
 		for (ThreadGroupReference tg0 : tg.threadGroups()) {
-			if (!tg.equals(tg0)) { // TODO ref mgt
+			if(!tg.equals(tg0)) { // TODO ref mgt
 				iThread += printThreadGroup(out, tg0, iThread + tlist.size());
 			}
 		}
@@ -285,12 +285,12 @@ public class CommandInterpreter {
 	// Command: thread
 
 	private void commandThread(StringTokenizer t) throws NoSessionException {
-		if (!t.hasMoreTokens()) {
+		if(!t.hasMoreTokens()) {
 			env.error("Thread number not specified.");
 			return;
 		}
 		ThreadReference thread = findThread(t.nextToken());
-		if (thread != null) {
+		if(thread != null) {
 			// ### Should notify user.
 			context.setCurrentThread(thread);
 		}
@@ -299,13 +299,13 @@ public class CommandInterpreter {
 	// Command: threadgroup
 
 	private void commandThreadGroup(StringTokenizer t) throws NoSessionException {
-		if (!t.hasMoreTokens()) {
+		if(!t.hasMoreTokens()) {
 			env.error("Threadgroup name not specified.");
 			return;
 		}
 		String name = t.nextToken();
 		ThreadGroupReference tg = findThreadGroup(name);
-		if (tg == null) {
+		if(tg == null) {
 			env.failure(name + " is not a valid threadgroup name.");
 		} else {
 			// ### Should notify user.
@@ -318,7 +318,7 @@ public class CommandInterpreter {
 	private void commandRun(StringTokenizer t) throws NoSessionException {
 		// 現在開いているファイルを実行するように
 		SourceModel sourceModel = env.getSourceManager().getSourceTool().getSourceModel();
-		if (sourceModel == null) {
+		if(sourceModel == null) {
 			System.out.println("No sourceModel");
 			return;
 		}
@@ -334,13 +334,13 @@ public class CommandInterpreter {
 		env.getContextManager().setProgramArguments("");
 
 		for (JButton button : env.getToolBar().buttonList) {
-			if (button.getText().equals("Run")) {
+			if(button.getText().equals("Run")) {
 				button.setEnabled(false);
 			} else {
 				button.setEnabled(true);
 			}
 		}
-		if (doLoad(false, t)) {
+		if(doLoad(false, t)) {
 			env.notice("Running ...");
 		}
 	}
@@ -348,22 +348,22 @@ public class CommandInterpreter {
 	// Command: load
 
 	private void commandLoad(StringTokenizer t) throws NoSessionException {
-		if (doLoad(true, t)) {
+		if(doLoad(true, t)) {
 		}
 	}
 
 	private boolean doLoad(boolean suspended, StringTokenizer t) throws NoSessionException {
 
 		String token = context.getMainClassName() + ".main";
-		if (env.isAutoStopMode()) {
+		if(env.isAutoStopMode()) {
 			executeCommand("stop in " + token);
 		}
 
 		String clname;
 
-		if (!t.hasMoreTokens()) {
+		if(!t.hasMoreTokens()) {
 			clname = context.getMainClassName();
-			if (!clname.equals("")) {
+			if(!clname.equals("")) {
 				// Run from prevously-set class name.
 				try {
 					String vmArgs = context.getVmArguments();
@@ -382,7 +382,7 @@ public class CommandInterpreter {
 			while (t.hasMoreTokens()) {
 				String tok = t.nextToken();
 				sbuf.append(tok);
-				if (t.hasMoreTokens()) {
+				if(t.hasMoreTokens()) {
 					sbuf.append(' ');
 				}
 			}
@@ -415,9 +415,9 @@ public class CommandInterpreter {
 
 	private void commandAttach(StringTokenizer t) {
 		String portName;
-		if (!t.hasMoreTokens()) {
+		if(!t.hasMoreTokens()) {
 			portName = context.getRemotePort();
-			if (!portName.equals("")) {
+			if(!portName.equals("")) {
 				try {
 					runtime.attach(portName);
 				} catch (VMLaunchFailureException e) {
@@ -452,7 +452,7 @@ public class CommandInterpreter {
 	// Command: suspend
 
 	private void commandSuspend(StringTokenizer t) throws NoSessionException {
-		if (!t.hasMoreTokens()) {
+		if(!t.hasMoreTokens()) {
 			// Suspend all threads in the current thread group.
 			// ### Issue: help message says default is all threads.
 			// ### Behavior here agrees with 'jdb', however.
@@ -465,7 +465,7 @@ public class CommandInterpreter {
 		} else {
 			while (t.hasMoreTokens()) {
 				ThreadReference thread = findThread(t.nextToken());
-				if (thread != null) {
+				if(thread != null) {
 					// thread.suspend();
 					runtime.suspendThread(thread);
 				}
@@ -476,7 +476,7 @@ public class CommandInterpreter {
 	// Command: resume
 
 	private void commandResume(StringTokenizer t) throws NoSessionException {
-		if (!t.hasMoreTokens()) {
+		if(!t.hasMoreTokens()) {
 			// Suspend all threads in the current thread group.
 			// ### Issue: help message says default is all threads.
 			// ### Behavior here agrees with 'jdb', however.
@@ -489,7 +489,7 @@ public class CommandInterpreter {
 		} else {
 			while (t.hasMoreTokens()) {
 				ThreadReference thread = findThread(t.nextToken());
-				if (thread != null) {
+				if(thread != null) {
 					// thread.resume();
 					runtime.resumeThread(thread);
 				}
@@ -534,12 +534,12 @@ public class CommandInterpreter {
 
 	private void commandStep(StringTokenizer t) throws NoSessionException {
 		ThreadReference current = context.getCurrentThread();
-		if (current == null) {
+		if(current == null) {
 			env.failure("No current thread.");
 			return;
 		}
 		try {
-			if (t.hasMoreTokens() && t.nextToken().toLowerCase().equals("up")) {
+			if(t.hasMoreTokens() && t.nextToken().toLowerCase().equals("up")) {
 				runtime.stepOut(current);
 			} else {
 				runtime.stepIntoLine(current);
@@ -553,7 +553,7 @@ public class CommandInterpreter {
 
 	private void commandStepi() throws NoSessionException {
 		ThreadReference current = context.getCurrentThread();
-		if (current == null) {
+		if(current == null) {
 			env.failure("No current thread.");
 			return;
 		}
@@ -564,7 +564,7 @@ public class CommandInterpreter {
 
 	private void commandNext() throws NoSessionException {
 		ThreadReference current = context.getCurrentThread();
-		if (current == null) {
+		if(current == null) {
 			env.failure("No current thread.");
 			return;
 		}
@@ -579,7 +579,7 @@ public class CommandInterpreter {
 
 	private void commandNexti() throws NoSessionException {
 		ThreadReference current = context.getCurrentThread();
-		if (current == null) {
+		if(current == null) {
 			env.failure("No current thread.");
 			return;
 		}
@@ -591,14 +591,14 @@ public class CommandInterpreter {
 	private void commandKill(StringTokenizer t) throws NoSessionException {
 		// ### Should change the way in which thread ids and threadgroup names
 		// ### are distinguished.
-		if (!t.hasMoreTokens()) {
+		if(!t.hasMoreTokens()) {
 			env.error("Usage: kill <threadgroup name> or <thread id>");
 			return;
 		}
 		while (t.hasMoreTokens()) {
 			String idToken = t.nextToken();
 			ThreadReference thread = findThread(idToken);
-			if (thread != null) {
+			if(thread != null) {
 				runtime.stopThread(thread);
 				env.notice("Thread " + thread.name() + " killed.");
 				return;
@@ -610,7 +610,7 @@ public class CommandInterpreter {
 				ThreadGroupIterator itg = allThreadGroups();
 				while (itg.hasNext()) {
 					ThreadGroupReference tg = itg.nextThreadGroup();
-					if (tg.name().equals(idToken)) {
+					if(tg.name().equals(idToken)) {
 						ThreadIterator it = new ThreadIterator(tg);
 						while (it.hasNext()) {
 							runtime.stopThread(it.nextThread());
@@ -636,7 +636,7 @@ public class CommandInterpreter {
 
 	int readCount(StringTokenizer t) {
 		int cnt = 1;
-		if (t.hasMoreTokens()) {
+		if(t.hasMoreTokens()) {
 			String idToken = t.nextToken();
 			try {
 				cnt = Integer.valueOf(idToken).intValue();
@@ -649,20 +649,20 @@ public class CommandInterpreter {
 
 	void commandUp(StringTokenizer t) throws NoSessionException {
 		ThreadReference current = context.getCurrentThread();
-		if (current == null) {
+		if(current == null) {
 			env.failure("No current thread.");
 			return;
 		}
 		int nLevels = readCount(t);
-		if (nLevels <= 0) {
+		if(nLevels <= 0) {
 			env.error("usage: up [n frames]");
 			return;
 		}
 		try {
 			int delta = context.moveCurrentFrameIndex(current, -nLevels);
-			if (delta == 0) {
+			if(delta == 0) {
 				env.notice("Already at top of stack.");
-			} else if (-delta < nLevels) {
+			} else if(-delta < nLevels) {
 				env.notice("Moved up " + delta + " frames to top of stack.");
 			}
 		} catch (VMNotInterruptedException e) {
@@ -672,20 +672,20 @@ public class CommandInterpreter {
 
 	private void commandDown(StringTokenizer t) throws NoSessionException {
 		ThreadReference current = context.getCurrentThread();
-		if (current == null) {
+		if(current == null) {
 			env.failure("No current thread.");
 			return;
 		}
 		int nLevels = readCount(t);
-		if (nLevels <= 0) {
+		if(nLevels <= 0) {
 			env.error("usage: down [n frames]");
 			return;
 		}
 		try {
 			int delta = context.moveCurrentFrameIndex(current, nLevels);
-			if (delta == 0) {
+			if(delta == 0) {
 				env.notice("Already at bottom of stack.");
-			} else if (delta < nLevels) {
+			} else if(delta < nLevels) {
 				env.notice("Moved down " + delta + " frames to bottom of stack.");
 			}
 		} catch (VMNotInterruptedException e) {
@@ -697,11 +697,11 @@ public class CommandInterpreter {
 
 	private void commandFrame(StringTokenizer t) throws NoSessionException {
 		ThreadReference current = context.getCurrentThread();
-		if (current == null) {
+		if(current == null) {
 			env.failure("No current thread.");
 			return;
 		}
-		if (!t.hasMoreTokens()) {
+		if(!t.hasMoreTokens()) {
 			env.error("usage: frame <frame-index>");
 			return;
 		}
@@ -712,15 +712,15 @@ public class CommandInterpreter {
 		} catch (NumberFormatException e) {
 			n = 0;
 		}
-		if (n <= 0) {
+		if(n <= 0) {
 			env.error("use positive frame index");
 			return;
 		}
 		try {
 			int delta = context.setCurrentFrameIndex(current, n);
-			if (delta == 0) {
+			if(delta == 0) {
 				env.notice("Frame unchanged.");
-			} else if (delta < 0) {
+			} else if(delta < 0) {
 				env.notice("Moved up " + -delta + " frames.");
 			} else {
 				env.notice("Moved down " + delta + " frames.");
@@ -738,15 +738,15 @@ public class CommandInterpreter {
 
 	private void commandWhere(StringTokenizer t, boolean showPC) throws NoSessionException {
 		ThreadReference current = context.getCurrentThread();
-		if (!t.hasMoreTokens()) {
-			if (current == null) {
+		if(!t.hasMoreTokens()) {
+			if(current == null) {
 				env.error("No thread specified.");
 				return;
 			}
 			dumpStack(current, showPC);
 		} else {
 			String token = t.nextToken();
-			if (token.toLowerCase().equals("all")) {
+			if(token.toLowerCase().equals("all")) {
 				ThreadIterator it = allThreads();
 				while (it.hasNext()) {
 					ThreadReference thread = it.next();
@@ -757,7 +757,7 @@ public class CommandInterpreter {
 				ThreadReference thread = findThread(t.nextToken());
 				// ### Do we want to set current thread here?
 				// ### Should notify user of change.
-				if (thread != null) {
+				if(thread != null) {
 					context.setCurrentThread(thread);
 				}
 				dumpStack(thread, showPC);
@@ -782,7 +782,7 @@ public class CommandInterpreter {
 		// ### Now, prints all of the stack regardless of current frame.
 		int frameIndex = 0;
 		// int frameIndex = context.getCurrentFrameIndex();
-		if (stack == null) {
+		if(stack == null) {
 			env.failure("Thread is not running (no stack).");
 		} else {
 			OutputSink out = env.getOutputSink();
@@ -796,9 +796,9 @@ public class CommandInterpreter {
 				out.print('.');
 				out.print(meth.name());
 				out.print(" (");
-				if (meth.isNative()) {
+				if(meth.isNative()) {
 					out.print("native method");
-				} else if (loc.lineNumber() != -1) {
+				} else if(loc.lineNumber() != -1) {
 					try {
 						out.print(loc.sourceName());
 					} catch (AbsentInformationException e) {
@@ -808,9 +808,9 @@ public class CommandInterpreter {
 					out.print(loc.lineNumber());
 				}
 				out.print(')');
-				if (showPC) {
+				if(showPC) {
 					long pc = loc.codeIndex();
-					if (pc != -1) {
+					if(pc != -1) {
 						out.print(", pc = " + pc);
 					}
 				}
@@ -823,7 +823,7 @@ public class CommandInterpreter {
 	private void listEventRequests() throws NoSessionException {
 		// Print set breakpoints
 		List<EventRequestSpec> specs = runtime.eventRequestSpecs();
-		if (specs.isEmpty()) {
+		if(specs.isEmpty()) {
 			env.notice("No breakpoints/watchpoints/exceptions set.");
 		} else {
 			OutputSink out = env.getOutputSink();
@@ -848,36 +848,36 @@ public class CommandInterpreter {
 		} catch (NoSuchElementException e) {
 			rest = null;
 		}
-		if ((rest != null) && rest.startsWith("@")) {
+		if((rest != null) && rest.startsWith("@")) {
 			t = new StringTokenizer(rest.substring(1));
 			String sourceName = token;
 			String lineToken = t.nextToken();
 			int lineNumber = Integer.valueOf(lineToken).intValue();
-			if (t.hasMoreTokens()) {
+			if(t.hasMoreTokens()) {
 				return null;
 			}
 			bpSpec = runtime.createSourceLineBreakpoint(sourceName, lineNumber);
-		} else if ((rest != null) && rest.startsWith(":")) {
+		} else if((rest != null) && rest.startsWith(":")) {
 			t = new StringTokenizer(rest.substring(1));
 			String classId = token;
 			String lineToken = t.nextToken();
 			int lineNumber = Integer.valueOf(lineToken).intValue();
-			if (t.hasMoreTokens()) {
+			if(t.hasMoreTokens()) {
 				return null;
 			}
 			bpSpec = runtime.createClassLineBreakpoint(classId, lineNumber);
 		} else {
 			// Try stripping method from class.method token.
 			int idot = token.lastIndexOf(".");
-			if ((idot <= 0) || /* No dot or dot in first char */
+			if((idot <= 0) || /* No dot or dot in first char */
 			(idot >= token.length() - 1)) { /* dot in last char */
 				return null;
 			}
 			String methodName = token.substring(idot + 1);
 			String classId = token.substring(0, idot);
 			List<String> argumentList = new ArrayList<String>();
-			if (rest != null) {
-				if (!rest.startsWith("(") || !rest.endsWith(")")) {
+			if(rest != null) {
+				if(!rest.startsWith("(") || !rest.endsWith(")")) {
 					// ### Should throw exception with error message
 					// out.println("Invalid method specification: "
 					// + methodName + rest);
@@ -905,14 +905,14 @@ public class CommandInterpreter {
 	private void commandStop(StringTokenizer t) throws NoSessionException {
 		String token;
 
-		if (!t.hasMoreTokens()) {
+		if(!t.hasMoreTokens()) {
 			listEventRequests();
 		} else {
 			token = t.nextToken();
 			// Ignore optional "at" or "in" token.
 			// Allowed for backward compatibility.
-			if (token.equals("at") || token.equals("in")) {
-				if (t.hasMoreTokens()) {
+			if(token.equals("at") || token.equals("in")) {
+				if(t.hasMoreTokens()) {
 					token = t.nextToken();
 				} else {
 					env.error("Missing breakpoint specification.");
@@ -920,7 +920,7 @@ public class CommandInterpreter {
 				}
 			}
 			BreakpointSpec bpSpec = parseBreakpointSpec(token);
-			if (bpSpec != null) {
+			if(bpSpec != null) {
 				// ### Add sanity-checks for deferred breakpoint.
 				runtime.install(bpSpec);
 				sourceManager.getSourceTool().getLineNumberView().repaint();
@@ -931,7 +931,7 @@ public class CommandInterpreter {
 	}
 
 	private void commandClear(StringTokenizer t) throws NoSessionException {
-		if (!t.hasMoreTokens()) {
+		if(!t.hasMoreTokens()) {
 			// Print set breakpoints
 			listEventRequests();
 			return;
@@ -943,30 +943,30 @@ public class CommandInterpreter {
 		// ### need 'clear all'
 		String cmd = t.nextToken();
 		BreakpointSpec bpSpec = parseBreakpointSpec(cmd);
-		if (cmd.equals("all")) {
+		if(cmd.equals("all")) {
 			List<EventRequestSpec> specs = runtime.eventRequestSpecs();
-			if (!specs.isEmpty()) {
+			if(!specs.isEmpty()) {
 				for (EventRequestSpec spec : specs) {
-					if (spec instanceof BreakpointSpec) {
+					if(spec instanceof BreakpointSpec) {
 						runtime.delete(spec);
 						sourceManager.getSourceTool().getLineNumberView().repaint();
 					}
 				}
 			}
-		} else if (bpSpec != null) {
+		} else if(bpSpec != null) {
 			List<EventRequestSpec> specs = runtime.eventRequestSpecs();
 
-			if (specs.isEmpty()) {
+			if(specs.isEmpty()) {
 				env.notice("No breakpoints set.");
 			} else {
 				List<EventRequestSpec> toDelete = new ArrayList<EventRequestSpec>();
 				for (EventRequestSpec spec : specs) {
-					if (spec.equals(bpSpec)) {
+					if(spec.equals(bpSpec)) {
 						toDelete.add(spec);
 					}
 				}
 				// The request used for matching should be found
-				if (toDelete.size() <= 1) {
+				if(toDelete.size() <= 1) {
 					env.notice("No matching breakpoint set.");
 				}
 				for (EventRequestSpec spec : toDelete) {
@@ -983,14 +983,14 @@ public class CommandInterpreter {
 
 	private void commandList(StringTokenizer t) throws NoSessionException {
 		ThreadReference current = context.getCurrentThread();
-		if (current == null) {
+		if(current == null) {
 			env.error("No thread specified.");
 			return;
 		}
 		Location loc;
 		try {
 			StackFrame frame = context.getCurrentFrame(current);
-			if (frame == null) {
+			if(frame == null) {
 				env.failure("Thread has not yet begun execution.");
 				return;
 			}
@@ -1000,8 +1000,8 @@ public class CommandInterpreter {
 			return;
 		}
 		SourceModel source = sourceManager.sourceForLocation(loc);
-		if (source == null) {
-			if (loc.method().isNative()) {
+		if(source == null) {
+			if(loc.method().isNative()) {
 				env.failure("Current method is native.");
 				return;
 			}
@@ -1010,7 +1010,7 @@ public class CommandInterpreter {
 		}
 		ReferenceType refType = loc.declaringType();
 		int lineno = loc.lineNumber();
-		if (t.hasMoreTokens()) {
+		if(t.hasMoreTokens()) {
 			String id = t.nextToken();
 			// See if token is a line number.
 			try {
@@ -1018,10 +1018,10 @@ public class CommandInterpreter {
 			} catch (NumberFormatException nfe) {
 				// It isn't -- see if it's a method name.
 				List<Method> meths = refType.methodsByName(id);
-				if (meths == null || meths.size() == 0) {
+				if(meths == null || meths.size() == 0) {
 					env.failure(id + " is not a valid line number or " + "method name for class " + refType.name());
 					return;
-				} else if (meths.size() > 1) {
+				} else if(meths.size() > 1) {
 					env.failure(id + " is an ambiguous method name in" + refType.name());
 					return;
 				}
@@ -1032,18 +1032,18 @@ public class CommandInterpreter {
 		int startLine = (lineno > 4) ? lineno - 4 : 1;
 		int endLine = startLine + 9;
 		String sourceLine = source.sourceLine(lineno);
-		if (sourceLine == null) {
+		if(sourceLine == null) {
 			env.failure("" + lineno + " is an invalid line number for " + refType.name());
 		} else {
 			OutputSink out = env.getOutputSink();
 			for (int i = startLine; i <= endLine; i++) {
 				sourceLine = source.sourceLine(i);
-				if (sourceLine == null) {
+				if(sourceLine == null) {
 					break;
 				}
 				out.print(i);
 				out.print("\t");
-				if (i == lineno) {
+				if(i == lineno) {
 					out.print("=> ");
 				} else {
 					out.print("   ");
@@ -1058,7 +1058,7 @@ public class CommandInterpreter {
 	// Get or set the source file path list.
 
 	private void commandUse(StringTokenizer t) {
-		if (!t.hasMoreTokens()) {
+		if(!t.hasMoreTokens()) {
 			out.println(sourceManager.getSourcePath().asString());
 		} else {
 			// ### Should throw exception for invalid path.
@@ -1071,7 +1071,7 @@ public class CommandInterpreter {
 	// Get or set the source file path list. (Alternate to 'use'.)
 
 	private void commandSourcepath(StringTokenizer t) {
-		if (!t.hasMoreTokens()) {
+		if(!t.hasMoreTokens()) {
 			out.println(sourceManager.getSourcePath().asString());
 		} else {
 			// ### Should throw exception for invalid path.
@@ -1084,7 +1084,7 @@ public class CommandInterpreter {
 	// Get or set the class file path list.
 
 	private void commandClasspath(StringTokenizer t) {
-		if (!t.hasMoreTokens()) {
+		if(!t.hasMoreTokens()) {
 			out.println(classManager.getClassPath().asString());
 		} else {
 			// ### Should throw exception for invalid path.
@@ -1097,11 +1097,11 @@ public class CommandInterpreter {
 	// Display source for source file or class.
 
 	private void commandView(StringTokenizer t) throws NoSessionException {
-		if (!t.hasMoreTokens()) {
+		if(!t.hasMoreTokens()) {
 			env.error("Argument required");
 		} else {
 			String name = t.nextToken();
-			if (name.endsWith(".java") || name.indexOf(File.separatorChar) >= 0) {
+			if(name.endsWith(".java") || name.indexOf(File.separatorChar) >= 0) {
 				env.viewSource(name);
 				sourceManager.getSourceTool().getLineNumberView().repaint();
 			} else {
@@ -1123,14 +1123,14 @@ public class CommandInterpreter {
 
 	private void commandLocals() throws NoSessionException {
 		ThreadReference current = context.getCurrentThread();
-		if (current == null) {
+		if(current == null) {
 			env.failure("No default thread specified: " + "use the \"thread\" command first.");
 			return;
 		}
 		StackFrame frame;
 		try {
 			frame = context.getCurrentFrame(current);
-			if (frame == null) {
+			if(frame == null) {
 				env.failure("Thread has not yet created any stack frames.");
 				return;
 			}
@@ -1142,7 +1142,7 @@ public class CommandInterpreter {
 		List<LocalVariable> vars;
 		try {
 			vars = frame.visibleVariables();
-			if (vars == null || vars.size() == 0) {
+			if(vars == null || vars.size() == 0) {
 				env.failure("No local variables");
 				return;
 			}
@@ -1155,13 +1155,13 @@ public class CommandInterpreter {
 		OutputSink out = env.getOutputSink();
 		out.println("Method arguments:");
 		for (LocalVariable var : vars) {
-			if (var.isArgument()) {
+			if(var.isArgument()) {
 				printVar(out, var, frame);
 			}
 		}
 		out.println("Local variables:");
 		for (LocalVariable var : vars) {
-			if (!var.isArgument()) {
+			if(!var.isArgument()) {
 				printVar(out, var, frame);
 			}
 		}
@@ -1173,7 +1173,7 @@ public class CommandInterpreter {
 	 * Command: monitor Monitor an expression
 	 */
 	private void commandMonitor(StringTokenizer t) throws NoSessionException {
-		if (!t.hasMoreTokens()) {
+		if(!t.hasMoreTokens()) {
 			env.error("Argument required");
 		} else {
 			env.getMonitorListModel().add(t.nextToken(""));
@@ -1184,7 +1184,7 @@ public class CommandInterpreter {
 	 * Command: unmonitor Unmonitor an expression
 	 */
 	private void commandUnmonitor(StringTokenizer t) throws NoSessionException {
-		if (!t.hasMoreTokens()) {
+		if(!t.hasMoreTokens()) {
 			env.error("Argument required");
 		} else {
 			env.getMonitorListModel().remove(t.nextToken(""));
@@ -1195,7 +1195,7 @@ public class CommandInterpreter {
 
 	private void printVar(OutputSink out, LocalVariable var, StackFrame frame) {
 		out.print("  " + var.name());
-		if (var.isVisible(frame)) {
+		if(var.isVisible(frame)) {
 			Value val = frame.getValue(var);
 			out.println(" = " + val.toString());
 		} else {
@@ -1207,20 +1207,20 @@ public class CommandInterpreter {
 	// Evaluate an expression.
 
 	private void commandPrint(StringTokenizer t, boolean dumpObject) throws NoSessionException {
-		if (!t.hasMoreTokens()) {
+		if(!t.hasMoreTokens()) {
 			// ### Probably confused if expresion contains whitespace.
 			env.error("No expression specified.");
 			return;
 		}
 		ThreadReference current = context.getCurrentThread();
-		if (current == null) {
+		if(current == null) {
 			env.failure("No default thread specified: " + "use the \"thread\" command first.");
 			return;
 		}
 		StackFrame frame;
 		try {
 			frame = context.getCurrentFrame(current);
-			if (frame == null) {
+			if(frame == null) {
 				env.failure("Thread has not yet created any stack frames.");
 				return;
 			}
@@ -1237,11 +1237,11 @@ public class CommandInterpreter {
 				env.error("Exception: " + e);
 				// ### Fix this!
 			}
-			if (val == null) {
+			if(val == null) {
 				return; // Error message already printed
 			}
 			OutputSink out = env.getOutputSink();
-			if (dumpObject && (val instanceof ObjectReference) && !(val instanceof StringReference)) {
+			if(dumpObject && (val instanceof ObjectReference) && !(val instanceof StringReference)) {
 				ObjectReference obj = (ObjectReference) val;
 				ReferenceType refType = obj.referenceType();
 				out.println(expr + " = " + val.toString() + " {");
@@ -1257,19 +1257,19 @@ public class CommandInterpreter {
 	private void dump(OutputSink out, ObjectReference obj, ReferenceType refType, ReferenceType refTypeBase) {
 		for (Field field : refType.fields()) {
 			out.print("    ");
-			if (!refType.equals(refTypeBase)) {
+			if(!refType.equals(refTypeBase)) {
 				out.print(refType.name() + ".");
 			}
 			out.print(field.name() + ": ");
 			Object o = obj.getValue(field);
 			out.println((o == null) ? "null" : o.toString()); // Bug ID 4374471
 		}
-		if (refType instanceof ClassType) {
+		if(refType instanceof ClassType) {
 			ClassType sup = ((ClassType) refType).superclass();
-			if (sup != null) {
+			if(sup != null) {
 				dump(out, obj, sup, refTypeBase);
 			}
-		} else if (refType instanceof InterfaceType) {
+		} else if(refType instanceof InterfaceType) {
 			for (InterfaceType sup : ((InterfaceType) refType).superinterfaces()) {
 				dump(out, obj, sup, refTypeBase);
 			}
@@ -1339,57 +1339,57 @@ public class CommandInterpreter {
 	public void executeCommand(String command) {
 		// ### Treatment of 'out' here is dirty...
 		out = env.getOutputSink();
-		if (echo) {
+		if(echo) {
 			out.println(">>> " + command);
 		}
 		StringTokenizer t = new StringTokenizer(command);
 		try {
 			String cmd;
-			if (t.hasMoreTokens()) {
+			if(t.hasMoreTokens()) {
 				cmd = t.nextToken().toLowerCase();
 				lastCommand = cmd;
 			} else {
 				cmd = lastCommand;
 			}
-			if (cmd.equals("print")) {
+			if(cmd.equals("print")) {
 				commandPrint(t, false);
-			} else if (cmd.equals("eval")) {
+			} else if(cmd.equals("eval")) {
 				commandPrint(t, false);
-			} else if (cmd.equals("dump")) {
+			} else if(cmd.equals("dump")) {
 				commandPrint(t, true);
-			} else if (cmd.equals("locals")) {
+			} else if(cmd.equals("locals")) {
 				commandLocals();
-			} else if (cmd.equals("classes")) {
+			} else if(cmd.equals("classes")) {
 				commandClasses();
-			} else if (cmd.equals("methods")) {
+			} else if(cmd.equals("methods")) {
 				commandMethods(t);
-			} else if (cmd.equals("threads")) {
+			} else if(cmd.equals("threads")) {
 				commandThreads(t);
-			} else if (cmd.equals("thread")) {
+			} else if(cmd.equals("thread")) {
 				commandThread(t);
-			} else if (cmd.equals("suspend")) {
+			} else if(cmd.equals("suspend")) {
 				commandSuspend(t);
-			} else if (cmd.equals("resume")) {
+			} else if(cmd.equals("resume")) {
 				commandResume(t);
-			} else if (cmd.equals("cont")) {
+			} else if(cmd.equals("cont")) {
 				commandCont();
-			} else if (cmd.equals("last")) {
+			} else if(cmd.equals("last")) {
 				commandLast();
-			} else if (cmd.equals("threadgroups")) {
+			} else if(cmd.equals("threadgroups")) {
 				commandThreadGroups();
-			} else if (cmd.equals("threadgroup")) {
+			} else if(cmd.equals("threadgroup")) {
 				commandThreadGroup(t);
-			} else if (cmd.equals("run")) {
+			} else if(cmd.equals("run")) {
 				commandRun(t);
-			} else if (cmd.equals("load")) {
+			} else if(cmd.equals("load")) {
 				commandLoad(t);
-			} else if (cmd.equals("connect")) {
+			} else if(cmd.equals("connect")) {
 				commandConnect(t);
-			} else if (cmd.equals("attach")) {
+			} else if(cmd.equals("attach")) {
 				commandAttach(t);
-			} else if (cmd.equals("detach")) {
+			} else if(cmd.equals("detach")) {
 				commandDetach(t);
-			} else if (cmd.equals("interrupt")) {
+			} else if(cmd.equals("interrupt")) {
 				commandInterrupt(t);
 				// ### Not implemented.
 				// } else if (cmd.equals("catch")) {
@@ -1397,56 +1397,56 @@ public class CommandInterpreter {
 				// ### Not implemented.
 				// } else if (cmd.equals("ignore")) {
 				// commandIgnoreException(t);
-			} else if (cmd.equals("step")) {
+			} else if(cmd.equals("step")) {
 				commandStep(t);
-			} else if (cmd.equals("stepi")) {
+			} else if(cmd.equals("stepi")) {
 				commandStepi();
-			} else if (cmd.equals("next")) {
+			} else if(cmd.equals("next")) {
 				commandNext();
-			} else if (cmd.equals("nexti")) {
+			} else if(cmd.equals("nexti")) {
 				commandNexti();
-			} else if (cmd.equals("kill")) {
+			} else if(cmd.equals("kill")) {
 				commandKill(t);
-			} else if (cmd.equals("where")) {
+			} else if(cmd.equals("where")) {
 				commandWhere(t, false);
-			} else if (cmd.equals("wherei")) {
+			} else if(cmd.equals("wherei")) {
 				commandWhere(t, true);
-			} else if (cmd.equals("up")) {
+			} else if(cmd.equals("up")) {
 				commandUp(t);
-			} else if (cmd.equals("down")) {
+			} else if(cmd.equals("down")) {
 				commandDown(t);
-			} else if (cmd.equals("frame")) {
+			} else if(cmd.equals("frame")) {
 				commandFrame(t);
-			} else if (cmd.equals("stop")) {
+			} else if(cmd.equals("stop")) {
 				commandStop(t);
-			} else if (cmd.equals("clear")) {
+			} else if(cmd.equals("clear")) {
 				commandClear(t);
-			} else if (cmd.equals("list")) {
+			} else if(cmd.equals("list")) {
 				commandList(t);
-			} else if (cmd.equals("use")) {
+			} else if(cmd.equals("use")) {
 				commandUse(t);
-			} else if (cmd.equals("sourcepath")) {
+			} else if(cmd.equals("sourcepath")) {
 				commandSourcepath(t);
-			} else if (cmd.equals("classpath")) {
+			} else if(cmd.equals("classpath")) {
 				commandClasspath(t);
-			} else if (cmd.equals("monitor")) {
+			} else if(cmd.equals("monitor")) {
 				commandMonitor(t);
-			} else if (cmd.equals("unmonitor")) {
+			} else if(cmd.equals("unmonitor")) {
 				commandUnmonitor(t);
-			} else if (cmd.equals("view")) {
+			} else if(cmd.equals("view")) {
 				commandView(t);
 				// } else if (cmd.equals("read")) {
 				// readCommand(t);
-			} else if (cmd.equals("help") || cmd.equals("?")) {
+			} else if(cmd.equals("help") || cmd.equals("?")) {
 				help();
-			} else if (cmd.equals("quit")) {
+			} else if(cmd.equals("quit")) {
 				try {
 					runtime.detach();
 				} catch (NoSessionException e) {
 					// ignore
 				}
 				env.endProcess();
-			} else if (cmd.equals("exit")) {
+			} else if(cmd.equals("exit")) {
 				try {
 					runtime.detach();
 				} catch (NoSessionException e) {
@@ -1455,7 +1455,7 @@ public class CommandInterpreter {
 				env.terminate();
 			} else {
 				// ### Dubious repeat-count feature inherited from 'jdb'
-				if (t.hasMoreTokens()) {
+				if(t.hasMoreTokens()) {
 					try {
 						int repeat = Integer.parseInt(cmd);
 						String subcom = t.nextToken("");

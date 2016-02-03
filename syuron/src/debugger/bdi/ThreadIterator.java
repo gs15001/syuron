@@ -31,7 +31,7 @@ public class ThreadIterator implements Iterator<ThreadReference> {
 	@Override
 	public boolean hasNext() {
 		while (it == null || !it.hasNext()) {
-			if (!tgi.hasNext()) {
+			if(!tgi.hasNext()) {
 				return false; // no more
 			}
 			it = tgi.nextThreadGroup().threads().iterator();

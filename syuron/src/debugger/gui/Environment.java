@@ -79,31 +79,27 @@ public class Environment {
 	public void setScript(TypeScript script) {
 		appScript = script;
 	}
-	
+
 	public void setToolBar(JDBToolBar toolBar) {
 		this.toolBar = toolBar;
 	}
-	
+
 	public JDBToolBar getToolBar() {
 		return toolBar;
 	}
 
-	
 	public boolean isAutoStopMode() {
 		return autoStopMode;
 	}
 
-	
 	public void setAutoStopMode(boolean autoStopMode) {
 		this.autoStopMode = autoStopMode;
 	}
 
-	
 	public boolean isLineMode() {
 		return lineMode;
 	}
 
-	
 	public void setLineMode(boolean lineMode) {
 		this.lineMode = lineMode;
 	}
@@ -112,7 +108,7 @@ public class Environment {
 		// 実行待ちコマンドを実行
 		for (String s : waitCommand) {
 			interpreter.executeCommand(s);
-			if (s.startsWith("clear")) {
+			if(s.startsWith("clear")) {
 				String classname = s.substring(s.indexOf(" ") + 1, s.indexOf(":"));
 				String line = s.substring(s.indexOf(":") + 1, s.length());
 				appScript.append("この行はBPを設定することができない行のため、BPを削除しました ： ");
@@ -155,7 +151,7 @@ public class Environment {
 		}
 		// ボタンの押せる状態を変更
 		for (JButton button : toolBar.buttonList) {
-			if (button.getText().equals("Run") || button.getText().equals("ClearBP")) {
+			if(button.getText().equals("Run") || button.getText().equals("ClearBP")) {
 				button.setEnabled(true);
 			} else {
 				button.setEnabled(false);
@@ -165,7 +161,7 @@ public class Environment {
 		sourceManager.getSourceTool().getList().repaint();
 		variableTool.clear();
 	}
-	
+
 	public void terminate() {
 		System.exit(0);
 	}
@@ -183,7 +179,7 @@ public class Environment {
 	}
 
 	public void error(String message) {
-		if (typeScript != null) {
+		if(typeScript != null) {
 			typeScript.println(message);
 		} else {
 			System.out.println(message);
@@ -191,7 +187,7 @@ public class Environment {
 	}
 
 	public void failure(String message) {
-		if (typeScript != null) {
+		if(typeScript != null) {
 			typeScript.println(message);
 		} else {
 			System.out.println(message);
@@ -199,7 +195,7 @@ public class Environment {
 	}
 
 	public void notice(String message) {
-		if (typeScript != null) {
+		if(typeScript != null) {
 			typeScript.println(message);
 		} else {
 			System.out.println(message);

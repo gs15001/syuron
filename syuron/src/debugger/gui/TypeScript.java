@@ -93,7 +93,7 @@ public class TypeScript extends JPanel {
 	public String readln() {
 		String text = entry.getText();
 		entry.setText("");
-		if (echoInput) {
+		if(echoInput) {
 			history.append(">>>");
 			history.append(text);
 			history.append(newline);

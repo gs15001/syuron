@@ -47,7 +47,7 @@ public class MonitorTool extends JPanel {
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
 			int index = list.getSelectedIndex();
-			if (index != -1) {
+			if(index != -1) {
 			}
 		}
 	}
@@ -80,7 +80,7 @@ public class MonitorTool extends JPanel {
 			// ### thread.
 
 			super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-			if (value == null) {
+			if(value == null) {
 				this.setText("<unavailable>");
 			} else {
 				String expr = (String) value;

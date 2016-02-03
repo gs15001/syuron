@@ -53,7 +53,7 @@ public abstract class WatchpointSpec extends EventRequestSpec {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof WatchpointSpec) {
+		if(obj instanceof WatchpointSpec) {
 			WatchpointSpec watchpoint = (WatchpointSpec) obj;
 
 			return fieldId.equals(watchpoint.fieldId) && refSpec.equals(watchpoint.refSpec)
@@ -65,7 +65,7 @@ public abstract class WatchpointSpec extends EventRequestSpec {
 
 	@Override
 	public String errorMessageFor(Exception e) {
-		if (e instanceof NoSuchFieldException) {
+		if(e instanceof NoSuchFieldException) {
 			return ("No field " + fieldId + " in " + refSpec);
 		} else {
 			return super.errorMessageFor(e);

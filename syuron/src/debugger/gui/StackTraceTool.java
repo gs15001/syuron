@@ -69,11 +69,11 @@ public class StackTraceTool extends JPanel {
 			// view is changed, move the selection to track it.
 			int frameIndex = e.getIndex();
 			ThreadInfo ti = e.getThreadInfo();
-			if (e.getInvalidate() || tinfo != ti) {
+			if(e.getInvalidate() || tinfo != ti) {
 				tinfo = ti;
 				showStack(ti, frameIndex);
 			} else {
-				if (frameIndex < stackModel.getSize()) {
+				if(frameIndex < stackModel.getSize()) {
 					list.setSelectedIndex(frameIndex);
 					list.ensureIndexIsVisible(frameIndex);
 				}
@@ -85,7 +85,7 @@ public class StackTraceTool extends JPanel {
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
 			int index = list.getSelectedIndex();
-			if (index != -1) {
+			if(index != -1) {
 				// ### should use listener?
 				try {
 					context.setCurrentFrameIndex(index);
@@ -107,7 +107,7 @@ public class StackTraceTool extends JPanel {
 			// ### thread.
 
 			super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-			if (value == null) {
+			if(value == null) {
 				this.setText("<unavailable>");
 			} else {
 				StackFrame frame = (StackFrame) value;
@@ -115,13 +115,13 @@ public class StackTraceTool extends JPanel {
 				Method meth = loc.method();
 				String methName = meth.declaringType().name() + '.' + meth.name();
 				String position = "";
-				if (meth.isNative()) {
+				if(meth.isNative()) {
 					position = " (native method)";
-				} else if (loc.lineNumber() != -1) {
+				} else if(loc.lineNumber() != -1) {
 					position = ":" + loc.lineNumber();
 				} else {
 					long pc = loc.codeIndex();
-					if (pc != -1) {
+					if(pc != -1) {
 						position = ", pc = " + pc;
 					}
 				}

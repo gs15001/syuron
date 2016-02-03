@@ -41,7 +41,7 @@ public class Utils {
 			default:
 				result = "<invalid thread status>";
 		}
-		if (thr.isSuspended()) {
+		if(thr.isSuspended()) {
 			result += " (suspended)";
 		}
 		return result;
@@ -53,7 +53,7 @@ public class Utils {
 	public static String description(ObjectReference ref) {
 		ReferenceType clazz = ref.referenceType();
 		long id = ref.uniqueID(); // ### TODO use real id
-		if (clazz == null) {
+		if(clazz == null) {
 			return toHex(id);
 		} else {
 			return "(" + clazz.name() + ")" + toHex(id);
@@ -89,16 +89,16 @@ public class Utils {
 	 */
 	public static long fromHex(String hexStr) {
 		String str = hexStr.startsWith("0x") ? hexStr.substring(2).toLowerCase() : hexStr.toLowerCase();
-		if (hexStr.length() == 0) {
+		if(hexStr.length() == 0) {
 			throw new NumberFormatException();
 		}
 
 		long ret = 0;
 		for (int i = 0; i < str.length(); i++) {
 			int c = str.charAt(i);
-			if (c >= '0' && c <= '9') {
+			if(c >= '0' && c <= '9') {
 				ret = (ret * 16) + (c - '0');
-			} else if (c >= 'a' && c <= 'f') {
+			} else if(c >= 'a' && c <= 'f') {
 				ret = (ret * 16) + (c - 'a' + 10);
 			} else {
 				throw new NumberFormatException();
@@ -129,16 +129,16 @@ public class Utils {
 	}
 
 	public static boolean isJavaIdentifier(String s) {
-		if (s.length() == 0) {
+		if(s.length() == 0) {
 			return false;
 		}
 		int cp = s.codePointAt(0);
-		if (!Character.isJavaIdentifierStart(cp)) {
+		if(!Character.isJavaIdentifierStart(cp)) {
 			return false;
 		}
 		for (int i = Character.charCount(cp); i < s.length(); i += Character.charCount(cp)) {
 			cp = s.codePointAt(i);
-			if (!Character.isJavaIdentifierPart(cp)) {
+			if(!Character.isJavaIdentifierPart(cp)) {
 				return false;
 			}
 		}

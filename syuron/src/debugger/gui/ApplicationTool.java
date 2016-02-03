@@ -34,7 +34,7 @@ public class ApplicationTool extends JPanel {
 		this.add(script);
 
 		env.setScript(script);
-		
+
 		script.addActionListener(new ActionListener() {
 
 			@Override

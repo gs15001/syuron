@@ -31,11 +31,11 @@ public abstract class AbstractEventSet extends EventObject implements EventSet {
 	public static AbstractEventSet toSpecificEventSet(EventSet jdiEventSet) {
 		Event evt = jdiEventSet.eventIterator().nextEvent();
 		// System.out.println("Event : " + evt);
-		if (evt instanceof LocatableEvent) {
-			if (evt instanceof ExceptionEvent) {
+		if(evt instanceof LocatableEvent) {
+			if(evt instanceof ExceptionEvent) {
 				return new ExceptionEventSet(jdiEventSet);
-			} else if (evt instanceof WatchpointEvent) {
-				if (evt instanceof AccessWatchpointEvent) {
+			} else if(evt instanceof WatchpointEvent) {
+				if(evt instanceof AccessWatchpointEvent) {
 					return new AccessWatchpointEventSet(jdiEventSet);
 				} else {
 					return new ModificationWatchpointEventSet(jdiEventSet);
@@ -43,19 +43,19 @@ public abstract class AbstractEventSet extends EventObject implements EventSet {
 			} else {
 				return new LocationTriggerEventSet(jdiEventSet);
 			}
-		} else if (evt instanceof ClassPrepareEvent) {
+		} else if(evt instanceof ClassPrepareEvent) {
 			return new ClassPrepareEventSet(jdiEventSet);
-		} else if (evt instanceof ClassUnloadEvent) {
+		} else if(evt instanceof ClassUnloadEvent) {
 			return new ClassUnloadEventSet(jdiEventSet);
-		} else if (evt instanceof ThreadDeathEvent) {
+		} else if(evt instanceof ThreadDeathEvent) {
 			return new ThreadDeathEventSet(jdiEventSet);
-		} else if (evt instanceof ThreadStartEvent) {
+		} else if(evt instanceof ThreadStartEvent) {
 			return new ThreadStartEventSet(jdiEventSet);
-		} else if (evt instanceof VMDeathEvent) {
+		} else if(evt instanceof VMDeathEvent) {
 			return new VMDeathEventSet(jdiEventSet);
-		} else if (evt instanceof VMDisconnectEvent) {
+		} else if(evt instanceof VMDisconnectEvent) {
 			return new VMDisconnectEventSet(jdiEventSet);
-		} else if (evt instanceof VMStartEvent) {
+		} else if(evt instanceof VMStartEvent) {
 			return new VMStartEventSet(jdiEventSet);
 		} else {
 			throw new IllegalArgumentException("Unknown event " + evt);

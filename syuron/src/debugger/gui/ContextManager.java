@@ -100,7 +100,7 @@ public class ContextManager {
 	}
 
 	public void setCurrentThread(ThreadReference t) {
-		if (t != currentThread) {
+		if(t != currentThread) {
 			currentThread = t;
 			notifyCurrentThreadChanged(t);
 		}
@@ -132,11 +132,11 @@ public class ContextManager {
 
 	// ### Used in StackTraceTool.
 	public int getCurrentFrameIndex(ThreadInfo tinfo) {
-		if (tinfo == null) {
+		if(tinfo == null) {
 			return 0;
 		}
 		Integer currentFrame = (Integer) tinfo.getUserObject();
-		if (currentFrame == null) {
+		if(currentFrame == null) {
 			return 0;
 		} else {
 			return currentFrame.intValue();
@@ -152,7 +152,7 @@ public class ContextManager {
 	}
 
 	public int setCurrentFrameIndex(int newIndex) throws VMNotInterruptedException {
-		if (currentThread == null) {
+		if(currentThread == null) {
 			return 0;
 		} else {
 			return setCurrentFrameIndex(currentThread, newIndex, false);
@@ -162,18 +162,18 @@ public class ContextManager {
 	private int setCurrentFrameIndex(ThreadReference t, int x, boolean relative) throws VMNotInterruptedException {
 		boolean sameThread = t.equals(currentThread);
 		ThreadInfo tinfo = runtime.threadInfo(t);
-		if (tinfo == null) {
+		if(tinfo == null) {
 			return 0;
 		}
 		int maxIndex = tinfo.getFrameCount() - 1;
 		int oldIndex = getCurrentFrameIndex(tinfo);
 		int newIndex = relative ? oldIndex + x : x;
-		if (newIndex > maxIndex) {
+		if(newIndex > maxIndex) {
 			newIndex = maxIndex;
-		} else if (newIndex < 0) {
+		} else if(newIndex < 0) {
 			newIndex = 0;
 		}
-		if (!sameThread || newIndex != oldIndex) { // don't recurse
+		if(!sameThread || newIndex != oldIndex) { // don't recurse
 			setCurrentFrameIndex(tinfo, newIndex);
 		}
 		return newIndex - oldIndex;
@@ -235,7 +235,7 @@ public class ContextManager {
 	private void notifyCurrentThreadChanged(ThreadReference t) {
 		ThreadInfo tinfo = null;
 		int index = 0;
-		if (t != null) {
+		if(t != null) {
 			tinfo = runtime.threadInfo(t);
 			index = getCurrentFrameIndex(tinfo);
 		}
@@ -304,12 +304,12 @@ public class ContextManager {
 	 */
 
 	private String processClasspathDefaults(String javaArgs) {
-		if (javaArgs.indexOf("-classpath ") == -1) {
+		if(javaArgs.indexOf("-classpath ") == -1) {
 			StringBuffer munged = new StringBuffer(javaArgs);
 			SearchPath classpath = classManager.getClassPath();
-			if (classpath.isEmpty()) {
+			if(classpath.isEmpty()) {
 				String envcp = System.getProperty("env.class.path");
-				if ((envcp != null) && (envcp.length() > 0)) {
+				if((envcp != null) && (envcp.length() > 0)) {
 					munged.append(" -classpath " + envcp);
 				}
 			} else {
@@ -322,9 +322,9 @@ public class ContextManager {
 	}
 
 	private String appendPath(String path1, String path2) {
-		if (path1 == null || path1.length() == 0) {
+		if(path1 == null || path1.length() == 0) {
 			return path2 == null ? "." : path2;
-		} else if (path2 == null || path2.length() == 0) {
+		} else if(path2 == null || path2.length() == 0) {
 			return path1;
 		} else {
 			return path1 + File.pathSeparator + path2;

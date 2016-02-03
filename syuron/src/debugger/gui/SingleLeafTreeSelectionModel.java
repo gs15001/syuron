@@ -22,7 +22,7 @@ public class SingleLeafTreeSelectionModel extends DefaultTreeSelectionModel {
 
 	@Override
 	public void setSelectionPath(TreePath path) {
-		if (((TreeNode) (path.getLastPathComponent())).isLeaf()) {
+		if(((TreeNode) (path.getLastPathComponent())).isLeaf()) {
 			super.setSelectionPath(path);
 		}
 	}
@@ -31,14 +31,14 @@ public class SingleLeafTreeSelectionModel extends DefaultTreeSelectionModel {
 	public void setSelectionPaths(TreePath[] paths) {
 		// Only look at first path, as all others will be
 		// ignored anyway in single tree selection mode.
-		if (((TreeNode) (paths[0].getLastPathComponent())).isLeaf()) {
+		if(((TreeNode) (paths[0].getLastPathComponent())).isLeaf()) {
 			super.setSelectionPaths(paths);
 		}
 	}
 
 	@Override
 	public void addSelectionPath(TreePath path) {
-		if (((TreeNode) (path.getLastPathComponent())).isLeaf()) {
+		if(((TreeNode) (path.getLastPathComponent())).isLeaf()) {
 			super.setSelectionPath(path);
 		}
 	}
@@ -47,7 +47,7 @@ public class SingleLeafTreeSelectionModel extends DefaultTreeSelectionModel {
 	public void addSelectionPaths(TreePath[] paths) {
 		// Only look at first path, as all others will be
 		// ignored anyway in single tree selection mode.
-		if (((TreeNode) (paths[0].getLastPathComponent())).isLeaf()) {
+		if(((TreeNode) (paths[0].getLastPathComponent())).isLeaf()) {
 			super.addSelectionPaths(paths);
 		}
 	}

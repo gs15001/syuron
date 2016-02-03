@@ -65,12 +65,12 @@ public class SourceTreeTool extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				int selRow = tree.getRowForLocation(e.getX(), e.getY());
 				TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
-				if (selRow != -1) {
-					if (e.getClickCount() == 1) {
+				if(selRow != -1) {
+					if(e.getClickCount() == 1) {
 						SourceTreeNode node = (SourceTreeNode) selPath.getLastPathComponent();
 						// If user clicks on leaf, select it, and issue 'view'
 						// command.
-						if (node.isLeaf()) {
+						if(node.isLeaf()) {
 							tree.setSelectionPath(selPath);
 							interpreter.executeCommand("view " + node.getRelativePath());
 						}
@@ -148,7 +148,7 @@ public class SourceTreeTool extends JPanel {
 
 		private void expandIfNeeded() {
 			try {
-				if (!isExpanded && isDirectory) {
+				if(!isExpanded && isDirectory) {
 					String[] files = sourcePath.children(relativePath, filter);
 					children = new SourceTreeNode[files.length];
 					for (int i = 0; i < files.length; i++) {
@@ -202,7 +202,7 @@ public class SourceTreeTool extends JPanel {
 		public int getIndex(TreeNode node) {
 			expandIfNeeded();
 			for (int i = 0; i < children.length; i++) {
-				if (children[i] == node) {
+				if(children[i] == node) {
 					return i;
 				}
 			}
@@ -243,7 +243,7 @@ public class SourceTreeTool extends JPanel {
 
 				@Override
 				public Object nextElement() throws NoSuchElementException {
-					if (i >= children.length) {
+					if(i >= children.length) {
 						throw new NoSuchElementException();
 					}
 					return children[i++];

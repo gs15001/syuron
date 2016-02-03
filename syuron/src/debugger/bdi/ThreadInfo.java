@@ -25,7 +25,7 @@ public class ThreadInfo {
 	private boolean interrupted = false;
 
 	private void assureInterrupted() throws VMNotInterruptedException {
-		if (!interrupted) {
+		if(!interrupted) {
 			throw new VMNotInterruptedException();
 		}
 	}
@@ -74,7 +74,7 @@ public class ThreadInfo {
 	// Refresh upon first access after cache is cleared.
 
 	void update() throws VMNotInterruptedException {
-		if (frameCount == -1) {
+		if(frameCount == -1) {
 			try {
 				status = thread.status();
 				frameCount = thread.frameCount();

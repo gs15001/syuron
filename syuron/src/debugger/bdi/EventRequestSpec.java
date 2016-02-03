@@ -70,7 +70,7 @@ abstract public class EventRequestSpec {
 	 * See if 'refType' matches and resolve.
 	 */
 	void attemptResolve(ReferenceType refType) {
-		if (!isResolved() && refSpec.matches(refType)) {
+		if(!isResolved() && refSpec.matches(refType)) {
 			resolveNotify(refType);
 		}
 	}
@@ -78,7 +78,7 @@ abstract public class EventRequestSpec {
 	void attemptImmediateResolve(VirtualMachine vm) {
 		// try to resolve immediately
 		for (ReferenceType refType : vm.allClasses()) {
-			if (refSpec.matches(refType)) {
+			if(refSpec.matches(refType)) {
 				try {
 					resolve(refType);
 					status = STATUS_RESOLVED;
@@ -135,9 +135,9 @@ abstract public class EventRequestSpec {
 	}
 
 	public String errorMessageFor(Exception e) {
-		if (e instanceof IllegalArgumentException) {
+		if(e instanceof IllegalArgumentException) {
 			return ("Invalid command syntax");
-		} else if (e instanceof RuntimeException) {
+		} else if(e instanceof RuntimeException) {
 			// A runtime exception that we were not expecting
 			throw (RuntimeException) e;
 		} else {

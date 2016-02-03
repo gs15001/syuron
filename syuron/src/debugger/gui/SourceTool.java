@@ -80,7 +80,7 @@ public class SourceTool extends JPanel {
 	}
 
 	public SourceModel getSourceModel() {
-		if (sourceModel instanceof DefaultListModel) {
+		if(sourceModel instanceof DefaultListModel) {
 			return null;
 		}
 		return (SourceModel) sourceModel;
@@ -116,9 +116,9 @@ public class SourceTool extends JPanel {
 		public void sourcepathChanged(SourcepathChangedEvent e) {
 			// Reload source view if its contents depend
 			// on the source path.
-			if (sourceName != null) {
+			if(sourceName != null) {
 				showSourceFile(sourceName);
-			} else if (sourceLocn != null) {
+			} else if(sourceLocn != null) {
 				showSourceForLocation(sourceLocn);
 			}
 		}
@@ -137,11 +137,11 @@ public class SourceTool extends JPanel {
 		@Override
 		public void breakpointDeleted(SpecEvent e) {
 			BreakpointRequest req = (BreakpointRequest) e.getEventRequest();
-			if (req == null) {
+			if(req == null) {
 				return;
 			}
 			Location loc = req.location();
-			if (loc != null) {
+			if(loc != null) {
 				try {
 					SourceModel sm = sourceManager.sourceForLocation(loc);
 					sm.showBreakpoint(loc.lineNumber(), false);
@@ -212,13 +212,13 @@ public class SourceTool extends JPanel {
 	private void showSourceContext(ThreadReference thread, int index) {
 		// ### Should use ThreadInfo here.
 		StackFrame frame = null;
-		if (thread != null) {
+		if(thread != null) {
 			try {
 				frame = thread.frame(index);
 			} catch (IncompatibleThreadStateException e) {
 			}
 		}
-		if (frame == null) {
+		if(frame == null) {
 			return;
 		}
 		Location locn = frame.location();
@@ -234,9 +234,9 @@ public class SourceTool extends JPanel {
 		sourceName = null;
 		sourceLocn = locn;
 		int lineNo = locn.lineNumber();
-		if (lineNo != -1) {
+		if(lineNo != -1) {
 			SourceModel source = sourceManager.sourceForLocation(locn);
-			if (source != null) {
+			if(source != null) {
 				showSourceAtLine(source, lineNo - 1);
 				return true;
 			}
@@ -249,11 +249,11 @@ public class SourceTool extends JPanel {
 	public boolean showSourceFile(String fileName) {
 		sourceLocn = null;
 		File file;
-		if (!fileName.startsWith(File.separator)) {
+		if(!fileName.startsWith(File.separator)) {
 			sourceName = fileName;
 			SearchPath sourcePath = sourceManager.getSourcePath();
 			file = sourcePath.resolve(fileName);
-			if (file == null) {
+			if(file == null) {
 				// env.failure("Source not found on current source path.");
 				// showSourceUnavailable();
 				return false;
@@ -264,7 +264,7 @@ public class SourceTool extends JPanel {
 			file = new File(fileName);
 		}
 		SourceModel source = sourceManager.sourceForFile(file);
-		if (source != null) {
+		if(source != null) {
 			showSource(source);
 			return true;
 		}
@@ -278,9 +278,9 @@ public class SourceTool extends JPanel {
 
 	private void showSourceAtLine(SourceModel model, int lineNo) {
 		setViewModel(model);
-		if (model.isActuallySource && (lineNo < model.getSize())) {
+		if(model.isActuallySource && (lineNo < model.getSize())) {
 			list.setSelectedIndex(lineNo);
-			if (lineNo + 4 < model.getSize()) {
+			if(lineNo + 4 < model.getSize()) {
 				list.ensureIndexIsVisible(lineNo + 4); // give some context
 				list.clearSelection();
 			}
@@ -296,7 +296,7 @@ public class SourceTool extends JPanel {
 	// }
 
 	private void setViewModel(SourceModel model) {
-		if (model != sourceModel) {
+		if(model != sourceModel) {
 			// install new model
 			list.setModel(model);
 			sourceModel = model;
@@ -318,7 +318,7 @@ public class SourceTool extends JPanel {
 
 			MyJTextPane pane = new MyJTextPane();
 			boolean isExecute = index + 1 == excuteLine; // 現在のラインが実行される行か
-			if (isExecute && env.isLineMode()) {
+			if(isExecute && env.isLineMode()) {
 				pane.setForeground(list.getSelectionForeground());
 				pane.setBackground(list.getSelectionBackground());
 			}
@@ -348,7 +348,7 @@ public class SourceTool extends JPanel {
 
 		protected void paintComponent(Graphics g) {
 			super.paintComponents(g);
-			if (this.getComponent(0) instanceof MyJTextPane) {
+			if(this.getComponent(0) instanceof MyJTextPane) {
 				MyJTextPane mjtp = (MyJTextPane) this.getComponent(0);
 				mjtp.paintComponent(g);
 			}
@@ -377,7 +377,7 @@ public class SourceTool extends JPanel {
 				int green = !isExecution ? 255 : 0;
 				int blue = 255;
 				g.setColor(new Color(red, green, blue));
-				if (!env.isLineMode()) {
+				if(!env.isLineMode()) {
 					g.drawLine(0, 0, env.getSourceManager().getSourceTool().getPreferredSize().width, 0);
 				}
 			}
@@ -398,21 +398,21 @@ public class SourceTool extends JPanel {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			if (e.isPopupTrigger()) {
+			if(e.isPopupTrigger()) {
 				showPopupMenu((Component) e.getSource(), e.getX(), e.getY());
 			}
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			if (e.isPopupTrigger()) {
+			if(e.isPopupTrigger()) {
 				showPopupMenu((Component) e.getSource(), e.getX(), e.getY());
 			}
 		}
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			if (e.getClickCount() >= 2) {
+			if(e.getClickCount() >= 2) {
 				setOrClearBreakPoint((Component) e.getSource());
 			}
 		}
@@ -421,17 +421,17 @@ public class SourceTool extends JPanel {
 			JList list = (JList) invoker;
 			int ln = list.getSelectedIndex() + 1;
 			SourceModel.Line line = (SourceModel.Line) list.getSelectedValue();
-			if (line != null) {
+			if(line != null) {
 				String className = getSourceModel().fileName().toString();
 				className = className.substring(className.lastIndexOf("\\") + 1, className.lastIndexOf("."));
-				if (line.preBreakpoint) {
+				if(line.preBreakpoint) {
 					interpreter.executeCommand("clear " + className + ":" + ln);
-					if (env.getExecutionManager().vm() == null) {
+					if(env.getExecutionManager().vm() == null) {
 						line.preBreakpoint = false;
 					}
 				} else {
 					interpreter.executeCommand("stop at " + className + ":" + ln);
-					if (env.getExecutionManager().vm() == null) {
+					if(env.getExecutionManager().vm() == null) {
 						line.preBreakpoint = true;
 					}
 				}
@@ -444,19 +444,19 @@ public class SourceTool extends JPanel {
 			SourceModel.Line line = (SourceModel.Line) list.getSelectedValue();
 			JPopupMenu popup = new JPopupMenu();
 
-			if (line == null) {
+			if(line == null) {
 				popup.add(new JMenuItem("please select a line"));
 			} else {
 				String className = getSourceModel().fileName().toString();
 				className = className.substring(className.lastIndexOf("\\") + 1, className.lastIndexOf("."));
-				if (line.preBreakpoint) {
+				if(line.preBreakpoint) {
 					popup.add(commandItem("Clear BP", "clear " + className + ":" + ln));
-					if (env.getExecutionManager().vm() == null) {
+					if(env.getExecutionManager().vm() == null) {
 						line.preBreakpoint = false;
 					}
 				} else {
 					popup.add(commandItem("Set BP", "stop at " + className + ":" + ln));
-					if (env.getExecutionManager().vm() == null) {
+					if(env.getExecutionManager().vm() == null) {
 						line.preBreakpoint = true;
 					}
 				}
@@ -550,13 +550,13 @@ public class SourceTool extends JPanel {
 				String text = String.valueOf(i + 1);
 				int x = DEBUG_BUTTON_MARGIN + getLineTextWidth() - MARGIN - fontMetrics.stringWidth(text);
 				for (EventRequestSpec evt : env.getExecutionManager().eventRequestSpecs()) {
-					if (evt instanceof LineBreakpointSpec) {
+					if(evt instanceof LineBreakpointSpec) {
 						LineBreakpointSpec levt = (LineBreakpointSpec) evt;
 						PatternReferenceTypeSpec prts = (PatternReferenceTypeSpec) levt.getRefSpec();
 						String className = getSourceModel().fileName().toString();
 						className = className.substring(className.lastIndexOf("\\") + 1, className.lastIndexOf("."));
-						if (prts.toString().equals(className)) {
-							if (levt.lineNumber() == i + 1) {
+						if(prts.toString().equals(className)) {
+							if(levt.lineNumber() == i + 1) {
 								g.drawImage(Icons.stopSignIcon.getImage(), (DEBUG_BUTTON_MARGIN - fontHeight) / 2,
 										y - 3, fontHeight - 2, fontHeight - 2, getBackground(), this);
 							}

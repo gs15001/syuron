@@ -63,7 +63,7 @@ public class ExceptionSpec extends EventRequestSpec {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof ExceptionSpec) {
+		if(obj instanceof ExceptionSpec) {
 			ExceptionSpec es = (ExceptionSpec) obj;
 
 			return refSpec.equals(es.refSpec);

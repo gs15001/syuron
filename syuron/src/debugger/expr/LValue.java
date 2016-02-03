@@ -63,7 +63,7 @@ abstract class LValue {
 	LValue memberLValue(String fieldName, ThreadReference thread) throws ParseException {
 
 		Value val = interiorGetValue();
-		if ((val instanceof ArrayReference) && "length".equals(fieldName)) {
+		if((val instanceof ArrayReference) && "length".equals(fieldName)) {
 			return new LValueArrayLength((ArrayReference) val);
 		}
 		return new LValueInstanceMember(val, fieldName, thread);
@@ -76,7 +76,7 @@ abstract class LValue {
 
 		// If vv is an ObjectReference, then we have to
 		// do the implicit call to toString().
-		if (vv instanceof ObjectReference && !(vv instanceof StringReference) && !(vv instanceof ArrayReference)) {
+		if(vv instanceof ObjectReference && !(vv instanceof StringReference) && !(vv instanceof ArrayReference)) {
 			StackFrame frame;
 			try {
 				frame = frameGetter.get();
@@ -112,7 +112,7 @@ abstract class LValue {
 	LValue arrayElementLValue(LValue lval) throws ParseException {
 		Value indexValue = lval.interiorGetValue();
 		int index;
-		if ((indexValue instanceof IntegerValue) || (indexValue instanceof ShortValue)
+		if((indexValue instanceof IntegerValue) || (indexValue instanceof ShortValue)
 				|| (indexValue instanceof ByteValue) || (indexValue instanceof CharValue)) {
 			index = ((PrimitiveValue) indexValue).intValue();
 		} else {
@@ -139,9 +139,9 @@ abstract class LValue {
 		 * of RefType.fieldByName. Once that method is fixed, superclass fields
 		 * will be found. */
 		Field field = refType.fieldByName(name);
-		if (field != null) {
+		if(field != null) {
 			boolean isStatic = field.isStatic();
-			if (((kind == STATIC) && !isStatic) || ((kind == INSTANCE) && isStatic)) {
+			if(((kind == STATIC) && !isStatic) || ((kind == INSTANCE) && isStatic)) {
 				field = null;
 			}
 		}
@@ -158,7 +158,7 @@ abstract class LValue {
 		while (iter.hasNext()) {
 			Method method = iter.next();
 			boolean isStatic = method.isStatic();
-			if (((kind == STATIC) && !isStatic) || ((kind == INSTANCE) && isStatic)) {
+			if(((kind == STATIC) && !isStatic) || ((kind == INSTANCE) && isStatic)) {
 				iter.remove();
 			}
 		}
@@ -188,7 +188,7 @@ abstract class LValue {
 	 * at least one pair, the argType is not assignable from the type of the
 	 * argument value. IE, one is an Apple and the other is an Orange. */
 	static int argumentsMatch(List<Type> argTypes, List<Value> arguments) {
-		if (argTypes.size() != arguments.size()) {
+		if(argTypes.size() != arguments.size()) {
 			return DIFFERENT;
 		}
 
@@ -202,16 +202,16 @@ abstract class LValue {
 		while (typeIter.hasNext()) {
 			Type argType = typeIter.next();
 			Value value = valIter.next();
-			if (value == null) {
+			if(value == null) {
 				// Null values can be passed to any non-primitive argument
-				if (primitiveTypeNames.contains(argType.name())) {
+				if(primitiveTypeNames.contains(argType.name())) {
 					return DIFFERENT;
 				}
 				// Else, we will assume that a null value
 				// exactly matches an object type.
 			}
-			if (!value.type().equals(argType)) {
-				if (isAssignableTo(value.type(), argType)) {
+			if(!value.type().equals(argType)) {
+				if(isAssignableTo(value.type(), argType)) {
 					result = ASSIGNABLE;
 				} else {
 					return DIFFERENT;
@@ -225,12 +225,12 @@ abstract class LValue {
 	// implementations of ClassType, ArrayType, and InterfaceType
 
 	static boolean isComponentAssignable(Type fromType, Type toType) {
-		if (fromType instanceof PrimitiveType) {
+		if(fromType instanceof PrimitiveType) {
 			// Assignment of primitive arrays requires identical
 			// component types.
 			return fromType.equals(toType);
 		}
-		if (toType instanceof PrimitiveType) {
+		if(toType instanceof PrimitiveType) {
 			return false;
 		}
 		// Assignment of object arrays requires availability
@@ -239,7 +239,7 @@ abstract class LValue {
 	}
 
 	static boolean isArrayAssignableTo(ArrayType fromType, Type toType) {
-		if (toType instanceof ArrayType) {
+		if(toType instanceof ArrayType) {
 			try {
 				Type toComponentType = ((ArrayType) toType).componentType();
 				return isComponentAssignable(fromType.componentType(), toComponentType);
@@ -249,7 +249,7 @@ abstract class LValue {
 				return false;
 			}
 		}
-		if (toType instanceof InterfaceType) {
+		if(toType instanceof InterfaceType) {
 			// Only valid InterfaceType assignee is Cloneable
 			return toType.name().equals("java.lang.Cloneable");
 		}
@@ -258,40 +258,40 @@ abstract class LValue {
 	}
 
 	static boolean isAssignableTo(Type fromType, Type toType) {
-		if (fromType.equals(toType)) {
+		if(fromType.equals(toType)) {
 			return true;
 		}
 
 		// If one is boolean, so must be the other.
-		if (fromType instanceof BooleanType) {
-			if (toType instanceof BooleanType) {
+		if(fromType instanceof BooleanType) {
+			if(toType instanceof BooleanType) {
 				return true;
 			}
 			return false;
 		}
-		if (toType instanceof BooleanType) {
+		if(toType instanceof BooleanType) {
 			return false;
 		}
 
 		// Other primitive types are intermixable only with each other.
-		if (fromType instanceof PrimitiveType) {
-			if (toType instanceof PrimitiveType) {
+		if(fromType instanceof PrimitiveType) {
+			if(toType instanceof PrimitiveType) {
 				return true;
 			}
 			return false;
 		}
-		if (toType instanceof PrimitiveType) {
+		if(toType instanceof PrimitiveType) {
 			return false;
 		}
 
 		// neither one is primitive.
-		if (fromType instanceof ArrayType) {
+		if(fromType instanceof ArrayType) {
 			return isArrayAssignableTo((ArrayType) fromType, toType);
 		}
 		List<InterfaceType> interfaces;
-		if (fromType instanceof ClassType) {
+		if(fromType instanceof ClassType) {
 			ClassType superclazz = ((ClassType) fromType).superclass();
-			if ((superclazz != null) && isAssignableTo(superclazz, toType)) {
+			if((superclazz != null) && isAssignableTo(superclazz, toType)) {
 				return true;
 			}
 			interfaces = ((ClassType) fromType).interfaces();
@@ -300,7 +300,7 @@ abstract class LValue {
 			interfaces = ((InterfaceType) fromType).superinterfaces();
 		}
 		for (InterfaceType interfaze : interfaces) {
-			if (isAssignableTo(interfaze, toType)) {
+			if(isAssignableTo(interfaze, toType)) {
 				return true;
 			}
 		}
@@ -313,7 +313,7 @@ abstract class LValue {
 		// that without looking at the args. If they aren't right
 		// the invoke will return a better error message than we
 		// could generate here.
-		if (overloads.size() == 1) {
+		if(overloads.size() == 1) {
 			return overloads.get(0);
 		}
 
@@ -339,10 +339,10 @@ abstract class LValue {
 				continue;
 			}
 			int compare = argumentsMatch(argTypes, arguments);
-			if (compare == SAME) {
+			if(compare == SAME) {
 				return mm;
 			}
-			if (compare == DIFFERENT) {
+			if(compare == DIFFERENT) {
 				continue;
 			}
 			// Else, it is assignable. Remember it.
@@ -353,8 +353,8 @@ abstract class LValue {
 		// At this point, we didn't find an exact match,
 		// but we found one for which the args are assignable.
 		//
-		if (retVal != null) {
-			if (assignableCount == 1) {
+		if(retVal != null) {
+			if(assignableCount == 1) {
 				return retVal;
 			}
 			throw new ParseException("Arguments match multiple methods");
@@ -374,7 +374,7 @@ abstract class LValue {
 
 		@Override
 		Value getValue() {
-			if (jdiValue == null) {
+			if(jdiValue == null) {
 				jdiValue = frame.getValue(var);
 			}
 			return jdiValue;
@@ -402,7 +402,7 @@ abstract class LValue {
 		List<Value> methodArguments = null;
 
 		LValueInstanceMember(Value value, String memberName, ThreadReference thread) throws ParseException {
-			if (!(value instanceof ObjectReference)) {
+			if(!(value instanceof ObjectReference)) {
 				throw new ParseException("Cannot access field of primitive type: " + value);
 			}
 			this.obj = (ObjectReference) value;
@@ -412,7 +412,7 @@ abstract class LValue {
 			 * method, so we keep track of all the possibilities */
 			matchingField = LValue.fieldByName(refType, memberName, LValue.INSTANCE);
 			overloads = LValue.methodsByName(refType, memberName, LValue.INSTANCE);
-			if ((matchingField == null) && overloads.size() == 0) {
+			if((matchingField == null) && overloads.size() == 0) {
 				throw new ParseException("No instance field or method with the name " + memberName + " in "
 						+ refType.name());
 			}
@@ -421,11 +421,11 @@ abstract class LValue {
 		@Override
 		Value getValue() throws InvocationException, InvalidTypeException, ClassNotLoadedException,
 				IncompatibleThreadStateException, ParseException {
-			if (jdiValue != null) {
+			if(jdiValue != null) {
 				return jdiValue;
 			}
-			if (matchingMethod == null) {
-				if (matchingField == null) {
+			if(matchingMethod == null) {
+				if(matchingField == null) {
 					throw new ParseException("No such field in " + obj.referenceType().name());
 				}
 				return jdiValue = obj.getValue(matchingField);
@@ -436,7 +436,7 @@ abstract class LValue {
 
 		@Override
 		void setValue0(Value val) throws ParseException, InvalidTypeException, ClassNotLoadedException {
-			if (matchingMethod != null) {
+			if(matchingMethod != null) {
 				throw new ParseException("Cannot assign to a method invocation");
 			}
 			obj.setValue(matchingField, val);
@@ -445,7 +445,7 @@ abstract class LValue {
 
 		@Override
 		void invokeWith(List<Value> arguments) throws ParseException {
-			if (matchingMethod != null) {
+			if(matchingMethod != null) {
 				throw new ParseException("Invalid consecutive invocations");
 			}
 			methodArguments = arguments;
@@ -469,7 +469,7 @@ abstract class LValue {
 			 * method, so we keep track of all the possibilities */
 			matchingField = LValue.fieldByName(refType, memberName, LValue.STATIC);
 			overloads = LValue.methodsByName(refType, memberName, LValue.STATIC);
-			if ((matchingField == null) && overloads.size() == 0) {
+			if((matchingField == null) && overloads.size() == 0) {
 				throw new ParseException("No static field or method with the name " + memberName + " in "
 						+ refType.name());
 			}
@@ -478,15 +478,15 @@ abstract class LValue {
 		@Override
 		Value getValue() throws InvocationException, InvalidTypeException, ClassNotLoadedException,
 				IncompatibleThreadStateException, ParseException {
-			if (jdiValue != null) {
+			if(jdiValue != null) {
 				return jdiValue;
 			}
-			if (matchingMethod == null) {
+			if(matchingMethod == null) {
 				return jdiValue = refType.getValue(matchingField);
-			} else if (refType instanceof ClassType) {
+			} else if(refType instanceof ClassType) {
 				ClassType clazz = (ClassType) refType;
 				return jdiValue = clazz.invokeMethod(thread, matchingMethod, methodArguments, 0);
-			} else if (refType instanceof InterfaceType) {
+			} else if(refType instanceof InterfaceType) {
 				InterfaceType iface = (InterfaceType) refType;
 				return jdiValue = iface.invokeMethod(thread, matchingMethod, methodArguments, 0);
 			} else {
@@ -496,10 +496,10 @@ abstract class LValue {
 
 		@Override
 		void setValue0(Value val) throws ParseException, InvalidTypeException, ClassNotLoadedException {
-			if (matchingMethod != null) {
+			if(matchingMethod != null) {
 				throw new ParseException("Cannot assign to a method invocation");
 			}
-			if (!(refType instanceof ClassType)) {
+			if(!(refType instanceof ClassType)) {
 				throw new ParseException("Cannot set interface field: " + refType);
 			}
 			((ClassType) refType).setValue(matchingField, val);
@@ -508,7 +508,7 @@ abstract class LValue {
 
 		@Override
 		void invokeWith(List<Value> arguments) throws ParseException {
-			if (matchingMethod != null) {
+			if(matchingMethod != null) {
 				throw new ParseException("Invalid consecutive invocations");
 			}
 			methodArguments = arguments;
@@ -534,7 +534,7 @@ abstract class LValue {
 
 		@Override
 		Value getValue() {
-			if (jdiValue == null) {
+			if(jdiValue == null) {
 				jdiValue = arrayRef.virtualMachine().mirrorOf(arrayRef.length());
 			}
 			return jdiValue;
@@ -557,7 +557,7 @@ abstract class LValue {
 		final int index;
 
 		LValueArrayElement(Value value, int index) throws ParseException {
-			if (!(value instanceof ArrayReference)) {
+			if(!(value instanceof ArrayReference)) {
 				throw new ParseException("Must be array type: " + value);
 			}
 			this.array = (ArrayReference) value;
@@ -566,7 +566,7 @@ abstract class LValue {
 
 		@Override
 		Value getValue() {
-			if (jdiValue == null) {
+			if(jdiValue == null) {
 				jdiValue = array.getValue(index);
 			}
 			return jdiValue;
@@ -594,7 +594,7 @@ abstract class LValue {
 
 		@Override
 		Value getValue() {
-			if (jdiValue == null) {
+			if(jdiValue == null) {
 				jdiValue = value;
 			}
 			return jdiValue;
@@ -690,14 +690,14 @@ abstract class LValue {
 
 	static LValue makeThisObject(VirtualMachine vm, ExpressionParser.GetFrame frameGetter, Token token)
 			throws ParseException {
-		if (frameGetter == null) {
+		if(frameGetter == null) {
 			throw new ParseException("No current thread");
 		} else {
 			try {
 				StackFrame frame = frameGetter.get();
 				ObjectReference thisObject = frame.thisObject();
 
-				if (thisObject == null) {
+				if(thisObject == null) {
 					throw new ParseException("No 'this'.  In native or static method");
 				} else {
 					return new LValueConstant(thisObject);
@@ -711,16 +711,16 @@ abstract class LValue {
 	static LValue makeNewObject(VirtualMachine vm, ExpressionParser.GetFrame frameGetter, String className,
 			List<Value> arguments) throws ParseException {
 		List<ReferenceType> classes = vm.classesByName(className);
-		if (classes.size() == 0) {
+		if(classes.size() == 0) {
 			throw new ParseException("No class named: " + className);
 		}
 
-		if (classes.size() > 1) {
+		if(classes.size() > 1) {
 			throw new ParseException("More than one class named: " + className);
 		}
 		ReferenceType refType = classes.get(0);
 
-		if (!(refType instanceof ClassType)) {
+		if(!(refType instanceof ClassType)) {
 			throw new ParseException("Cannot create instance of interface " + className);
 		}
 
@@ -729,7 +729,7 @@ abstract class LValue {
 		Iterator<Method> iter = methods.iterator();
 		while (iter.hasNext()) {
 			Method method = iter.next();
-			if (!method.isConstructor()) {
+			if(!method.isConstructor()) {
 				iter.remove();
 			}
 		}
@@ -752,7 +752,7 @@ abstract class LValue {
 	}
 
 	private static LValue nFields(LValue lval, StringTokenizer izer, ThreadReference thread) throws ParseException {
-		if (!izer.hasMoreTokens()) {
+		if(!izer.hasMoreTokens()) {
 			return lval;
 		} else {
 			return nFields(lval.memberLValue(izer.nextToken(), thread), izer, thread);
@@ -763,7 +763,7 @@ abstract class LValue {
 		StringTokenizer izer = new StringTokenizer(name, ".");
 		String first = izer.nextToken();
 		// check local variables
-		if (frameGetter != null) {
+		if(frameGetter != null) {
 			try {
 				StackFrame frame = frameGetter.get();
 				ThreadReference thread = frame.thread();
@@ -773,11 +773,11 @@ abstract class LValue {
 				} catch (AbsentInformationException e) {
 					var = null;
 				}
-				if (var != null) {
+				if(var != null) {
 					return nFields(new LValueLocal(frame, var), izer, thread);
 				} else {
 					ObjectReference thisObject = frame.thisObject();
-					if (thisObject != null) {
+					if(thisObject != null) {
 						// check if it is a field of 'this'
 						LValue thisLValue = new LValueConstant(thisObject);
 						LValue fv;
@@ -786,7 +786,7 @@ abstract class LValue {
 						} catch (ParseException exc) {
 							fv = null;
 						}
-						if (fv != null) {
+						if(fv != null) {
 							return nFields(fv, izer, thread);
 						}
 					}
@@ -794,8 +794,8 @@ abstract class LValue {
 				// check for class name
 				while (izer.hasMoreTokens()) {
 					List<ReferenceType> classes = vm.classesByName(first);
-					if (classes.size() > 0) {
-						if (classes.size() > 1) {
+					if(classes.size() > 0) {
+						if(classes.size() > 1) {
 							throw new ParseException("More than one class named: " + first);
 						} else {
 							ReferenceType refType = classes.get(0);
@@ -814,10 +814,10 @@ abstract class LValue {
 
 	static String stringValue(LValue lval, ExpressionParser.GetFrame frameGetter) throws ParseException {
 		Value val = lval.getMassagedValue(frameGetter);
-		if (val == null) {
+		if(val == null) {
 			return "null";
 		}
-		if (val instanceof StringReference) {
+		if(val instanceof StringReference) {
 			return ((StringReference) val).value();
 		}
 		return val.toString(); // is this correct in all cases?
@@ -827,10 +827,10 @@ abstract class LValue {
 		String op = token.image;
 		Value right = rightL.interiorGetValue();
 		Value left = leftL.interiorGetValue();
-		if (!(right instanceof PrimitiveValue) || !(left instanceof PrimitiveValue)) {
-			if (op.equals("==")) {
+		if(!(right instanceof PrimitiveValue) || !(left instanceof PrimitiveValue)) {
+			if(op.equals("==")) {
 				return make(vm, right.equals(left));
-			} else if (op.equals("!=")) {
+			} else if(op.equals("!=")) {
 				return make(vm, !right.equals(left));
 			} else {
 				throw new ParseException("Operands or '" + op + "' must be primitive");
@@ -840,17 +840,17 @@ abstract class LValue {
 		double rr = ((PrimitiveValue) right).doubleValue();
 		double ll = ((PrimitiveValue) left).doubleValue();
 		boolean res;
-		if (op.equals("<")) {
+		if(op.equals("<")) {
 			res = rr < ll;
-		} else if (op.equals(">")) {
+		} else if(op.equals(">")) {
 			res = rr > ll;
-		} else if (op.equals("<=")) {
+		} else if(op.equals("<=")) {
 			res = rr <= ll;
-		} else if (op.equals(">=")) {
+		} else if(op.equals(">=")) {
 			res = rr >= ll;
-		} else if (op.equals("==")) {
+		} else if(op.equals("==")) {
 			res = rr == ll;
-		} else if (op.equals("!=")) {
+		} else if(op.equals("!=")) {
 			res = rr != ll;
 		} else {
 			throw new ParseException("Unknown operation: " + op);
@@ -863,73 +863,73 @@ abstract class LValue {
 		String op = token.image;
 		Value right = rightL.interiorGetValue();
 		Value left = leftL.interiorGetValue();
-		if ((right instanceof StringReference) || (left instanceof StringReference)) {
-			if (op.equals("+")) {
+		if((right instanceof StringReference) || (left instanceof StringReference)) {
+			if(op.equals("+")) {
 				// If one is an ObjectRef, we will need to invoke
 				// toString on it, so we need the thread.
 				return make(vm, stringValue(rightL, frameGetter) + stringValue(leftL, frameGetter));
 			}
 		}
-		if ((right instanceof ObjectReference) || (left instanceof ObjectReference)) {
-			if (op.equals("==")) {
+		if((right instanceof ObjectReference) || (left instanceof ObjectReference)) {
+			if(op.equals("==")) {
 				return make(vm, right.equals(left));
-			} else if (op.equals("!=")) {
+			} else if(op.equals("!=")) {
 				return make(vm, !right.equals(left));
 			} else {
 				throw new ParseException("Invalid operation '" + op + "' on an Object");
 			}
 		}
-		if ((right instanceof BooleanValue) || (left instanceof BooleanValue)) {
+		if((right instanceof BooleanValue) || (left instanceof BooleanValue)) {
 			throw new ParseException("Invalid operation '" + op + "' on a Boolean");
 		}
 		// from here on, we know it is a integer kind of type
 		PrimitiveValue primRight = (PrimitiveValue) right;
 		PrimitiveValue primLeft = (PrimitiveValue) left;
-		if ((primRight instanceof DoubleValue) || (primLeft instanceof DoubleValue)) {
+		if((primRight instanceof DoubleValue) || (primLeft instanceof DoubleValue)) {
 			double rr = primRight.doubleValue();
 			double ll = primLeft.doubleValue();
 			double res;
-			if (op.equals("+")) {
+			if(op.equals("+")) {
 				res = rr + ll;
-			} else if (op.equals("-")) {
+			} else if(op.equals("-")) {
 				res = rr - ll;
-			} else if (op.equals("*")) {
+			} else if(op.equals("*")) {
 				res = rr * ll;
-			} else if (op.equals("/")) {
+			} else if(op.equals("/")) {
 				res = rr / ll;
 			} else {
 				throw new ParseException("Unknown operation: " + op);
 			}
 			return make(vm, res);
 		}
-		if ((primRight instanceof FloatValue) || (primLeft instanceof FloatValue)) {
+		if((primRight instanceof FloatValue) || (primLeft instanceof FloatValue)) {
 			float rr = primRight.floatValue();
 			float ll = primLeft.floatValue();
 			float res;
-			if (op.equals("+")) {
+			if(op.equals("+")) {
 				res = rr + ll;
-			} else if (op.equals("-")) {
+			} else if(op.equals("-")) {
 				res = rr - ll;
-			} else if (op.equals("*")) {
+			} else if(op.equals("*")) {
 				res = rr * ll;
-			} else if (op.equals("/")) {
+			} else if(op.equals("/")) {
 				res = rr / ll;
 			} else {
 				throw new ParseException("Unknown operation: " + op);
 			}
 			return make(vm, res);
 		}
-		if ((primRight instanceof LongValue) || (primLeft instanceof LongValue)) {
+		if((primRight instanceof LongValue) || (primLeft instanceof LongValue)) {
 			long rr = primRight.longValue();
 			long ll = primLeft.longValue();
 			long res;
-			if (op.equals("+")) {
+			if(op.equals("+")) {
 				res = rr + ll;
-			} else if (op.equals("-")) {
+			} else if(op.equals("-")) {
 				res = rr - ll;
-			} else if (op.equals("*")) {
+			} else if(op.equals("*")) {
 				res = rr * ll;
-			} else if (op.equals("/")) {
+			} else if(op.equals("/")) {
 				res = rr / ll;
 			} else {
 				throw new ParseException("Unknown operation: " + op);
@@ -939,13 +939,13 @@ abstract class LValue {
 			int rr = primRight.intValue();
 			int ll = primLeft.intValue();
 			int res;
-			if (op.equals("+")) {
+			if(op.equals("+")) {
 				res = rr + ll;
-			} else if (op.equals("-")) {
+			} else if(op.equals("-")) {
 				res = rr - ll;
-			} else if (op.equals("*")) {
+			} else if(op.equals("*")) {
 				res = rr * ll;
-			} else if (op.equals("/")) {
+			} else if(op.equals("/")) {
 				res = rr / ll;
 			} else {
 				throw new ParseException("Unknown operation: " + op);

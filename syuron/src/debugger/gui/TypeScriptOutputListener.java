@@ -28,7 +28,7 @@ public class TypeScriptOutputListener implements OutputListener {
 	@Override
 	public void putString(String s) {
 		script.append(s);
-		if (appendNewline) {
+		if(appendNewline) {
 			script.newline();
 		}
 	}

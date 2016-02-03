@@ -68,7 +68,7 @@ class JDIEventSource extends Thread {
 				for (JDIListener jl : session.runtime.jdiListeners) {
 					es.notify(jl);
 				}
-				if (interrupted && !wantInterrupt) {
+				if(interrupted && !wantInterrupt) {
 					session.interrupted = false;
 					// ### Catch here is a hack
 					try {
@@ -76,7 +76,7 @@ class JDIEventSource extends Thread {
 					} catch (VMDisconnectedException ee) {
 					}
 				}
-				if (es instanceof ThreadDeathEventSet) {
+				if(es instanceof ThreadDeathEventSet) {
 					ThreadReference t = ((ThreadDeathEventSet) es).getThread();
 					session.runtime.removeThreadInfo(t);
 				}
@@ -85,7 +85,7 @@ class JDIEventSource extends Thread {
 	}
 
 	private void finalizeEventSet(AbstractEventSet es) {
-		if (session.interrupted && !wantInterrupt) {
+		if(session.interrupted && !wantInterrupt) {
 			session.interrupted = false;
 			// ### Catch here is a hack
 			try {
@@ -93,7 +93,7 @@ class JDIEventSource extends Thread {
 			} catch (VMDisconnectedException ee) {
 			}
 		}
-		if (es instanceof ThreadDeathEventSet) {
+		if(es instanceof ThreadDeathEventSet) {
 			ThreadReference t = ((ThreadDeathEventSet) es).getThread();
 			session.runtime.removeThreadInfo(t);
 		}

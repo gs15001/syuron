@@ -158,19 +158,19 @@ public class GUI extends JPanel {
 
 		for (int i = 0; i < argv.length; i++) {
 			String token = argv[i];
-			if (token.equals("-dbgtrace")) {
-				if ((i == argv.length - 1) || !Character.isDigit(argv[i + 1].charAt(0))) {
+			if(token.equals("-dbgtrace")) {
+				if((i == argv.length - 1) || !Character.isDigit(argv[i + 1].charAt(0))) {
 					runtime.setTraceMode(VirtualMachine.TRACE_ALL);
 				} else {
 					String flagStr = argv[++i];
 					runtime.setTraceMode(Integer.decode(flagStr).intValue());
 				}
-			} else if (token.equals("-X")) {
+			} else if(token.equals("-X")) {
 				System.out.println("Use 'java -X' to see the available non-standard options");
 				System.out.println();
 				usage();
 				System.exit(1);
-			} else if (
+			} else if(
 			// Standard VM options passed on
 			token.equals("-v")
 					|| token.startsWith("-v:")
@@ -190,34 +190,34 @@ public class GUI extends JPanel {
 					|| token.startsWith("-ms") || token.startsWith("-mx") || token.startsWith("-ss")
 					|| token.startsWith("-oss")) {
 				javaArgs += token + " ";
-			} else if (token.equals("-sourcepath")) {
-				if (i == (argv.length - 1)) {
+			} else if(token.equals("-sourcepath")) {
+				if(i == (argv.length - 1)) {
 					System.out.println("No sourcepath specified.");
 					usage();
 					System.exit(1);
 				}
 				env.getSourceManager().setSourcePath(new SearchPath(argv[++i]));
-			} else if (token.equals("-classpath")) {
-				if (i == (argv.length - 1)) {
+			} else if(token.equals("-classpath")) {
+				if(i == (argv.length - 1)) {
 					System.out.println("No classpath specified.");
 					usage();
 					System.exit(1);
 				}
 				env.getClassManager().setClassPath(new SearchPath(argv[++i]));
-			} else if (token.equals("-remote")) {
-				if (i == (argv.length - 1)) {
+			} else if(token.equals("-remote")) {
+				if(i == (argv.length - 1)) {
 					System.out.println("No remote specified.");
 					usage();
 					System.exit(1);
 				}
 				env.getContextManager().setRemotePort(argv[++i]);
-			} else if (token.equals("-help")) {
+			} else if(token.equals("-help")) {
 				usage();
 				System.exit(0);
-			} else if (token.equals("-version")) {
+			} else if(token.equals("-version")) {
 				System.out.println(progname + " version " + version);
 				System.exit(0);
-			} else if (token.startsWith("-")) {
+			} else if(token.startsWith("-")) {
 				System.out.println("invalid option: " + token);
 				usage();
 				System.exit(1);

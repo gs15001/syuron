@@ -53,7 +53,7 @@ class ChildSession extends Session {
 	@Override
 	public boolean attach() {
 
-		if (!connectToVMProcess()) {
+		if(!connectToVMProcess()) {
 			diagnostics.putString("Could not launch VM");
 			return false;
 		}
@@ -76,8 +76,8 @@ class ChildSession extends Session {
 		inputWriter.setPriority(Thread.MAX_PRIORITY - 1);
 		inputWriter.start();
 
-		if (!super.attach()) {
-			if (process != null) {
+		if(!super.attach()) {
+			if(process != null) {
 				process.destroy();
 				process = null;
 			}
@@ -102,7 +102,7 @@ class ChildSession extends Session {
 
 		/* inputWriter.quit(); outputReader.quit(); errorReader.quit(); */
 
-		if (process != null) {
+		if(process != null) {
 			process.destroy();
 			process = null;
 		}
@@ -166,7 +166,7 @@ class ChildSession extends Session {
 	}
 
 	private boolean connectToVMProcess() {
-		if (vm == null) {
+		if(vm == null) {
 			return false;
 		}
 		process = vm.process();
@@ -209,7 +209,7 @@ class ChildSession extends Session {
 			try {
 				int count;
 				while (running && (count = stream.read(buffer, 0, 512)) != -1) {
-					if (count > 0) {
+					if(count > 0) {
 						// Run in Swing event dispatcher thread.
 						final String chars = new String(buffer, 0, count);
 						SwingUtilities.invokeLater(new Runnable() {

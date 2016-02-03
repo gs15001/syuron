@@ -30,10 +30,10 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 	@Override
 	void resolve(ReferenceType refType) throws MalformedMemberNameException, AmbiguousMethodException,
 			InvalidTypeException, NoSuchMethodException, NoSessionException {
-		if (!isValidMethodName(methodId)) {
+		if(!isValidMethodName(methodId)) {
 			throw new MalformedMemberNameException(methodId);
 		}
-		if (!(refType instanceof ClassType)) {
+		if(!(refType instanceof ClassType)) {
 			throw new InvalidTypeException();
 		}
 		Location location = location((ClassType) refType);
@@ -64,7 +64,7 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof MethodBreakpointSpec) {
+		if(obj instanceof MethodBreakpointSpec) {
 			MethodBreakpointSpec breakpoint = (MethodBreakpointSpec) obj;
 
 			return methodId.equals(breakpoint.methodId) && methodArgs.equals(breakpoint.methodArgs)
@@ -76,12 +76,12 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 
 	@Override
 	public String errorMessageFor(Exception e) {
-		if (e instanceof AmbiguousMethodException) {
+		if(e instanceof AmbiguousMethodException) {
 			return ("Method " + methodName() + " is overloaded; specify arguments");
 			/* TO DO: list the methods here */
-		} else if (e instanceof NoSuchMethodException) {
+		} else if(e instanceof NoSuchMethodException) {
 			return ("No method " + methodName() + " in " + refSpec);
-		} else if (e instanceof InvalidTypeException) {
+		} else if(e instanceof InvalidTypeException) {
 			return ("Breakpoints can be located only in classes. " + refSpec + " is an interface or array");
 		} else {
 			return super.errorMessageFor(e);
@@ -94,11 +94,11 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 		buffer.append(refSpec.toString());
 		buffer.append('.');
 		buffer.append(methodId);
-		if (methodArgs != null) {
+		if(methodArgs != null) {
 			boolean first = true;
 			buffer.append('(');
 			for (String name : methodArgs) {
-				if (!first) {
+				if(!first) {
 					buffer.append(',');
 				}
 				buffer.append(name);
@@ -124,7 +124,7 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 		List<String> argTypeNames = method.argumentTypeNames();
 
 		// If argument counts differ, we can stop here
-		if (argTypeNames.size() != nameList.size()) {
+		if(argTypeNames.size() != nameList.size()) {
 			return false;
 		}
 
@@ -133,12 +133,12 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 		for (int i = 0; i < nTypes; ++i) {
 			String comp1 = argTypeNames.get(i);
 			String comp2 = nameList.get(i);
-			if (!comp1.equals(comp2)) {
+			if(!comp1.equals(comp2)) {
 				/* We have to handle varargs. EG, the method's last arg type is
 				 * xxx[] while the nameList contains xxx... Note that the
 				 * nameList can also contain xxx[] in which case we don't get
 				 * here. */
-				if (i != nTypes - 1 || !method.isVarArgs() || !comp2.endsWith("...")) {
+				if(i != nTypes - 1 || !method.isVarArgs() || !comp2.endsWith("...")) {
 					return false;
 				}
 				/* The last types differ, it is a varargs method and the
@@ -146,12 +146,12 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 				 * names, eg, make sure we don't have xxx[] for the method arg
 				 * type and yyy... for the nameList item. */
 				int comp1Length = comp1.length();
-				if (comp1Length + 1 != comp2.length()) {
+				if(comp1Length + 1 != comp2.length()) {
 					// The type names are different lengths
 					return false;
 				}
 				// We know the two type names are the same length
-				if (!comp1.regionMatches(0, comp2, 0, comp1Length - 2)) {
+				if(!comp1.regionMatches(0, comp2, 0, comp1Length - 2)) {
 					return false;
 				}
 				// We do have xxx[] and xxx... as the last param type
@@ -181,13 +181,13 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 		/* For varargs, there can be spaces before the ... but not within the
 		 * ... So, we will just ignore the ... while stripping blanks. */
 		boolean isVarArgs = name.endsWith("...");
-		if (isVarArgs) {
+		if(isVarArgs) {
 			nameLength -= 3;
 		}
 
 		while (i < nameLength) {
 			char c = name.charAt(i);
-			if (Character.isWhitespace(c) || c == '[') {
+			if(Character.isWhitespace(c) || c == '[') {
 				break; // name is complete
 			}
 			typePart.append(c);
@@ -195,9 +195,9 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 		}
 		while (i < nameLength) {
 			char c = name.charAt(i);
-			if ((c == '[') || (c == ']')) {
+			if((c == '[') || (c == ']')) {
 				arrayPart.append(c);
-			} else if (!Character.isWhitespace(c)) {
+			} else if(!Character.isWhitespace(c)) {
 				throw new IllegalArgumentException("Invalid argument type name");
 
 			}
@@ -208,10 +208,10 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 
 		/* When there's no sign of a package name already, try to expand the the
 		 * name to a fully qualified class name */
-		if ((name.indexOf('.') == -1) || name.startsWith("*.")) {
+		if((name.indexOf('.') == -1) || name.startsWith("*.")) {
 			try {
 				List<?> refs = specs.runtime.findClassesMatchingPattern(name);
-				if (refs.size() > 0) { // ### ambiguity???
+				if(refs.size() > 0) { // ### ambiguity???
 					name = ((ReferenceType) (refs.get(0))).name();
 				}
 			} catch (IllegalArgumentException e) {
@@ -219,7 +219,7 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 			}
 		}
 		name += arrayPart.toString();
-		if (isVarArgs) {
+		if(isVarArgs) {
 			name += "...";
 		}
 		return name;
@@ -233,7 +233,7 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 
 		// Normalize the argument string once before looping below.
 		List<String> argTypeNames = null;
-		if (methodArgs() != null && methodArgs().size() > 0) {
+		if(methodArgs() != null && methodArgs().size() > 0) {
 			argTypeNames = new ArrayList<String>(methodArgs().size());
 			for (String name : methodArgs()) {
 				name = normalizeArgTypeName(name);
@@ -246,16 +246,16 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 		Method exactMatch = null; // (only) method with same name & sig
 		int matchCount = 0; // > 1 implies overload
 		for (Method candidate : clazz.methods()) {
-			if (candidate.name().equals(methodName())) {
+			if(candidate.name().equals(methodName())) {
 				matchCount++;
 
 				// Remember the first match in case it is the only one
-				if (matchCount == 1) {
+				if(matchCount == 1) {
 					firstMatch = candidate;
 				}
 
 				// If argument types were specified, check against candidate
-				if ((argTypeNames != null) && compareArgTypes(candidate, argTypeNames) == true) {
+				if((argTypeNames != null) && compareArgTypes(candidate, argTypeNames) == true) {
 					exactMatch = candidate;
 					break;
 				}
@@ -264,12 +264,12 @@ public class MethodBreakpointSpec extends BreakpointSpec {
 
 		// Determine method for breakpoint
 		Method method = null;
-		if (exactMatch != null) {
+		if(exactMatch != null) {
 			// Name and signature match
 			method = exactMatch;
-		} else if ((argTypeNames == null) && (matchCount > 0)) {
+		} else if((argTypeNames == null) && (matchCount > 0)) {
 			// At least one name matched and no arg types were specified
-			if (matchCount == 1) {
+			if(matchCount == 1) {
 				method = firstMatch; // Only one match; safe to use it
 			} else {
 				throw new AmbiguousMethodException();

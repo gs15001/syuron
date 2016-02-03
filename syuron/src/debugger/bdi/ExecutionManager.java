@@ -139,7 +139,7 @@ public class ExecutionManager {
 	}
 
 	void ensureActiveSession() throws NoSessionException {
-		if (session == null) {
+		if(session == null) {
 			throw new NoSessionException();
 		}
 	}
@@ -160,7 +160,7 @@ public class ExecutionManager {
 	 */
 	public void setTraceMode(int mode) {
 		traceMode = mode;
-		if (session != null) {
+		if(session != null) {
 			session.setTraceMode(mode);
 		}
 	}
@@ -208,11 +208,11 @@ public class ExecutionManager {
 																		// default
 																		// size
 																		// OK?
-		if (pattern.startsWith("*.")) {
+		if(pattern.startsWith("*.")) {
 			// Wildcard matches any leading package name.
 			pattern = pattern.substring(1);
 			for (ReferenceType type : vm().allClasses()) {
-				if (type.name().endsWith(pattern)) {
+				if(type.name().endsWith(pattern)) {
 					result.add(type);
 				}
 			}
@@ -254,7 +254,7 @@ public class ExecutionManager {
 			InvalidTypeException, ClassNotLoadedException, NoSessionException, IncompatibleThreadStateException {
 		ExpressionParser.GetFrame frameGetter = null;
 		ensureActiveSession();
-		if (f != null) {
+		if(f != null) {
 			frameGetter = new ExpressionParser.GetFrame() {
 
 				@Override
@@ -275,7 +275,7 @@ public class ExecutionManager {
 
 		// ### Set a breakpoint on 'main' method.
 		// ### Would be cleaner if we could just bring up VM already suspended.
-		if (suspended) {
+		if(suspended) {
 			// ### Set breakpoint at 'main(java.lang.String[])'.
 			List<String> argList = new ArrayList<String>(1);
 			argList.add("java.lang.String[]");
@@ -307,7 +307,7 @@ public class ExecutionManager {
 		arguments.get("port").setValue(portName);
 
 		Session newSession = internalAttach(connector, arguments);
-		if (newSession != null) {
+		if(newSession != null) {
 			startSession(newSession);
 		}
 	}
@@ -345,18 +345,18 @@ public class ExecutionManager {
 
 		endSession();
 
-		if (connector instanceof LaunchingConnector) {
+		if(connector instanceof LaunchingConnector) {
 			// we were launched, use ChildSession
 			newSession = new ChildSession(this, (LaunchingConnector) connector, arguments, appInput, appOutput,
 					appError, diagnostics);
-		} else if (connector instanceof AttachingConnector) {
+		} else if(connector instanceof AttachingConnector) {
 			newSession = internalAttach((AttachingConnector) connector, arguments);
-		} else if (connector instanceof ListeningConnector) {
+		} else if(connector instanceof ListeningConnector) {
 			newSession = internalListen((ListeningConnector) connector, arguments);
 		} else {
 			diagnostics.putString("\n Unknown connector: " + connector);
 		}
-		if (newSession != null) {
+		if(newSession != null) {
 			startSession(newSession);
 		}
 		return newSession != null;
@@ -369,7 +369,7 @@ public class ExecutionManager {
 	}
 
 	private void startSession(Session s) throws VMLaunchFailureException {
-		if (!s.attach()) {
+		if(!s.attach()) {
 			throw new VMLaunchFailureException();
 		}
 		session = s;
@@ -399,7 +399,7 @@ public class ExecutionManager {
 	}
 
 	void endSession() {
-		if (session != null) {
+		if(session != null) {
 			session.detach();
 			session = null;
 			invalidateThreadInfo();
@@ -434,7 +434,7 @@ public class ExecutionManager {
 		 * removed here. */
 		EventRequestManager mgr = vm().eventRequestManager();
 		for (StepRequest request : mgr.stepRequests()) {
-			if (request.thread().equals(thread)) {
+			if(request.thread().equals(thread)) {
 				mgr.deleteEventRequest(request);
 				break;
 			}
@@ -501,15 +501,15 @@ public class ExecutionManager {
 	private HashMap<ThreadReference, ThreadInfo> threadInfoMap = new HashMap<ThreadReference, ThreadInfo>();
 
 	public ThreadInfo threadInfo(ThreadReference thread) {
-		if (session == null || thread == null) {
+		if(session == null || thread == null) {
 			return null;
 		}
 		ThreadInfo info = threadInfoMap.get(thread);
-		if (info == null) {
+		if(info == null) {
 			// ### Should not hardcode initial frame count and prefetch here!
 			// info = new ThreadInfo(thread, 10, 10);
 			info = new ThreadInfo(thread);
-			if (session.interrupted) {
+			if(session.interrupted) {
 				info.validate();
 			}
 			threadInfoList.add(info);
@@ -526,7 +526,7 @@ public class ExecutionManager {
 	}
 
 	private void invalidateThreadInfo() {
-		if (session != null) {
+		if(session != null) {
 			session.interrupted = false;
 			for (ThreadInfo threadInfo : threadInfoList) {
 				threadInfo.invalidate();
@@ -536,7 +536,7 @@ public class ExecutionManager {
 
 	void removeThreadInfo(ThreadReference thread) {
 		ThreadInfo info = threadInfoMap.get(thread);
-		if (info != null) {
+		if(info != null) {
 			info.invalidate();
 			threadInfoMap.remove(thread);
 			threadInfoList.remove(info);

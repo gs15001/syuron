@@ -22,7 +22,7 @@ public class PatternReferenceTypeSpec implements ReferenceTypeSpec {
 	{
 		// checkClassName(classId);
 		isWild = classId.startsWith("*.");
-		if (isWild) {
+		if(isWild) {
 			this.classId = classId.substring(1);
 		} else {
 			this.classId = classId;
@@ -34,7 +34,7 @@ public class PatternReferenceTypeSpec implements ReferenceTypeSpec {
 	 */
 	@Override
 	public boolean matches(ReferenceType refType) {
-		if (isWild) {
+		if(isWild) {
 			return refType.name().endsWith(classId);
 		} else {
 			return refType.name().equals(classId);
@@ -48,7 +48,7 @@ public class PatternReferenceTypeSpec implements ReferenceTypeSpec {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof PatternReferenceTypeSpec) {
+		if(obj instanceof PatternReferenceTypeSpec) {
 			PatternReferenceTypeSpec spec = (PatternReferenceTypeSpec) obj;
 
 			return classId.equals(spec.classId) && (isWild == spec.isWild);
@@ -70,7 +70,7 @@ public class PatternReferenceTypeSpec implements ReferenceTypeSpec {
 			// and the first token can also be "*". (Note that
 			// numeric class ids are not permitted. They must
 			// match a loaded class.)
-			if (!Utils.isJavaIdentifier(token) && !(first && token.equals("*"))) {
+			if(!Utils.isJavaIdentifier(token) && !(first && token.equals("*"))) {
 				throw new ClassNotFoundException();
 			}
 			first = false;
