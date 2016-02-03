@@ -8,6 +8,7 @@ import javax.swing.tree.*;
 import org.jdesktop.swingx.*;
 import com.sun.jdi.*;
 import debugger.bdi.ExecutionManager;
+import debugger.gui.VariableTreeTableModel.MyTreeTableNode;
 
 public class VariableTool extends JPanel {
 
@@ -55,11 +56,11 @@ public class VariableTool extends JPanel {
 		try {
 			// 現在のスレッドを取得 基本mainスレッド
 			ThreadReference current = context.getCurrentThread();
-			if (current == null) {
+			if(current == null) {
 				env.failure("No thread");
 				return;
 			}
-			if (current.frameCount() <= 0) {
+			if(current.frameCount() <= 0) {
 				env.failure("Threads have not yet created any stack frames.");
 				return;
 			}
@@ -110,17 +111,42 @@ public class VariableTool extends JPanel {
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 
-			int variableNum = getRowCount();
-			int currentVariableNum = 0;
-			for (int i = 0; i < variableNum; i++) {
-				if (((String) getValueAt(i, 3)).equals(currentVariableMethodName)) {
-					currentVariableNum++;
-				}
+			for (int i = 0; i < getRowCount(); i++) {
+				// 罫線を引く
 				g.setColor(new Color(100, 100, 100, 120));
 				Rectangle r = getCellRect(i, 0, true);
 				g.drawLine(0, r.y + r.height, getWidth(), r.y + r.height);
 			}
 
+			paintYellowRect(g);
+			paintGrayRect(g);
+		}
+
+		private void paintYellowRect(Graphics g) {
+			for (int i = 0; i < getRowCount(); i++) {
+				for (int j = 0; j < getColumnCount(); j++) {
+					String s = getStringAt(i, j);
+					if(s.endsWith("     ")) {
+						g.setColor(new Color(255, 255, 0, 100));
+						Rectangle r = getCellRect(i, j, true);
+						g.fillRect(r.x, r.y + 1, r.width, r.height);
+					}
+				}
+			}
+		}
+
+		private void paintGrayRect(Graphics g) {
+			int variableNum = getRowCount();
+			int currentVariableNum = 0;
+
+			// 現在のスコープの変数の数を数える
+			for (int i = 0; i < variableNum; i++) {
+				if(((String) getValueAt(i, 3)).equals(currentVariableMethodName)) {
+					currentVariableNum++;
+				}
+			}
+
+			// スコープ外の変数を灰色にする
 			for (int i = 0; i < variableNum - currentVariableNum; i++) {
 				g.setColor(new Color(100, 100, 100, 80));
 				Rectangle r = getCellRect(i, 0, true);
@@ -140,7 +166,6 @@ public class VariableTool extends JPanel {
 
 			return this;
 		}
-
 	}
 
 	private class VariableTreeCellRenderer extends DefaultTreeCellRenderer {

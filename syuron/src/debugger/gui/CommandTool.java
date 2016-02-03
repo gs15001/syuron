@@ -128,7 +128,7 @@ public class CommandTool extends JPanel {
 		@Override
 		public void locationTrigger(LocationTriggerEventSet e) {
 			String locString = locationString(e);
-			System.out.println("locString : " + locString);
+			// System.out.println("locString : " + locString);
 			setThread(e);
 
 			env.executeWaitCommand();
