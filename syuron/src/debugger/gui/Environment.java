@@ -35,6 +35,7 @@ public class Environment {
 	private boolean verbose;
 	private boolean autoStopMode = false;
 	private boolean lineMode = false;
+	private boolean printDecMode = false;
 
 	public Environment() {
 		this.classManager = new ClassManager(this);
@@ -102,6 +103,14 @@ public class Environment {
 
 	public void setLineMode(boolean lineMode) {
 		this.lineMode = lineMode;
+	}
+	
+	public boolean isPrintDecMode() {
+		return printDecMode;
+	}
+
+	public void setPrintDecMode(boolean printDecMode) {
+		this.printDecMode = printDecMode;
 	}
 
 	public void executeWaitCommand() {

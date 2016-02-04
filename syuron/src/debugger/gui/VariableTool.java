@@ -31,7 +31,7 @@ public class VariableTool extends JPanel {
 		this.context = env.getContextManager();
 		env.setVariableTool(this);
 
-		tableModel = new VariableTreeTableModel();
+		tableModel = new VariableTreeTableModel(env);
 		treeTable = new MyJXTreeTable(tableModel);
 		treeRenderer = new VariableTreeCellRenderer();
 		tableRenderer = new VariableTableCellRenderer();

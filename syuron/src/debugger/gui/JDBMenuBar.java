@@ -115,8 +115,37 @@ class JDBMenuBar extends JMenuBar {
 		optionSubMenu2.add(radiomenuitem3);
 		optionSubMenu2.add(radiomenuitem4);
 
+		JMenu optionSubMenu3 = new JMenu("宣言元表示");
+		optionSubMenu3.setToolTipText("宣言元の表示方法を選択肢ます");
+		ButtonGroup group3 = new ButtonGroup();
+		JRadioButtonMenuItem radiomenuitem5 = new JRadioButtonMenuItem("値", false);
+		radiomenuitem5.setToolTipText("引数の値で表示されます\n配列とオブジェクト型は変数名で表示されます");
+		radiomenuitem5.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				env.setPrintDecMode(radiomenuitem5.isSelected());
+				env.getVariableTool().update();
+			}
+		});
+		JRadioButtonMenuItem radiomenuitem6 = new JRadioButtonMenuItem("型", true);
+		radiomenuitem6.setToolTipText("引数の型で表示されます");
+		radiomenuitem6.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				env.setPrintDecMode(radiomenuitem5.isSelected());
+				env.getVariableTool().update();
+			}
+		});
+		group3.add(radiomenuitem5);
+		group3.add(radiomenuitem6);
+		optionSubMenu3.add(radiomenuitem5);
+		optionSubMenu3.add(radiomenuitem6);
+
 		optionMenu.add(optionSubMenu1);
 		optionMenu.add(optionSubMenu2);
+		optionMenu.add(optionSubMenu3);
 
 		JMenu helpMenu = new JMenu("Help");
 		JMenuItem helpItem = new JMenuItem("Help");

@@ -9,8 +9,11 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 	private String[] columnNames = { "変数名", "値", "型", "宣言元" };
 	private MyTreeTableNode myroot;
 	private MyTreeTableNode preMyroot;
+	private Environment env;
 
-	public VariableTreeTableModel() {
+	public VariableTreeTableModel(Environment env) {
+		super();
+		this.env = env;
 		myroot = new MyTreeTableNode("", "", "", "");
 	}
 
@@ -131,14 +134,27 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 
 	public String frameToMethodName(StackFrame f) {
 		Method method = f.location().method();
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 		buf.append(method.name());
 		buf.append("(");
 		int argNum = 0;
-		for (Value value : f.getArgumentValues()) {
-			String s = value.type().name();
-			s = s.substring(s.lastIndexOf(".") + 1);
-			buf.append(s);
+		for (int i = 0; i < f.getArgumentValues().size(); i++) {
+			Value value = f.getArgumentValues().get(i);
+			if(env.isPrintDecMode()) {
+				if(value instanceof StringReference || value instanceof PrimitiveValue) {
+					buf.append(value.toString());
+				} else {
+					try {
+						buf.append(f.visibleVariables().get(i).name());
+					} catch (AbsentInformationException e) {
+						e.printStackTrace();
+					}
+				}
+			} else {
+				String s = value.type().name();
+				s = s.substring(s.lastIndexOf(".") + 1);
+				buf.append(s);
+			}
 			if(argNum > 0) {
 				buf.append(", ");
 			}
