@@ -1,6 +1,7 @@
 package debugger.gui;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.table.*;
@@ -48,7 +49,9 @@ public class VariableTool extends JPanel {
 	}
 
 	public void update() {
+		List<MyTreeTableNode> nodes = treeTable.checkExpand();
 		refreshTable();
+		treeTable.reflectExpand(nodes);
 		treeTable.updateUI();
 	}
 
@@ -153,6 +156,34 @@ public class VariableTool extends JPanel {
 				g.fillRect(0, r.y, getWidth(), r.height);
 			}
 		}
+
+		private List<MyTreeTableNode> checkExpand() {
+			List<MyTreeTableNode> nodes = new ArrayList<>();
+			for (int i = 0; i < getRowCount(); i++) {
+				if(isExpanded(i)) {
+					TreePath tp = getPathForRow(i);
+					nodes.add((MyTreeTableNode) tp.getPathComponent(tp.getPathCount() - 1));
+				}
+			}
+			return nodes;
+		}
+
+		private void reflectExpand(List<MyTreeTableNode> nodes) {
+			for (MyTreeTableNode preNode : nodes) {
+				for (int i = 0; i < getRowCount(); i++) {
+					TreePath tp = getPathForRow(i);
+					MyTreeTableNode node = (MyTreeTableNode) tp.getPathComponent(tp.getPathCount() - 1);
+
+					List<String> preVars = preNode.getVarList();
+					List<String> vars = node.getVarList();
+					if(vars.get(0).equals(preVars.get(0)) && vars.get(2).equals(preVars.get(2))
+							&& vars.get(3).equals(preVars.get(3))) {
+						expandPath(tp);
+					}
+				}
+			}
+		}
+
 	}
 
 	private class VariableTableCellRenderer extends DefaultTableCellRenderer {

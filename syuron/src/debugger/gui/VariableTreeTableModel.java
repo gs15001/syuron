@@ -163,7 +163,7 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 		return buf.toString();
 	}
 
-	public void addChangedTag(List<MyTreeTableNode> preNodes, List<MyTreeTableNode> nodes) {
+	private void addChangedTag(List<MyTreeTableNode> preNodes, List<MyTreeTableNode> nodes) {
 
 		for (MyTreeTableNode preNode : preNodes) {
 			for (MyTreeTableNode node : nodes) {
@@ -187,7 +187,7 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 		}
 	}
 
-	public void deleteChangedTag(List<MyTreeTableNode> nodes) {
+	private void deleteChangedTag(List<MyTreeTableNode> nodes) {
 
 		for (MyTreeTableNode node : nodes) {
 			List<String> vars = node.getVarList();
