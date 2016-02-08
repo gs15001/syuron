@@ -23,6 +23,8 @@ public class VariableTool extends JPanel {
 	private VariableTreeCellRenderer treeRenderer;
 	private VariableTableCellRenderer tableRenderer;
 
+	private JScrollPane listView;
+
 	private String[] columnNames = { "変数名", "値", "型", "宣言元" };
 
 	public VariableTool(Environment env) {
@@ -39,7 +41,7 @@ public class VariableTool extends JPanel {
 		treeTable.setDefaultRenderer(Object.class, tableRenderer);
 		treeTable.setTreeCellRenderer(treeRenderer);
 
-		JScrollPane listView = new JScrollPane(treeTable);
+		listView = new JScrollPane(treeTable);
 		add(listView);
 	}
 
@@ -53,6 +55,7 @@ public class VariableTool extends JPanel {
 		refreshTable();
 		treeTable.reflectExpand(nodes);
 		treeTable.updateUI();
+		refreshScroll();
 	}
 
 	private void refreshTable() {
@@ -71,6 +74,7 @@ public class VariableTool extends JPanel {
 			List<StackFrame> frames = current.frames();
 			// stackframeの先頭（現在実行されているメソッドに相当)を取得
 			StackFrame currentFrame = frames.get(0);
+			tableModel.setCurrentFrame(currentFrame);
 			treeTable.setCurrentFrame(currentFrame);
 			// 現在の命令の位置を取得(ライン表示に必要）
 			env.getSourceManager().getSourceTool().setExcuteLine(currentFrame.location().lineNumber());
@@ -96,12 +100,16 @@ public class VariableTool extends JPanel {
 		}
 	}
 
-	public void setPreFrame(ThreadReference pre) throws IncompatibleThreadStateException {
-		if(pre != null) {
-			tableModel.setPreFrame(pre.frame(0));
-		} else {
-			tableModel.setPreFrame(null);
-		}
+	private void refreshScroll() {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				JScrollBar bar = listView.getVerticalScrollBar();
+				bar.setValue(bar.getMaximum());
+
+			}
+		});
 	}
 
 	private class MyJXTreeTable extends JXTreeTable {

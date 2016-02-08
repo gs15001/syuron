@@ -499,8 +499,7 @@ public class CommandInterpreter {
 
 	// Command: cont
 
-	private void commandCont() throws NoSessionException, IncompatibleThreadStateException {
-		env.getVariableTool().setPreFrame(null);
+	private void commandCont() throws NoSessionException {
 		try {
 			runtime.go();
 		} catch (VMNotInterruptedException e) {
@@ -533,9 +532,8 @@ public class CommandInterpreter {
 
 	// Command: step
 
-	private void commandStep(StringTokenizer t) throws NoSessionException, IncompatibleThreadStateException {
+	private void commandStep(StringTokenizer t) throws NoSessionException {
 		ThreadReference current = context.getCurrentThread();
-		env.getVariableTool().setPreFrame(current);
 		if(current == null) {
 			env.failure("No current thread.");
 			return;
@@ -564,9 +562,8 @@ public class CommandInterpreter {
 
 	// Command: next
 
-	private void commandNext() throws NoSessionException, IncompatibleThreadStateException {
+	private void commandNext() throws NoSessionException {
 		ThreadReference current = context.getCurrentThread();
-		env.getVariableTool().setPreFrame(current);
 		if(current == null) {
 			env.failure("No current thread.");
 			return;

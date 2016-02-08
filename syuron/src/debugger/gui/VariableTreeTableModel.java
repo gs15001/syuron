@@ -10,7 +10,7 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 	private MyTreeTableNode myroot;
 	private MyTreeTableNode preMyroot;
 	private Environment env;
-	private StackFrame preFrame = null;
+	private StackFrame currentFrame;
 
 	public VariableTreeTableModel(Environment env) {
 		super();
@@ -168,21 +168,24 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 
 		for (MyTreeTableNode node : nodes) {
 			List<String> vars = node.getVarList();
-			for (MyTreeTableNode preNode : preNodes) {
-				List<String> preVars = preNode.getVarList();
+			if(currentFrame == node.getFrame()) {
+				for (MyTreeTableNode preNode : preNodes) {
+					List<String> preVars = preNode.getVarList();
 
-				if(preFrame == node.getFrame() && vars.get(0).equals(preVars.get(0))
-						&& vars.get(2).equals(preVars.get(2))) {
-					if(isLeaf(node)) {
-						// 既にある変数の値が変わっていたらタグ付け
-						if(!preVars.get(1).equals(vars.get(1))) {
-							String s = vars.get(1);
-							vars.remove(1);
-							s += "     ";
-							vars.add(1, s);
+					// メソッドの呼び出し階層が同じかつ変数名・型が同じか
+					if(node.frameC == preNode.frameC && vars.get(0).equals(preVars.get(0))
+							&& vars.get(2).equals(preVars.get(2))) {
+						if(isLeaf(node)) {
+							// 既にある変数の値が変わっていたらタグ付け
+							if(!preVars.get(1).equals(vars.get(1))) {
+								String s = vars.get(1);
+								vars.remove(1);
+								s += "     ";
+								vars.add(1, s);
+							}
+						} else {
+							addChangedTag(preNode.getChildren(), node.getChildren());
 						}
-					} else {
-						addChangedTag(preNode.getChildren(), node.getChildren());
 					}
 				}
 			}
@@ -207,8 +210,8 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 		}
 	}
 
-	public void setPreFrame(StackFrame preFrame) {
-		this.preFrame = preFrame;
+	public void setCurrentFrame(StackFrame currentFrame) {
+		this.currentFrame = currentFrame;
 	}
 
 	@Override
@@ -272,6 +275,7 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 		private List<String> varList = new ArrayList<>();
 		private List<MyTreeTableNode> children = new ArrayList<>();
 		private StackFrame frame;
+		private int frameC;
 
 		public MyTreeTableNode(String varName, String varValue, String varType, String varDec, StackFrame frame) {
 			varList.add(varName);
@@ -279,6 +283,20 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 			varList.add(varType);
 			varList.add(varDec);
 			this.frame = frame;
+			// 現在のフレームの位置（呼び出し階層）を算出　メソッドの識別に使用
+			try {
+				frameC = -1;
+				if(frame != null) {
+					ThreadReference tr = frame.thread();
+					for (int i = 0; i < tr.frameCount(); i++) {
+						if(tr.frame(i) == frame) {
+							frameC = tr.frameCount() - i;
+						}
+					}
+				}
+			} catch (IncompatibleThreadStateException e) {
+				e.printStackTrace();
+			}
 		}
 
 		// 以下アクセスメソッド
