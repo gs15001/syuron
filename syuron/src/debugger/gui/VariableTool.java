@@ -71,7 +71,7 @@ public class VariableTool extends JPanel {
 			List<StackFrame> frames = current.frames();
 			// stackframeの先頭（現在実行されているメソッドに相当)を取得
 			StackFrame currentFrame = frames.get(0);
-			treeTable.setCurrentVariableNum(tableModel.frameToMethodName(currentFrame));
+			treeTable.setCurrentFrame(currentFrame);
 			// 現在の命令の位置を取得(ライン表示に必要）
 			env.getSourceManager().getSourceTool().setExcuteLine(currentFrame.location().lineNumber());
 
@@ -96,18 +96,26 @@ public class VariableTool extends JPanel {
 		}
 	}
 
+	public void setPreFrame(ThreadReference pre) throws IncompatibleThreadStateException {
+		if(pre != null) {
+			tableModel.setPreFrame(pre.frame(0));
+		} else {
+			tableModel.setPreFrame(null);
+		}
+	}
+
 	private class MyJXTreeTable extends JXTreeTable {
 
 		private static final long serialVersionUID = 1L;
 
-		private String currentVariableMethodName;
+		private StackFrame currentFrame;
 
 		public MyJXTreeTable(VariableTreeTableModel tableModel) {
 			super(tableModel);
 		}
 
-		public void setCurrentVariableNum(String currentVariableMethodName) {
-			this.currentVariableMethodName = currentVariableMethodName;
+		public void setCurrentFrame(StackFrame currentFrame) {
+			this.currentFrame = currentFrame;
 		}
 
 		@Override
@@ -144,7 +152,9 @@ public class VariableTool extends JPanel {
 
 			// 現在のスコープの変数の数を数える
 			for (int i = 0; i < variableNum; i++) {
-				if(((String) getValueAt(i, 3)).equals(currentVariableMethodName)) {
+				TreePath tp = getPathForRow(i);
+				MyTreeTableNode node = (MyTreeTableNode) tp.getPathComponent(tp.getPathCount() - 1);
+				if(node.getFrame() == currentFrame) {
 					currentVariableNum++;
 				}
 			}

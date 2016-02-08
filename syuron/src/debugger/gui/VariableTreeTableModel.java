@@ -10,17 +10,18 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 	private MyTreeTableNode myroot;
 	private MyTreeTableNode preMyroot;
 	private Environment env;
+	private StackFrame preFrame = null;
 
 	public VariableTreeTableModel(Environment env) {
 		super();
 		this.env = env;
-		myroot = new MyTreeTableNode("", "", "", "");
+		myroot = new MyTreeTableNode("", "", "", "", null);
 	}
 
 	public void clear() {
 		deleteChangedTag(myroot.getChildren());
 		preMyroot = myroot;
-		myroot = new MyTreeTableNode("", "", "", "");
+		myroot = new MyTreeTableNode("", "", "", "", null);
 	}
 
 	public void addNode(LocalVariable var, StackFrame frame) throws ClassNotLoadedException {
@@ -59,7 +60,7 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 				// 子ノードの型生成
 				sb = new StringBuilder(varType);
 				String childType = sb.delete(sb.length() - 2, sb.length()).toString();
-				children.add(createNode(childName, valList.get(i), childType, varDec));
+				children.add(createNode(childName, valList.get(i), childType, varDec, frame));
 			}
 
 		} else if(value instanceof ObjectReference) {
@@ -70,13 +71,13 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 
 			for (Field f : fields) {
 				Value v = or.getValue(f);
-				children.add(createNode(f.name(), v, f.typeName(), varDec));
+				children.add(createNode(f.name(), v, f.typeName(), varDec, frame));
 			}
 
 		}
 
 		// ノードの作成及び追加
-		MyTreeTableNode node = new MyTreeTableNode(varName, varValue, varType, varDec);
+		MyTreeTableNode node = new MyTreeTableNode(varName, varValue, varType, varDec, frame);
 		// 子ノードのリストがあれば追加
 		if(children != null) {
 			node.setChildren(children);
@@ -89,7 +90,7 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 
 	}
 
-	private MyTreeTableNode createNode(String varName, Value value, String varType, String varDec) {
+	private MyTreeTableNode createNode(String varName, Value value, String varType, String varDec, StackFrame frame) {
 
 		String varValue = "";
 		List<MyTreeTableNode> children = null;
@@ -107,7 +108,7 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 				// 子ノードの型生成
 				sb = new StringBuilder(varType);
 				String childType = sb.delete(sb.length() - 2, sb.length()).toString();
-				children.add(createNode(childName, vals.get(i), childType, varDec));
+				children.add(createNode(childName, vals.get(i), childType, varDec, frame));
 			}
 
 		} else if(value instanceof ObjectReference) {
@@ -119,12 +120,12 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 			// フィールド1つ1つに対して子ノードを作成
 			for (Field f : fields) {
 				Value v = or.getValue(f);
-				children.add(createNode(f.name(), v, f.typeName(), varDec));
+				children.add(createNode(f.name(), v, f.typeName(), varDec, frame));
 			}
 		}
 
 		// ノードの作成及び追加
-		MyTreeTableNode node = new MyTreeTableNode(varName, varValue, varType, varDec);
+		MyTreeTableNode node = new MyTreeTableNode(varName, varValue, varType, varDec, frame);
 		// 子ノードのリストがあれば追加
 		if(children != null) {
 			node.setChildren(children);
@@ -137,8 +138,8 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 		StringBuilder buf = new StringBuilder();
 		buf.append(method.name());
 		buf.append("(");
-		int argNum = 0;
-		for (int i = 0; i < f.getArgumentValues().size(); i++) {
+		int argNum = f.getArgumentValues().size();
+		for (int i = 0; i < argNum; i++) {
 			Value value = f.getArgumentValues().get(i);
 			if(env.isPrintDecMode()) {
 				if(value instanceof StringReference || value instanceof PrimitiveValue) {
@@ -155,7 +156,7 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 				s = s.substring(s.lastIndexOf(".") + 1);
 				buf.append(s);
 			}
-			if(argNum > 0) {
+			if(i + 1 < argNum) {
 				buf.append(", ");
 			}
 		}
@@ -165,14 +166,15 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 
 	private void addChangedTag(List<MyTreeTableNode> preNodes, List<MyTreeTableNode> nodes) {
 
-		for (MyTreeTableNode preNode : preNodes) {
-			for (MyTreeTableNode node : nodes) {
+		for (MyTreeTableNode node : nodes) {
+			List<String> vars = node.getVarList();
+			for (MyTreeTableNode preNode : preNodes) {
 				List<String> preVars = preNode.getVarList();
-				List<String> vars = node.getVarList();
 
-				if(vars.get(0).equals(preVars.get(0)) && vars.get(2).equals(preVars.get(2))
-						&& vars.get(3).equals(preVars.get(3))) {
+				if(preFrame == node.getFrame() && vars.get(0).equals(preVars.get(0))
+						&& vars.get(2).equals(preVars.get(2))) {
 					if(isLeaf(node)) {
+						// 既にある変数の値が変わっていたらタグ付け
 						if(!preVars.get(1).equals(vars.get(1))) {
 							String s = vars.get(1);
 							vars.remove(1);
@@ -203,6 +205,10 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 				deleteChangedTag(node.getChildren());
 			}
 		}
+	}
+
+	public void setPreFrame(StackFrame preFrame) {
+		this.preFrame = preFrame;
 	}
 
 	@Override
@@ -265,15 +271,21 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 
 		private List<String> varList = new ArrayList<>();
 		private List<MyTreeTableNode> children = new ArrayList<>();
+		private StackFrame frame;
 
-		public MyTreeTableNode(String varName, String varValue, String varType, String varDec) {
+		public MyTreeTableNode(String varName, String varValue, String varType, String varDec, StackFrame frame) {
 			varList.add(varName);
 			varList.add(varValue);
 			varList.add(varType);
 			varList.add(varDec);
+			this.frame = frame;
 		}
 
 		// 以下アクセスメソッド
+		public StackFrame getFrame() {
+			return frame;
+		}
+
 		public List<String> getVarList() {
 			return varList;
 		}
