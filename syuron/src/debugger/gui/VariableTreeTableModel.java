@@ -84,7 +84,6 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 		}
 		((MyTreeTableNode) myroot).getChildren().add(node);
 
-		addChangedTag(preMyroot.getChildren(), myroot.getChildren());
 		// モデルの更新
 		modelSupport.fireNewRoot();
 
@@ -162,6 +161,10 @@ public class VariableTreeTableModel extends AbstractTreeTableModel {
 		}
 		buf.append(")");
 		return buf.toString();
+	}
+
+	public void addChangedTag() {
+		addChangedTag(preMyroot.getChildren(), myroot.getChildren());
 	}
 
 	private void addChangedTag(List<MyTreeTableNode> preNodes, List<MyTreeTableNode> nodes) {

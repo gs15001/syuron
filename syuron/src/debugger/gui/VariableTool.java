@@ -90,6 +90,7 @@ public class VariableTool extends JPanel {
 					tableModel.addNode(var, frame);
 				}
 			}
+			tableModel.addChangedTag();
 
 		} catch (IncompatibleThreadStateException e1) {
 			e1.printStackTrace();
