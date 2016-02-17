@@ -77,6 +77,7 @@ public class JAppEditor extends JFrame {
 	private AbstractAction saveAsAction;
 	private AbstractAction settingsAction;
 	private AbstractAction compileAction;
+	private AbstractAction runAction;
 	private SyntaxManager manager;
 	public String filetype = null;
 	private int tabSize = 4;
@@ -199,6 +200,13 @@ public class JAppEditor extends JFrame {
 			}
 		};
 
+		runAction = new AbstractAction("run") {
+
+			public void actionPerformed(ActionEvent e) {
+				doRun();
+			}
+		};
+
 		/* creation des composants internes */
 		JMenuItem openfileItem = new JMenuItem(openfileAction);
 		JMenuItem exitItem = new JMenuItem(exitAction);
@@ -207,6 +215,7 @@ public class JAppEditor extends JFrame {
 		JMenuItem settingsItem = new JMenuItem(settingsAction);
 		JMenuItem saveAsItem = new JMenuItem(saveAsAction);
 		JMenuItem compileItem = new JMenuItem(compileAction);
+		JMenuItem runItem = new JMenuItem(runAction);
 
 		/* Insertion des composants => Barre de menu et boutons */
 		fileMenu.add(openfileItem);
@@ -215,6 +224,7 @@ public class JAppEditor extends JFrame {
 		toolsMenu.add(searchItem);
 		toolsMenu.add(settingsItem);
 		toolsMenu.add(compileItem);
+		toolsMenu.add(runItem);
 		helpMenu.add(aboutItem);
 
 		Mbar.add(fileMenu);
@@ -332,6 +342,49 @@ public class JAppEditor extends JFrame {
 			String fileLoc = file.getParent();
 			String[] commands = { "-g", "-cp", fileLoc, fileLoc + "\\" + fileName };
 			int r = javac.run(null, null, null, commands);
+		}
+	}
+
+	private void doRun() {
+		if(tab.getSelectedComponent() != null) {
+			ProcessBuilder pb = new ProcessBuilder();
+
+			File file = ((FilePane) (tab.getSelectedComponent())).getFile().file;
+			String fileName = file.getName();
+			fileName = fileName.substring(0, fileName.lastIndexOf("."));
+			String fileLoc = file.getParent();
+			System.out.println(fileLoc);
+			pb.command("java", "-cp", fileLoc, fileName);
+			try {
+				Process process = pb.start();
+
+				InputStreamThread it = new InputStreamThread(process.getInputStream(), "SJIS");
+				InputStreamThread et = new InputStreamThread(process.getErrorStream(), "SJIS");
+				it.start();
+				et.start();
+
+				// プロセスの終了待ち
+				process.waitFor();
+
+				// InputStreamのスレッド終了待ち
+				it.join();
+				et.join();
+
+				System.out.println("戻り値：" + process.exitValue());
+
+				// 標準出力の内容を出力
+				for (String s : it.getStringList()) {
+					System.out.println(s);
+				}
+				// 標準エラーの内容を出力
+				for (String s : et.getStringList()) {
+					System.err.println(s);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
