@@ -3,17 +3,17 @@ package org.jeditor.app;
 import java.io.*;
 import java.util.*;
 
-public class InputStreamThread extends Thread {
+public class OutputStreamThread extends Thread {
 
 	private BufferedReader br;
 
 	private List<String> list = new ArrayList<String>();
 
-	public InputStreamThread(InputStream is) {
+	public OutputStreamThread(InputStream is) {
 		br = new BufferedReader(new InputStreamReader(is));
 	}
 
-	public InputStreamThread(InputStream is, String charset) {
+	public OutputStreamThread(InputStream is, String charset) {
 		try {
 			br = new BufferedReader(new InputStreamReader(is, charset));
 		} catch (UnsupportedEncodingException e) {

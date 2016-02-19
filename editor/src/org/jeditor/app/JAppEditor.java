@@ -371,8 +371,9 @@ public class JAppEditor extends JFrame {
 			try {
 				Process process = pb.start();
 
-				InputStreamThread it = new InputStreamThread(process.getInputStream(), "SJIS");
-				InputStreamThread et = new InputStreamThread(process.getErrorStream(), "SJIS");
+				OutputStreamThread it = new OutputStreamThread(process.getInputStream(), "SJIS");
+				OutputStreamThread et = new OutputStreamThread(process.getErrorStream(), "SJIS");
+				console.setOutputStream(process.getOutputStream());
 				it.start();
 				et.start();
 
