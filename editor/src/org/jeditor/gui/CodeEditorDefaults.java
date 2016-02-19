@@ -89,11 +89,11 @@ public class CodeEditorDefaults {
 			DEFAULTS.selectionMarkColor = Color.blue;
 			DEFAULTS.gutterBorderWidth = 4;
 			DEFAULTS.gutterNumberAlignment = SwingConstants.RIGHT;
-			DEFAULTS.gutterFont = new Font("monospaced", Font.PLAIN, 10);
+			DEFAULTS.gutterFont = new Font("consolas", Font.PLAIN, 12);
 
 			DEFAULTS.cols = 80;
 			DEFAULTS.rows = 25;
-			DEFAULTS.font = new Font("Monospaced", Font.PLAIN, 12);
+			DEFAULTS.font = new Font("consolas", Font.PLAIN, 12);
 			DEFAULTS.styles = SyntaxUtilities.getDefaultSyntaxStyles();
 			DEFAULTS.caretColor = Color.black;
 			DEFAULTS.selectionColor = new Color(0xccccff);
@@ -130,11 +130,11 @@ public class CodeEditorDefaults {
 		selectionMarkColor = Color.blue;
 		gutterBorderWidth = 4;
 		gutterNumberAlignment = SwingConstants.RIGHT;
-		gutterFont = new Font("monospaced", Font.PLAIN, 10);
+		gutterFont = new Font("consolas", Font.PLAIN, 12);
 
 		cols = 80;
 		rows = 25;
-		font = new Font("Monospaced", Font.PLAIN, 12);
+		font = new Font("consolas", Font.PLAIN, 12);
 		styles = SyntaxUtilities.getDefaultSyntaxStyles();
 		caretColor = Color.black;
 		selectionColor = new Color(0xccccff);

@@ -12,7 +12,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import javax.swing.JComponent;
 import javax.swing.ToolTipManager;
@@ -428,7 +430,10 @@ public class CodeEditorPainter extends JComponent implements TabExpander {
 	 *            The graphics context
 	 */
 	@Override
-	public void paint(Graphics gfx) {
+	public void paint(Graphics gfx2) {
+		Graphics2D gfx = (Graphics2D) gfx2;
+		gfx.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
 		SyntaxDocument sdoc = editor.getSyntaxDocument();
 		tabSize = fm.charWidth(' ') * ((Integer) sdoc.getProperty(PlainDocument.tabSizeAttribute)).intValue();
 

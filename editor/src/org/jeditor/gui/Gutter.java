@@ -25,9 +25,11 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -77,7 +79,9 @@ public class Gutter extends JComponent implements SwingConstants {
 		addMouseMotionListener(ml);
 	}
 
-	public void paintComponent(Graphics gfx) {
+	public void paintComponent(Graphics gfx2) {
+		Graphics2D gfx = (Graphics2D) gfx2;
+		gfx.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		if(!collapsed) {
 			// fill the background
 			Rectangle r = gfx.getClipBounds();
