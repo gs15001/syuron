@@ -22,6 +22,7 @@
 package org.jeditor.app;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,6 +30,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
@@ -43,8 +45,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.tools.JavaCompiler;
@@ -65,6 +69,7 @@ public class JAppEditor extends JFrame {
 	private TreeMap filelist = new TreeMap();
 	private JTabbedPane tab = new JTabbedPane();
 	private ConsolePane console = new ConsolePane();
+	private JPanel support = new JPanel();
 	private JMenuBar Mbar = new JMenuBar();
 	private JMenu fileMenu = new JMenu("File");
 	private JMenu toolsMenu = new JMenu("Tools");
@@ -89,7 +94,8 @@ public class JAppEditor extends JFrame {
 	public JAppEditor() {
 		// Initialise the window
 		super("JAppEditor");
-		this.setSize(700, 700);
+		setSize(1000, 890);
+		setBackground(Color.lightGray);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// add Mouse Properties of TabbedPane
@@ -139,12 +145,16 @@ public class JAppEditor extends JFrame {
 		loadMenus();
 
 		/* Insertion des composants => Panel de la Frame */
-		JPanel pane = new JPanel();
-		setContentPane(pane);
-		pane.setLayout(new BorderLayout());
-		pane.add(npane, BorderLayout.NORTH);
-		pane.add(tab, BorderLayout.CENTER);
-		pane.add(console, BorderLayout.SOUTH);
+		JPanel mainPane = new JPanel();
+		setContentPane(mainPane);
+		mainPane.setLayout(new BorderLayout());
+		mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		tab.setPreferredSize(new java.awt.Dimension(500, 650));
+		support.setPreferredSize(new java.awt.Dimension(500, 650));
+		console.setPreferredSize(new java.awt.Dimension(1000, 150));
+		JSplitPane centerTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tab, support);
+		JSplitPane center = new JSplitPane(JSplitPane.VERTICAL_SPLIT, centerTop, console);
+		mainPane.add(center, BorderLayout.CENTER);
 	}
 
 	/** loads Menus */
@@ -341,7 +351,11 @@ public class JAppEditor extends JFrame {
 			String fileName = file.getName();
 			String fileLoc = file.getParent();
 			String[] commands = { "-g", "-cp", fileLoc, fileLoc + "\\" + fileName };
-			int r = javac.run(null, null, null, commands);
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			ByteArrayOutputStream err = new ByteArrayOutputStream();
+			int r = javac.run(null, out, err, commands);
+			console.outputLine(out.toString());
+			console.outputLine(err.toString());
 		}
 	}
 
@@ -353,7 +367,6 @@ public class JAppEditor extends JFrame {
 			String fileName = file.getName();
 			fileName = fileName.substring(0, fileName.lastIndexOf("."));
 			String fileLoc = file.getParent();
-			System.out.println(fileLoc);
 			pb.command("java", "-cp", fileLoc, fileName);
 			try {
 				Process process = pb.start();
@@ -370,15 +383,13 @@ public class JAppEditor extends JFrame {
 				it.join();
 				et.join();
 
-				System.out.println("戻り値：" + process.exitValue());
-
 				// 標準出力の内容を出力
 				for (String s : it.getStringList()) {
-					System.out.println(s);
+					console.outputLine(s);
 				}
 				// 標準エラーの内容を出力
 				for (String s : et.getStringList()) {
-					System.err.println(s);
+					console.outputLine(s);
 				}
 			} catch (IOException e) {
 				e.printStackTrace();

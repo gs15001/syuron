@@ -23,11 +23,9 @@ public class InputStreamThread extends Thread {
 
 	@Override
 	public void run() {
+		String line;
 		try {
-			for (;;) {
-				String line = br.readLine();
-				if(line == null)
-					break;
+			while ((line = br.readLine()) != null) {
 				list.add(line);
 			}
 		} catch (IOException e) {
