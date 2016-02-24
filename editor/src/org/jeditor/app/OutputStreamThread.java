@@ -1,13 +1,11 @@
 package org.jeditor.app;
 
 import java.io.*;
-import java.util.*;
 
 public class OutputStreamThread extends Thread {
 
 	private BufferedReader br;
-
-	private List<String> list = new ArrayList<String>();
+	private ConsolePane console = null;
 
 	public OutputStreamThread(InputStream is) {
 		br = new BufferedReader(new InputStreamReader(is));
@@ -21,12 +19,19 @@ public class OutputStreamThread extends Thread {
 		}
 	}
 
+	public OutputStreamThread(InputStream is, String charset, ConsolePane console) {
+		this(is, charset);
+		this.console = console;
+	}
+
 	@Override
 	public void run() {
 		String line;
 		try {
 			while ((line = br.readLine()) != null) {
-				list.add(line);
+				if(console != null) {
+					console.outputLine(line);
+				}
 			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -37,10 +42,6 @@ public class OutputStreamThread extends Thread {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	public List<String> getStringList() {
-		return list;
 	}
 
 }

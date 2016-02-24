@@ -33,8 +33,7 @@ import java.awt.event.MouseEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.TreeMap;
+import java.util.*;
 import javax.swing.AbstractAction;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -86,6 +85,7 @@ public class JAppEditor extends JFrame {
 	private SyntaxManager manager;
 	public String filetype = null;
 	private int tabSize = 4;
+	private Process process = null;
 
 	/**
 	 * constructor of MainWindow class.
@@ -351,9 +351,13 @@ public class JAppEditor extends JFrame {
 			String fileName = file.getName();
 			String fileLoc = file.getParent();
 			String[] commands = { "-g", "-cp", fileLoc, fileLoc + "\\" + fileName };
+			// コンパイル時の出力を受け取るストリームの生成(これでいいかは不明）
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			ByteArrayOutputStream err = new ByteArrayOutputStream();
 			int r = javac.run(null, out, err, commands);
+			if(r == 0) {
+				console.outputLine("Succeeded compile");
+			}
 			console.outputLine(out.toString());
 			console.outputLine(err.toString());
 		}
@@ -369,34 +373,29 @@ public class JAppEditor extends JFrame {
 			String fileLoc = file.getParent();
 			pb.command("java", "-cp", fileLoc, fileName);
 			try {
-				Process process = pb.start();
-
-				OutputStreamThread it = new OutputStreamThread(process.getInputStream(), "SJIS");
-				OutputStreamThread et = new OutputStreamThread(process.getErrorStream(), "SJIS");
-				console.setOutputStream(process.getOutputStream());
+				// 前のプロセスが残っているならキル
+				if(process != null) {
+					process.destroy();
+				}
+				// 新たなプロセスを生成
+				process = pb.start();
+				// 入出力に関する設定
+				OutputStreamThread it = new OutputStreamThread(process.getInputStream(), "SJIS", console);
+				OutputStreamThread et = new OutputStreamThread(process.getErrorStream(), "SJIS", console);
+				console.setOutputStream(process.getOutputStream()); // 起動したJavaへの
 				it.start();
 				et.start();
 
-				// プロセスの終了待ち
-				process.waitFor();
-
-				// InputStreamのスレッド終了待ち
-				it.join();
-				et.join();
-
-				// 標準出力の内容を出力
-				for (String s : it.getStringList()) {
-					console.outputLine(s);
-				}
-				// 標準エラーの内容を出力
-				for (String s : et.getStringList()) {
-					console.outputLine(s);
-				}
 			} catch (IOException e) {
 				e.printStackTrace();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
 			}
+		}
+	}
+
+	private void doKill() {
+		if(process != null) {
+			process.destroy();
+			process = null;
 		}
 	}
 

@@ -3,7 +3,10 @@ package org.jeditor.app;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import javax.swing.JPanel;
 import debugger.gui.TypeScript;
 
@@ -15,7 +18,7 @@ public class ConsolePane extends JPanel {
 
 	private static final String PROMPT = "Input:";
 
-	private OutputStream output;
+	private BufferedWriter output;
 
 	public ConsolePane() {
 		super(new BorderLayout());
@@ -27,7 +30,17 @@ public class ConsolePane extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				output.write(script.readln());
+				String s = script.readln();
+				if(output != null) {
+					try {
+						output.write(s, 0, s.length());
+						output.newLine();
+						output.flush();
+					} catch (IOException e1) {
+						output = null;
+						// e1.printStackTrace();
+					}
+				}
 			}
 		});
 	}
@@ -38,6 +51,6 @@ public class ConsolePane extends JPanel {
 	}
 
 	public void setOutputStream(OutputStream output) {
-		this.output = output;
+		this.output = new BufferedWriter(new OutputStreamWriter(output));
 	}
 }
