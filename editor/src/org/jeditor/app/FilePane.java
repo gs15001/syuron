@@ -26,12 +26,12 @@ import org.jeditor.gui.JEditor;
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -46,6 +46,7 @@ import org.jeditor.scripts.base.TokenMarker;
  */
 public class FilePane extends JPanel {
 
+	private static final long serialVersionUID = 1L;
 	protected String name;
 	protected TextFile fromfile = null;
 	protected TextFile tofile = null;
@@ -120,23 +121,24 @@ public class FilePane extends JPanel {
 	}
 
 	protected void setPanel(TextFile text) {
-		ed = new JEditor(defaults);
+		ed = new JEditor(this, defaults);
 		ed.setTokenMarker(marker);
 		ed.setText(text.getText());
+		ed.setEdited(false);
 		this.add(new JScrollPane(ed));
 	}
 
 	protected void setPanel(TextFile fromfile, TextFile tofile) {
-		List fromtext = null;
-		List totext = null;
+		List<String> fromtext = null;
+		List<String> totext = null;
 		if(fromfile != null)
 			fromtext = fromfile.getText();
 		else
-			fromtext = new Vector(1);
+			fromtext = new ArrayList<>(1);
 		if(tofile != null)
 			totext = tofile.getText();
 		else
-			totext = new Vector(1);
+			totext = new ArrayList<>(1);
 		textco = new JDiffTextPanel(fromtext, totext, defaults);
 
 		textco.setTokenMarker(marker);
@@ -171,6 +173,16 @@ public class FilePane extends JPanel {
 		return tofile;
 	}
 
+	public void changeEdited(boolean edited) {
+		if(getComponentCount() > 0) {
+			if(edited) {
+				parent.addAsta();
+			} else {
+				parent.removeAsta();
+			}
+		}
+	}
+
 	@Override
 	public String getName() {
 		return name;
@@ -179,15 +191,14 @@ public class FilePane extends JPanel {
 	public class TextFile {
 
 		public File file;
-		public List vfile = new ArrayList(10);
+		public List<String> vfile = new ArrayList<>(10);
 		public String ext = "";
 
 		public TextFile(File file) {
 			this.file = file;
 			ext = getExtension(file);
 			String s;
-			try {
-				BufferedReader reader = new BufferedReader(new FileReader(file));
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "SJIS"));) {
 				while ((s = reader.readLine()) != null) {
 					vfile.add(s);
 				}
@@ -206,7 +217,7 @@ public class FilePane extends JPanel {
 			return file.getName();
 		}
 
-		public List getText() {
+		public List<String> getText() {
 			return vfile;
 		}
 

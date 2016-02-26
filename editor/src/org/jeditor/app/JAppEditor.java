@@ -30,9 +30,14 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 import javax.swing.AbstractAction;
 import javax.swing.JComboBox;
@@ -50,6 +55,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 import debugger.gui.JDBFileFilter;
@@ -75,13 +82,15 @@ public class JAppEditor extends JFrame {
 	private JMenu helpMenu = new JMenu("Help");
 	protected JComboBox bTypecb;
 	private AbstractAction openfileAction;
-	private AbstractAction exitAction;
-	private AbstractAction aboutAction;
-	private AbstractAction searchAction;
+	private AbstractAction saveAction;
 	private AbstractAction saveAsAction;
+	private AbstractAction exitAction;
+	private AbstractAction searchAction;
 	private AbstractAction settingsAction;
 	private AbstractAction compileAction;
 	private AbstractAction runAction;
+	private AbstractAction killAction;
+	private AbstractAction aboutAction;
 	private SyntaxManager manager;
 	public String filetype = null;
 	private int tabSize = 4;
@@ -174,21 +183,20 @@ public class JAppEditor extends JFrame {
 			}
 		};
 
-		aboutAction = new AbstractAction("About") {
+		saveAction = new AbstractAction("Save") {
 
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "JAppEditor version " + version + "\n building date: "
-						+ versiondate, "About", JOptionPane.INFORMATION_MESSAGE);
+				doSave();
 			}
 		};
 
-		// TODO : implement search and saveAs
 		saveAsAction = new AbstractAction("SaveAs") {
 
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Not implemented", "Message", JOptionPane.INFORMATION_MESSAGE);
+				doSaveAs();
 			}
 		};
+
 		searchAction = new AbstractAction("Search") {
 
 			public void actionPerformed(ActionEvent e) {
@@ -217,6 +225,21 @@ public class JAppEditor extends JFrame {
 			}
 		};
 
+		killAction = new AbstractAction("kill") {
+
+			public void actionPerformed(ActionEvent e) {
+				doKill();
+			}
+		};
+
+		aboutAction = new AbstractAction("About") {
+
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "JAppEditor version " + version + "\n building date: "
+						+ versiondate, "About", JOptionPane.INFORMATION_MESSAGE);
+			}
+		};
+
 		/* creation des composants internes */
 		JMenuItem openfileItem = new JMenuItem(openfileAction);
 		JMenuItem exitItem = new JMenuItem(exitAction);
@@ -224,17 +247,21 @@ public class JAppEditor extends JFrame {
 		JMenuItem searchItem = new JMenuItem(searchAction);
 		JMenuItem settingsItem = new JMenuItem(settingsAction);
 		JMenuItem saveAsItem = new JMenuItem(saveAsAction);
+		JMenuItem saveItem = new JMenuItem(saveAction);
 		JMenuItem compileItem = new JMenuItem(compileAction);
 		JMenuItem runItem = new JMenuItem(runAction);
+		JMenuItem killItem = new JMenuItem(killAction);
 
 		/* Insertion des composants => Barre de menu et boutons */
 		fileMenu.add(openfileItem);
+		fileMenu.add(saveItem);
 		fileMenu.add(saveAsItem);
 		fileMenu.add(exitItem);
 		toolsMenu.add(searchItem);
 		toolsMenu.add(settingsItem);
 		toolsMenu.add(compileItem);
 		toolsMenu.add(runItem);
+		toolsMenu.add(killItem);
 		helpMenu.add(aboutItem);
 
 		Mbar.add(fileMenu);
@@ -396,6 +423,79 @@ public class JAppEditor extends JFrame {
 		if(process != null) {
 			process.destroy();
 			process = null;
+		}
+	}
+
+	public void doSave() {
+		FilePane fp = (FilePane) tab.getSelectedComponent();
+		if(fp != null) {
+			if(fp.ed.isEdited()) {
+				File f = fp.fromfile.file;
+				try (BufferedWriter br = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f), "SJIS"))) {
+					Document d = fp.ed.getDocument();
+					br.write(d.getText(0, d.getLength()), 0, d.getLength());
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (BadLocationException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				console.outputLine("Saved");
+				fp.ed.setEdited(false);
+			}
+		}
+	}
+
+	public void doSaveAs() {
+		FilePane fp = (FilePane) tab.getSelectedComponent();
+		if(fp != null) {
+			JFileChooser chooser = new JFileChooser("D:\\TEMP");
+			JDBFileFilter filter = new JDBFileFilter("java", "Java source code");
+			chooser.setFileFilter(filter);
+			if(chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+				File f = chooser.getSelectedFile();
+				if(!f.getName().endsWith(".java")) {
+					f = new File(f.getParentFile(), f.getName() + ".java");
+				}
+				try (BufferedWriter br = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f), "SJIS"))) {
+					Document d = fp.ed.getDocument();
+					br.write(d.getText(0, d.getLength()), 0, d.getLength());
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (BadLocationException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				console.outputLine("Saved As " + f.getName());
+				String name = fp.getName();
+				if(filelist.containsKey(name)) {
+					filelist.remove(name);
+				}
+				tab.removeTabAt(tab.getSelectedIndex());
+				doOpenFile(f);
+			}
+		}
+	}
+
+	public void addAsta() {
+		String title = tab.getTitleAt(tab.getSelectedIndex());
+		if(!title.endsWith("*")) {
+			title += "*";
+			tab.setTitleAt(tab.getSelectedIndex(), title);
+		}
+	}
+
+	public void removeAsta() {
+		String title = tab.getTitleAt(tab.getSelectedIndex());
+		if(title.endsWith("*")) {
+			title = title.substring(0, title.length() - 1);
+			tab.setTitleAt(tab.getSelectedIndex(), title);
 		}
 	}
 

@@ -68,6 +68,8 @@ import javax.swing.text.Utilities;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoableEdit;
+import org.jeditor.app.FilePane;
+import org.jeditor.app.JAppEditor;
 import org.jeditor.scripts.TextTokenMarker;
 import org.jeditor.scripts.base.SyntaxStyle;
 import org.jeditor.scripts.base.Token;
@@ -172,6 +174,9 @@ public class JEditor extends JComponent {
 	private Position anchor;
 	protected int lineNumberOffset = 0;
 	private static final String uiClassID = "CodeEditorUI";
+
+	private FilePane parent;
+	private boolean edited;
 	/**
 	 * Adding components with this name to the text area will place
 	 * them left of the horizontal scroll bar. In jEdit, the status
@@ -247,6 +252,20 @@ public class JEditor extends JComponent {
 
 		// We don't seem to get the initial focus event?
 		focusedComponent = this;
+	}
+
+	public JEditor(FilePane parent, CodeEditorDefaults defaults) {
+		this(defaults);
+		this.parent = parent;
+	}
+
+	public boolean isEdited() {
+		return edited;
+	}
+
+	public void setEdited(boolean edited) {
+		parent.changeEdited(edited);
+		this.edited = edited;
 	}
 
 	public int getTabSize() {
@@ -2119,6 +2138,7 @@ public class JEditor extends JComponent {
 			gutter.repaint();
 			updateScrollBars();
 		}
+		setEdited(true);
 	}
 
 	class ScrollLayout implements LayoutManager {
