@@ -36,6 +36,7 @@ public class GUI extends JPanel {
 	// private VariableTool variableTool;
 	private VariableTool variableTreeTable;
 	private JPanel supportTool;// 未実装 とりあえずパネル配置
+	private JDBMenuBar menuBar;
 
 	private final Environment env = new Environment();
 
@@ -249,7 +250,8 @@ public class GUI extends JPanel {
 		JFrame frame = new JFrame();
 		frame.setBackground(Color.lightGray);
 		frame.setTitle(windowBanner);
-		frame.setJMenuBar(new JDBMenuBar(env));
+		menuBar = new JDBMenuBar(env);
+		frame.setJMenuBar(menuBar);
 		frame.setContentPane(mainPanel);
 
 		frame.addWindowListener(new WindowAdapter() {
@@ -272,4 +274,7 @@ public class GUI extends JPanel {
 
 	}
 
+	public void openFile(File f) {
+		menuBar.openFile(f);
+	}
 }

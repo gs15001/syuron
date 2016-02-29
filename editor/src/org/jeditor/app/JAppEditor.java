@@ -59,6 +59,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
+import debugger.gui.GUI;
 import debugger.gui.JDBFileFilter;
 
 /**
@@ -68,6 +69,8 @@ import debugger.gui.JDBFileFilter;
  * @version 0.4.1
  */
 public class JAppEditor extends JFrame {
+
+	static final String DEFAULTPATH = "D:\\TEMP";
 
 	// settings types
 	private static String version = "2.0";
@@ -79,6 +82,7 @@ public class JAppEditor extends JFrame {
 	private JMenuBar Mbar = new JMenuBar();
 	private JMenu fileMenu = new JMenu("File");
 	private JMenu toolsMenu = new JMenu("Tools");
+	private JMenu debugMenu = new JMenu("Debug");
 	private JMenu helpMenu = new JMenu("Help");
 	protected JComboBox bTypecb;
 	private AbstractAction openfileAction;
@@ -90,6 +94,8 @@ public class JAppEditor extends JFrame {
 	private AbstractAction compileAction;
 	private AbstractAction runAction;
 	private AbstractAction killAction;
+	private AbstractAction debugAction;
+	private AbstractAction debugerAction;
 	private AbstractAction aboutAction;
 	private SyntaxManager manager;
 	public String filetype = null;
@@ -159,9 +165,11 @@ public class JAppEditor extends JFrame {
 		mainPane.setLayout(new BorderLayout());
 		mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		tab.setPreferredSize(new java.awt.Dimension(500, 650));
+		doOpenFile(new File(DEFAULTPATH, "新規.java"));
 		support.setPreferredSize(new java.awt.Dimension(500, 650));
 		console.setPreferredSize(new java.awt.Dimension(1000, 150));
 		JSplitPane centerTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tab, support);
+		centerTop.setDividerLocation(500);
 		JSplitPane center = new JSplitPane(JSplitPane.VERTICAL_SPLIT, centerTop, console);
 		mainPane.add(center, BorderLayout.CENTER);
 	}
@@ -232,6 +240,22 @@ public class JAppEditor extends JFrame {
 			}
 		};
 
+		debugAction = new AbstractAction("debug support") {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		};
+
+		debugerAction = new AbstractAction("open debugger") {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				doOpenDebugger();
+			}
+		};
+
 		aboutAction = new AbstractAction("About") {
 
 			public void actionPerformed(ActionEvent e) {
@@ -251,6 +275,8 @@ public class JAppEditor extends JFrame {
 		JMenuItem compileItem = new JMenuItem(compileAction);
 		JMenuItem runItem = new JMenuItem(runAction);
 		JMenuItem killItem = new JMenuItem(killAction);
+		JMenuItem debugItem = new JMenuItem(debugAction);
+		JMenuItem debuggerItem = new JMenuItem(debugerAction);
 
 		/* Insertion des composants => Barre de menu et boutons */
 		fileMenu.add(openfileItem);
@@ -262,10 +288,13 @@ public class JAppEditor extends JFrame {
 		toolsMenu.add(compileItem);
 		toolsMenu.add(runItem);
 		toolsMenu.add(killItem);
+		debugMenu.add(debugItem);
+		debugMenu.add(debugerAction);
 		helpMenu.add(aboutItem);
 
 		Mbar.add(fileMenu);
 		Mbar.add(toolsMenu);
+		Mbar.add(debugMenu);
 		Mbar.add(helpMenu);
 	}
 
@@ -452,7 +481,7 @@ public class JAppEditor extends JFrame {
 	public void doSaveAs() {
 		FilePane fp = (FilePane) tab.getSelectedComponent();
 		if(fp != null) {
-			JFileChooser chooser = new JFileChooser("D:\\TEMP");
+			JFileChooser chooser = new JFileChooser(DEFAULTPATH);
 			JDBFileFilter filter = new JDBFileFilter("java", "Java source code");
 			chooser.setFileFilter(filter);
 			if(chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
@@ -480,6 +509,21 @@ public class JAppEditor extends JFrame {
 				tab.removeTabAt(tab.getSelectedIndex());
 				doOpenFile(f);
 			}
+		}
+	}
+
+	public void doOpenDebugger() {
+		FilePane fp = (FilePane) tab.getSelectedComponent();
+		if(fp != null) {
+			File f = fp.fromfile.file;
+			GUI gui = new GUI();
+			String[] args = { "-sourcepath", f.getParent(), "-classpath", f.getParent() };
+			gui.run(args);
+			gui.openFile(f);
+		} else {
+			GUI gui = new GUI();
+			String[] args = { "-sourcepath", DEFAULTPATH, "-classpath", DEFAULTPATH };
+			gui.run(args);
 		}
 	}
 

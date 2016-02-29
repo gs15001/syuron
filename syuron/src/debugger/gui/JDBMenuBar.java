@@ -12,6 +12,7 @@ package debugger.gui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.util.*;
 import debugger.bdi.*;
 
@@ -182,24 +183,23 @@ class JDBMenuBar extends JMenuBar {
 		chooser.setFileFilter(filter);
 		int result = chooser.showOpenDialog(this);
 		if(result == JFileChooser.APPROVE_OPTION) {
-			// 選択された場合、必要情報の書き換え
-			env.getClassManager().setClassPath(new SearchPath(chooser.getSelectedFile().getParent()));
-			env.getSourceManager().setSourcePath(new SearchPath(chooser.getSelectedFile().getParent()));
-
-			// MainClassNameの書き換え(引数は基本的になし)
-			String clsname = chooser.getSelectedFile().getName();
-			clsname = clsname.substring(0, clsname.lastIndexOf("."));
-			env.getContextManager().setMainClassName(clsname);
-			env.getContextManager().setProgramArguments("");
-
-			// 選択したファイルの表示
-			env.viewSource(chooser.getSelectedFile().getName());
-
-			// System.out.println("Chose file: "
-			// + chooser.getSelectedFile().getName());
-			// System.out.println("Chose file: "
-			// + chooser.getSelectedFile().getParent());
+			openFile(chooser.getSelectedFile());
 		}
+	}
+
+	public void openFile(File f) {
+		// 選択された場合、必要情報の書き換え
+		env.getClassManager().setClassPath(new SearchPath(f.getParent()));
+		env.getSourceManager().setSourcePath(new SearchPath(f.getParent()));
+
+		// MainClassNameの書き換え(引数は基本的になし)
+		String clsname = f.getName();
+		clsname = clsname.substring(0, clsname.lastIndexOf("."));
+		env.getContextManager().setMainClassName(clsname);
+		env.getContextManager().setProgramArguments("");
+
+		// 選択したファイルの表示
+		env.viewSource(f.getName());
 	}
 
 	private void addTool(JMenu menu, String toolTip, String labelText, String command) {
