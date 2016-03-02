@@ -24,6 +24,7 @@ package org.jeditor.app;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -102,6 +103,9 @@ public class JAppEditor extends JFrame {
 	private int tabSize = 4;
 	private Process process = null;
 
+	private final int WINDOW_WIGTH;
+	private final int WINDOW_HIGHT;
+
 	/**
 	 * constructor of MainWindow class.
 	 * Returns the JFrame manager.
@@ -109,7 +113,9 @@ public class JAppEditor extends JFrame {
 	public JAppEditor() {
 		// Initialise the window
 		super("JAppEditor");
-		setSize(1000, 890);
+		WINDOW_HIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
+		WINDOW_WIGTH = Toolkit.getDefaultToolkit().getScreenSize().width;
+		setSize((int) (WINDOW_WIGTH * 0.6), (int) (WINDOW_HIGHT * 0.8));
 		setBackground(Color.lightGray);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -164,10 +170,10 @@ public class JAppEditor extends JFrame {
 		setContentPane(mainPane);
 		mainPane.setLayout(new BorderLayout());
 		mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		tab.setPreferredSize(new java.awt.Dimension(500, 650));
+		tab.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.3), (int) (WINDOW_HIGHT * 0.55)));
 		doOpenFile(new File(DEFAULTPATH, "新規.java"));
-		support.setPreferredSize(new java.awt.Dimension(500, 650));
-		console.setPreferredSize(new java.awt.Dimension(1000, 150));
+		support.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.3), (int) (WINDOW_HIGHT * 0.55)));
+		console.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.6), (int) (WINDOW_HIGHT * 0.15)));
 		JSplitPane centerTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tab, support);
 		centerTop.setDividerLocation(500);
 		JSplitPane center = new JSplitPane(JSplitPane.VERTICAL_SPLIT, centerTop, console);

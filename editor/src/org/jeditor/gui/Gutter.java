@@ -395,7 +395,7 @@ public class Gutter extends JComponent implements SwingConstants {
 				gutterSize.width = startWidth;
 				setCollapsed(true);
 			}
-
+			
 			SwingUtilities.invokeLater(new Runnable() {
 
 				@Override

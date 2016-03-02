@@ -78,8 +78,8 @@ public class CodeEditorDefaults {
 
 			DEFAULTS.tabSize = 4;
 
-			DEFAULTS.gutterCollapsed = true;
-			DEFAULTS.gutterWidth = 40;
+			DEFAULTS.gutterCollapsed = false;
+			DEFAULTS.gutterWidth = 25;
 			DEFAULTS.gutterBgColor = Color.white;
 			DEFAULTS.gutterFgColor = Color.black;
 			DEFAULTS.gutterHighlightColor = new Color(0x8080c0);
@@ -119,8 +119,8 @@ public class CodeEditorDefaults {
 		caretBlinks = true;
 		electricScroll = 3;
 
-		gutterCollapsed = true;
-		gutterWidth = 40;
+		gutterCollapsed = false;
+		gutterWidth = 25;
 		gutterBgColor = Color.white;
 		gutterFgColor = Color.black;
 		gutterHighlightColor = new Color(0x8080c0);

@@ -46,7 +46,13 @@ public class GUI extends JPanel {
 
 	private Font fixedFont = new Font("consolas", Font.PLAIN, 10);
 
+	private final int WINDOW_WIGTH;
+	private final int WINDOW_HIGHT;
+
 	public GUI() {
+		WINDOW_HIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
+		WINDOW_WIGTH = Toolkit.getDefaultToolkit().getScreenSize().width;
+
 		setLayout(new BorderLayout());
 
 		setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -55,12 +61,13 @@ public class GUI extends JPanel {
 
 		// ソースビュー
 		srcTool = new SourceTool(env);
-		srcTool.setPreferredSize(new java.awt.Dimension(500, 650));
+		srcTool.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.4), (int) (WINDOW_HIGHT * 0.55)));
 		srcTool.setTextFont(fixedFont);
 
 		// ソースツリービュー
 		sourceTreeTool = new SourceTreeTool(env);
-		sourceTreeTool.setPreferredSize(new java.awt.Dimension(200, 650));
+		sourceTreeTool
+				.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.05), (int) (WINDOW_HIGHT * 0.55)));
 
 		JSplitPane left = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sourceTreeTool, srcTool);
 
@@ -71,10 +78,11 @@ public class GUI extends JPanel {
 		// variableTool.setPreferredSize(new java.awt.Dimension(500, 150));
 
 		variableTreeTable = new VariableTool(env);
-		variableTreeTable.setPreferredSize(new java.awt.Dimension(500, 350));
+		variableTreeTable.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.25),
+				(int) (WINDOW_HIGHT * 0.3)));
 
 		stackTool = new StackTraceTool(env);
-		stackTool.setPreferredSize(new java.awt.Dimension(500, 350));
+		stackTool.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.25), (int) (WINDOW_HIGHT * 0.3)));
 
 		// デバッグ情報ビューをタブ化
 		JTabbedPane infoPane = new JTabbedPane(SwingConstants.TOP);
@@ -83,7 +91,7 @@ public class GUI extends JPanel {
 
 		// 支援情報ビュー
 		supportTool = new JPanel();
-		supportTool.setPreferredSize(new java.awt.Dimension(500, 300));
+		supportTool.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.25), (int) (WINDOW_HIGHT * 0.25)));
 
 		JSplitPane right = new JSplitPane(JSplitPane.VERTICAL_SPLIT, infoPane, supportTool);
 
@@ -106,7 +114,7 @@ public class GUI extends JPanel {
 		// cmdTool.setPreferredSize(new java.awt.Dimension(700, 150));
 
 		appTool = new ApplicationTool(env);
-		appTool.setPreferredSize(new java.awt.Dimension(1000, 150));
+		appTool.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.6), (int) (WINDOW_HIGHT * 0.15)));
 
 		// cmdTool削除によりcenterBottomのスプリット消失
 		// JSplitPane centerBottom = new
