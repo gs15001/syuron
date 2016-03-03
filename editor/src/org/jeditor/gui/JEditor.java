@@ -177,6 +177,7 @@ public class JEditor extends JComponent {
 
 	private FilePane parent;
 	private boolean edited;
+	private boolean compiled = false;
 	/**
 	 * Adding components with this name to the text area will place
 	 * them left of the horizontal scroll bar. In jEdit, the status
@@ -267,6 +268,14 @@ public class JEditor extends JComponent {
 	public void setEdited(boolean edited) {
 		parent.changeEdited(edited);
 		this.edited = edited;
+	}
+
+	public void setCompiled(boolean compiled) {
+		this.compiled = compiled;
+	}
+
+	public boolean isCompiled() {
+		return compiled;
 	}
 
 	public int getTabSize() {
@@ -2140,6 +2149,7 @@ public class JEditor extends JComponent {
 			updateScrollBars();
 		}
 		setEdited(true);
+		setCompiled(false);
 	}
 
 	class ScrollLayout implements LayoutManager {

@@ -31,6 +31,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -117,7 +119,15 @@ public class JAppEditor extends JFrame {
 		WINDOW_WIGTH = Toolkit.getDefaultToolkit().getScreenSize().width;
 		setSize((int) (WINDOW_WIGTH * 0.6), (int) (WINDOW_HIGHT * 0.8));
 		setBackground(Color.lightGray);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+		addWindowListener(new WindowAdapter() {
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				exitApplication();
+			}
+		});
 
 		// add Mouse Properties of TabbedPane
 
@@ -359,40 +369,38 @@ public class JAppEditor extends JFrame {
 		// create menus
 		JPopupMenu menu = new JPopupMenu();
 		JMenuItem close = new JMenuItem("Close");
-		JMenu compare = new JMenu("Compare to");
-		Iterator it = filelist.keySet().iterator();
-		String curfolder = ((FilePane) (tab.getSelectedComponent())).getName();
-		while (it.hasNext()) {
-			String s = (String) (it.next());
-			if(!s.equals(curfolder)) {
-				JMenuItem item = new JMenuItem(s);
-				compare.add(item);
-				item.addActionListener(new ActionListener() {
-
-					public void actionPerformed(ActionEvent e) {
-						FilePane.TextFile toFile = ((FilePane) (tab.getSelectedComponent())).getFile();
-						String s = ((JMenuItem) (e.getSource())).getText();
-						FilePane.TextFile fromFile = (FilePane.TextFile) (filelist.get(s));
-						compareFiles(fromFile, toFile);
-					}
-				});
-			}
-		}
+		// compareは使わないので非表示に
+		/* JMenu compare = new JMenu("Compare to");
+		 * Iterator it = filelist.keySet().iterator();
+		 * String curfolder = ((FilePane) (tab.getSelectedComponent())).getName();
+		 * while (it.hasNext()) {
+		 * String s = (String) (it.next());
+		 * if(!s.equals(curfolder)) {
+		 * JMenuItem item = new JMenuItem(s);
+		 * compare.add(item);
+		 * item.addActionListener(new ActionListener() {
+		 * 
+		 * public void actionPerformed(ActionEvent e) {
+		 * FilePane.TextFile toFile = ((FilePane) (tab.getSelectedComponent())).getFile();
+		 * String s = ((JMenuItem) (e.getSource())).getText();
+		 * FilePane.TextFile fromFile = (FilePane.TextFile) (filelist.get(s));
+		 * compareFiles(fromFile, toFile);
+		 * }
+		 * });
+		 * }
+		 * } */
 
 		// add listeners to sub-menus
 		close.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				String name = ((FilePane) (tab.getSelectedComponent())).getName();
-				if(filelist.containsKey(name)) {
-					filelist.remove(name);
-				}
-				tab.removeTabAt(tab.getSelectedIndex());
+				FilePane fp = (FilePane) tab.getSelectedComponent();
+				doClose(fp);
 			}
 		});
 
 		menu.add(close);
-		menu.add(compare);
+		// menu.add(compare);
 		menu.show(tab, x, y);
 	}
 
@@ -402,54 +410,110 @@ public class JAppEditor extends JFrame {
 	}
 
 	private void exitApplication() {
-		System.exit(0);
+		int c = tab.getTabCount();
+		boolean exit = true;
+		tab.setSelectedIndex(0);
+		for (int i = 0; i < c; i++) {
+			FilePane fp = (FilePane) tab.getComponentAt(0);
+			if(doClose(fp) == 2) {
+				exit = false;
+				break;
+			}
+		}
+		if(exit) {
+			System.exit(0);
+		}
+	}
+
+	private int doClose(FilePane fp) {
+		if(fp != null) {
+			if(fp.ed.isEdited()) {
+				return showCloseDialog(fp);
+			} else {
+				fileClose(fp);
+			}
+		}
+		return 0;
+	}
+
+	private int showCloseDialog(FilePane fp) {
+		String[] buttons = { "保存して閉じる", "保存せず閉じる", "キャンセル" };
+		int r = JOptionPane.showOptionDialog(this, fp.fromfile.file.getName() + "は保存されていません。保存しますか", "警告",
+				JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, buttons, "キャンセル");
+		if(r == 0) {
+			// 保存して閉じる
+			doSave();
+			fileClose(fp);
+		} else if(r == 1) {
+			// 保存せず閉じる
+			fileClose(fp);
+		}
+		return r;
+	}
+
+	private void fileClose(FilePane fp) {
+		if(filelist.containsKey(fp.getName())) {
+			filelist.remove(fp.getName());
+		}
+		tab.removeTabAt(tab.getSelectedIndex());
 	}
 
 	private void doCompile() {
-		if(tab.getSelectedComponent() != null) {
-			JavaCompiler javac = ToolProvider.getSystemJavaCompiler();
+		FilePane fp = (FilePane) tab.getSelectedComponent();
+		if(fp != null) {
+			if(!fp.ed.isEdited()) {
+				JavaCompiler javac = ToolProvider.getSystemJavaCompiler();
 
-			File file = ((FilePane) (tab.getSelectedComponent())).getFile().file;
-			String fileName = file.getName();
-			String fileLoc = file.getParent();
-			String[] commands = { "-g", "-cp", fileLoc, fileLoc + "\\" + fileName };
-			// コンパイル時の出力を受け取るストリームの生成(これでいいかは不明）
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			ByteArrayOutputStream err = new ByteArrayOutputStream();
-			int r = javac.run(null, out, err, commands);
-			if(r == 0) {
-				console.outputLine("Succeeded compile");
+				File file = ((FilePane) (tab.getSelectedComponent())).getFile().file;
+				String fileName = file.getName();
+				String fileLoc = file.getParent();
+				String[] commands = { "-g", "-cp", fileLoc, fileLoc + "\\" + fileName };
+				// コンパイル時の出力を受け取るストリームの生成(これでいいかは不明）
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				ByteArrayOutputStream err = new ByteArrayOutputStream();
+				int r = javac.run(null, out, err, commands);
+				if(r == 0) {
+					console.outputLine("Succeeded compile");
+					fp.ed.setCompiled(true);
+				}
+				console.outputLine(out.toString());
+				console.outputLine(err.toString());
+			} else {
+				JOptionPane.showMessageDialog(this, "ソースが保存されていません。", "Error", JOptionPane.ERROR_MESSAGE);
 			}
-			console.outputLine(out.toString());
-			console.outputLine(err.toString());
 		}
 	}
 
 	private void doRun() {
-		if(tab.getSelectedComponent() != null) {
-			ProcessBuilder pb = new ProcessBuilder();
+		FilePane fp = (FilePane) tab.getSelectedComponent();
+		if(fp != null) {
+			if(fp.ed.isCompiled()) {
+				ProcessBuilder pb = new ProcessBuilder();
 
-			File file = ((FilePane) (tab.getSelectedComponent())).getFile().file;
-			String fileName = file.getName();
-			fileName = fileName.substring(0, fileName.lastIndexOf("."));
-			String fileLoc = file.getParent();
-			pb.command("java", "-cp", fileLoc, fileName);
-			try {
-				// 前のプロセスが残っているならキル
-				if(process != null) {
-					process.destroy();
+				File file = ((FilePane) (tab.getSelectedComponent())).getFile().file;
+				String fileName = file.getName();
+				fileName = fileName.substring(0, fileName.lastIndexOf("."));
+				String fileLoc = file.getParent();
+				pb.command("java", "-cp", fileLoc, fileName);
+				try {
+					// 前のプロセスが残っているならキル
+					if(process != null) {
+						process.destroy();
+					}
+					// 新たなプロセスを生成
+					process = pb.start();
+					// 入出力に関する設定
+					OutputStreamThread it = new OutputStreamThread(process.getInputStream(), "SJIS", console);
+					OutputStreamThread et = new OutputStreamThread(process.getErrorStream(), "SJIS", console);
+					console.setOutputStream(process.getOutputStream()); // 起動したJavaへの
+					it.start();
+					et.start();
+
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-				// 新たなプロセスを生成
-				process = pb.start();
-				// 入出力に関する設定
-				OutputStreamThread it = new OutputStreamThread(process.getInputStream(), "SJIS", console);
-				OutputStreamThread et = new OutputStreamThread(process.getErrorStream(), "SJIS", console);
-				console.setOutputStream(process.getOutputStream()); // 起動したJavaへの
-				it.start();
-				et.start();
-
-			} catch (IOException e) {
-				e.printStackTrace();
+			} else {
+				JOptionPane.showMessageDialog(this, "ソースがcompileされていません", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -508,11 +572,6 @@ public class JAppEditor extends JFrame {
 					e.printStackTrace();
 				}
 				console.outputLine("Saved As " + f.getName());
-				String name = fp.getName();
-				if(filelist.containsKey(name)) {
-					filelist.remove(name);
-				}
-				tab.removeTabAt(tab.getSelectedIndex());
 				doOpenFile(f);
 			}
 		}
