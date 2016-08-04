@@ -62,6 +62,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
+import org.jeditor.navi.NaviManager;
 import debugger.gui.GUI;
 import debugger.gui.JDBFileFilter;
 
@@ -81,7 +82,8 @@ public class JAppEditor extends JFrame {
 	private TreeMap filelist = new TreeMap();
 	private JTabbedPane tab = new JTabbedPane();
 	private ConsolePane console = new ConsolePane();
-	private JPanel support = new JPanel();
+	private NaviManager naviManager;
+	private JPanel support;
 	private JMenuBar Mbar = new JMenuBar();
 	private JMenu fileMenu = new JMenu("File");
 	private JMenu toolsMenu = new JMenu("Tools");
@@ -182,6 +184,8 @@ public class JAppEditor extends JFrame {
 		mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		tab.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.3), (int) (WINDOW_HIGHT * 0.55)));
 		doOpenFile(new File(DEFAULTPATH, "新規.java"));
+		naviManager = new NaviManager(this);
+		support = naviManager.getViewPane();
 		support.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.3), (int) (WINDOW_HIGHT * 0.55)));
 		console.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.6), (int) (WINDOW_HIGHT * 0.15)));
 		JSplitPane centerTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tab, support);
