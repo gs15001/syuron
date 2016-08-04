@@ -9,6 +9,7 @@ public class NaviManager {
 	private JAppEditor parent;
 	private JPanel viewPane;
 	private CardLayout layout;
+	private NaviStrategy strategy = new DefaultNaviStrategy();
 
 	private AbstractNaviPane topPane;
 	private AbstractNaviPane secondPane;
@@ -30,8 +31,8 @@ public class NaviManager {
 		viewPane.add(secondPane, secondPane.getIndexLabel());
 	}
 
-	public void changeNavi(String index) {
-		layout.show(viewPane, "second");
+	public void changeNavi(String currentState, String buttonLabel) {
+		layout.show(viewPane, strategy.getNextNavi(currentState, buttonLabel));
 	}
 
 	public JPanel getViewPane() {
