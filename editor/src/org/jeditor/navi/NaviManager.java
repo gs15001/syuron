@@ -11,8 +11,7 @@ public class NaviManager {
 	private CardLayout layout;
 	private NaviStrategy strategy = new DefaultNaviStrategy();
 
-	private AbstractNaviPane topPane;
-	private AbstractNaviPane secondPane;
+	private AbstractNaviPane naviPane;
 
 	public NaviManager(JAppEditor parent) {
 		this.parent = parent;
@@ -22,13 +21,50 @@ public class NaviManager {
 		layout = new CardLayout();
 		viewPane.setLayout(layout);
 
-		// ナビゲーションパネル生成
-		topPane = new NaviTop(this);
-		secondPane = new NaviSecond(this);
+		// ナビゲーションパネル生成・viewPaneに追加
+		naviPane = new Navi_t(this);
+		viewPane.add(naviPane, naviPane.getIndexLabel());
 
-		// ナビゲーションパネル追加
-		viewPane.add(topPane, topPane.getIndexLabel());
-		viewPane.add(secondPane, secondPane.getIndexLabel());
+		naviPane = new Navi_a1(this);
+		viewPane.add(naviPane, naviPane.getIndexLabel());
+		naviPane = new Navi_a2(this);
+		viewPane.add(naviPane, naviPane.getIndexLabel());
+		naviPane = new Navi_a3(this);
+		viewPane.add(naviPane, naviPane.getIndexLabel());
+		naviPane = new Navi_a4(this);
+		viewPane.add(naviPane, naviPane.getIndexLabel());
+		naviPane = new Navi_a5(this);
+		viewPane.add(naviPane, naviPane.getIndexLabel());
+		naviPane = new Navi_a6(this);
+		viewPane.add(naviPane, naviPane.getIndexLabel());
+
+		naviPane = new Navi_b1(this);
+		viewPane.add(naviPane, naviPane.getIndexLabel());
+		naviPane = new Navi_b2(this);
+		viewPane.add(naviPane, naviPane.getIndexLabel());
+		naviPane = new Navi_b3(this);
+		viewPane.add(naviPane, naviPane.getIndexLabel());
+		naviPane = new Navi_b4(this);
+		viewPane.add(naviPane, naviPane.getIndexLabel());
+
+		naviPane = new Navi_e1(this);
+		viewPane.add(naviPane, naviPane.getIndexLabel());
+		naviPane = new Navi_e2(this);
+		viewPane.add(naviPane, naviPane.getIndexLabel());
+
+		naviPane = new Navi_r1(this);
+		viewPane.add(naviPane, naviPane.getIndexLabel());
+		naviPane = new Navi_r2(this);
+		viewPane.add(naviPane, naviPane.getIndexLabel());
+		naviPane = new Navi_r3(this);
+		viewPane.add(naviPane, naviPane.getIndexLabel());
+		naviPane = new Navi_r4(this);
+		viewPane.add(naviPane, naviPane.getIndexLabel());
+		naviPane = new Navi_r5(this);
+		viewPane.add(naviPane, naviPane.getIndexLabel());
+		naviPane = new Navi_r6(this);
+		viewPane.add(naviPane, naviPane.getIndexLabel());
+
 	}
 
 	public void changeNavi(String currentState, String buttonLabel) {
