@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
@@ -61,6 +63,14 @@ public abstract class AbstractNaviPane extends JPanel {
 		southPane.setBorder(new EmptyBorder(30, 50, 30, 50));
 		for (int i = 0; i < buttonNum; i++) {
 			JButton tmp = new JButton();
+			//リスナー登録
+			tmp.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					naviManager.changeNavi(getIndexLabel(), tmp.getText());
+				}
+			});
 			tmp.setPreferredSize(new Dimension(80, 40));
 			buttons.add(tmp);
 			southPane.add(tmp);
