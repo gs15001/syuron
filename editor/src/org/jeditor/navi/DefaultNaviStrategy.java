@@ -9,6 +9,8 @@ import java.util.Map;
 
 public class DefaultNaviStrategy implements NaviStrategy {
 
+	String caller = "";
+
 	// 状態(String)と押したボタン(String)から次の状態(String)を導く
 	Map<List<String>, String> strategy;
 
@@ -35,16 +37,16 @@ public class DefaultNaviStrategy implements NaviStrategy {
 		{"t","スタート","a1"},
 		{"r1","はい","r2"},
 		{"r1","いいえ","r4"},
-		{"r2","正しい","a5"},
+		{"r2","正しい","return"},
 		{"r2","誤り","r3"},
 		{"r3","終了","t"},
 		{"r4","正しい","r6"},
 		{"r4","誤り","r5"},
 		{"r5","正しい","a1"},
 		{"r5","誤り","e2"},
-		{"r6","正しい","a5"},
+		{"r6","正しい","return"},
 		{"r6","誤り","e2"},
-		{"b1","正しい","a5"},
+		{"b1","正しい","return"},
 		{"b1","誤り","b2"},
 		{"b2","正しい","b4"},
 		{"b2","誤り","b3"},
@@ -68,7 +70,15 @@ public class DefaultNaviStrategy implements NaviStrategy {
 		List<String> tmp = new ArrayList<>();
 		tmp.add(currentState);
 		tmp.add(buttonLabel);
-		return strategy.get(tmp);
+		String nextState = strategy.get(tmp);
+		if(nextState.equals("return")) {
+			return caller;
+		} else {
+			if(currentState.charAt(0) != nextState.charAt(0)) {
+				caller = currentState;
+				System.out.println(caller);
+			}
+			return nextState;
+		}
 	}
-
 }
