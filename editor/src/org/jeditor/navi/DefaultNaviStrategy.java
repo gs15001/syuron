@@ -13,21 +13,53 @@ public class DefaultNaviStrategy implements NaviStrategy {
 	Map<List<String>, String> strategy;
 
 	//@formatter:off
-	static String[][][] STATECHANGE = {
-		{ { "s1", "1" }, { "s2" } },
-		{ { "s2", "1" }, { "s1" } },
-		{ { "s3", "1" }, { "s2" } },
-		{ { "s4", "1" }, { "s2" } },
-		{ { "s5", "1" }, { "s2" } },
-		{ { "s6", "1" }, { "s2" } },
-		{ { "s7", "1" }, { "s2" } },
+	static String[][] STATECHANGE = {
+		{"a1","ある","a2"},
+		{"a1","ない","a5"},
+		{"a2","存在する","a6"},
+		{"a2","存在しない","a3"},
+		{"a3","正しい","a4"},
+		{"a3","誤り","a7"},
+		{"a4","正しい","e2"},
+		{"a4","誤り","e1"},
+		{"a5","if文","b1"},
+		{"a5","for文","r1"},
+		{"a5","次へ","e2"},
+		{"a6","if文","b1"},
+		{"a6","for文","r1"},
+		{"a6","次へ","a3"},
+		{"a7","正しい","a1"},
+		{"a7","誤り","e1"},
+		{"e1","終了","t"},
+		{"e2","終了","t"},
+		{"t","スタート","a1"},
+		{"r1","はい","r2"},
+		{"r1","いいえ","r4"},
+		{"r2","正しい","a5"},
+		{"r2","誤り","r3"},
+		{"r3","終了","t"},
+		{"r4","正しい","r6"},
+		{"r4","誤り","r5"},
+		{"r5","正しい","a1"},
+		{"r5","誤り","e2"},
+		{"r6","正しい","a5"},
+		{"r6","誤り","e2"},
+		{"b1","正しい","a5"},
+		{"b1","誤り","b2"},
+		{"b2","正しい","b4"},
+		{"b2","誤り","b3"},
+		{"b3","正しい","a1"},
+		{"b3","誤り","e2"},
+		{"b4","正しい","e1"},
+		{"b4","誤り","e2"},
+
 		};
 	//@formatter:on
 
 	public DefaultNaviStrategy() {
 		strategy = new HashMap<>();
-		for (String[][] sc : STATECHANGE) {
-			strategy.put(Arrays.asList(sc[0]), sc[1][0]);
+		for (String[] sc : STATECHANGE) {
+			strategy.put(Arrays.asList(sc[0], sc[1]), sc[2]);
 		}
 	}
 
