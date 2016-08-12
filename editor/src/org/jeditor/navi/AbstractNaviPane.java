@@ -1,3 +1,4 @@
+/* ソースツリー文字コード識別用文字列ソースツリー文字コード識別用文字列 */
 package org.jeditor.navi;
 
 import java.awt.BorderLayout;
