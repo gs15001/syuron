@@ -62,6 +62,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
+import org.jeditor.navi.HistoryList;
 import org.jeditor.navi.NaviManager;
 import debugger.gui.GUI;
 import debugger.gui.JDBFileFilter;
@@ -83,7 +84,8 @@ public class JAppEditor extends JFrame {
 	private JTabbedPane tab = new JTabbedPane();
 	private ConsolePane console = new ConsolePane();
 	private NaviManager naviManager;
-	private JPanel support;
+	private JPanel support = new JPanel();
+	private HistoryList history = new HistoryList();
 	private JMenuBar Mbar = new JMenuBar();
 	private JMenu fileMenu = new JMenu("File");
 	private JMenu toolsMenu = new JMenu("Tools");
@@ -184,11 +186,16 @@ public class JAppEditor extends JFrame {
 		mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		tab.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.3), (int) (WINDOW_HIGHT * 0.55)));
 		doOpenFile(new File(DEFAULTPATH, "新規.java"));
+		// ナビゲーション部分
 		naviManager = new NaviManager(this);
-		support = naviManager.getViewPane();
+		JPanel naviPane = naviManager.getViewPane();
 		support.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.3), (int) (WINDOW_HIGHT * 0.55)));
+		history.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.02), (int) (WINDOW_HIGHT * 0.55)));
+		naviPane.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.28), (int) (WINDOW_HIGHT * 0.55)));
+		JSplitPane centerRight = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, naviPane, history);
+		// コンソール部分
 		console.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.6), (int) (WINDOW_HIGHT * 0.15)));
-		JSplitPane centerTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tab, support);
+		JSplitPane centerTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tab, centerRight);
 		centerTop.setDividerLocation(500);
 		JSplitPane center = new JSplitPane(JSplitPane.VERTICAL_SPLIT, centerTop, console);
 		mainPane.add(center, BorderLayout.CENTER);
