@@ -76,7 +76,6 @@ public class DefaultNaviStrategy implements NaviStrategy {
 		} else {
 			if(currentState.charAt(0) != nextState.charAt(0)) {
 				caller = currentState;
-				System.out.println(caller);
 			}
 			return nextState;
 		}
