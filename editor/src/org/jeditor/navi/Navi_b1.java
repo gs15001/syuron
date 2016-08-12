@@ -9,6 +9,10 @@ public class Navi_b1 extends AbstractNaviPane {
 
 	public Navi_b1(NaviManager mgr) {
 		super(mgr, "b1", 2);
+		
+		indexLabel.setText("分岐先の調査");
+		questionLabel.setText("");
+		descriptLabel.setText("");
 
 		JButton button = buttons.get(0);
 		button.setText("正しい");

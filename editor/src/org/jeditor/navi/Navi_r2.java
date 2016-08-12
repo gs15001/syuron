@@ -11,6 +11,10 @@ public class Navi_r2 extends AbstractNaviPane {
 	public Navi_r2(NaviManager mgr) {
 		super(mgr, "r2", 2);
 		
+		indexLabel.setText("繰り返し回数の調査");
+		questionLabel.setText("");
+		descriptLabel.setText("");
+		
 		JButton button = buttons.get(0);
 		button.setText("正しい");
 		button = buttons.get(1);

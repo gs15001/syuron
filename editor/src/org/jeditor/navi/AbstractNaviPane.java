@@ -20,7 +20,8 @@ public abstract class AbstractNaviPane extends JPanel {
 
 	NaviManager naviManager;
 
-	private JLabel indexLabel = null;
+	private String index;
+	protected JLabel indexLabel = null;
 	protected JLabel questionLabel = null;
 	protected JLabel descriptLabel = null;
 	private JPanel northPane;
@@ -41,7 +42,8 @@ public abstract class AbstractNaviPane extends JPanel {
 		northPane = new JPanel();
 		northPane.setBackground(Color.YELLOW);
 		northPane.setPreferredSize(new Dimension(getWidth(), 50));
-		indexLabel = new JLabel(index);
+		this.index = index;
+		indexLabel = new JLabel("no text");
 		northPane.add(indexLabel);
 
 		// 中部のコンテンツ
@@ -64,12 +66,12 @@ public abstract class AbstractNaviPane extends JPanel {
 		southPane.setBorder(new EmptyBorder(30, 50, 30, 50));
 		for (int i = 0; i < buttonNum; i++) {
 			JButton tmp = new JButton();
-			//リスナー登録
+			// リスナー登録
 			tmp.addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					naviManager.changeNavi(getIndexLabel(), tmp.getText());
+					naviManager.changeNavi(getIndex(), tmp.getText());
 				}
 			});
 			tmp.setPreferredSize(new Dimension(80, 40));
@@ -82,7 +84,7 @@ public abstract class AbstractNaviPane extends JPanel {
 		add(southPane, BorderLayout.SOUTH);
 	}
 
-	public String getIndexLabel() {
-		return indexLabel.getText();
+	public String getIndex() {
+		return index;
 	}
 }

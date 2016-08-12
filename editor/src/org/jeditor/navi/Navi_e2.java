@@ -10,6 +10,10 @@ public class Navi_e2 extends AbstractNaviPane {
 	public Navi_e2(NaviManager mgr) {
 		super(mgr, "e2", 1);
 
+		indexLabel.setText("エラー");
+		questionLabel.setText("");
+		descriptLabel.setText("");
+		
 		JButton button = buttons.get(0);
 		button.setText("終了");
 	}

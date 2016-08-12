@@ -10,6 +10,10 @@ public class Navi_a2 extends AbstractNaviPane {
 	public Navi_a2(NaviManager mgr) {
 		super(mgr, "a2", 2);
 
+		indexLabel.setText("条件分岐・繰り返しの確認");
+		questionLabel.setText("");
+		descriptLabel.setText("");
+		
 		JButton button = buttons.get(0);
 		button.setText("存在する");
 

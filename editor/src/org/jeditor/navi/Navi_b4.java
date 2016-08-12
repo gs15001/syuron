@@ -9,6 +9,10 @@ public class Navi_b4 extends AbstractNaviPane {
 
 	public Navi_b4(NaviManager mgr) {
 		super(mgr, "b4", 2);
+		
+		indexLabel.setText("条件の条件式の調査");
+		questionLabel.setText("");
+		descriptLabel.setText("");
 
 		JButton button = buttons.get(0);
 		button.setText("正しい");

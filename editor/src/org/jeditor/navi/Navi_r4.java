@@ -9,6 +9,10 @@ public class Navi_r4 extends AbstractNaviPane {
 
 	public Navi_r4(NaviManager mgr) {
 		super(mgr, "r4", 2);
+		
+		indexLabel.setText("条件に使用する変数の値の調査");
+		questionLabel.setText("");
+		descriptLabel.setText("");
 
 		JButton button = buttons.get(0);
 		button.setText("正しい");
