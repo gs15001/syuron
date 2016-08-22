@@ -9,11 +9,11 @@ public class Navi_a5 extends AbstractNaviPane {
 
 	public Navi_a5(NaviManager mgr) {
 		super(mgr, "a5", 3);
-
+		//@formatter:off
 		indexLabel.setText("条件分岐・繰り返し文の調査");
 		questionLabel.setText("");
 		descriptLabel.setText("");
-		
+		//@formatter:on
 		JButton button = buttons.get(0);
 		button.setText("if文");
 		button = buttons.get(1);
