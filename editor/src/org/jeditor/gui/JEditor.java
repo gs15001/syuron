@@ -229,7 +229,7 @@ public class JEditor extends JComponent {
 		add(CENTER, painter);
 		add(RIGHT, vertical = new JScrollBar(JScrollBar.VERTICAL));
 		add(BOTTOM, horizontal = new JScrollBar(JScrollBar.HORIZONTAL));
-		setPreferredSize(new Dimension(450, 600));
+		//setPreferredSize(new Dimension(450, 600));
 
 		// Add some event listeners
 		vertical.addAdjustmentListener(new AdjustHandler());

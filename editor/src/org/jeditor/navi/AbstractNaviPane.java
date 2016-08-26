@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import org.jeditor.app.JAppEditor;
 
 public abstract class AbstractNaviPane extends JPanel {
 
@@ -31,89 +32,28 @@ public abstract class AbstractNaviPane extends JPanel {
 	private JPanel centerPane;
 	private JPanel southPane;
 
+	private final int FONT_SIZE_T;
+	private final int FONT_SIZE_M;
+	private final int FONT_SIZE_B;
+
 	protected List<JButton> buttons = new ArrayList<>();
 
 	public AbstractNaviPane(NaviManager mgr, String index, int buttonNum) {
 		super();
 
 		naviManager = mgr;
+		JAppEditor parent = mgr.getParent();
 
-		// // 自身のパネル
-		// GridBagLayout layout = new GridBagLayout();
-		// setLayout(layout);
-		// setBackground(Color.WHITE);
-		// // グリッドマネージャ作成
-		// GridBagConstraints gbc = new GridBagConstraints();
-		//
-		// // 上部のコンテンツ
-		// northPane = new JPanel();
-		// northPane.setBackground(new Color(192, 192, 192));
-		// northPane.setPreferredSize(new Dimension(getWidth(), 50));
-		// this.index = index;
-		// indexLabel = new JLabel("no text");
-		// indexLabel.setFont(new Font("メイリオ", Font.PLAIN, 24));
-		// northPane.add(indexLabel);
-		// gbc.gridx = 0;
-		// gbc.gridy = 0;
-		// layout.setConstraints(northPane, gbc);
-		//
-		// questionPane = new JPanel();
-		// questionPane.setBackground(new Color(224, 224, 224));
-		// questionPane.setPreferredSize(new Dimension(getWidth(), 300));
-		// //questionPane.setBorder(new LineBorder(Color.GRAY));
-		// questionLabel = new JLabel("ここに質問が表示される");
-		// //questionLabel.setPreferredSize(new Dimension(getWidth(), 300));
-		// questionLabel.setFont(new Font("メイリオ", Font.PLAIN, 16));
-		// // ボーダーを使った余白の設定
-		// //questionLabel.setBorder(new EmptyBorder(10, 20, 10, 20));
-		// questionPane.add(questionLabel);
-		// gbc.gridx = 0;
-		// gbc.gridy = 1;
-		// layout.setConstraints(questionPane, gbc);
-		//
-		// descriptPane = new JPanel();
-		// // descriptPane.setBackground(new Color(224, 224, 224));
-		// descriptPane.setBorder(new LineBorder(Color.GRAY));
-		// descriptLabel = new JLabel("ここに解説が表示される");
-		// descriptLabel.setPreferredSize(new Dimension(getWidth(), 300));
-		// descriptLabel.setFont(new Font("メイリオ", Font.PLAIN, 16));
-		// // ボーダーを使った余白の設定
-		// descriptLabel.setBorder(new EmptyBorder(10, 20, 10, 20));
-		// descriptPane.add(descriptLabel);
-		// gbc.gridx = 0;
-		// gbc.gridy = 2;
-		// layout.setConstraints(descriptPane, gbc);
-		//
-		// // 下部のコンテンツ
-		// southPane = new JPanel();
-		// southPane.setBackground(new Color(192, 192, 192));
-		// southPane.setLayout(new GridLayout(1, buttonNum, 30, 0));
-		// southPane.setPreferredSize(new Dimension(getWidth(), 100));
-		// // ボーダーを使った余白の設定
-		// southPane.setBorder(new EmptyBorder(30, 50, 30, 50));
-		// for (int i = 0; i < buttonNum; i++) {
-		// JButton tmp = new JButton();
-		// // リスナー登録
-		// tmp.addActionListener(new ActionListener() {
-		//
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		// naviManager.changeNavi(getIndex(), tmp.getText());
-		// }
-		// });
-		// tmp.setPreferredSize(new Dimension(80, 40));
-		// tmp.setFont(new Font("メイリオ", Font.PLAIN, 18));
-		// buttons.add(tmp);
-		// southPane.add(tmp);
-		// }
-		// gbc.gridx = 0;
-		// gbc.gridy = 3;
-		// layout.setConstraints(southPane, gbc);
-		//
-		// add(northPane);
-		// add(questionPane);
-		// add(descriptPane);
-		// add(southPane);
+		if(parent.WINDOW_WIDTH >= 1280) {
+			FONT_SIZE_T = 24;
+			FONT_SIZE_M = 16;
+			FONT_SIZE_B = 18;
+		} else {
+			FONT_SIZE_T = 20;
+			FONT_SIZE_M = 12;
+			FONT_SIZE_B = 14;
+		}
+
 		// 自身のパネル
 		setLayout(new BorderLayout());
 		setBackground(Color.WHITE);
@@ -121,11 +61,11 @@ public abstract class AbstractNaviPane extends JPanel {
 		// 上部のコンテンツ
 		northPane = new JPanel();
 		northPane.setBackground(new Color(192, 192, 192));
-		northPane.setPreferredSize(new Dimension(getWidth(), 50));
+		northPane.setPreferredSize(new Dimension(parent.RIGHT_WIDTH, (int) (parent.RIGHT_HIGHT * 0.08)));
 		northPane.setBorder(new LineBorder(Color.GRAY));
 		this.index = index;
 		indexLabel = new JLabel("no text");
-		indexLabel.setFont(new Font("メイリオ", Font.PLAIN, 24));
+		indexLabel.setFont(new Font("メイリオ", Font.PLAIN, FONT_SIZE_T));
 		northPane.add(indexLabel);
 
 		// 中部のコンテンツ
@@ -135,22 +75,24 @@ public abstract class AbstractNaviPane extends JPanel {
 
 		JPanel questionPane = new JPanel();
 		questionPane.setBackground(new Color(224, 224, 224));
-		questionPane.setPreferredSize(new Dimension(getWidth(), 300));
+		questionPane.setPreferredSize(new Dimension(parent.RIGHT_WIDTH, (int) (parent.RIGHT_HIGHT * 0.4)));
 		questionPane.setBorder(new LineBorder(Color.GRAY));
 		questionLabel = new JLabel("ここに質問が表示される");
-		questionLabel.setFont(new Font("メイリオ", Font.PLAIN, 16));
+		questionLabel.setFont(new Font("メイリオ", Font.PLAIN, FONT_SIZE_M));
 		// ボーダーを使った余白の設定
-		questionLabel.setBorder(new EmptyBorder(10, 20, 10, 20));
+		int borderWidth = (int) (parent.RIGHT_WIDTH * 0.05);
+		int borderHight = (int) (parent.RIGHT_HIGHT * 0.03);
+		questionLabel.setBorder(new EmptyBorder(borderHight, borderWidth, borderHight, borderWidth));
 		questionPane.add(questionLabel);
 
 		JPanel descriptPane = new JPanel();
 		descriptPane.setBackground(new Color(224, 224, 224));
-		descriptPane.setPreferredSize(new Dimension(getWidth(), 300));
+		descriptPane.setPreferredSize(new Dimension(parent.RIGHT_WIDTH, (int) (parent.RIGHT_HIGHT * 0.4)));
 		descriptPane.setBorder(new LineBorder(Color.GRAY));
 		descriptLabel = new JLabel("ここに解説が表示される");
-		descriptLabel.setFont(new Font("メイリオ", Font.PLAIN, 16));
+		descriptLabel.setFont(new Font("メイリオ", Font.PLAIN, FONT_SIZE_M));
 		// ボーダーを使った余白の設定
-		descriptLabel.setBorder(new EmptyBorder(10, 20, 10, 20));
+		descriptLabel.setBorder(new EmptyBorder(borderHight, borderWidth, borderHight, borderWidth));
 		descriptPane.add(descriptLabel);
 
 		centerPane.add(questionPane);
@@ -159,10 +101,14 @@ public abstract class AbstractNaviPane extends JPanel {
 		// 下部のコンテンツ
 		southPane = new JPanel();
 		// ボーダーを使った余白の設定
-		southPane.setBorder(new CompoundBorder(new LineBorder(Color.GRAY), new EmptyBorder(30, 50, 30, 50)));
-		southPane.setPreferredSize(new Dimension(getWidth(), 100));
+		borderWidth = (int) (parent.RIGHT_WIDTH * 0.05);
+		borderHight = (int) (parent.RIGHT_HIGHT * 0.03);
+		southPane.setBorder(new CompoundBorder(new LineBorder(Color.GRAY), new EmptyBorder(borderHight, borderWidth,
+				borderHight, borderWidth)));
+		
+		southPane.setPreferredSize(new Dimension(parent.RIGHT_WIDTH, (int) (parent.RIGHT_HIGHT * 0.12)));
 		southPane.setBackground(new Color(192, 192, 192));
-		southPane.setLayout(new GridLayout(1, buttonNum, 30, 0));
+		southPane.setLayout(new GridLayout(1, buttonNum, borderWidth, 0));
 
 		for (int i = 0; i < buttonNum; i++) {
 			JButton tmp = new JButton();
@@ -174,8 +120,10 @@ public abstract class AbstractNaviPane extends JPanel {
 					naviManager.changeNavi(getIndex(), tmp.getText());
 				}
 			});
-			tmp.setPreferredSize(new Dimension(80, 40));
-			tmp.setFont(new Font("メイリオ", Font.PLAIN, 18));
+			int buttonWidth = (int) (parent.RIGHT_WIDTH * 0.2);
+			int buttonHIGHT = (int) (parent.RIGHT_HIGHT * 0.06);
+			tmp.setPreferredSize(new Dimension(buttonWidth, buttonHIGHT));
+			tmp.setFont(new Font("メイリオ", Font.PLAIN, FONT_SIZE_B));
 			buttons.add(tmp);
 			southPane.add(tmp);
 		}

@@ -112,4 +112,8 @@ public class NaviManager {
 	public JPanel getViewPane() {
 		return viewPane;
 	}
+	
+	public JAppEditor getParent() {
+		return parent;
+	}
 }

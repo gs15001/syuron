@@ -24,6 +24,7 @@ package org.jeditor.app;
 import org.jeditor.diff.JDiffTextPanel;
 import org.jeditor.gui.JEditor;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -76,6 +77,7 @@ public class FilePane extends JPanel {
 		super();
 		this.parent = parent;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.setPreferredSize(new Dimension(parent.LEFT_WIDTH, parent.LEFT_HIGHT));
 	}
 
 	public FilePane(JAppEditor parent, File file) {
@@ -125,7 +127,9 @@ public class FilePane extends JPanel {
 		ed.setTokenMarker(marker);
 		ed.setText(text.getText());
 		ed.setEdited(false);
-		this.add(new JScrollPane(ed));
+		//this.add(new JScrollPane(ed));
+		ed.setPreferredSize(new Dimension(parent.LEFT_WIDTH, parent.LEFT_HIGHT));
+		this.add(ed);
 	}
 
 	protected void setPanel(TextFile fromfile, TextFile tofile) {

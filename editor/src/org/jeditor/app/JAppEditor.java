@@ -23,6 +23,7 @@ package org.jeditor.app;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -41,7 +42,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.*;
+import java.util.TreeMap;
 import javax.swing.AbstractAction;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -84,7 +85,6 @@ public class JAppEditor extends JFrame {
 	private JTabbedPane tab = new JTabbedPane();
 	private ConsolePane console = new ConsolePane();
 	private NaviManager naviManager;
-	private JPanel support = new JPanel();
 	private HistoryList history = new HistoryList();
 	private JMenuBar Mbar = new JMenuBar();
 	private JMenu fileMenu = new JMenu("File");
@@ -109,8 +109,17 @@ public class JAppEditor extends JFrame {
 	private int tabSize = 4;
 	private Process process = null;
 
-	private final int WINDOW_WIGTH;
-	private final int WINDOW_HIGHT;
+	public final int WINDOW_WIDTH;
+	public final int WINDOW_HIGHT;
+
+	public final int LEFT_WIDTH;
+	public final int LEFT_HIGHT;
+
+	public final int RIGHT_WIDTH;
+	public final int RIGHT_HIGHT;
+
+	public final int BOTTOM_WIDTH;
+	public final int BOTTOM_HIGHT;
 
 	/**
 	 * constructor of MainWindow class.
@@ -120,8 +129,19 @@ public class JAppEditor extends JFrame {
 		// Initialise the window
 		super("JAppEditor");
 		WINDOW_HIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
-		WINDOW_WIGTH = Toolkit.getDefaultToolkit().getScreenSize().width;
-		setSize((int) (WINDOW_WIGTH * 0.8), (int) (WINDOW_HIGHT * 0.9));
+		WINDOW_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
+
+		LEFT_WIDTH = (int) (WINDOW_WIDTH * 0.4);
+		LEFT_HIGHT = (int) (WINDOW_HIGHT * 0.6);
+		RIGHT_WIDTH = (int) (WINDOW_WIDTH * 0.3);
+		RIGHT_HIGHT = (int) (WINDOW_HIGHT * 0.6);
+		BOTTOM_WIDTH = (int) (WINDOW_WIDTH * 0.7);
+		BOTTOM_HIGHT = (int) (WINDOW_HIGHT * 0.2);
+
+		System.out.println("WINDOW_HIGHT : " + WINDOW_HIGHT);
+		System.out.println("WINDOW_WIDTH : " + WINDOW_WIDTH);
+
+		setSize((int) (WINDOW_WIDTH * 0.7), (int) (WINDOW_HIGHT * 0.8));
 		setBackground(Color.lightGray);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
@@ -184,20 +204,23 @@ public class JAppEditor extends JFrame {
 		setContentPane(mainPane);
 		mainPane.setLayout(new BorderLayout());
 		mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		tab.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.4), (int) (WINDOW_HIGHT * 0.75)));
+		// エディター部分
+		tab.setPreferredSize(new Dimension(LEFT_WIDTH, LEFT_HIGHT));
 		doOpenFile(new File(DEFAULTPATH, "新規.java"));
 		// ナビゲーション部分
 		naviManager = new NaviManager(this);
 		JPanel naviPane = naviManager.getViewPane();
-		support.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.4), (int) (WINDOW_HIGHT * 0.75)));
-		history.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.02), (int) (WINDOW_HIGHT * 0.75)));
-		naviPane.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.38), (int) (WINDOW_HIGHT * 0.75)));
-		JSplitPane centerRight = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, naviPane, history);
+		naviPane.setPreferredSize(new Dimension(RIGHT_WIDTH, (int) (RIGHT_HIGHT * 0.8)));
+		history.setPreferredSize(new Dimension(RIGHT_WIDTH, (int) (RIGHT_HIGHT * 0.2)));
+		JSplitPane centerRight = new JSplitPane(JSplitPane.VERTICAL_SPLIT, naviPane, history);
 		// コンソール部分
-		console.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.8), (int) (WINDOW_HIGHT * 0.1)));
+		console.setPreferredSize(new Dimension(BOTTOM_WIDTH, BOTTOM_HIGHT));
+
+		// パネルの合体
 		JSplitPane centerTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tab, centerRight);
-		centerTop.setDividerLocation(500);
+		centerTop.setDividerLocation(LEFT_WIDTH);
 		JSplitPane center = new JSplitPane(JSplitPane.VERTICAL_SPLIT, centerTop, console);
+		center.setDividerLocation(LEFT_HIGHT);
 		mainPane.add(center, BorderLayout.CENTER);
 	}
 
