@@ -2,11 +2,11 @@
 package org.jeditor.navi;
 
 import java.awt.CardLayout;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
+import javax.swing.ListModel;
 import org.jeditor.app.JAppEditor;
 
 public class NaviManager {
@@ -18,7 +18,7 @@ public class NaviManager {
 
 	private AbstractNaviPane naviPane;
 
-	private List<AbstractNaviPane> history;
+	private DefaultListModel<AbstractNaviPane> historyModel;
 	private Map<String, AbstractNaviPane> naviData;
 
 	public NaviManager(JAppEditor parent) {
@@ -30,7 +30,7 @@ public class NaviManager {
 		viewPane.setLayout(layout);
 
 		// 履歴用リスト生成
-		history = new ArrayList<>();
+		historyModel = new DefaultListModel<>();
 
 		// ナビゲーションパネル保存用マップ生成
 		naviData = new HashMap<>();
@@ -38,7 +38,6 @@ public class NaviManager {
 		// ナビゲーションパネル生成・viewPaneに追加
 		naviPane = new Navi_t(this);
 		viewPane.add(naviPane, naviPane.getIndex());
-		history.add(naviPane);
 		naviData.put(naviPane.getIndex(), naviPane);
 
 		naviPane = new Navi_a1(this);
@@ -106,14 +105,22 @@ public class NaviManager {
 	public void changeNavi(String currentState, String buttonLabel) {
 		String nextState = strategy.getNextNavi(currentState, buttonLabel);
 		layout.show(viewPane, nextState);
-		history.add(naviData.get(nextState));
+		if(nextState.equals("t")) {
+			historyModel.clear();
+		} else {
+			historyModel.addElement(naviData.get(nextState));
+		}
 	}
 
 	public JPanel getViewPane() {
 		return viewPane;
 	}
-	
+
 	public JAppEditor getParent() {
 		return parent;
+	}
+
+	public ListModel<AbstractNaviPane> getHistoryListModel() {
+		return historyModel;
 	}
 }

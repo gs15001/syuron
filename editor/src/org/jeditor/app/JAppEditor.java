@@ -85,7 +85,7 @@ public class JAppEditor extends JFrame {
 	private JTabbedPane tab = new JTabbedPane();
 	private ConsolePane console = new ConsolePane();
 	private NaviManager naviManager;
-	private HistoryList history = new HistoryList();
+	private HistoryList history;
 	private JMenuBar Mbar = new JMenuBar();
 	private JMenu fileMenu = new JMenu("File");
 	private JMenu toolsMenu = new JMenu("Tools");
@@ -209,6 +209,7 @@ public class JAppEditor extends JFrame {
 		doOpenFile(new File(DEFAULTPATH, "新規.java"));
 		// ナビゲーション部分
 		naviManager = new NaviManager(this);
+		history = new HistoryList(naviManager);
 		JPanel naviPane = naviManager.getViewPane();
 		naviPane.setPreferredSize(new Dimension(RIGHT_WIDTH, (int) (RIGHT_HIGHT * 0.8)));
 		history.setPreferredSize(new Dimension(RIGHT_WIDTH, (int) (RIGHT_HIGHT * 0.2)));
