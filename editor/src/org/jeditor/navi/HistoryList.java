@@ -2,6 +2,10 @@ package org.jeditor.navi;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -32,14 +36,28 @@ public class HistoryList extends JPanel {
 		historyModel.addListDataListener(new HistoryChangeListener());
 		list = new JList<>(historyModel);
 		list.setCellRenderer(new HistoryRenderer());
+		list.setFont(new Font("メイリオ", Font.PLAIN, 12));
 
 		listView = new JScrollPane(list);
 		add(listView);
 
 		HistorySelectListener listener = new HistorySelectListener();
 		list.addListSelectionListener(listener);
+
+		list.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() == 2) {
+					int index = list.locationToIndex(e.getPoint());
+					list.setSelectedIndex(index);
+					AbstractNaviPane pane = list.getSelectedValue();
+					naviManager.backNavi(pane.getIndex(), index);
+				}
+			}
+		});
 	}
-	
+
 	private void refreshScroll() {
 		SwingUtilities.invokeLater(new Runnable() {
 
@@ -67,18 +85,24 @@ public class HistoryList extends JPanel {
 		@Override
 		public void intervalAdded(ListDataEvent e) {
 			refreshScroll();
+			list.clearSelection();
+			list.setSelectedIndex(historyModel.getSize() - 1);
 			list.updateUI();
 		}
 
 		@Override
 		public void intervalRemoved(ListDataEvent e) {
 			refreshScroll();
+			list.clearSelection();
+			list.setSelectedIndex(historyModel.getSize() - 1);
 			list.updateUI();
 		}
 
 		@Override
 		public void contentsChanged(ListDataEvent e) {
 			refreshScroll();
+			list.clearSelection();
+			list.setSelectedIndex(historyModel.getSize() - 1);
 			list.updateUI();
 		}
 
@@ -95,7 +119,7 @@ public class HistoryList extends JPanel {
 
 			AbstractNaviPane pane = (AbstractNaviPane) value;
 			this.setText(pane.getIndex());
-
+			this.setFont(list.getFont());
 			return this;
 		}
 

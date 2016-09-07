@@ -19,6 +19,7 @@ public class NaviManager {
 	private AbstractNaviPane naviPane;
 
 	private DefaultListModel<AbstractNaviPane> historyModel;
+	private int historyIndex = 0;
 	private Map<String, AbstractNaviPane> naviData;
 
 	public NaviManager(JAppEditor parent) {
@@ -107,9 +108,19 @@ public class NaviManager {
 		layout.show(viewPane, nextState);
 		if(nextState.equals("t")) {
 			historyModel.clear();
+			historyIndex = 0;
 		} else {
-			historyModel.addElement(naviData.get(nextState));
+			if(historyIndex < historyModel.getSize()) {
+				historyModel.removeRange(historyIndex, historyModel.getSize() - 1);
+			}
+			historyModel.add(historyIndex, naviData.get(nextState));
+			historyIndex++;
 		}
+	}
+
+	public void backNavi(String nextState, int historyIndex) {
+		layout.show(viewPane, nextState);
+		this.historyIndex = historyIndex + 1;
 	}
 
 	public JPanel getViewPane() {
