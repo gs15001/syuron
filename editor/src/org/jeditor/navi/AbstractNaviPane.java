@@ -4,6 +4,7 @@ package org.jeditor.navi;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -60,12 +61,29 @@ public abstract class AbstractNaviPane extends JPanel {
 
 		// 上部のコンテンツ
 		northPane = new JPanel();
+		northPane.setLayout(new FlowLayout(FlowLayout.LEFT, 30, 0));
 		northPane.setBackground(new Color(192, 192, 192));
 		northPane.setPreferredSize(new Dimension(parent.RIGHT_WIDTH, (int) (parent.RIGHT_HIGHT * 0.08)));
 		northPane.setBorder(new LineBorder(Color.GRAY));
 		this.index = index;
 		indexLabel = new JLabel("no text");
 		indexLabel.setFont(new Font("メイリオ", Font.PLAIN, FONT_SIZE_T));
+
+		// 戻るボタン
+		JButton backButton = new JButton();
+		backButton
+				.setPreferredSize(new Dimension((int) (parent.RIGHT_WIDTH * 0.06), (int) (parent.RIGHT_HIGHT * 0.06)));
+		// backButton.setText("<");
+		// backButton.setFont(new Font("メイリオ", Font.PLAIN, 10));
+		// リスナー登録
+		backButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				naviManager.backNavi();
+			}
+		});
+		northPane.add(backButton);
 		northPane.add(indexLabel);
 
 		// 中部のコンテンツ
@@ -105,7 +123,7 @@ public abstract class AbstractNaviPane extends JPanel {
 		borderHight = (int) (parent.RIGHT_HIGHT * 0.03);
 		southPane.setBorder(new CompoundBorder(new LineBorder(Color.GRAY), new EmptyBorder(borderHight, borderWidth,
 				borderHight, borderWidth)));
-		
+
 		southPane.setPreferredSize(new Dimension(parent.RIGHT_WIDTH, (int) (parent.RIGHT_HIGHT * 0.12)));
 		southPane.setBackground(new Color(192, 192, 192));
 		southPane.setLayout(new GridLayout(1, buttonNum, borderWidth, 0));

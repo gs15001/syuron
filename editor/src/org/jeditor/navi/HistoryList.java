@@ -25,7 +25,7 @@ public class HistoryList extends JPanel {
 	private NaviManager naviManager;
 	private JList<AbstractNaviPane> list;
 	private JScrollPane listView;
-	private ListModel<AbstractNaviPane> historyModel;
+	private HistoryListModel<AbstractNaviPane> historyModel;
 
 	public HistoryList(NaviManager naviManager) {
 		super(new BorderLayout());
@@ -33,6 +33,7 @@ public class HistoryList extends JPanel {
 		this.naviManager = naviManager;
 
 		historyModel = naviManager.getHistoryListModel();
+		historyModel.setHistoryList(this);
 		historyModel.addListDataListener(new HistoryChangeListener());
 		list = new JList<>(historyModel);
 		list.setCellRenderer(new HistoryRenderer());
@@ -52,10 +53,14 @@ public class HistoryList extends JPanel {
 					int index = list.locationToIndex(e.getPoint());
 					list.setSelectedIndex(index);
 					AbstractNaviPane pane = list.getSelectedValue();
-					naviManager.backNavi(pane.getIndex(), index);
+					naviManager.moveNavi(pane.getIndex(), index);
 				}
 			}
 		});
+	}
+
+	public void selectIndex(int index) {
+		list.setSelectedIndex(index);
 	}
 
 	private void refreshScroll() {
@@ -85,24 +90,21 @@ public class HistoryList extends JPanel {
 		@Override
 		public void intervalAdded(ListDataEvent e) {
 			refreshScroll();
-			list.clearSelection();
-			list.setSelectedIndex(historyModel.getSize() - 1);
+			list.setSelectedIndex(historyModel.getHistoryIndex());
 			list.updateUI();
 		}
 
 		@Override
 		public void intervalRemoved(ListDataEvent e) {
 			refreshScroll();
-			list.clearSelection();
-			list.setSelectedIndex(historyModel.getSize() - 1);
+			list.setSelectedIndex(historyModel.getHistoryIndex());
 			list.updateUI();
 		}
 
 		@Override
 		public void contentsChanged(ListDataEvent e) {
 			refreshScroll();
-			list.clearSelection();
-			list.setSelectedIndex(historyModel.getSize() - 1);
+			list.setSelectedIndex(historyModel.getHistoryIndex());
 			list.updateUI();
 		}
 

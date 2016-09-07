@@ -18,8 +18,7 @@ public class NaviManager {
 
 	private AbstractNaviPane naviPane;
 
-	private DefaultListModel<AbstractNaviPane> historyModel;
-	private int historyIndex = 0;
+	private HistoryListModel<AbstractNaviPane> historyModel;
 	private Map<String, AbstractNaviPane> naviData;
 
 	public NaviManager(JAppEditor parent) {
@@ -31,7 +30,7 @@ public class NaviManager {
 		viewPane.setLayout(layout);
 
 		// 履歴用リスト生成
-		historyModel = new DefaultListModel<>();
+		historyModel = new HistoryListModel<>();
 
 		// ナビゲーションパネル保存用マップ生成
 		naviData = new HashMap<>();
@@ -40,6 +39,7 @@ public class NaviManager {
 		naviPane = new Navi_t(this);
 		viewPane.add(naviPane, naviPane.getIndex());
 		naviData.put(naviPane.getIndex(), naviPane);
+		historyModel.add(naviPane);
 
 		naviPane = new Navi_a1(this);
 		viewPane.add(naviPane, naviPane.getIndex());
@@ -108,19 +108,20 @@ public class NaviManager {
 		layout.show(viewPane, nextState);
 		if(nextState.equals("t")) {
 			historyModel.clear();
-			historyIndex = 0;
-		} else {
-			if(historyIndex < historyModel.getSize()) {
-				historyModel.removeRange(historyIndex, historyModel.getSize() - 1);
-			}
-			historyModel.add(historyIndex, naviData.get(nextState));
-			historyIndex++;
+		}
+		historyModel.add(naviData.get(nextState));
+	}
+
+	public void backNavi() {
+		AbstractNaviPane pane = historyModel.getPre();
+		if(pane != null) {
+			layout.show(viewPane, pane.getIndex());
 		}
 	}
 
-	public void backNavi(String nextState, int historyIndex) {
+	public void moveNavi(String nextState, int historyIndex) {
 		layout.show(viewPane, nextState);
-		this.historyIndex = historyIndex + 1;
+		historyModel.setHistoryIndex(historyIndex + 1);
 	}
 
 	public JPanel getViewPane() {
@@ -131,7 +132,7 @@ public class NaviManager {
 		return parent;
 	}
 
-	public ListModel<AbstractNaviPane> getHistoryListModel() {
+	public HistoryListModel<AbstractNaviPane> getHistoryListModel() {
 		return historyModel;
 	}
 }
