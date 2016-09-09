@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -35,11 +36,15 @@ public abstract class AbstractNaviPane extends JPanel {
 	private JPanel centerPane;
 	private JPanel southPane;
 
+	protected InputDialog dialog = null;
+
 	private final int FONT_SIZE_T;
 	private final int FONT_SIZE_M;
 	private final int FONT_SIZE_B;
 
 	protected List<JButton> buttons = new ArrayList<>();
+
+	protected String input = "";
 
 	public AbstractNaviPane(NaviManager mgr, String index, int buttonNum) {
 		super();
@@ -174,7 +179,12 @@ public abstract class AbstractNaviPane extends JPanel {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					naviManager.changeNavi(getIndex(), tmp.getText());
+					if(dialog != null) {
+						input = dialog.showInputDialog(parent);
+					}
+					if(input != null) {
+						naviManager.changeNavi(getIndex(), tmp.getText(), input);
+					}
 				}
 			});
 			int buttonWidth = (int) (parent.RIGHT_WIDTH * 0.2);
@@ -194,15 +204,8 @@ public abstract class AbstractNaviPane extends JPanel {
 		return index;
 	}
 
-	// public void paint(Graphics g) {
-	// super.paint(g);
-	// Graphics2D g2 = (Graphics2D) g;
-	// g2.setColor(Color.GRAY);
-	// Line2D line = new Line2D.Double(0, 50, getWidth(), 50);
-	// g2.draw(line);
-	// line = new Line2D.Double(0, 300, getWidth(), 300);
-	// g2.draw(line);
-	// line = new Line2D.Double(0, getHeight() - 100, getWidth(), getHeight() - 100);
-	// g2.draw(line);
-	// }
+	public void setInput(String input) {
+		this.input = input;
+	}
+
 }

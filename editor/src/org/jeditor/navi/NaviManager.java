@@ -103,13 +103,15 @@ public class NaviManager {
 		naviData.put(naviPane.getIndex(), naviPane);
 	}
 
-	public void changeNavi(String currentState, String buttonLabel) {
+	public void changeNavi(String currentState, String buttonLabel, String input) {
 		String nextState = strategy.getNextNavi(currentState, buttonLabel);
+		AbstractNaviPane nextPane = naviData.get(nextState);
+		nextPane.setInput(input);
 		layout.show(viewPane, nextState);
 		if(nextState.equals("t")) {
 			historyModel.clear();
 		}
-		historyModel.add(naviData.get(nextState));
+		historyModel.add(nextPane);
 	}
 
 	public void backNavi() {
