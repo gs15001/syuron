@@ -11,11 +11,9 @@ public class Navi_b1 extends AbstractNaviPane {
 		super(mgr, "b1", 2);
 		//@formatter:off
 		indexLabel.setText("分岐先の調査");
-		questionLabel.setText("<html>この条件文(if)によってどの分岐先が実行されているか<br>"
-				+ "確認しましょう。確認した分岐先は正しいですか。</html>");
+		questionLabel.setText("<html>この条件文(if)によってどの分岐先が実行されているか確認しましょう。確認した分岐先は正しいですか。</html>");
 		descriptLabel.setText("<html>条件文に誤りがないかを確認します。<br>"
-				+ "条件文に誤りがある場合、正解とは異なる分岐先を<br>"
-				+ "実行している場合が多いです。<br>"
+				+ "条件文に誤りがある場合、正解とは異なる分岐先を実行している場合が多いです。<br>"
 				+ "そのため、まずどの分岐先が実行されているか確認します。</html>");
 		//@formatter:on
 		JButton button = buttons.get(0);

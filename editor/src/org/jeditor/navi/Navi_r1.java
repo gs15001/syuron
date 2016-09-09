@@ -16,8 +16,7 @@ public class Navi_r1 extends AbstractNaviPane {
 				+ "繰り返し文には主に、<br>"
 				+ "・一定の回数繰り返すタイプ<br>"
 				+ "・一定の条件を満たすまで繰り返すタイプ<br>"
-				+ "の2種類があります。種類に応じて、確認すべき<br>"
-				+ "部分が異なるため、まず種類を確認します。</html>");
+				+ "の2種類があります。種類に応じて、確認すべき部分が異なるため、まず種類を確認します。</html>");
 		//@formatter:on
 		JButton button = buttons.get(0);
 		button.setText("はい");

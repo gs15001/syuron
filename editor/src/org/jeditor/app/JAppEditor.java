@@ -138,8 +138,8 @@ public class JAppEditor extends JFrame {
 		BOTTOM_WIDTH = (int) (WINDOW_WIDTH * 0.7);
 		BOTTOM_HIGHT = (int) (WINDOW_HIGHT * 0.2);
 
-		System.out.println("WINDOW_HIGHT : " + WINDOW_HIGHT);
-		System.out.println("WINDOW_WIDTH : " + WINDOW_WIDTH);
+		// System.out.println("WINDOW_HIGHT : " + WINDOW_HIGHT);
+		// System.out.println("WINDOW_WIDTH : " + WINDOW_WIDTH);
 
 		setSize((int) (WINDOW_WIDTH * 0.7), (int) (WINDOW_HIGHT * 0.8));
 		setBackground(Color.lightGray);
@@ -211,8 +211,8 @@ public class JAppEditor extends JFrame {
 		naviManager = new NaviManager(this);
 		history = new HistoryList(naviManager);
 		JPanel naviPane = naviManager.getViewPane();
-		naviPane.setPreferredSize(new Dimension(RIGHT_WIDTH, (int) (RIGHT_HIGHT * 0.8)));
-		history.setPreferredSize(new Dimension(RIGHT_WIDTH, (int) (RIGHT_HIGHT * 0.2)));
+		naviPane.setPreferredSize(new Dimension(RIGHT_WIDTH, (int) (RIGHT_HIGHT * 0.87)));
+		history.setPreferredSize(new Dimension(RIGHT_WIDTH, (int) (RIGHT_HIGHT * 0.1)));
 		JSplitPane centerRight = new JSplitPane(JSplitPane.VERTICAL_SPLIT, naviPane, history);
 		// コンソール部分
 		console.setPreferredSize(new Dimension(BOTTOM_WIDTH, BOTTOM_HIGHT));

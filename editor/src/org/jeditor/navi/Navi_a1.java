@@ -18,8 +18,7 @@ public class Navi_a1 extends AbstractNaviPane {
 		
 		descriptLabel.setText("<html>誤っている変数を見つけたなら、次はその原因を探します。<br>"
 				+ "変数は代入された時だけ、保持する値が変更されます。<br>"
-				+ "つまり、変数の値が誤っている場合、代入した値が誤っている<br>"
-				+ "ことになるため、その部分を探します。</html>");
+				+ "つまり、変数の値が誤っている場合、代入した値が誤っていることになるため、その部分を探します。</html>");
 		//@formatter:on
 
 		JButton button = buttons.get(0);
