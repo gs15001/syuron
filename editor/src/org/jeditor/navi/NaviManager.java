@@ -18,7 +18,7 @@ public class NaviManager {
 
 	private AbstractNaviPane naviPane;
 
-	private HistoryListModel<AbstractNaviPane> historyModel;
+	private HistoryListModel historyModel;
 	private Map<String, AbstractNaviPane> naviData;
 
 	public NaviManager(JAppEditor parent) {
@@ -30,7 +30,7 @@ public class NaviManager {
 		viewPane.setLayout(layout);
 
 		// 履歴用リスト生成
-		historyModel = new HistoryListModel<>();
+		historyModel = new HistoryListModel();
 
 		// ナビゲーションパネル保存用マップ生成
 		naviData = new HashMap<>();
@@ -134,7 +134,7 @@ public class NaviManager {
 		return parent;
 	}
 
-	public HistoryListModel<AbstractNaviPane> getHistoryListModel() {
+	public HistoryListModel getHistoryListModel() {
 		return historyModel;
 	}
 }

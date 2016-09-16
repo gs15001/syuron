@@ -204,6 +204,10 @@ public abstract class AbstractNaviPane extends JPanel {
 		return index;
 	}
 
+	public String getIndexLabel() {
+		return indexLabel.getText();
+	}
+
 	public void setInput(String input) {
 		this.input = input;
 	}
