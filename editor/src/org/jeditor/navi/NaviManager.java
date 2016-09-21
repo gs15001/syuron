@@ -104,20 +104,25 @@ public class NaviManager {
 	}
 
 	public void changeNavi(String currentState, String buttonLabel, String input) {
+		// 既存の履歴を更新
+		historyModel.updateCurrentItem(naviData.get(currentState));
+		// 次の状態を取得表示
 		String nextState = strategy.getNextNavi(currentState, buttonLabel);
 		AbstractNaviPane nextPane = naviData.get(nextState);
 		nextPane.setInput(input);
 		layout.show(viewPane, nextState);
+		// タイトルに戻る場合は履歴削除
 		if(nextState.equals("t")) {
 			historyModel.clear();
 		}
+		// 履歴追加
 		historyModel.add(nextPane);
 	}
 
 	public void backNavi() {
-		AbstractNaviPane pane = historyModel.getPre();
-		if(pane != null) {
-			layout.show(viewPane, pane.getIndex());
+		String preState = historyModel.getPre();
+		if(preState != null) {
+			layout.show(viewPane, preState);
 		}
 	}
 

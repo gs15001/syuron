@@ -19,6 +19,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import org.jeditor.app.JAppEditor;
+import sun.jvmstat.monitor.HostIdentifier;
 
 public abstract class AbstractNaviPane extends JPanel {
 
@@ -44,7 +45,9 @@ public abstract class AbstractNaviPane extends JPanel {
 
 	protected List<JButton> buttons = new ArrayList<>();
 
+	protected String notice = "";
 	protected String input = "";
+	protected String selected = "";
 
 	public AbstractNaviPane(NaviManager mgr, String index, int buttonNum) {
 		super();
@@ -183,6 +186,7 @@ public abstract class AbstractNaviPane extends JPanel {
 						input = dialog.showInputDialog(parent);
 					}
 					if(input != null) {
+						selected = tmp.getText();
 						naviManager.changeNavi(getIndex(), tmp.getText(), input);
 					}
 				}
@@ -204,12 +208,19 @@ public abstract class AbstractNaviPane extends JPanel {
 		return index;
 	}
 
-	public String getIndexLabel() {
-		return indexLabel.getText();
+	public void setInput(String input) {
+		notice = input;
+		noticeLabel.setText("着目している変数　：　" + input);
 	}
 
-	public void setInput(String input) {
-		this.input = input;
+	public HistoryData createHistoryData() {
+		return new HistoryData(index, indexLabel.getText(), notice);
+	}
+
+	public void updateHistoryData(HistoryData d) {
+		d.updateData(selected, input, "");
+		selected = "";
+		input = "";
 	}
 
 }

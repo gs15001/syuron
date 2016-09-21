@@ -54,8 +54,7 @@ public class HistoryList extends JPanel {
 				if(e.getClickCount() == 2) {
 					Point pt = e.getPoint();
 					int row = table.rowAtPoint(pt);
-					AbstractNaviPane pane = historyModel.getData(row);
-					naviManager.moveNavi(pane.getIndex(), row);
+					naviManager.moveNavi(historyModel.getData(row).getIndex(), row);
 				}
 			}
 		});

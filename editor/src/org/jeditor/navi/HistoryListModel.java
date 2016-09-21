@@ -2,21 +2,22 @@ package org.jeditor.navi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 public class HistoryListModel extends DefaultTableModel {
 
 	private static final long serialVersionUID = 1L;
-	private static String[] columnNames = { "index", "title", "selected", "data3" };
+	private static String[] columnNames = {"title", "notice", "selected", "input", "confi" };
 
-	private List<AbstractNaviPane> historyData;
+	private List<HistoryData> historyDatas;
 	private int historyIndex = 0;
 
 	private HistoryList historyList;
 
 	public HistoryListModel() {
 		super(columnNames, 0);
-		historyData = new ArrayList<>();
+		historyDatas = new ArrayList<>();
 	}
 
 	public void setHistoryList(HistoryList historyList) {
@@ -31,12 +32,12 @@ public class HistoryListModel extends DefaultTableModel {
 		this.historyIndex = historyIndex;
 	}
 
-	public AbstractNaviPane getData(int i) {
-		return historyData.get(i);
+	public HistoryData getData(int i) {
+		return historyDatas.get(i);
 	}
 
 	public void clear() {
-		historyData.clear();
+		historyDatas.clear();
 		historyIndex = 0;
 		// テーブルデータ全削除
 		setRowCount(0);
@@ -44,19 +45,9 @@ public class HistoryListModel extends DefaultTableModel {
 
 	private void removeRange(int from, int to) {
 		for (int i = from; i < to; i++) {
-			historyData.remove(from);
+			historyDatas.remove(from);
 			removeRow(from);
 		}
-	}
-
-	private void dataToTableData(AbstractNaviPane e) {
-		Object[] data = new Object[4];
-		data[0] = e.getIndex();
-		data[1] = e.getIndexLabel();
-		data[2] = null;
-		data[3] = null;
-
-		addRow(data);
 	}
 
 	public void add(AbstractNaviPane e) {
@@ -64,20 +55,29 @@ public class HistoryListModel extends DefaultTableModel {
 		if(historyIndex < getRowCount()) {
 			removeRange(historyIndex, getRowCount());
 		}
-		historyData.add(historyIndex, e);
+		HistoryData d = e.createHistoryData();
+		historyDatas.add(historyIndex, d);
 		historyIndex++;
-		dataToTableData(e);
+		addRow(d.getTableData());
 	}
 
-	public AbstractNaviPane getPre() {
+	public String getPre() {
 		// historyindex == 1のときはタイトル画面
 		if(historyIndex > 1) {
-			AbstractNaviPane pane = historyData.get(historyIndex - 2);
+			HistoryData d = historyDatas.get(historyIndex - 2);
 			historyList.selectIndex(historyIndex - 2);
 			historyIndex--;
-			return pane;
+			return d.getIndex();
 		}
 		return null;
 	}
 
+	public void updateCurrentItem(AbstractNaviPane e) {
+		HistoryData d = historyDatas.get(historyIndex - 1);
+		e.updateHistoryData(d);
+		Object[] datas = d.getTableData();
+		setValueAt(datas[2], historyIndex - 1, 2);
+		setValueAt(datas[3], historyIndex - 1, 3);
+		setValueAt(datas[4], historyIndex - 1, 4);
+	}
 }
