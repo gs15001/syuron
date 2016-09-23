@@ -23,4 +23,9 @@ public class Navi_r6 extends AbstractNaviPane {
 		button.setText("誤り");
 	}
 
+	@Override
+	public void setInput(String notice) {
+		super.setInput(notice);
+		noticeLabel.setText("利用なし");
+	}
 }

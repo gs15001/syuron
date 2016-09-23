@@ -24,6 +24,12 @@ public class Navi_a3 extends AbstractNaviPane {
 		button.setText("正しい");
 		button = buttons.get(1);
 		button.setText("誤り");
+		dialog[1] = new InputVarDialog();
 	}
 
+	@Override
+	public void setInput(String notice) {
+		super.setInput(notice);
+		noticeLabel.setText("利用なし");
+	}
 }

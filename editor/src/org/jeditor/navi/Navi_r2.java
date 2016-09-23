@@ -21,4 +21,10 @@ public class Navi_r2 extends AbstractNaviPane {
 		button.setText("誤り");
 	}
 
+	@Override
+	public void setInput(String notice) {
+		super.setInput(notice);
+		noticeLabel.setText("着目している繰り返し文　：　" + notice + " 行目");
+		input = notice;
+	}
 }

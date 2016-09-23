@@ -25,5 +25,13 @@ public class Navi_a1 extends AbstractNaviPane {
 		button.setText("ある");
 		button = buttons.get(1);
 		button.setText("ない");
+
+		dialog[0] = new InputRowDialog();
+	}
+
+	@Override
+	public void setInput(String notice) {
+		super.setInput(notice);
+		noticeLabel.setText("着目している変数　：　" + notice);
 	}
 }

@@ -17,7 +17,12 @@ public class Navi_t extends AbstractNaviPane {
 		JButton button = buttons.get(0);
 		button.setText("スタート");
 
-		dialog = new InputVarDialog();
+		dialog[0] = new InputVarDialog();
 	}
 
+	@Override
+	public void setInput(String notice) {
+		super.setInput(notice);
+		noticeLabel.setText("利用なし");
+	}
 }

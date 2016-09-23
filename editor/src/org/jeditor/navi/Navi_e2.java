@@ -21,4 +21,9 @@ public class Navi_e2 extends AbstractNaviPane {
 		button.setText("終了");
 	}
 
+	@Override
+	public void setInput(String notice) {
+		super.setInput(notice);
+		noticeLabel.setText("利用なし");
+	}
 }

@@ -21,4 +21,9 @@ public class Navi_a7 extends AbstractNaviPane {
 		button.setText("誤り");
 	}
 
+	public void setInput(String input) {
+		super.setInput(input);
+		noticeLabel.setText("着目している変数　：　" + input);
+		this.input = input;
+	}
 }
