@@ -128,20 +128,29 @@ public class JAppEditor extends JFrame {
 	public JAppEditor() {
 		// Initialise the window
 		super("JAppEditor");
-		WINDOW_HIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
-		WINDOW_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
+		int hight = Toolkit.getDefaultToolkit().getScreenSize().height;
+		int width = Toolkit.getDefaultToolkit().getScreenSize().width;
 
-		LEFT_WIDTH = (int) (WINDOW_WIDTH * 0.4);
-		LEFT_HIGHT = (int) (WINDOW_HIGHT * 0.6);
-		RIGHT_WIDTH = (int) (WINDOW_WIDTH * 0.3);
-		RIGHT_HIGHT = (int) (WINDOW_HIGHT * 0.6);
-		BOTTOM_WIDTH = (int) (WINDOW_WIDTH * 0.7);
+		// 推奨スペック(解像度)1366*768以上
+		if(width > 1366) {
+			WINDOW_WIDTH = 1366;
+			WINDOW_HIGHT = 768;
+		} else {
+			WINDOW_WIDTH = width;
+			WINDOW_HIGHT = hight;
+		}
+
+		LEFT_WIDTH = (int) (WINDOW_WIDTH * 0.5);
+		LEFT_HIGHT = (int) (WINDOW_HIGHT * 0.8);
+		RIGHT_WIDTH = (int) (WINDOW_WIDTH * 0.5);
+		RIGHT_HIGHT = (int) (WINDOW_HIGHT * 0.8);
+		BOTTOM_WIDTH = WINDOW_WIDTH;
 		BOTTOM_HIGHT = (int) (WINDOW_HIGHT * 0.2);
 
-		// System.out.println("WINDOW_HIGHT : " + WINDOW_HIGHT);
-		// System.out.println("WINDOW_WIDTH : " + WINDOW_WIDTH);
+		System.out.println("WINDOW_HIGHT : " + WINDOW_HIGHT);
+		System.out.println("WINDOW_WIDTH : " + WINDOW_WIDTH);
 
-		setSize((int) (WINDOW_WIDTH * 0.7), (int) (WINDOW_HIGHT * 0.8));
+		setSize(WINDOW_WIDTH, WINDOW_HIGHT);
 		setBackground(Color.lightGray);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
