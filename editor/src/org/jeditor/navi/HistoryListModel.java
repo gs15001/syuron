@@ -8,7 +8,7 @@ import javax.swing.table.DefaultTableModel;
 public class HistoryListModel extends DefaultTableModel {
 
 	private static final long serialVersionUID = 1L;
-	private static String[] columnNames = {"title", "notice", "selected", "input", "confi" };
+	static String[] columnNames = { "title", "notice", "selected", "input", "confi" };
 
 	private List<HistoryData> historyDatas;
 	private int historyIndex = 0;

@@ -3,6 +3,7 @@ package org.jeditor.navi;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -12,11 +13,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.plaf.metal.MetalBorders;
 import javax.swing.table.DefaultTableCellRenderer;
+import org.jeditor.app.JAppEditor;
 
 public class HistoryList extends JPanel {
 
@@ -31,6 +35,7 @@ public class HistoryList extends JPanel {
 		super(new BorderLayout());
 
 		this.naviManager = naviManager;
+		JAppEditor parent = naviManager.getParent();
 
 		historyModel = naviManager.getHistoryListModel();
 		historyModel.setHistoryList(this);
@@ -40,6 +45,26 @@ public class HistoryList extends JPanel {
 		table.setFont(new Font("メイリオ", Font.PLAIN, 12));
 		table.setDefaultEditor(Object.class, null);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		// 列幅調整
+		table.getColumn(HistoryListModel.columnNames[0]).setPreferredWidth((int) (parent.RIGHT_WIDTH * 0.5));
+		table.getColumn(HistoryListModel.columnNames[1]).setPreferredWidth((int) (parent.RIGHT_WIDTH * 0.15));
+		table.getColumn(HistoryListModel.columnNames[2]).setPreferredWidth((int) (parent.RIGHT_WIDTH * 0.15));
+		table.getColumn(HistoryListModel.columnNames[3]).setPreferredWidth((int) (parent.RIGHT_WIDTH * 0.15));
+		table.getColumn(HistoryListModel.columnNames[4]).setPreferredWidth((int) (parent.RIGHT_WIDTH * 0.05));
+
+		// テーブルヘッダーの余白調整のおまじない
+		UIManager.put("TableHeader.cellBorder", new MetalBorders.TableHeaderBorder() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Insets getBorderInsets(Component c, Insets insets) {
+				insets.left = insets.top = insets.right = insets.bottom = 0;
+				return insets;
+			}
+		});
+		SwingUtilities.updateComponentTreeUI(this);
 
 		listView = new JScrollPane(table);
 		add(listView);
