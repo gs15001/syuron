@@ -4,17 +4,17 @@ package org.jeditor.navidata;
 import javax.swing.JButton;
 import org.jeditor.navi.NaviManager;
 
-public class Navi_d5 extends AbstractNaviPane {
+public class Navi_e6 extends AbstractNaviPane {
 
 	private static final long serialVersionUID = 1L;
 
-	public Navi_d5(NaviManager mgr) {
-		super(mgr, "d5", 1);
+	public Navi_e6(NaviManager mgr) {
+		super(mgr, "e6", 1);
 
-		indexLabel.setText("コンパイルエラーの修正");
+		indexLabel.setText("入力待ち・無限ループの可能性");
 		//@formatter:off
 		questionLabel.setText("<html</html>");
-			
+				
 		descriptLabel.setText("<html></html>");
 		//@formatter:on
 

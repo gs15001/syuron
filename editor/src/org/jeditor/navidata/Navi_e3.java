@@ -4,17 +4,17 @@ package org.jeditor.navidata;
 import javax.swing.JButton;
 import org.jeditor.navi.NaviManager;
 
-public class Navi_d6 extends AbstractNaviPane {
+public class Navi_e3 extends AbstractNaviPane {
 
 	private static final long serialVersionUID = 1L;
 
-	public Navi_d6(NaviManager mgr) {
-		super(mgr, "d6", 1);
+	public Navi_e3(NaviManager mgr) {
+		super(mgr, "e3", 1);
 
-		indexLabel.setText("バグはありません");
+		indexLabel.setText("コンパイルエラーの修正");
 		//@formatter:off
 		questionLabel.setText("<html</html>");
-					
+			
 		descriptLabel.setText("<html></html>");
 		//@formatter:on
 
