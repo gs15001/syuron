@@ -4,10 +4,29 @@ package org.jeditor.navi;
 import java.awt.CardLayout;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
-import javax.swing.ListModel;
 import org.jeditor.app.JAppEditor;
+import org.jeditor.navidata.AbstractNaviPane;
+import org.jeditor.navidata.Navi_a1;
+import org.jeditor.navidata.Navi_a2;
+import org.jeditor.navidata.Navi_a3;
+import org.jeditor.navidata.Navi_a4;
+import org.jeditor.navidata.Navi_a5;
+import org.jeditor.navidata.Navi_a6;
+import org.jeditor.navidata.Navi_a7;
+import org.jeditor.navidata.Navi_b1;
+import org.jeditor.navidata.Navi_b2;
+import org.jeditor.navidata.Navi_b3;
+import org.jeditor.navidata.Navi_b4;
+import org.jeditor.navidata.Navi_e1;
+import org.jeditor.navidata.Navi_e2;
+import org.jeditor.navidata.Navi_r1;
+import org.jeditor.navidata.Navi_r2;
+import org.jeditor.navidata.Navi_r3;
+import org.jeditor.navidata.Navi_r4;
+import org.jeditor.navidata.Navi_r5;
+import org.jeditor.navidata.Navi_r6;
+import org.jeditor.navidata.Navi_t;
 
 public class NaviManager {
 

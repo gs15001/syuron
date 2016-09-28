@@ -1,7 +1,8 @@
 /* ソースツリー文字コード識別用文字列ソースツリー文字コード識別用文字列 */
-package org.jeditor.navi;
+package org.jeditor.navidata;
 
 import javax.swing.JButton;
+import org.jeditor.navi.NaviManager;
 
 public class Navi_e2 extends AbstractNaviPane {
 

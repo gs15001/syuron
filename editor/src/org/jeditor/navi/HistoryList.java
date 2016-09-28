@@ -26,7 +26,6 @@ public class HistoryList extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private NaviManager naviManager;
 	private JTable table;
 	private JScrollPane listView;
 	private HistoryListModel historyModel;
@@ -34,7 +33,6 @@ public class HistoryList extends JPanel {
 	public HistoryList(NaviManager naviManager) {
 		super(new BorderLayout());
 
-		this.naviManager = naviManager;
 		JAppEditor parent = naviManager.getParent();
 
 		historyModel = naviManager.getHistoryListModel();

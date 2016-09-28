@@ -1,5 +1,5 @@
 /* ソースツリー文字コード識別用文字列ソースツリー文字コード識別用文字列 */
-package org.jeditor.navi;
+package org.jeditor.navidata;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -13,13 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import org.jeditor.app.JAppEditor;
-import sun.jvmstat.monitor.HostIdentifier;
+import org.jeditor.navi.HistoryData;
+import org.jeditor.navi.InputDialog;
+import org.jeditor.navi.NaviManager;
 
 public abstract class AbstractNaviPane extends JPanel {
 
@@ -211,6 +212,17 @@ public abstract class AbstractNaviPane extends JPanel {
 		d.updateData(selected, input, "");
 		selected = "";
 		input = "";
+	}
+
+	class MyButton extends JButton {
+
+		private static final long serialVersionUID = 1L;
+		int i;
+
+		public MyButton(int i) {
+			super();
+			this.i = i;
+		}
 	}
 
 }
