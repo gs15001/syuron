@@ -77,7 +77,7 @@ public class FilePane extends JPanel {
 		super();
 		this.parent = parent;
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.setPreferredSize(new Dimension(parent.LEFT_WIDTH, parent.LEFT_HIGHT));
+		this.setPreferredSize(new Dimension(parent.LEFT_WIDTH, parent.LEFT_HEIGHT));
 	}
 
 	public FilePane(JAppEditor parent, File file) {
@@ -128,7 +128,7 @@ public class FilePane extends JPanel {
 		ed.setText(text.getText());
 		ed.setEdited(false);
 		//this.add(new JScrollPane(ed));
-		ed.setPreferredSize(new Dimension(parent.LEFT_WIDTH, parent.LEFT_HIGHT));
+		ed.setPreferredSize(new Dimension(parent.LEFT_WIDTH, parent.LEFT_HEIGHT));
 		this.add(ed);
 	}
 

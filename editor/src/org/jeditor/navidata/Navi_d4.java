@@ -11,7 +11,7 @@ public class Navi_d4 extends AbstractNaviPane {
 	public Navi_d4(NaviManager mgr) {
 		super(mgr, "d4", 2);
 
-		indexLabel.setText("実行中のエラーの確認");
+		indexLabel.setText("最後まで処理されているのか");
 		//@formatter:off
 		questionLabel.setText("<html</html>");
 			
@@ -19,9 +19,9 @@ public class Navi_d4 extends AbstractNaviPane {
 		//@formatter:on
 
 		JButton button = buttons.get(0);
-		button.setText("発生している");
+		button.setText("表示される");
 		button = buttons.get(1);
-		button.setText("発生していない");
+		button.setText("表示されない");
 	}
 
 	@Override

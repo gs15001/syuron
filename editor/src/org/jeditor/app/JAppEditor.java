@@ -110,16 +110,16 @@ public class JAppEditor extends JFrame {
 	private Process process = null;
 
 	public final int WINDOW_WIDTH;
-	public final int WINDOW_HIGHT;
+	public final int WINDOW_HEIGHT;
 
 	public final int LEFT_WIDTH;
-	public final int LEFT_HIGHT;
+	public final int LEFT_HEIGHT;
 
 	public final int RIGHT_WIDTH;
-	public final int RIGHT_HIGHT;
+	public final int RIGHT_HEIGHT;
 
 	public final int BOTTOM_WIDTH;
-	public final int BOTTOM_HIGHT;
+	public final int BOTTOM_HEIGHT;
 
 	/**
 	 * constructor of MainWindow class.
@@ -134,23 +134,23 @@ public class JAppEditor extends JFrame {
 		// 推奨スペック(解像度)1366*768以上
 		if(width > 1366) {
 			WINDOW_WIDTH = 1366;
-			WINDOW_HIGHT = 768;
+			WINDOW_HEIGHT = 768;
 		} else {
 			WINDOW_WIDTH = width;
-			WINDOW_HIGHT = hight;
+			WINDOW_HEIGHT = hight;
 		}
 
 		LEFT_WIDTH = (int) (WINDOW_WIDTH * 0.5);
-		LEFT_HIGHT = (int) (WINDOW_HIGHT * 0.8);
+		LEFT_HEIGHT = (int) (WINDOW_HEIGHT * 0.8);
 		RIGHT_WIDTH = (int) (WINDOW_WIDTH * 0.5);
-		RIGHT_HIGHT = (int) (WINDOW_HIGHT * 0.8);
+		RIGHT_HEIGHT = (int) (WINDOW_HEIGHT * 0.8);
 		BOTTOM_WIDTH = WINDOW_WIDTH;
-		BOTTOM_HIGHT = (int) (WINDOW_HIGHT * 0.2);
+		BOTTOM_HEIGHT = (int) (WINDOW_HEIGHT * 0.2);
 
-		System.out.println("WINDOW_HIGHT : " + WINDOW_HIGHT);
+		System.out.println("WINDOW_HIGHT : " + WINDOW_HEIGHT);
 		System.out.println("WINDOW_WIDTH : " + WINDOW_WIDTH);
 
-		setSize(WINDOW_WIDTH, WINDOW_HIGHT);
+		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		setBackground(Color.lightGray);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
@@ -214,23 +214,23 @@ public class JAppEditor extends JFrame {
 		mainPane.setLayout(new BorderLayout());
 		mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		// エディター部分
-		tab.setPreferredSize(new Dimension(LEFT_WIDTH, LEFT_HIGHT));
+		tab.setPreferredSize(new Dimension(LEFT_WIDTH, LEFT_HEIGHT));
 		doOpenFile(new File(DEFAULTPATH, "新規.java"));
 		// ナビゲーション部分
 		naviManager = new NaviManager(this);
 		history = new HistoryList(naviManager);
 		JPanel naviPane = naviManager.getViewPane();
-		naviPane.setPreferredSize(new Dimension(RIGHT_WIDTH, (int) (RIGHT_HIGHT * 0.87)));
-		history.setPreferredSize(new Dimension(RIGHT_WIDTH, (int) (RIGHT_HIGHT * 0.1)));
+		naviPane.setPreferredSize(new Dimension(RIGHT_WIDTH, (int) (RIGHT_HEIGHT * 0.87)));
+		history.setPreferredSize(new Dimension(RIGHT_WIDTH, (int) (RIGHT_HEIGHT * 0.1)));
 		JSplitPane centerRight = new JSplitPane(JSplitPane.VERTICAL_SPLIT, naviPane, history);
 		// コンソール部分
-		console.setPreferredSize(new Dimension(BOTTOM_WIDTH, BOTTOM_HIGHT));
+		console.setPreferredSize(new Dimension(BOTTOM_WIDTH, BOTTOM_HEIGHT));
 
 		// パネルの合体
 		JSplitPane centerTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tab, centerRight);
 		centerTop.setDividerLocation(LEFT_WIDTH);
 		JSplitPane center = new JSplitPane(JSplitPane.VERTICAL_SPLIT, centerTop, console);
-		center.setDividerLocation(LEFT_HIGHT);
+		center.setDividerLocation(LEFT_HEIGHT);
 		mainPane.add(center, BorderLayout.CENTER);
 	}
 

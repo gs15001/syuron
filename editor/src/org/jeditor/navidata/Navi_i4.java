@@ -4,24 +4,26 @@ package org.jeditor.navidata;
 import javax.swing.JButton;
 import org.jeditor.navi.NaviManager;
 
-public class Navi_d3 extends AbstractNaviPane {
+public class Navi_i4 extends AbstractNaviPane {
 
 	private static final long serialVersionUID = 1L;
 
-	public Navi_d3(NaviManager mgr) {
-		super(mgr, "d3", 2);
+	public Navi_i4(NaviManager mgr) {
+		super(mgr, "i4", 3);
 
-		indexLabel.setText("実行中のエラーの確認");
+		indexLabel.setText("乱数・日付データの確認");
 		//@formatter:off
 		questionLabel.setText("<html</html>");
-		
+			
 		descriptLabel.setText("<html></html>");
 		//@formatter:on
 
 		JButton button = buttons.get(0);
-		button.setText("発生している");
+		button.setText("乱数");
 		button = buttons.get(1);
-		button.setText("発生していない");
+		button.setText("日付データ");
+		button = buttons.get(2);
+		button.setText("どちらもない");
 	}
 
 	@Override

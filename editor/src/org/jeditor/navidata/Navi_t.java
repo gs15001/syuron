@@ -10,16 +10,22 @@ public class Navi_t extends AbstractNaviPane {
 	private static final long serialVersionUID = 1L;
 
 	public Navi_t(NaviManager mgr) {
-		super(mgr, "t", 1);
+		super(mgr, "t", 4);
 
 		indexLabel.setText("デバッグプロセスナビゲーション");
 		questionLabel.setText("");
 		descriptLabel.setText("");
 
 		JButton button = buttons.get(0);
-		button.setText("スタート");
+		button.setText("a");
+		button = buttons.get(1);
+		button.setText("b");
+		button = buttons.get(2);
+		button.setText("c");
+		button = buttons.get(3);
+		button.setText("d");
 
-		dialog[0] = new InputVarDialog();
+		dialog[3] = new InputVarDialog();
 	}
 
 	@Override
