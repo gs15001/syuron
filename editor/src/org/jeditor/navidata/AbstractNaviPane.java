@@ -12,8 +12,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -43,8 +45,10 @@ public abstract class AbstractNaviPane extends JPanel {
 	private final int FONT_SIZE_T = 24;
 	private final int FONT_SIZE_M = 16;
 	private final int FONT_SIZE_B = 18;
+	private final int FONT_SIZE_S = 12;
 
 	protected List<JButton> buttons = new ArrayList<>();
+	private JCheckBox confi;
 
 	protected String notice = "";
 	protected String input = "";
@@ -114,8 +118,8 @@ public abstract class AbstractNaviPane extends JPanel {
 				(int) (parent.RIGHT_HEIGHT * 0.39)));
 		questionLabel.setVerticalAlignment(JLabel.TOP);
 		// ボーダーを使った余白の設定
-		int borderWidth = (int) (parent.RIGHT_WIDTH * 0.03);
-		int borderHight = 0;
+		int tmpWidth = (int) (parent.RIGHT_WIDTH * 0.03);
+		int tmpHeight = 0;
 		// questionLabel.setBorder(new EmptyBorder(borderHight, borderWidth, borderHight, borderWidth));
 		// questionLabel.setBackground(Color.WHITE);
 		// questionLabel.setOpaque(true);
@@ -134,7 +138,8 @@ public abstract class AbstractNaviPane extends JPanel {
 		titleLabel = new JLabel("解説");
 		titleLabel.setFont(new Font("メイリオ", Font.PLAIN, FONT_SIZE_M));
 		titleLabel.setHorizontalAlignment(JLabel.LEFT);
-		titleLabel.setPreferredSize(new Dimension((int) (parent.RIGHT_WIDTH * 0.9), (int) (parent.RIGHT_HEIGHT * 0.04)));
+		titleLabel
+				.setPreferredSize(new Dimension((int) (parent.RIGHT_WIDTH * 0.9), (int) (parent.RIGHT_HEIGHT * 0.04)));
 		titleLabel.setBackground(Color.LIGHT_GRAY);
 		titleLabel.setOpaque(true);
 
@@ -160,13 +165,35 @@ public abstract class AbstractNaviPane extends JPanel {
 		southPane = new JPanel();
 		southPane.setPreferredSize(new Dimension(parent.RIGHT_WIDTH, (int) (parent.RIGHT_HEIGHT * 0.08)));
 		southPane.setBackground(new Color(192, 192, 192));
-		southPane.setLayout(new GridLayout(1, buttonNum, borderWidth, 0));
+		southPane.setLayout(new FlowLayout());
 		// ボーダーを使った余白の設定
-		borderWidth = (int) (parent.RIGHT_WIDTH * 0.05);
-		borderHight = (int) (parent.RIGHT_HEIGHT * 0.01);
-		southPane.setBorder(new CompoundBorder(new LineBorder(Color.GRAY), new EmptyBorder(borderHight, borderWidth,
-				borderHight, borderWidth)));
+		tmpWidth = (int) (parent.RIGHT_WIDTH * 0.01);
+		tmpHeight = 0;
+		southPane.setBorder(new CompoundBorder(new LineBorder(Color.GRAY), new EmptyBorder(tmpHeight, tmpWidth,
+				tmpHeight, tmpWidth)));
 
+		JPanel checkPane = new JPanel();
+		checkPane
+				.setPreferredSize(new Dimension((int) (parent.RIGHT_WIDTH * 0.12), (int) (parent.RIGHT_HEIGHT * 0.06)));
+		checkPane.setBackground(new Color(192, 192, 192));
+
+		JPanel buttonPane = new JPanel();
+		buttonPane
+				.setPreferredSize(new Dimension((int) (parent.RIGHT_WIDTH * 0.78), (int) (parent.RIGHT_HEIGHT * 0.06)));
+		buttonPane.setBackground(new Color(192, 192, 192));
+		buttonPane.setLayout(new GridLayout(1, buttonNum, tmpWidth, 0));
+
+		// 自信度のチェックボックス
+		confi = new JCheckBox("自信なし", false);
+		confi.setFont(new Font("メイリオ", Font.PLAIN, FONT_SIZE_S));
+		confi.setHorizontalTextPosition(SwingConstants.LEFT);
+		confi.setBackground(new Color(192, 192, 192));
+		tmpWidth = (int) (parent.RIGHT_WIDTH * 0.12);
+		tmpHeight = (int) (parent.RIGHT_HEIGHT * 0.06);
+		confi.setPreferredSize(new Dimension(tmpWidth, tmpHeight));
+		checkPane.add(confi);
+
+		// ボタン
 		for (int i = 0; i < buttonNum; i++) {
 			MyButton button = new MyButton(i);
 			// リスナー登録
@@ -183,13 +210,16 @@ public abstract class AbstractNaviPane extends JPanel {
 					}
 				}
 			});
-			int buttonWidth = (int) (parent.RIGHT_WIDTH * 0.2);
-			int buttonHIGHT = (int) (parent.RIGHT_HEIGHT * 0.05);
-			button.setPreferredSize(new Dimension(buttonWidth, buttonHIGHT));
+			tmpWidth = (int) (parent.RIGHT_WIDTH * 0.8) / buttonNum;
+			tmpHeight = (int) (parent.RIGHT_HEIGHT * 0.03);
+			button.setPreferredSize(new Dimension(tmpWidth, tmpHeight));
 			button.setFont(new Font("メイリオ", Font.PLAIN, FONT_SIZE_B));
 			buttons.add(button);
-			southPane.add(button);
+			buttonPane.add(button);
 		}
+
+		southPane.add(checkPane);
+		southPane.add(buttonPane);
 
 		add(northPane, BorderLayout.NORTH);
 		add(centerPane, BorderLayout.CENTER);
@@ -209,9 +239,14 @@ public abstract class AbstractNaviPane extends JPanel {
 	}
 
 	public void updateHistoryData(HistoryData d) {
-		d.updateData(selected, input, "");
+		if(confi.isSelected()) {
+			d.updateData(selected, input, "なし");
+		} else {
+			d.updateData(selected, input, "");
+		}
 		selected = "";
 		input = "";
+		confi.setSelected(false);
 	}
 
 	class MyButton extends JButton {

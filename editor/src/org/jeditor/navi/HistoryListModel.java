@@ -8,7 +8,7 @@ import org.jeditor.navidata.AbstractNaviPane;
 public class HistoryListModel extends DefaultTableModel {
 
 	private static final long serialVersionUID = 1L;
-	static String[] columnNames = { "title", "notice", "selected", "input", "confi" };
+	static String[] columnNames = { "タイトル", "着目した変数・行", "選択肢", "入力", "自信" };
 
 	private List<HistoryData> historyDatas;
 	private int historyIndex = 0;
