@@ -13,9 +13,12 @@ public class Navi_i1 extends AbstractNaviPane {
 
 		indexLabel.setText("入力の確認");
 		//@formatter:off
-		questionLabel.setText("<html</html>");
+		questionLabel.setText("<html>このプログラムには入力はありますか。</html>");
 			
-		descriptLabel.setText("<html></html>");
+		descriptLabel.setText("<html>プログラムをデバッグする際、最初にやるべきことはバグの再現性の確認です。<br>"
+				+ "どんな時に誤った結果になるかを確認します。<br>"
+				+ "入力の有無によって、再現性の確認をするために行うべきことが<br>"
+				+ "異なります。そのため、入力の有無の確認から行います。</html>");
 		//@formatter:on
 
 		JButton button = buttons.get(0);

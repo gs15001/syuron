@@ -13,9 +13,12 @@ public class Navi_d4 extends AbstractNaviPane {
 
 		indexLabel.setText("最後まで処理されているのか");
 		//@formatter:off
-		questionLabel.setText("<html</html>");
+		questionLabel.setText("<html>プログラムの最後にprint文を挿入し、そのprint文が出力されるか確認しましょう。</html>");
 			
-		descriptLabel.setText("<html></html>");
+		descriptLabel.setText("<html>エラー関連は発生していないことが確認できたので、次にプログラムが<br>"
+				+ "最後まで処理されているかを確認します。<br>"
+				+ "print文を用いて出力することで、そのprint文まで処理されている<br>"
+				+ "ということを確認することができます。</html>");
 		//@formatter:on
 
 		JButton button = buttons.get(0);

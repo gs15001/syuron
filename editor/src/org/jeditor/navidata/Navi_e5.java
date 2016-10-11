@@ -13,9 +13,9 @@ public class Navi_e5 extends AbstractNaviPane {
 
 		indexLabel.setText("ランタイムエラーの修正");
 		//@formatter:off
-		questionLabel.setText("<html</html>");
+		questionLabel.setText("<html>表示されているランタイムエラーを見て修正しましょう。</html>");
 					
-		descriptLabel.setText("<html></html>");
+		descriptLabel.setText("<html>ランタイムエラーの見方</html>");
 		//@formatter:on
 
 		JButton button = buttons.get(0);

@@ -13,7 +13,8 @@ public class Navi_e8 extends AbstractNaviPane {
 
 		indexLabel.setText("日付データ関連の修正");
 		//@formatter:off
-		questionLabel.setText("<html</html>");
+		questionLabel.setText("<html>日付データを扱っている部分にバグがあります。<br>"
+				+ "日付データの形式などに注意して日付データを扱っている部分をもう一度見直して見ましょう。</html>");
 				
 		descriptLabel.setText("<html></html>");
 		//@formatter:on

@@ -13,9 +13,11 @@ public class Navi_d3 extends AbstractNaviPane {
 
 		indexLabel.setText("実行中のエラーの確認");
 		//@formatter:off
-		questionLabel.setText("<html</html>");
+		questionLabel.setText("<html>実行中にエラーが発生していないか確認しましょう。</html>");
 		
-		descriptLabel.setText("<html></html>");
+		descriptLabel.setText("<html>プログラムの実行中にもエラーが発生することがあり、<br>"
+				+ "このエラーをランタイムエラーと言います。<br>"
+				+ "コンパイルエラーと同様に、修正する必要があります。</html>");
 		//@formatter:on
 
 		JButton button = buttons.get(0);

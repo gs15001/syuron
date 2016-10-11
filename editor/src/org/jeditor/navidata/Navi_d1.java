@@ -13,9 +13,10 @@ public class Navi_d1 extends AbstractNaviPane {
 
 		indexLabel.setText("コンパイルエラーの確認");
 		//@formatter:off
-		questionLabel.setText("<html</html>");
+		questionLabel.setText("<html>コンパイルを行い、コンパイルエラーが発生しているかを確認しましょう。</html>");
 		
-		descriptLabel.setText("<html></html>");
+		descriptLabel.setText("<html>プログラムを実行するためにはコンパイルをする必要があります。<br>"
+				+ "コンパイルに失敗するとコンパイルエラーが発生するのでそれを確認します。</html>");
 		//@formatter:on
 
 		JButton button = buttons.get(0);

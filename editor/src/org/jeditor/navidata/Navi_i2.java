@@ -13,9 +13,11 @@ public class Navi_i2 extends AbstractNaviPane {
 
 		indexLabel.setText("入出力の関係の確認");
 		//@formatter:off
-		questionLabel.setText("<html</html>");
+		questionLabel.setText("<html>様々な入力を行い、常に誤った結果（出力）になるのか、<br>"
+				+ "特定の入力の時だけ誤った結果（出力）になるのか確認しましょう。</html>");
 			
-		descriptLabel.setText("<html></html>");
+		descriptLabel.setText("<html>入力のあるプログラムでは、様々な入力を行い、どんな入力の時に<br>"
+				+ "誤った出力をするのかを確認します。（再現性の確認）</html>");
 		//@formatter:on
 
 		JButton button = buttons.get(0);

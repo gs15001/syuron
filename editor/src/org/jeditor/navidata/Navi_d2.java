@@ -13,9 +13,13 @@ public class Navi_d2 extends AbstractNaviPane {
 
 		indexLabel.setText("結果の確認");
 		//@formatter:off
-		questionLabel.setText("<html</html>");
+		questionLabel.setText("<html>実行結果（出力）は理想通りの結果ですか。<br>"
+				+ "入力があるプログラムの場合は色々な入力を試してみましょう。</html>");
 		
-		descriptLabel.setText("<html></html>");
+		descriptLabel.setText("<html>コンパイルに成功し、プログラムが実行できるようになったので、<br>"
+				+ "実際に実行し、結果を確認します。<br>"
+				+ "入力がある場合は、色々な入力を試し、どの入力に対しても理想通りの<br>"
+				+ "結果になるか確認します。</html>");
 		//@formatter:on
 
 		JButton button = buttons.get(0);

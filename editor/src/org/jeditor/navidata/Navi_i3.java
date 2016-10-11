@@ -13,9 +13,12 @@ public class Navi_i3 extends AbstractNaviPane {
 
 		indexLabel.setText("出力の確認");
 		//@formatter:off
-		questionLabel.setText("<html</html>");
+		questionLabel.setText("<html>結果（出力）は常に誤っていますか。<br>"
+				+ "実行毎に結果が変わるプログラムの場合、何度も実行し、<br>"
+				+ "正しい結果になる場合がないか確認しましょう。</html>");
 			
-		descriptLabel.setText("<html></html>");
+		descriptLabel.setText("<html>入力の無いプログラムは特定の場合を除き、結果は毎回同じになります。<br>"
+				+ "入力の無いプログラムで実行毎に結果が異なり、一部正しい結果を出す場合、バグをかなり絞り込むことができます。</html>");
 		//@formatter:on
 
 		JButton button = buttons.get(0);

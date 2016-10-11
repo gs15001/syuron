@@ -13,9 +13,14 @@ public class Navi_e6 extends AbstractNaviPane {
 
 		indexLabel.setText("入力待ち・無限ループの可能性");
 		//@formatter:off
-		questionLabel.setText("<html</html>");
+		questionLabel.setText("<html>プログラムが最後まで実行されない原因は、<br>"
+				+ "・入力待ち      ・無限ループ　　　の2つが考えられます。<br>"
+				+"それぞれについて確認しましょう。</html>");
 				
-		descriptLabel.setText("<html></html>");
+		descriptLabel.setText("<html>入力待ちでないことを確認するためは、Enterを<br>"
+				+ "コンソールに入力することで確認できます。<br>"
+				+ "何回かEnterを入力しても反応シない場合は、無限ループに陥っています。<br>"
+				+ "プログラムの繰り返し文を見直してみましょう。</html>");
 		//@formatter:on
 
 		JButton button = buttons.get(0);

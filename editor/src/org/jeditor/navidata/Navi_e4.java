@@ -13,7 +13,7 @@ public class Navi_e4 extends AbstractNaviPane {
 
 		indexLabel.setText("バグはありません");
 		//@formatter:off
-		questionLabel.setText("<html</html>");
+		questionLabel.setText("<html>このプログラムにバグはありません。</html>");
 					
 		descriptLabel.setText("<html></html>");
 		//@formatter:on

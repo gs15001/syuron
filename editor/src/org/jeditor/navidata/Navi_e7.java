@@ -13,7 +13,8 @@ public class Navi_e7 extends AbstractNaviPane {
 
 		indexLabel.setText("乱数関連の修正");
 		//@formatter:off
-		questionLabel.setText("<html</html>");
+		questionLabel.setText("<html>乱数を扱っている部分にバグがあります。<br>"
+				+ "乱数の生成部分や乱数を使用した条件文あたりをもう一度見直して見ましょう。</html>");
 				
 		descriptLabel.setText("<html></html>");
 		//@formatter:on
