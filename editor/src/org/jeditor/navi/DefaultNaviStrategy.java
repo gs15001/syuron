@@ -18,7 +18,7 @@ public class DefaultNaviStrategy implements NaviStrategy {
 	static String[][] STATECHANGE = {
 		{"t","a","d1"},
 		{"t","b","i1"},
-		{"t","c","t"},
+		{"t","c","p1"},
 		{"t","d","a1"},
 		{"a1","ある","a2"},
 		{"a1","ない","a5"},
@@ -80,6 +80,11 @@ public class DefaultNaviStrategy implements NaviStrategy {
 		{"i4","どちらもない","t"},
 		{"e7","終了","t"},
 		{"e8","終了","t"},
+		{"p1","分割","p2"},
+		{"p2","正しい","p3"},
+		{"p2","誤り","p3"},
+		{"p3","分割","p2"},
+		{"p3","次へ","a1"},
 		};
 	//@formatter:on
 
