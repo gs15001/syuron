@@ -2,6 +2,7 @@
 package org.jeditor.navidata;
 
 import javax.swing.JButton;
+import org.jeditor.navi.InputMyDialog;
 import org.jeditor.navi.NaviManager;
 
 public class Navi_p1 extends AbstractNaviPane {
@@ -25,11 +26,14 @@ public class Navi_p1 extends AbstractNaviPane {
 
 		JButton button = buttons.get(0);
 		button.setText("分割");
+
+		dialog[0] = new InputMyDialog(InputMyDialog.PARTITION);
 	}
 
 	@Override
 	public void setInput(String notice) {
 		super.setInput(notice);
-		noticeLabel.setText("利用なし");
+		noticeLabel.setText("着目している変数　：　" + notice);
+		this.input = "0-999-";
 	}
 }

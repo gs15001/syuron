@@ -34,6 +34,9 @@ import org.jeditor.navidata.Navi_i1;
 import org.jeditor.navidata.Navi_i2;
 import org.jeditor.navidata.Navi_i3;
 import org.jeditor.navidata.Navi_i4;
+import org.jeditor.navidata.Navi_p1;
+import org.jeditor.navidata.Navi_p2;
+import org.jeditor.navidata.Navi_p3;
 import org.jeditor.navidata.Navi_r1;
 import org.jeditor.navidata.Navi_r2;
 import org.jeditor.navidata.Navi_r3;
@@ -165,7 +168,7 @@ public class NaviManager {
 		naviPane = new Navi_d4(this);
 		viewPane.add(naviPane, naviPane.getIndex());
 		naviData.put(naviPane.getIndex(), naviPane);
-		
+
 		naviPane = new Navi_i1(this);
 		viewPane.add(naviPane, naviPane.getIndex());
 		naviData.put(naviPane.getIndex(), naviPane);
@@ -178,7 +181,16 @@ public class NaviManager {
 		naviPane = new Navi_i4(this);
 		viewPane.add(naviPane, naviPane.getIndex());
 		naviData.put(naviPane.getIndex(), naviPane);
-		
+
+		naviPane = new Navi_p1(this);
+		viewPane.add(naviPane, naviPane.getIndex());
+		naviData.put(naviPane.getIndex(), naviPane);
+		naviPane = new Navi_p2(this);
+		viewPane.add(naviPane, naviPane.getIndex());
+		naviData.put(naviPane.getIndex(), naviPane);
+		naviPane = new Navi_p3(this);
+		viewPane.add(naviPane, naviPane.getIndex());
+		naviData.put(naviPane.getIndex(), naviPane);
 	}
 
 	public void changeNavi(String currentState, String buttonLabel, String input) {

@@ -201,12 +201,13 @@ public abstract class AbstractNaviPane extends JPanel {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					String inputTmp = "";
 					if(dialog[button.i] != null) {
-						input = dialog[button.i].showInputDialog(parent);
+						inputTmp = dialog[button.i].showInputDialog(parent);
 					}
-					if(input != null || dialog[button.i] == null) {
+					if(inputTmp != null || dialog[button.i] == null) {
 						selected = button.getText();
-						naviManager.changeNavi(getIndex(), button.getText(), input);
+						naviManager.changeNavi(getIndex(), button.getText(), input + inputTmp);
 					}
 				}
 			});
