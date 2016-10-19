@@ -2,7 +2,7 @@
 package org.jeditor.navidata;
 
 import javax.swing.JButton;
-import org.jeditor.navi.InputRowDialog;
+import org.jeditor.navi.InputMyDialog;
 import org.jeditor.navi.NaviManager;
 
 public class Navi_a1 extends AbstractNaviPane {
@@ -28,7 +28,7 @@ public class Navi_a1 extends AbstractNaviPane {
 		button = buttons.get(1);
 		button.setText("ない");
 
-		dialog[0] = new InputRowDialog();
+		dialog[0] = new InputMyDialog(InputMyDialog.ROW);
 	}
 
 	@Override

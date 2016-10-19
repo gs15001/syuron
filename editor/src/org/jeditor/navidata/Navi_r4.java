@@ -2,7 +2,7 @@
 package org.jeditor.navidata;
 
 import javax.swing.JButton;
-import org.jeditor.navi.InputVarDialog;
+import org.jeditor.navi.InputMyDialog;
 import org.jeditor.navi.NaviManager;
 
 public class Navi_r4 extends AbstractNaviPane {
@@ -27,7 +27,7 @@ public class Navi_r4 extends AbstractNaviPane {
 		button = buttons.get(1);
 		button.setText("誤り");
 		
-		dialog[1] = new InputVarDialog();
+		dialog[1] = new InputMyDialog(InputMyDialog.VARIABLE);
 	}
 
 	@Override
