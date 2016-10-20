@@ -210,9 +210,10 @@ public class NaviManager {
 	}
 
 	public void backNavi() {
-		String preState = historyModel.getPre();
-		if(preState != null) {
-			layout.show(viewPane, preState);
+		String preState;
+		HistoryData hd = historyModel.getPre();
+		if(hd != null) {
+			moveNavi(hd.getIndex(), historyModel.getHistoryIndex() - 2, hd.getNotice());
 		}
 	}
 

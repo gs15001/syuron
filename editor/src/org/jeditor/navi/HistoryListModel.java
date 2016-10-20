@@ -61,13 +61,12 @@ public class HistoryListModel extends DefaultTableModel {
 		addRow(d.getTableData());
 	}
 
-	public String getPre() {
+	public HistoryData getPre() {
 		// historyindex == 1のときはタイトル画面
 		if(historyIndex > 1) {
 			HistoryData d = historyDatas.get(historyIndex - 2);
 			historyList.selectIndex(historyIndex - 2);
-			historyIndex--;
-			return d.getIndex();
+			return d;
 		}
 		return null;
 	}
