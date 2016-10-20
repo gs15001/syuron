@@ -32,10 +32,14 @@ public abstract class AbstractNaviPane extends JPanel {
 
 	private String index;
 	protected JLabel indexLabel = null;
+
 	protected JLabel questionLabel = null;
+	protected JLabel questionTitleLabel = null;
 	protected JLabel noticeLabel = null;
+
 	protected JLabel descriptLabel = null;
-	protected JLabel titleLabel = null;
+	protected JLabel descriptTitleLabel = null;
+
 	private JPanel northPane;
 	private JPanel centerPane;
 	private JPanel southPane;
@@ -52,6 +56,7 @@ public abstract class AbstractNaviPane extends JPanel {
 
 	protected String notice = "";
 	protected String input = "";
+	protected String inputTmp = "";
 	protected String selected = "";
 
 	public AbstractNaviPane(NaviManager mgr, String index, int buttonNum) {
@@ -93,85 +98,117 @@ public abstract class AbstractNaviPane extends JPanel {
 
 		// 中部のコンテンツ
 		centerPane = new JPanel();
-		centerPane.setBackground(new Color(224, 224, 224));
+		// centerPane.setBackground(new Color(224, 224, 224));
 		centerPane.setLayout(new GridLayout(2, 1));;
 
 		// ナビゲーションパネル
 		JPanel questionPane = new JPanel();
+		questionPane.setLayout(new BorderLayout());
 		questionPane.setBackground(new Color(224, 224, 224));
 		questionPane.setPreferredSize(new Dimension(parent.RIGHT_WIDTH, (int) (parent.RIGHT_HEIGHT * 0.45)));
 		questionPane.setBorder(new LineBorder(Color.GRAY));
+
+		// タイトルパネル
+		JPanel questionTitlePane = new JPanel();
+		questionTitlePane.setLayout(new BorderLayout());
+		questionTitlePane.setBackground(Color.LIGHT_GRAY);
+
+		// タイトル
+		questionTitleLabel = new JLabel("ナビゲーション");
+		questionTitleLabel.setFont(new Font("メイリオ", Font.PLAIN, FONT_SIZE_M));
+		questionTitleLabel.setHorizontalAlignment(JLabel.LEFT);
+		// titleLabel
+		// .setPreferredSize(new Dimension((int) (parent.RIGHT_WIDTH * 0.9), (int) (parent.RIGHT_HEIGHT * 0.04)));
+		// ボーダーを使った余白の設定
+		int tmpWidth = (int) (parent.RIGHT_WIDTH * 0.03);
+		int tmpHeight = 0;
+		questionTitleLabel.setBorder(new EmptyBorder(tmpHeight, tmpWidth, tmpHeight, tmpWidth));
 
 		// 着目しているもの
 		noticeLabel = new JLabel("着目している何か");
 		noticeLabel.setFont(new Font("メイリオ", Font.PLAIN, FONT_SIZE_M));
 		noticeLabel.setHorizontalAlignment(JLabel.RIGHT);
-		noticeLabel
-				.setPreferredSize(new Dimension((int) (parent.RIGHT_WIDTH * 0.9), (int) (parent.RIGHT_HEIGHT * 0.04)));
-		noticeLabel.setBackground(Color.LIGHT_GRAY);
-		noticeLabel.setOpaque(true);
+		// noticeLabel.setPreferredSize(new Dimension(parent.RIGHT_WIDTH, (int) (parent.RIGHT_HEIGHT * 0.05)));
+		// ボーダーを使った余白の設定
+		tmpWidth = (int) (parent.RIGHT_WIDTH * 0.03);
+		tmpHeight = 0;
+		noticeLabel.setBorder(new EmptyBorder(tmpHeight, tmpWidth, tmpHeight, tmpWidth));
+		// noticeLabel.setBorder(new CompoundBorder(new LineBorder(Color.GRAY), new EmptyBorder(tmpHeight, tmpWidth,
+		// tmpHeight, tmpWidth)));
+
+		questionTitlePane.add(questionTitleLabel, BorderLayout.WEST);
+		questionTitlePane.add(noticeLabel, BorderLayout.EAST);
 
 		// 本文
 		questionLabel = new JLabel("ここに質問が表示される");
 		questionLabel.setFont(new Font("メイリオ", Font.PLAIN, FONT_SIZE_M));
-		questionLabel.setPreferredSize(new Dimension((int) (parent.RIGHT_WIDTH * 0.9),
-				(int) (parent.RIGHT_HEIGHT * 0.39)));
 		questionLabel.setVerticalAlignment(JLabel.TOP);
+		// questionLabel.setPreferredSize(new Dimension((int) (parent.RIGHT_WIDTH * 0.9),
+		// (int) (parent.RIGHT_HEIGHT * 0.39)));
 		// ボーダーを使った余白の設定
-		int tmpWidth = (int) (parent.RIGHT_WIDTH * 0.03);
-		int tmpHeight = 0;
-		// questionLabel.setBorder(new EmptyBorder(borderHight, borderWidth, borderHight, borderWidth));
+		tmpWidth = (int) (parent.RIGHT_WIDTH * 0.03);
+		tmpHeight = (int) (parent.RIGHT_HEIGHT * 0.01);;
+		questionLabel.setBorder(new EmptyBorder(tmpHeight, tmpWidth, tmpHeight, tmpWidth));
 		// questionLabel.setBackground(Color.WHITE);
 		// questionLabel.setOpaque(true);
 
 		// ラベル追加
-		questionPane.add(noticeLabel);
-		questionPane.add(questionLabel);
+		questionPane.add(questionTitlePane, BorderLayout.NORTH);
+		questionPane.add(questionLabel, BorderLayout.CENTER);
 
 		// 解説パネル
 		JPanel descriptPane = new JPanel();
+		descriptPane.setLayout(new BorderLayout());
 		descriptPane.setBackground(new Color(224, 224, 224));
 		descriptPane.setPreferredSize(new Dimension(parent.RIGHT_WIDTH, (int) (parent.RIGHT_HEIGHT * 0.45)));
 		descriptPane.setBorder(new LineBorder(Color.GRAY));
 
 		// タイトル
-		titleLabel = new JLabel("解説");
-		titleLabel.setFont(new Font("メイリオ", Font.PLAIN, FONT_SIZE_M));
-		titleLabel.setHorizontalAlignment(JLabel.LEFT);
-		titleLabel
-				.setPreferredSize(new Dimension((int) (parent.RIGHT_WIDTH * 0.9), (int) (parent.RIGHT_HEIGHT * 0.04)));
-		titleLabel.setBackground(Color.LIGHT_GRAY);
-		titleLabel.setOpaque(true);
+		descriptTitleLabel = new JLabel("解説");
+		descriptTitleLabel.setFont(new Font("メイリオ", Font.PLAIN, FONT_SIZE_M));
+		descriptTitleLabel.setHorizontalAlignment(JLabel.LEFT);
+		// titleLabel
+		// .setPreferredSize(new Dimension((int) (parent.RIGHT_WIDTH * 0.9), (int) (parent.RIGHT_HEIGHT * 0.04)));
+		descriptTitleLabel.setBackground(Color.LIGHT_GRAY);
+		descriptTitleLabel.setOpaque(true);
+		// ボーダーを使った余白の設定
+		tmpWidth = (int) (parent.RIGHT_WIDTH * 0.03);
+		tmpHeight = 0;
+		descriptTitleLabel.setBorder(new EmptyBorder(tmpHeight, tmpWidth, tmpHeight, tmpWidth));
 
 		// 解説
 		descriptLabel = new JLabel("ここに解説が表示される");
 		descriptLabel.setFont(new Font("メイリオ", Font.PLAIN, FONT_SIZE_M));
-		descriptLabel.setPreferredSize(new Dimension((int) (parent.RIGHT_WIDTH * 0.9),
-				(int) (parent.RIGHT_HEIGHT * 0.38)));
 		descriptLabel.setVerticalAlignment(JLabel.TOP);
+		// descriptLabel.setPreferredSize(new Dimension((int) (parent.RIGHT_WIDTH * 0.9),
+		// (int) (parent.RIGHT_HEIGHT * 0.38)));
 		// ボーダーを使った余白の設定
-		// descriptLabel.setBorder(new EmptyBorder(0, borderWidth, 0, borderWidth));
+		tmpWidth = (int) (parent.RIGHT_WIDTH * 0.03);
+		tmpHeight = (int) (parent.RIGHT_HEIGHT * 0.01);;
+		descriptLabel.setBorder(new EmptyBorder(tmpHeight, tmpWidth, tmpHeight, tmpWidth));
 		// descriptLabel.setBackground(Color.WHITE);
 		// descriptLabel.setOpaque(true);
 
 		// ラベル追加
-		descriptPane.add(titleLabel);
-		descriptPane.add(descriptLabel);
+		descriptPane.add(descriptTitleLabel, BorderLayout.NORTH);
+		descriptPane.add(descriptLabel, BorderLayout.CENTER);
 
+		// 中部コンテンツにパーツを追加
 		centerPane.add(questionPane);
 		centerPane.add(descriptPane);
 
 		// 下部のコンテンツ
 		southPane = new JPanel();
-		southPane.setPreferredSize(new Dimension(parent.RIGHT_WIDTH, (int) (parent.RIGHT_HEIGHT * 0.08)));
-		southPane.setBackground(new Color(192, 192, 192));
 		southPane.setLayout(new FlowLayout());
+		southPane.setBackground(new Color(192, 192, 192));
+		southPane.setPreferredSize(new Dimension(parent.RIGHT_WIDTH, (int) (parent.RIGHT_HEIGHT * 0.08)));
 		// ボーダーを使った余白の設定
 		tmpWidth = (int) (parent.RIGHT_WIDTH * 0.01);
 		tmpHeight = 0;
 		southPane.setBorder(new CompoundBorder(new LineBorder(Color.GRAY), new EmptyBorder(tmpHeight, tmpWidth,
 				tmpHeight, tmpWidth)));
 
+		// 下部のコンテンツの中身
 		JPanel checkPane = new JPanel();
 		checkPane
 				.setPreferredSize(new Dimension((int) (parent.RIGHT_WIDTH * 0.12), (int) (parent.RIGHT_HEIGHT * 0.06)));
@@ -201,13 +238,13 @@ public abstract class AbstractNaviPane extends JPanel {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					String inputTmp = "";
+					input = "";
 					if(dialog[button.i] != null) {
-						inputTmp = dialog[button.i].showInputDialog(parent);
+						input = dialog[button.i].showInputDialog(parent);
 					}
-					if(inputTmp != null || dialog[button.i] == null) {
+					if(input != null || dialog[button.i] == null) {
 						selected = button.getText();
-						naviManager.changeNavi(getIndex(), button.getText(), input + inputTmp);
+						naviManager.changeNavi(getIndex(), button.getText(), inputTmp + input);
 					}
 				}
 			});
@@ -246,7 +283,7 @@ public abstract class AbstractNaviPane extends JPanel {
 			d.updateData(selected, input, "");
 		}
 		selected = "";
-		input = "";
+		inputTmp = "";
 		confi.setSelected(false);
 	}
 
