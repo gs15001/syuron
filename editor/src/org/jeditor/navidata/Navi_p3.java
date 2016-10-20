@@ -26,7 +26,7 @@ public class Navi_p3 extends AbstractNaviPane {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				input = String.valueOf(startEnd[0]) + "-" + String.valueOf(startEnd[1]) + "-";
+				inputTmp = String.valueOf(startEnd[0]) + "-" + String.valueOf(startEnd[1]) + "-";
 			}
 		});
 
@@ -52,7 +52,7 @@ public class Navi_p3 extends AbstractNaviPane {
 	@Override
 	public void setInput(String notice) {
 		super.setInput(notice);
-		System.out.println(notice);
+
 		String[] notices = notice.split("-", 3);
 		for (int i = 0; i < notices.length; i++) {
 			try {

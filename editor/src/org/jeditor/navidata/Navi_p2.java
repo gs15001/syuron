@@ -26,7 +26,7 @@ public class Navi_p2 extends AbstractNaviPane {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				input = String.valueOf(startEnd[2]) + "-" + String.valueOf(startEnd[1]);
+				inputTmp = String.valueOf(startEnd[2]) + "-" + String.valueOf(startEnd[1]);
 			}
 		});
 
@@ -36,7 +36,7 @@ public class Navi_p2 extends AbstractNaviPane {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				input = String.valueOf(startEnd[0]) + "-" + String.valueOf(startEnd[2]);
+				inputTmp = String.valueOf(startEnd[0]) + "-" + String.valueOf(startEnd[2]);
 			}
 		});
 
@@ -60,7 +60,6 @@ public class Navi_p2 extends AbstractNaviPane {
 	@Override
 	public void setInput(String notice) {
 		super.setInput(notice);
-		System.out.println(notice);
 
 		String[] notices = notice.split("-", 3);
 		for (int i = 0; i < notices.length; i++) {
@@ -69,6 +68,9 @@ public class Navi_p2 extends AbstractNaviPane {
 			} catch (NumberFormatException e) {
 				startEnd[i] = -1;
 			}
+		}
+		if(!(startEnd[0] <= startEnd[2] && startEnd[2] <= startEnd[1])) {
+			startEnd[0] = startEnd[1] = startEnd[2] = -1;
 		}
 		noticeLabel.setText("着目しているまとまり：" + startEnd[0] + "行目から" + startEnd[2] + "行目");
 		refreshLabel();

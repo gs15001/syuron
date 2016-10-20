@@ -33,7 +33,7 @@ public class Navi_p1 extends AbstractNaviPane {
 	@Override
 	public void setInput(String notice) {
 		super.setInput(notice);
-		noticeLabel.setText("着目している変数　：　" + notice);
-		this.input = "0-999-";
+		noticeLabel.setText("利用なし");
+		this.inputTmp = "0-999-";
 	}
 }

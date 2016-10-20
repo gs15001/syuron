@@ -39,4 +39,7 @@ public class HistoryData {
 		return index;
 	}
 
+	public String getNotice() {
+		return notice;
+	}
 }
