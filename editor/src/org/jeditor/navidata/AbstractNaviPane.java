@@ -28,7 +28,8 @@ public abstract class AbstractNaviPane extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	NaviManager naviManager;
+	protected JAppEditor parent;
+	private NaviManager naviManager;
 
 	private String index;
 	protected JLabel indexLabel = null;
@@ -63,7 +64,7 @@ public abstract class AbstractNaviPane extends JPanel {
 		super();
 
 		naviManager = mgr;
-		JAppEditor parent = mgr.getParent();
+		this.parent = mgr.getParent();
 
 		// 自身のパネル
 		setLayout(new BorderLayout());

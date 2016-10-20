@@ -652,6 +652,10 @@ public class JAppEditor extends JFrame {
 		}
 	}
 
+	public FilePane getFilePane() {
+		return (FilePane) tab.getSelectedComponent();
+	}
+
 	public static void main(String args[]) {
 		JAppEditor app = new JAppEditor();
 		app.setVisible(true);
