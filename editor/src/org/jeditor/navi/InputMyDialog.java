@@ -13,6 +13,7 @@ public class InputMyDialog extends JOptionPane implements InputDialog {
 	public static final int VARIABLE = 0;
 	public static final int ROW = 1;
 	public static final int PARTITION = 2;
+	public static final int METHOD = 3;
 
 	public InputMyDialog(String text, String title) {
 		super();
@@ -34,6 +35,9 @@ public class InputMyDialog extends JOptionPane implements InputDialog {
 				text = "まとまりの境目となる行番号を入力してください\n入力行と入力行+1行目が境目になります\n入力なしでスキップ";
 				title = "まとまりの境目の行番号の入力";
 				break;
+			case METHOD:
+				text = "メソッドを呼び出している行番号を入力してください\n入力なしでスキップ";
+				title = "メソッドを呼び出している行番号の入力";
 			default:
 				break;
 		}

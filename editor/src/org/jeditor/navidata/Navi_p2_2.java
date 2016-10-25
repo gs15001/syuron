@@ -7,14 +7,14 @@ import javax.swing.JButton;
 import org.jeditor.navi.InputMyDialog;
 import org.jeditor.navi.NaviManager;
 
-public class Navi_p2 extends AbstractNaviPane {
+public class Navi_p2_2 extends AbstractNaviPane {
 
 	private static final long serialVersionUID = 1L;
 	private int[] startEnd = new int[3];
 	private String[] startEndString = new String[3];
 
-	public Navi_p2(NaviManager mgr) {
-		super(mgr, "p2", 2);
+	public Navi_p2_2(NaviManager mgr) {
+		super(mgr, "p2_2", 2);
 
 		indexLabel.setText("まとまりの動作確認");
 
@@ -27,7 +27,7 @@ public class Navi_p2 extends AbstractNaviPane {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				inputTmp = String.valueOf(startEnd[2]) + "-" + String.valueOf(startEnd[1] + "-1");
+				inputTmp = String.valueOf(startEnd[2] + 1) + "-" + String.valueOf(startEnd[1]);
 			}
 		});
 
@@ -66,12 +66,16 @@ public class Navi_p2 extends AbstractNaviPane {
 		for (int i = 0; i < notices.length; i++) {
 			try {
 				startEnd[i] = Integer.parseInt(notices[i]);
+				if(i == 2) {
+					// メソッドの行数を指定しているので-1
+					startEnd[i]--;
+				}
 				if(startEnd[i] == 0) {
 					startEndString[i] = "最初";
 				} else if(startEnd[i] == 999) {
 					startEndString[i] = "最後";
 				} else {
-					startEndString[i] = notices[i] + "行目";
+					startEndString[i] = startEnd[i] + "行目";
 				}
 			} catch (NumberFormatException e) {
 				startEnd[i] = -1;

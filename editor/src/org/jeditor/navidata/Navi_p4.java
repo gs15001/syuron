@@ -7,16 +7,16 @@ import javax.swing.JButton;
 import org.jeditor.navi.InputMyDialog;
 import org.jeditor.navi.NaviManager;
 
-public class Navi_p2 extends AbstractNaviPane {
+public class Navi_p4 extends AbstractNaviPane {
 
 	private static final long serialVersionUID = 1L;
 	private int[] startEnd = new int[3];
 	private String[] startEndString = new String[3];
 
-	public Navi_p2(NaviManager mgr) {
-		super(mgr, "p2", 2);
+	public Navi_p4(NaviManager mgr) {
+		super(mgr, "p4", 2);
 
-		indexLabel.setText("まとまりの動作確認");
+		indexLabel.setText("メソッドの動作確認");
 
 		questionLabel.setText("");
 		descriptLabel.setText("");
@@ -27,7 +27,7 @@ public class Navi_p2 extends AbstractNaviPane {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				inputTmp = String.valueOf(startEnd[2]) + "-" + String.valueOf(startEnd[1] + "-1");
+				inputTmp = String.valueOf(startEnd[0] + 1) + "-" + String.valueOf(startEnd[1] + "-1");
 			}
 		});
 
@@ -37,23 +37,22 @@ public class Navi_p2 extends AbstractNaviPane {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				inputTmp = String.valueOf(startEnd[0]) + "-" + String.valueOf(startEnd[2] + "-2");
+				inputTmp = "";
 			}
 		});
 
-		// 変数名を入力させるか
-		// dialog[1] = new InputMyDialog(InputMyDialog.VARIABLE);
+		dialog[1] = new InputMyDialog("メソッドが定義されている行番号を入力してください。\n「開始行-終了行」の形式で入力", "メソッドの定義されている行番号の入力");
 	}
 
 	private void refreshLabel() {
 		//@formatter:off
-		questionLabel.setText("<html>" + startEndString[0] + "から" + startEndString[2] + "までのまとまりが正しく動作しているか確認しましょう。<br>"
-				+ "境目である" + startEndString[2] + "にprint文を挿入して、必要な変数の値を確認しましょう。<br>"
+		questionLabel.setText("<html>" + startEnd[0] + "行目のメソッドが正しく動作しているか確認しましょう。"
+				+ "メソッド呼び出し後の" + (startEnd[0] + 1) + "行目にprint文を挿入して、必要な変数の値を確認しましょう。"
 				+ "確認した値は正しいですか。</html>");
 		
-		descriptLabel.setText("<html>プログラムをまとまりに分割できたなら、次はまとまりごとに正しく動作しているか確認します。<br>"
-				+ "正しく動作しているかは、変数の値を確認することで確かめることができます。<br>"
-				+ "確認するべき変数は、" + startEndString[2] + "以降のまとまりで使用している変数です。</html>");
+		descriptLabel.setText("<html>" + (startEnd[0] - 1) + "行目までのまとまりは正しく動いており、バグが無いことが確認できました。<br>"
+				+ "続いて、" + startEnd[0] + "行目のメソッドにバグが無いか確認します。<br>"
+				+ "確認するべき変数は、" + (startEnd[0] + 1) + "行目以降のまとまりで使用している変数です。</html>");
 		//@formatter:on
 
 	}
@@ -62,7 +61,7 @@ public class Navi_p2 extends AbstractNaviPane {
 	public void setInput(String notice) {
 		super.setInput(notice);
 
-		String[] notices = notice.split("-", 3);
+		String[] notices = notice.split("-", 2);
 		for (int i = 0; i < notices.length; i++) {
 			try {
 				startEnd[i] = Integer.parseInt(notices[i]);
@@ -78,11 +77,11 @@ public class Navi_p2 extends AbstractNaviPane {
 				startEndString[i] = "エラー行目";
 			}
 		}
-		if(!(startEnd[0] <= startEnd[2] && startEnd[2] <= startEnd[1])) {
-			startEnd[0] = startEnd[1] = startEnd[2] = -1;
-			startEndString[0] = startEndString[1] = startEndString[2] = "エラー行目";
+		if(!(startEnd[0] <= startEnd[1])) {
+			startEnd[0] = startEnd[1] = -1;
+			startEndString[0] = startEndString[1] = "エラー行目";
 		}
-		noticeLabel.setText("着目しているまとまり：" + startEndString[0] + "から" + startEndString[2]);
+		noticeLabel.setText("着目しているまとまり：" + startEndString[0] + "のメソッド");
 		refreshLabel();
 	}
 }

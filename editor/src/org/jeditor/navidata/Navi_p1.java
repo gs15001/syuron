@@ -10,13 +10,13 @@ public class Navi_p1 extends AbstractNaviPane {
 	private static final long serialVersionUID = 1L;
 
 	public Navi_p1(NaviManager mgr) {
-		super(mgr, "p1", 1);
+		super(mgr, "p1", 2);
 
 		indexLabel.setText("まとまり分割");
 		//@formatter:off
 		questionLabel.setText("<html>プログラムをサンプルのように2つのまとまりに分割しましょう。<br>"
 				+ "境目となる行を入力してください。<br>"
-				+ "※2等分にする必要はなく、中央付近でキリのいいところを境にしましょう。</html>");
+				+ "メソッド呼び出しがある場合は、そこを境目とするので「メソッド」を選択してください。</html>");
 		
 		descriptLabel.setText("<html>これまでにどういう時にバグが発生しているのかを確認してきました。<br>"
 				+ "ここから実際にプログラムの中からバグを探していきます。<br>"
@@ -26,8 +26,11 @@ public class Navi_p1 extends AbstractNaviPane {
 
 		JButton button = buttons.get(0);
 		button.setText("分割");
+		button = buttons.get(1);
+		button.setText("メソッド");
 
 		dialog[0] = new InputMyDialog(InputMyDialog.PARTITION);
+		dialog[1] = new InputMyDialog(InputMyDialog.METHOD);
 	}
 
 	@Override
@@ -35,7 +38,8 @@ public class Navi_p1 extends AbstractNaviPane {
 		super.setInput(notice);
 		noticeLabel.setText("利用なし");
 		// 表示ファイルの行数を取得
-		int textLength = parent.getFilePane().getFromFile().vfile.size() + 1;
-		this.inputTmp = "0-" + String.valueOf(textLength) + "-";
+		// int textLength = parent.getFilePane().getFromFile().vfile.size() + 1;
+		// this.inputTmp = "0-" + String.valueOf(textLength) + "-";
+		this.inputTmp = "0-999-";
 	}
 }
