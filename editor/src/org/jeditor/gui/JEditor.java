@@ -64,12 +64,12 @@ import javax.swing.text.Keymap;
 import javax.swing.text.PlainDocument;
 import javax.swing.text.Position;
 import javax.swing.text.Segment;
+import javax.swing.text.TabExpander;
 import javax.swing.text.Utilities;
 import javax.swing.undo.AbstractUndoableEdit;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoableEdit;
 import org.jeditor.app.FilePane;
-import org.jeditor.app.JAppEditor;
 import org.jeditor.scripts.TextTokenMarker;
 import org.jeditor.scripts.base.SyntaxStyle;
 import org.jeditor.scripts.base.Token;
@@ -229,7 +229,7 @@ public class JEditor extends JComponent {
 		add(CENTER, painter);
 		add(RIGHT, vertical = new JScrollBar(JScrollBar.VERTICAL));
 		add(BOTTOM, horizontal = new JScrollBar(JScrollBar.HORIZONTAL));
-		//setPreferredSize(new Dimension(450, 600));
+		// setPreferredSize(new Dimension(450, 600));
 
 		// Add some event listeners
 		vertical.addAdjustmentListener(new AdjustHandler());
@@ -579,6 +579,39 @@ public class JEditor extends JComponent {
 		keymap.addActionForKeyStroke(keycut, cutaction);
 		KeyStroke keypaste = KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK);
 		keymap.addActionForKeyStroke(keypaste, pasteaction);
+
+		// 追加分
+		AbstractAction saveaction = new AbstractAction("Save") {
+
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				parent.getParent().doSave();
+			}
+		};
+		AbstractAction compileaction = new AbstractAction("Compile") {
+
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				parent.getParent().doCompile();
+			}
+		};
+		AbstractAction runaction = new AbstractAction("run") {
+
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				parent.getParent().doRun();
+			}
+		};
+		KeyStroke keysave = KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK);
+		keymap.addActionForKeyStroke(keysave, saveaction);
+		KeyStroke keycompile = KeyStroke.getKeyStroke(KeyEvent.VK_E, Event.CTRL_MASK);
+		KeyStroke keycompile2 = KeyStroke.getKeyStroke(KeyEvent.VK_F11, 0);
+		keymap.addActionForKeyStroke(keycompile, compileaction);
+		keymap.addActionForKeyStroke(keycompile2, compileaction);
+		KeyStroke keyrun = KeyStroke.getKeyStroke(KeyEvent.VK_R, Event.CTRL_MASK);
+		KeyStroke keyrun2 = KeyStroke.getKeyStroke(KeyEvent.VK_F12, 0);
+		keymap.addActionForKeyStroke(keyrun, runaction);
+		keymap.addActionForKeyStroke(keyrun2, runaction);
 
 		return key;
 	}
@@ -1020,6 +1053,8 @@ public class JEditor extends JComponent {
 	public int yToLine(int y) {
 		FontMetrics fm = painter.getFontMetrics();
 		int height = fm.getHeight();
+		// 座標の調整　値は適当
+		y -= 60;
 		return Math.max(0, Math.min(getLineCount() - 1, y / height + firstLine));
 	}
 
@@ -1036,6 +1071,37 @@ public class JEditor extends JComponent {
 		// don't use cached tokens
 		painter.currentLineTokens = null;
 		return _offsetToX(line, offset);
+	}
+
+	public int getTabbedTextWidth2(Segment s, FontMetrics metrics, int x, TabExpander e, int startOffset) {
+		// 日本語表示のための処理
+		FontMetrics fm;
+		String str = s.toString();
+		int i = 0;
+		int j = 0;
+		while (j < str.length()) {
+			i = j;
+			fm = metrics;
+			for (; j < str.length(); j++) {
+				if(str.charAt(j) > '\u3040') {
+					break;
+				}
+			}
+			String str2 = str.substring(i, j);
+			Segment seg = new Segment(str2.toCharArray(), 0, j - i);
+			x += Utilities.getTabbedTextWidth(seg, fm, x, painter, 0);
+			i = j;
+			fm = getFontMetrics(CodeEditorDefaults.getDefaults().jfont);
+			for (; j < str.length(); j++) {
+				if(str.charAt(j) <= '\u3040') {
+					break;
+				}
+			}
+			str2 = str.substring(i, j);
+			seg = new Segment(str2.toCharArray(), 0, j - i);
+			x += Utilities.getTabbedTextWidth(seg, fm, x, painter, 0);
+		}
+		return x;
 	}
 
 	/**
@@ -1059,10 +1125,13 @@ public class JEditor extends JComponent {
 		int segmentOffset = lineSegment.offset;
 		int x = horizontalOffset;
 
+		// System.out.println(lineSegment.toString() + "   " + lineSegment.length());
+
 		/* If syntax coloring is disabled, do simple translation */
 		if(tokenMarker == null) {
 			lineSegment.count = offset;
-			return x + Utilities.getTabbedTextWidth(lineSegment, fm, x, painter, 0);
+			return x + getTabbedTextWidth2(lineSegment, fm, x, painter, 0);
+			// return x + Utilities.getTabbedTextWidth(lineSegment, fm, x, painter, 0);
 		} else {
 			/* If syntax coloring is enabled, we have to do this because
 			 * tokens can vary in width */
@@ -1094,10 +1163,12 @@ public class JEditor extends JComponent {
 
 				if(offset + segmentOffset < lineSegment.offset + length) {
 					lineSegment.count = offset - (lineSegment.offset - segmentOffset);
-					return x + Utilities.getTabbedTextWidth(lineSegment, fm, x, painter, 0);
+					// return x + Utilities.getTabbedTextWidth(lineSegment, fm, x, painter, 0);
+					return getTabbedTextWidth2(lineSegment, fm, x, painter, 0);
 				} else {
 					lineSegment.count = length;
-					x += Utilities.getTabbedTextWidth(lineSegment, fm, x, painter, 0);
+					// x += Utilities.getTabbedTextWidth(lineSegment, fm, x, painter, 0);
+					x = getTabbedTextWidth2(lineSegment, fm, x, painter, 0);
 					lineSegment.offset += length;
 				}
 				tokens = tokens.next;
@@ -1118,6 +1189,7 @@ public class JEditor extends JComponent {
 
 		/* Use painter's cached info for speed */
 		FontMetrics fm = painter.getFontMetrics();
+		FontMetrics jfm = getFontMetrics(CodeEditorDefaults.getDefaults().jfont);
 
 		getLineText(line, lineSegment);
 
@@ -1133,6 +1205,9 @@ public class JEditor extends JComponent {
 				int charWidth;
 				if(c == '\t') {
 					charWidth = (int) painter.nextTabStop(width, i) - width;
+				} else if(c > '\u3040') {
+					// 日本語なら
+					charWidth = jfm.charWidth(c);
 				} else {
 					charWidth = fm.charWidth(c);
 				}
@@ -1183,6 +1258,9 @@ public class JEditor extends JComponent {
 
 					if(c == '\t') {
 						charWidth = (int) painter.nextTabStop(width, offset + i) - width;
+					} else if(c > '\u3040') {
+						// 日本語なら
+						charWidth = jfm.charWidth(c);
 					} else {
 						charWidth = fm.charWidth(c);
 					}
@@ -2448,7 +2526,7 @@ public class JEditor extends JComponent {
 			}
 
 			int line = yToLine(evt.getY());
-			int offset = xToOffset(line, evt.getX());
+			int offset = xToOffset(line, evt.getX() - 15);
 			int dot = getLineStartOffset(line) + offset;
 
 			switch (evt.getClickCount()) {

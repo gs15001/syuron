@@ -12,6 +12,7 @@ import java.awt.Graphics;
 import javax.swing.text.Segment;
 import javax.swing.text.TabExpander;
 import javax.swing.text.Utilities;
+import org.jeditor.gui.CodeEditorDefaults;
 
 /**
  * Class with several utility functions used by jEdit's syntax colorizing
@@ -156,7 +157,34 @@ public class SyntaxUtilities {
 			}
 
 			line.count = length;
-			x = Utilities.drawTabbedText(line, x, y, gfx, expander, 0);
+
+			// 日本語表示のための処理
+			String s = line.toString();
+			int i = 0;
+			int j = 0;
+			while (j < s.length()) {
+				i = j;
+				gfx.setFont(CodeEditorDefaults.getDefaults().font);
+				for (; j < s.length(); j++) {
+					if(s.charAt(j) > '\u3040') {
+						break;
+					}
+				}
+				String s2 = s.substring(i, j);
+				Segment seg = new Segment(s2.toCharArray(), 0, j - i);
+				x = Utilities.drawTabbedText(seg, x, y, gfx, expander, 0);
+				i = j;
+				gfx.setFont(CodeEditorDefaults.getDefaults().jfont);
+				for (; j < s.length(); j++) {
+					if(s.charAt(j) <= '\u3040') {
+						break;
+					}
+				}
+				s2 = s.substring(i, j);
+				seg = new Segment(s2.toCharArray(), 0, j - i);
+				x = Utilities.drawTabbedText(seg, x, y, gfx, expander, 0);
+			}
+
 			line.offset += length;
 			offset += length;
 

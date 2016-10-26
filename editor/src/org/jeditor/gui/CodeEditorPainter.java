@@ -620,6 +620,7 @@ public class CodeEditorPainter extends JComponent implements TabExpander {
 		}
 
 		if(line >= editor.getSelectionStartLine() && line <= editor.getSelectionEndLine()) {
+			// 行のハイライト
 			paintLineHighlight(gfx, line, y);
 		}
 
@@ -632,6 +633,7 @@ public class CodeEditorPainter extends JComponent implements TabExpander {
 		}
 
 		if(line == editor.getCaretLine()) {
+			// 点滅するやつ
 			paintCaret(gfx, line, y);
 		}
 	}

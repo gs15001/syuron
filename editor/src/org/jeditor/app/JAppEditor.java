@@ -502,7 +502,7 @@ public class JAppEditor extends JFrame {
 		tab.removeTabAt(tab.getSelectedIndex());
 	}
 
-	private void doCompile() {
+	public void doCompile() {
 		FilePane fp = (FilePane) tab.getSelectedComponent();
 		if(fp != null) {
 			if(!fp.ed.isEdited()) {
@@ -528,7 +528,7 @@ public class JAppEditor extends JFrame {
 		}
 	}
 
-	private void doRun() {
+	public void doRun() {
 		FilePane fp = (FilePane) tab.getSelectedComponent();
 		if(fp != null) {
 			if(fp.ed.isCompiled()) {

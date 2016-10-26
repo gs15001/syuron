@@ -47,6 +47,7 @@ public class CodeEditorDefaults {
 	public int rows;
 	public SyntaxStyle[] styles;
 	public Font font;
+	public Font jfont;
 	public Color caretColor;
 	public Color selectionColor;
 	public Color lineHighlightColor;
@@ -94,6 +95,7 @@ public class CodeEditorDefaults {
 			DEFAULTS.cols = 80;
 			DEFAULTS.rows = 25;
 			DEFAULTS.font = new Font("consolas", Font.PLAIN, 12);
+			DEFAULTS.jfont = new Font("メイリオ", Font.PLAIN, 12);
 			DEFAULTS.styles = SyntaxUtilities.getDefaultSyntaxStyles();
 			DEFAULTS.caretColor = Color.black;
 			DEFAULTS.selectionColor = new Color(0xccccff);
@@ -135,6 +137,7 @@ public class CodeEditorDefaults {
 		cols = 80;
 		rows = 25;
 		font = new Font("consolas", Font.PLAIN, 12);
+		jfont = new Font("メイリオ", Font.PLAIN, 12);
 		styles = SyntaxUtilities.getDefaultSyntaxStyles();
 		caretColor = Color.black;
 		selectionColor = new Color(0xccccff);
@@ -169,6 +172,7 @@ public class CodeEditorDefaults {
 		rows = defaults.rows;
 		styles = defaults.styles;
 		font = defaults.font;
+		jfont = defaults.jfont;
 		caretColor = defaults.caretColor;
 		selectionColor = defaults.selectionColor;
 		lineHighlightColor = defaults.lineHighlightColor;

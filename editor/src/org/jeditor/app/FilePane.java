@@ -127,7 +127,7 @@ public class FilePane extends JPanel {
 		ed.setTokenMarker(marker);
 		ed.setText(text.getText());
 		ed.setEdited(false);
-		//this.add(new JScrollPane(ed));
+		// this.add(new JScrollPane(ed));
 		ed.setPreferredSize(new Dimension(parent.LEFT_WIDTH, parent.LEFT_HEIGHT));
 		this.add(ed);
 	}
@@ -175,6 +175,10 @@ public class FilePane extends JPanel {
 
 	public TextFile getToFile() {
 		return tofile;
+	}
+
+	public JAppEditor getParent() {
+		return parent;
 	}
 
 	public void changeEdited(boolean edited) {

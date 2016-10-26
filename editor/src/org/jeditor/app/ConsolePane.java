@@ -46,8 +46,10 @@ public class ConsolePane extends JPanel {
 	}
 
 	public void outputLine(String text) {
-		script.append(text);
-		script.newline();
+		if(!text.equals("")) {
+			script.append(text);
+			script.newline();
+		}
 	}
 
 	public void setOutputStream(OutputStream output) {
