@@ -166,7 +166,7 @@ public class SyntaxUtilities {
 				i = j;
 				gfx.setFont(CodeEditorDefaults.getDefaults().font);
 				for (; j < s.length(); j++) {
-					if(s.charAt(j) > '\u3040') {
+					if(s.charAt(j) > '\u00ff') {
 						break;
 					}
 				}
@@ -176,7 +176,7 @@ public class SyntaxUtilities {
 				i = j;
 				gfx.setFont(CodeEditorDefaults.getDefaults().jfont);
 				for (; j < s.length(); j++) {
-					if(s.charAt(j) <= '\u3040') {
+					if(s.charAt(j) <= '\u00ff') {
 						break;
 					}
 				}

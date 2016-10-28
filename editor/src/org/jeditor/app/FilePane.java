@@ -206,7 +206,9 @@ public class FilePane extends JPanel {
 			this.file = file;
 			ext = getExtension(file);
 			String s;
-			try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "SJIS"));) {
+			// try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file),
+			// "SJIS"));) {
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));) {
 				while ((s = reader.readLine()) != null) {
 					vfile.add(s);
 				}

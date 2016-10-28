@@ -114,7 +114,8 @@ class ChildSession extends Session {
 	 */
 
 	static private void dumpStream(OutputListener diagnostics, InputStream stream) throws IOException {
-		BufferedReader in = new BufferedReader(new InputStreamReader(stream, "SJIS"));
+		// BufferedReader in = new BufferedReader(new InputStreamReader(stream, "SJIS"));
+		BufferedReader in = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
 		String line;
 		while ((line = in.readLine()) != null) {
 			diagnostics.putString(line);
@@ -173,8 +174,10 @@ class ChildSession extends Session {
 		try {
 			in = new PrintWriter(new OutputStreamWriter(process.getOutputStream()));
 			// ### Note small buffer sizes!
-			out = new BufferedReader(new InputStreamReader(process.getInputStream(), "SJIS"), 1);
-			err = new BufferedReader(new InputStreamReader(process.getErrorStream(), "SJIS"), 1);
+			// out = new BufferedReader(new InputStreamReader(process.getInputStream(), "SJIS"), 1);
+			// err = new BufferedReader(new InputStreamReader(process.getErrorStream(), "SJIS"), 1);
+			out = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"), 1);
+			err = new BufferedReader(new InputStreamReader(process.getErrorStream(), "UTF-8"), 1);
 		} catch (Exception e) {
 
 		}

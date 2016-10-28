@@ -511,6 +511,7 @@ public class JAppEditor extends JFrame {
 				File file = ((FilePane) (tab.getSelectedComponent())).getFile().file;
 				String fileName = file.getName();
 				String fileLoc = file.getParent();
+				// String[] commands = { "-g", "-encoding", "Shift_JIS", "-cp", fileLoc, fileLoc + "\\" + fileName };
 				String[] commands = { "-g", "-cp", fileLoc, fileLoc + "\\" + fileName };
 				// コンパイル時の出力を受け取るストリームの生成(これでいいかは不明）
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -547,8 +548,11 @@ public class JAppEditor extends JFrame {
 					// 新たなプロセスを生成
 					process = pb.start();
 					// 入出力に関する設定
+					// コンソールはSJIS限定
 					OutputStreamThread it = new OutputStreamThread(process.getInputStream(), "SJIS", console);
 					OutputStreamThread et = new OutputStreamThread(process.getErrorStream(), "SJIS", console);
+					// OutputStreamThread it = new OutputStreamThread(process.getInputStream(), "UTF-8", console);
+					// OutputStreamThread et = new OutputStreamThread(process.getErrorStream(), "UTF-8", console);
 					console.setOutputStream(process.getOutputStream()); // 起動したJavaへの
 					it.start();
 					et.start();
@@ -574,9 +578,12 @@ public class JAppEditor extends JFrame {
 		if(fp != null) {
 			if(fp.ed.isEdited()) {
 				File f = fp.fromfile.file;
-				try (BufferedWriter br = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f), "SJIS"))) {
+				// try (BufferedWriter br = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f), "SJIS")))
+				// {
+				try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f), "UTF-8"))) {
 					Document d = fp.ed.getDocument();
-					br.write(d.getText(0, d.getLength()), 0, d.getLength());
+					bw.write(d.getText(0, d.getLength()), 0, d.getLength());
+					bw.newLine();
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();
 				} catch (FileNotFoundException e) {
@@ -603,9 +610,12 @@ public class JAppEditor extends JFrame {
 				if(!f.getName().endsWith(".java")) {
 					f = new File(f.getParentFile(), f.getName() + ".java");
 				}
-				try (BufferedWriter br = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f), "SJIS"))) {
+				// try (BufferedWriter br = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f), "SJIS")))
+				// {
+				try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f), "UTF-8"))) {
 					Document d = fp.ed.getDocument();
-					br.write(d.getText(0, d.getLength()), 0, d.getLength());
+					bw.write(d.getText(0, d.getLength()), 0, d.getLength());
+					bw.newLine();
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();
 				} catch (FileNotFoundException e) {

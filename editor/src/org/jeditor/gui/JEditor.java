@@ -1083,7 +1083,7 @@ public class JEditor extends JComponent {
 			i = j;
 			fm = metrics;
 			for (; j < str.length(); j++) {
-				if(str.charAt(j) > '\u3040') {
+				if(str.charAt(j) > '\u00ff') {
 					break;
 				}
 			}
@@ -1093,7 +1093,7 @@ public class JEditor extends JComponent {
 			i = j;
 			fm = getFontMetrics(CodeEditorDefaults.getDefaults().jfont);
 			for (; j < str.length(); j++) {
-				if(str.charAt(j) <= '\u3040') {
+				if(str.charAt(j) <= '\u00ff') {
 					break;
 				}
 			}
@@ -1205,7 +1205,7 @@ public class JEditor extends JComponent {
 				int charWidth;
 				if(c == '\t') {
 					charWidth = (int) painter.nextTabStop(width, i) - width;
-				} else if(c > '\u3040') {
+				} else if(c > '\u00ff') {
 					// 日本語なら
 					charWidth = jfm.charWidth(c);
 				} else {
@@ -1258,7 +1258,7 @@ public class JEditor extends JComponent {
 
 					if(c == '\t') {
 						charWidth = (int) painter.nextTabStop(width, offset + i) - width;
-					} else if(c > '\u3040') {
+					} else if(c > '\u00ff') {
 						// 日本語なら
 						charWidth = jfm.charWidth(c);
 					} else {
