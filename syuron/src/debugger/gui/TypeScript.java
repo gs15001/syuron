@@ -79,6 +79,21 @@ public class TypeScript extends JPanel {
 		historyHScrollBar.setValue(historyHScrollBar.getMinimum());
 	}
 
+	public void refreshScroll() {
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				historyVScrollBar.setValue(historyVScrollBar.getMaximum());
+				historyHScrollBar.setValue(historyHScrollBar.getMinimum());
+			}
+		});
+	}
+
+	public void setF(Font f) {
+		history.setFont(f);
+	}
+
 	public void flush() {
 	}
 

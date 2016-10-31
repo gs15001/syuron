@@ -19,7 +19,7 @@ public class Navi_e6 extends AbstractNaviPane {
 				
 		descriptLabel.setText("<html>入力待ちでないことを確認するためは、Enterを<br>"
 				+ "コンソールに入力することで確認できます。<br>"
-				+ "何回かEnterを入力しても反応シない場合は、無限ループに陥っています。<br>"
+				+ "何回かEnterを入力しても反応しない場合は、無限ループに陥っています。<br>"
 				+ "プログラムの繰り返し文を見直してみましょう。</html>");
 		//@formatter:on
 

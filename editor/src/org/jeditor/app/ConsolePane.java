@@ -1,6 +1,7 @@
 package org.jeditor.app;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
@@ -26,6 +27,8 @@ public class ConsolePane extends JPanel {
 		this.script = new TypeScript(PROMPT, false); // No implicit echo.
 		this.add(script);
 
+		script.setF(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+
 		script.addActionListener(new ActionListener() {
 
 			@Override
@@ -47,8 +50,9 @@ public class ConsolePane extends JPanel {
 
 	public void outputLine(String text) {
 		if(!text.equals("")) {
-			script.append(text);
 			script.newline();
+			script.append(text);
+			script.refreshScroll();
 		}
 	}
 

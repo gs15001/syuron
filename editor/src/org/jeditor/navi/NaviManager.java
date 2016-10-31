@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.swing.JPanel;
 import org.jeditor.app.JAppEditor;
 import org.jeditor.navidata.AbstractNaviPane;
+import org.jeditor.navidata.Navi_a0;
 import org.jeditor.navidata.Navi_a1;
 import org.jeditor.navidata.Navi_a2;
 import org.jeditor.navidata.Navi_a3;
@@ -18,6 +19,7 @@ import org.jeditor.navidata.Navi_b1;
 import org.jeditor.navidata.Navi_b2;
 import org.jeditor.navidata.Navi_b3;
 import org.jeditor.navidata.Navi_b4;
+import org.jeditor.navidata.Navi_d0;
 import org.jeditor.navidata.Navi_d1;
 import org.jeditor.navidata.Navi_d2;
 import org.jeditor.navidata.Navi_d3;
@@ -30,10 +32,12 @@ import org.jeditor.navidata.Navi_e5;
 import org.jeditor.navidata.Navi_e6;
 import org.jeditor.navidata.Navi_e7;
 import org.jeditor.navidata.Navi_e8;
+import org.jeditor.navidata.Navi_i0;
 import org.jeditor.navidata.Navi_i1;
 import org.jeditor.navidata.Navi_i2;
 import org.jeditor.navidata.Navi_i3;
 import org.jeditor.navidata.Navi_i4;
+import org.jeditor.navidata.Navi_p0;
 import org.jeditor.navidata.Navi_p1;
 import org.jeditor.navidata.Navi_p2;
 import org.jeditor.navidata.Navi_p2_2;
@@ -79,6 +83,9 @@ public class NaviManager {
 		naviData.put(naviPane.getIndex(), naviPane);
 		historyModel.add(naviPane);
 
+		naviPane = new Navi_a0(this);
+		viewPane.add(naviPane, naviPane.getIndex());
+		naviData.put(naviPane.getIndex(), naviPane);
 		naviPane = new Navi_a1(this);
 		viewPane.add(naviPane, naviPane.getIndex());
 		naviData.put(naviPane.getIndex(), naviPane);
@@ -158,6 +165,9 @@ public class NaviManager {
 		viewPane.add(naviPane, naviPane.getIndex());
 		naviData.put(naviPane.getIndex(), naviPane);
 
+		naviPane = new Navi_d0(this);
+		viewPane.add(naviPane, naviPane.getIndex());
+		naviData.put(naviPane.getIndex(), naviPane);
 		naviPane = new Navi_d1(this);
 		viewPane.add(naviPane, naviPane.getIndex());
 		naviData.put(naviPane.getIndex(), naviPane);
@@ -171,6 +181,9 @@ public class NaviManager {
 		viewPane.add(naviPane, naviPane.getIndex());
 		naviData.put(naviPane.getIndex(), naviPane);
 
+		naviPane = new Navi_i0(this);
+		viewPane.add(naviPane, naviPane.getIndex());
+		naviData.put(naviPane.getIndex(), naviPane);
 		naviPane = new Navi_i1(this);
 		viewPane.add(naviPane, naviPane.getIndex());
 		naviData.put(naviPane.getIndex(), naviPane);
@@ -184,6 +197,9 @@ public class NaviManager {
 		viewPane.add(naviPane, naviPane.getIndex());
 		naviData.put(naviPane.getIndex(), naviPane);
 
+		naviPane = new Navi_p0(this);
+		viewPane.add(naviPane, naviPane.getIndex());
+		naviData.put(naviPane.getIndex(), naviPane);
 		naviPane = new Navi_p1(this);
 		viewPane.add(naviPane, naviPane.getIndex());
 		naviData.put(naviPane.getIndex(), naviPane);
