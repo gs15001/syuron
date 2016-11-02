@@ -52,7 +52,7 @@ public class Navi_p4 extends AbstractNaviPane {
 		
 		descriptLabel.setText("<html>" + (startEnd[0] - 1) + "行目までのまとまりは正しく動いており、バグが無いことが確認できました。<br>"
 				+ "続いて、" + startEnd[0] + "行目のメソッドにバグが無いか確認します。<br>"
-				+ "確認するべき変数は、" + (startEnd[0] + 1) + "行目以降のまとまりで使用している変数です。</html>");
+				+ "確認するべき変数は、" + (startEnd[0] + 1) + "行目以降で使用している変数です。</html>");
 		//@formatter:on
 
 	}

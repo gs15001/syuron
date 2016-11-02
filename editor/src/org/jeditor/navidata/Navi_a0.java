@@ -15,20 +15,20 @@ public class Navi_a0 extends AbstractNaviPane {
 		indexLabel.setText("ステップ4 バグの特定");
 		//@formatter:off
 		questionLabel.setText("<html>ステップ3で、バグの潜む範囲を絞り込みました。<br>"
-				+ "ステップ4では、その範囲を細かく調べ、バグを特定していきます。</html>");
+				+ "ステップ4では、誤っている変数を手がかりにその範囲を細かく調べ、バグを特定していきます。</html>");
 		
-		descriptLabel.setText("<html></html>");
+		descriptLabel.setText("<html>以降、「左辺」と「右辺」という言葉がでてきます。<br>"
+				+ "数学の方程式と同様に、「左辺」は「=」の左側、「右辺」は「=」の右側を示します。</html>");
 		//@formatter:on
 
 		JButton button = buttons.get(0);
 		button.setText("次へ");
-
-		dialog[0] = new InputMyDialog(InputMyDialog.VARIABLE);
 	}
 
 	@Override
 	public void setInput(String notice) {
 		super.setInput(notice);
-		noticeLabel.setText("利用なし");
+		noticeLabel.setText("着目している変数　：　" + notice);
+		this.inputTmp = input;
 	}
 }

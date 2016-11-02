@@ -2,9 +2,11 @@
 package org.jeditor.navi;
 
 import java.awt.CardLayout;
+import java.awt.Font;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 import org.jeditor.app.JAppEditor;
 import org.jeditor.navidata.AbstractNaviPane;
 import org.jeditor.navidata.Navi_a0;
@@ -65,6 +67,11 @@ public class NaviManager {
 
 	public NaviManager(JAppEditor parent) {
 		this.parent = parent;
+
+		// ダイアログのfont設定
+		UIManager.put("OptionPane.messageFont", new Font("メイリオ", Font.PLAIN, 14));
+		UIManager.put("OptionPane.buttonFont", new Font("メイリオ", Font.PLAIN, 14));
+		UIManager.put("OptionPane.font", new Font("メイリオ", Font.PLAIN, 14));
 
 		// 表示用パネルの生成
 		viewPane = new JPanel();
@@ -234,7 +241,6 @@ public class NaviManager {
 	}
 
 	public void backNavi() {
-		String preState;
 		HistoryData hd = historyModel.getPre();
 		if(hd != null) {
 			moveNavi(hd.getIndex(), historyModel.getHistoryIndex() - 2, hd.getNotice());

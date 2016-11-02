@@ -2,6 +2,7 @@
 package org.jeditor.navidata;
 
 import javax.swing.JButton;
+import org.jeditor.navi.InputMyDialog;
 import org.jeditor.navi.NaviManager;
 
 public class Navi_t extends AbstractNaviPane {
@@ -23,6 +24,8 @@ public class Navi_t extends AbstractNaviPane {
 		button.setText("ステップ3");
 		button = buttons.get(3);
 		button.setText("ステップ4");
+
+		dialog[3] = new InputMyDialog(InputMyDialog.VARIABLE);
 	}
 
 	@Override

@@ -33,6 +33,14 @@ public class Navi_p3 extends AbstractNaviPane {
 
 		button = buttons.get(1);
 		button.setText("メソッド");
+		button.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				inputTmp = String.valueOf(startEnd[0]) + "-" + String.valueOf(startEnd[1]) + "-";
+			}
+		});
+
 		button = buttons.get(2);
 		button.setText("次へ");
 

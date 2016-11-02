@@ -21,9 +21,9 @@ public class Navi_d3 extends AbstractNaviPane {
 		//@formatter:on
 
 		JButton button = buttons.get(0);
-		button.setText("発生している");
-		button = buttons.get(1);
 		button.setText("発生していない");
+		button = buttons.get(1);
+		button.setText("発生している");
 	}
 
 	@Override
