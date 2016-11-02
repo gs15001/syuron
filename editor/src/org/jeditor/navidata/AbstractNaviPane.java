@@ -2,6 +2,7 @@
 package org.jeditor.navidata;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -30,6 +31,8 @@ public abstract class AbstractNaviPane extends JPanel {
 
 	protected JAppEditor parent;
 	private NaviManager naviManager;
+	private CardLayout layout;
+	private JPanel self;
 
 	private String index;
 	protected JLabel indexLabel = null;
@@ -40,6 +43,8 @@ public abstract class AbstractNaviPane extends JPanel {
 
 	protected JLabel descriptLabel = null;
 	protected JLabel descriptTitleLabel = null;
+
+	private JPanel mainPane;
 
 	private JPanel northPane;
 	private JPanel centerPane;
@@ -61,14 +66,23 @@ public abstract class AbstractNaviPane extends JPanel {
 	protected String selected = "";
 
 	public AbstractNaviPane(NaviManager mgr, String index, int buttonNum) {
+		this(mgr, index, buttonNum, false);
+	}
+
+	public AbstractNaviPane(NaviManager mgr, String index, int buttonNum, boolean sample) {
 		super();
 
 		naviManager = mgr;
 		this.parent = mgr.getParent();
+		self = this;
 
 		// 自身のパネル
-		setLayout(new BorderLayout());
-		setBackground(Color.WHITE);
+		layout = new CardLayout();
+		setLayout(layout);
+
+		// メインパネル
+		mainPane = new JPanel();
+		mainPane.setLayout(new BorderLayout());
 
 		// 上部のコンテンツ
 		northPane = new JPanel();
@@ -148,10 +162,36 @@ public abstract class AbstractNaviPane extends JPanel {
 		// (int) (parent.RIGHT_HEIGHT * 0.39)));
 		// ボーダーを使った余白の設定
 		tmpWidth = (int) (parent.RIGHT_WIDTH * 0.03);
-		tmpHeight = (int) (parent.RIGHT_HEIGHT * 0.01);;
+		tmpHeight = (int) (parent.RIGHT_HEIGHT * 0.01);
 		questionLabel.setBorder(new EmptyBorder(tmpHeight, tmpWidth, tmpHeight, tmpWidth));
 		// questionLabel.setBackground(Color.WHITE);
 		// questionLabel.setOpaque(true);
+
+		if(sample) {
+			// サンプル表示用ボタン
+			JPanel samplePane = new JPanel();
+			samplePane.setLayout(null);
+			samplePane.setBackground(new Color(224, 224, 224));
+			samplePane.setPreferredSize(new Dimension(parent.RIGHT_WIDTH, (int) (parent.RIGHT_HEIGHT * 0.04)));
+			// ボーダーを使った余白の設定
+			tmpWidth = (int) (parent.RIGHT_WIDTH * 0.03);
+			tmpHeight = 5;
+			samplePane.setBorder(new EmptyBorder(tmpHeight, tmpWidth, tmpHeight, tmpWidth));
+			JButton sampleButton = new JButton("サンプル");
+			sampleButton.setFont(new Font("メイリオ", Font.PLAIN, FONT_SIZE_S));
+			sampleButton.setBounds((int) (parent.RIGHT_WIDTH * 0.75), 0, (int) (parent.RIGHT_WIDTH * 0.15), 20);
+
+			sampleButton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					layout.next(self);
+				}
+			});
+
+			samplePane.add(sampleButton);
+			questionPane.add(samplePane, BorderLayout.SOUTH);
+		}
 
 		// ラベル追加
 		questionPane.add(questionTitlePane, BorderLayout.NORTH);
@@ -260,9 +300,11 @@ public abstract class AbstractNaviPane extends JPanel {
 		southPane.add(checkPane);
 		southPane.add(buttonPane);
 
-		add(northPane, BorderLayout.NORTH);
-		add(centerPane, BorderLayout.CENTER);
-		add(southPane, BorderLayout.SOUTH);
+		mainPane.add(northPane, BorderLayout.NORTH);
+		mainPane.add(centerPane, BorderLayout.CENTER);
+		mainPane.add(southPane, BorderLayout.SOUTH);
+
+		add(mainPane);
 	}
 
 	public String getIndex() {
@@ -286,6 +328,15 @@ public abstract class AbstractNaviPane extends JPanel {
 		selected = "";
 		inputTmp = "";
 		confi.setSelected(false);
+	}
+
+	public void refreshLayout() {
+		layout.first(self);
+	}
+
+	public void setSamplePane(AbstractSamplePane pane) {
+		pane.setLayout(this, layout);
+		add(pane);
 	}
 
 	class MyButton extends JButton {

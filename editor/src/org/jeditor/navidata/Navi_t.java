@@ -10,7 +10,7 @@ public class Navi_t extends AbstractNaviPane {
 	private static final long serialVersionUID = 1L;
 
 	public Navi_t(NaviManager mgr) {
-		super(mgr, "t", 4);
+		super(mgr, "t", 4, true);
 
 		indexLabel.setText("デバッグプロセスナビゲーション");
 		questionLabel.setText("");
@@ -26,6 +26,7 @@ public class Navi_t extends AbstractNaviPane {
 		button.setText("ステップ4");
 
 		dialog[3] = new InputMyDialog(InputMyDialog.VARIABLE);
+		setSamplePane(new sample(mgr));
 	}
 
 	@Override
@@ -33,4 +34,14 @@ public class Navi_t extends AbstractNaviPane {
 		super.setInput(notice);
 		noticeLabel.setText("利用なし");
 	}
+}
+
+class sample extends AbstractSamplePane {
+
+	private static final long serialVersionUID = 1L;
+
+	public sample(NaviManager mgr) {
+		super(mgr);
+	}
+
 }

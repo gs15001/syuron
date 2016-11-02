@@ -250,6 +250,7 @@ public class NaviManager {
 	public void moveNavi(String nextState, int historyIndex, String input) {
 		layout.show(viewPane, nextState);
 		AbstractNaviPane nextPane = naviData.get(nextState);
+		nextPane.refreshLayout();
 		nextPane.setInput(input);
 		historyModel.setHistoryIndex(historyIndex + 1);
 	}
