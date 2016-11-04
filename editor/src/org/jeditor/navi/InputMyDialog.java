@@ -14,6 +14,8 @@ public class InputMyDialog extends JOptionPane implements InputDialog {
 	public static final int ROW = 1;
 	public static final int PARTITION = 2;
 	public static final int METHOD = 3;
+	public static final int IF = 4;
+	public static final int FOR = 5;
 
 	public InputMyDialog(String text, String title) {
 		super();
@@ -38,6 +40,12 @@ public class InputMyDialog extends JOptionPane implements InputDialog {
 			case METHOD:
 				text = "メソッドを呼び出している行番号を入力してください\n入力なしでスキップ";
 				title = "メソッドを呼び出している行番号の入力";
+			case IF:
+				text = "調査する条件文の行番号を入力してください\n入力なしでスキップ";
+				title = "調査する条件文の行番号の入力";
+			case FOR:
+				text = "調査する繰り返し文の行番号を入力してください\n入力なしでスキップ";
+				title = "調査する繰り返し文の行番号の入力";
 			default:
 				break;
 		}

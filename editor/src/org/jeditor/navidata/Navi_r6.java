@@ -8,6 +8,8 @@ public class Navi_r6 extends AbstractNaviPane {
 
 	private static final long serialVersionUID = 1L;
 
+	private String called;
+
 	public Navi_r6(NaviManager mgr) {
 		super(mgr, "r6", 2);
 		//@formatter:off
@@ -24,9 +26,17 @@ public class Navi_r6 extends AbstractNaviPane {
 		button.setText("誤り");
 	}
 
+	public String getCalled() {
+		return called;
+	}
+
 	@Override
 	public void setInput(String notice) {
 		super.setInput(notice);
-		noticeLabel.setText("利用なし");
+		String[] notices = notice.split("-", 3);
+		called = notices[0];
+
+		noticeLabel.setText("着目している繰り返し文　：　" + notices[2] + " 行目");
+		inputTmp = notices[1];
 	}
 }

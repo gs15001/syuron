@@ -45,17 +45,17 @@ public class DefaultNaviStrategy implements NaviStrategy {
 		{"r4","正しい","r6"},
 		{"r4","誤り","r5"},
 		{"r5","正しい","a1"},
-		{"r5","誤り","e2"},
+		{"r5","誤り","e1"},
 		{"r6","正しい","return"},
-		{"r6","誤り","e2"},
+		{"r6","誤り","e1"},
 		{"b1","正しい","return"},
 		{"b1","誤り","b2"},
 		{"b2","正しい","b4"},
 		{"b2","誤り","b3"},
 		{"b3","正しい","a1"},
-		{"b3","誤り","e2"},
-		{"b4","正しい","e1"},
-		{"b4","誤り","e2"},
+		{"b3","誤り","e1"},
+		{"b4","正しい","e2"},
+		{"b4","誤り","e1"},
 		{"d0","次へ","d1"},
 		{"d1","発生している","e3"},
 		{"d1","発生していない","d2"},
@@ -111,13 +111,7 @@ public class DefaultNaviStrategy implements NaviStrategy {
 		tmp.add(currentState);
 		tmp.add(buttonLabel);
 		String nextState = strategy.get(tmp);
-		if(nextState.equals("return")) {
-			return caller;
-		} else {
-			if(currentState.charAt(0) != nextState.charAt(0)) {
-				caller = currentState;
-			}
-			return nextState;
-		}
+		return nextState;
 	}
+
 }

@@ -1,12 +1,17 @@
 /* ソースツリー文字コード識別用文字列ソースツリー文字コード識別用文字列 */
 package org.jeditor.navidata;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import org.jeditor.navi.NaviManager;
 
 public class Navi_b1 extends AbstractNaviPane {
 
 	private static final long serialVersionUID = 1L;
+
+	private String called;
+	private String calledLine;
 
 	public Navi_b1(NaviManager mgr) {
 		super(mgr, "b1", 2);
@@ -19,14 +24,30 @@ public class Navi_b1 extends AbstractNaviPane {
 		//@formatter:on
 		JButton button = buttons.get(0);
 		button.setText("正しい");
+		button.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				inputTmp = calledLine;
+			}
+		});
+
 		button = buttons.get(1);
 		button.setText("誤り");
+	}
+
+	public String getCalled() {
+		return called;
 	}
 
 	@Override
 	public void setInput(String notice) {
 		super.setInput(notice);
-		noticeLabel.setText("着目している条件文　：　" + notice + " 行目");
-		inputTmp = notice;
+		String[] notices = notice.split("-", 3);
+		called = notices[0];
+		calledLine = notices[1];
+
+		noticeLabel.setText("着目している条件文　：　" + notices[2] + " 行目");
+		inputTmp = notices[2];
 	}
 }

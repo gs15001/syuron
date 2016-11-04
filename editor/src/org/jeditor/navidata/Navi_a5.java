@@ -2,7 +2,7 @@
 package org.jeditor.navidata;
 
 import javax.swing.JButton;
-import org.jeditor.navi.InputCtrlRowDialog;
+import org.jeditor.navi.InputMyDialog;
 import org.jeditor.navi.NaviManager;
 
 public class Navi_a5 extends AbstractNaviPane {
@@ -25,13 +25,14 @@ public class Navi_a5 extends AbstractNaviPane {
 		button.setText("for文");
 		button = buttons.get(2);
 		button.setText("次へ");
-		dialog[0] = new InputCtrlRowDialog();
-		dialog[1] = new InputCtrlRowDialog();
+		dialog[0] = new InputMyDialog(InputMyDialog.IF);
+		dialog[1] = new InputMyDialog(InputMyDialog.FOR);
 	}
 
 	@Override
 	public void setInput(String notice) {
 		super.setInput(notice);
-		noticeLabel.setText("利用なし");
+		noticeLabel.setText("着目している処理　：　" + notice + " 行目");
+		inputTmp = getIndex() + "-" + notice + "-";
 	}
 }

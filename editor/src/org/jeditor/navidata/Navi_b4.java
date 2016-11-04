@@ -26,6 +26,6 @@ public class Navi_b4 extends AbstractNaviPane {
 	@Override
 	public void setInput(String notice) {
 		super.setInput(notice);
-		noticeLabel.setText("利用なし");
+		noticeLabel.setText("着目している条件文　：　" + notice + " 行目");
 	}
 }

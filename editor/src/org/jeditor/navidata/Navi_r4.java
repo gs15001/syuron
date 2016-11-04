@@ -1,6 +1,8 @@
 /* ソースツリー文字コード識別用文字列ソースツリー文字コード識別用文字列 */
 package org.jeditor.navidata;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import org.jeditor.navi.InputMyDialog;
 import org.jeditor.navi.NaviManager;
@@ -24,17 +26,26 @@ public class Navi_r4 extends AbstractNaviPane {
 		//@formatter:on
 		JButton button = buttons.get(0);
 		button.setText("正しい");
+		button.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				inputTmp = notice;
+			}
+		});
+
 		button = buttons.get(1);
 		button.setText("誤り");
-		
+
 		dialog[1] = new InputMyDialog(InputMyDialog.VARIABLE);
 	}
 
 	@Override
 	public void setInput(String notice) {
 		super.setInput(notice);
-		noticeLabel.setText("着目している繰り返し文　：　" + notice + " 行目");
-		inputTmp = notice;
+		String[] notices = notice.split("-", 3);
+
+		noticeLabel.setText("着目している繰り返し文　：　" + notices[2] + " 行目");
 	}
 
 }

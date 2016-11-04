@@ -224,11 +224,29 @@ public class NaviManager {
 		naviData.put(naviPane.getIndex(), naviPane);
 	}
 
+	private String transformReturn(String nextState, String currentState) {
+		if(!nextState.equals("return")) {
+			return nextState;
+		} else {
+			AbstractNaviPane current = naviData.get(currentState);
+			if(current instanceof Navi_b1) {
+				return ((Navi_b1) current).getCalled();
+			} else if(current instanceof Navi_r2) {
+				return ((Navi_r2) current).getCalled();
+			} else if(current instanceof Navi_r6) {
+				return ((Navi_r6) current).getCalled();
+			} else {
+				return "e2";
+			}
+		}
+	}
+
 	public void changeNavi(String currentState, String buttonLabel, String input) {
 		// 既存の履歴を更新
 		historyModel.updateCurrentItem(naviData.get(currentState));
 		// 次の状態を取得表示
 		String nextState = strategy.getNextNavi(currentState, buttonLabel);
+		nextState = transformReturn(nextState, currentState);
 		AbstractNaviPane nextPane = naviData.get(nextState);
 		nextPane.setInput(input);
 		layout.show(viewPane, nextState);
