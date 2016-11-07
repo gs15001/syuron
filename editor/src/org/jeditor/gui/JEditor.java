@@ -34,6 +34,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -233,6 +234,9 @@ public class JEditor extends JComponent {
 
 		// Add some event listeners
 		vertical.addAdjustmentListener(new AdjustHandler());
+		MyMouseAdapter tmp = new MyMouseAdapter();
+		vertical.addMouseListener(tmp);
+		vertical.addMouseMotionListener(tmp);
 		horizontal.addAdjustmentListener(new AdjustHandler());
 		painter.addComponentListener(new ComponentHandler());
 		painter.addMouseListener(new MouseHandler());
@@ -256,6 +260,36 @@ public class JEditor extends JComponent {
 		focusedComponent = this;
 	}
 
+	class MyMouseAdapter extends MouseAdapter {
+
+		int x;
+		int y;
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			super.mousePressed(e);
+			x = e.getX();
+			y = e.getY();
+		}
+
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			super.mouseDragged(e);
+			int move = e.getY() - y;
+			int moveLine = vertical.getMaximum() / 20;
+			if(moveLine < 1) {
+				moveLine = 1;
+			}
+			if(move >= 15) {
+				offsetVerticalScroll(moveLine);
+				y = e.getY();
+			} else if(move <= -15) {
+				offsetVerticalScroll(-1 * moveLine);
+				y = e.getY();
+			}
+		}
+	}
+
 	public JEditor(FilePane parent, CodeEditorDefaults defaults) {
 		this(defaults);
 		this.parent = parent;
@@ -276,6 +310,18 @@ public class JEditor extends JComponent {
 
 	public boolean isCompiled() {
 		return compiled;
+	}
+
+	private List<Integer> partitionLines = new ArrayList<>();
+
+	public void addPartitionLine(int l) {
+		partitionLines.add(l);
+	}
+
+	public List<Integer> getPartitionLine() {
+		partitionLines.add(10);
+		partitionLines.add(20);
+		return partitionLines;
 	}
 
 	public int getTabSize() {
@@ -818,10 +864,10 @@ public class JEditor extends JComponent {
 					return;
 				}
 			}
-
 			vertical.setValues(firstLine, visibleLines, 0, getLineCount());
 			vertical.setUnitIncrement(2);
 			vertical.setBlockIncrement(visibleLines);
+			vertical.setBlockIncrement(0);
 		}
 
 		int width = painter.getWidth();
@@ -864,6 +910,7 @@ public class JEditor extends JComponent {
 	 * updating the scroll bars.
 	 */
 	public void offsetVerticalScroll(int verticaloffset) {
+		// System.out.println(verticaloffset);
 		int firstLine = this.firstLine + verticaloffset;
 		if(firstLine == this.firstLine) {
 			return;

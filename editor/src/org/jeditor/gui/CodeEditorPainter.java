@@ -16,6 +16,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.ToolTipManager;
 import javax.swing.text.PlainDocument;
@@ -67,7 +68,7 @@ public class CodeEditorPainter extends JComponent implements TabExpander {
 	public CodeEditorPainter(JEditor editor, CodeEditorDefaults defaults) {
 		this.editor = editor;
 
-		setAutoscrolls(true);
+		// setAutoscrolls(true);
 		setDoubleBuffered(true);
 		setOpaque(true);
 
@@ -636,6 +637,13 @@ public class CodeEditorPainter extends JComponent implements TabExpander {
 			// 点滅するやつ
 			paintCaret(gfx, line, y);
 		}
+
+		List<Integer> partitionLine = editor.getPartitionLine();
+		for (Integer i : partitionLine) {
+			if(line == i.intValue()) {
+				paintLine(gfx, line, y);
+			}
+		}
 	}
 
 	/* useful to force painting of highlighting (for example in diff presentations) */
@@ -726,5 +734,13 @@ public class CodeEditorPainter extends JComponent implements TabExpander {
 				gfx.drawLine(caretX, y, caretX, y + height - 1);
 			}
 		}
+	}
+
+	protected void paintLine(Graphics gfx, int line, int y) {
+		// 文字幅分yを調整
+		y += fm.getLeading() + fm.getMaxDescent();
+
+		gfx.setColor(Color.RED);
+		gfx.drawLine(0, y, getWidth(), y);
 	}
 }
