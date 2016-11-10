@@ -26,6 +26,7 @@ public class Navi_r3 extends AbstractNaviPane {
 	public void setInput(String notice) {
 		super.setInput(notice);
 		noticeLabel.setText("着目している繰り返し文　：　" + notice + " 行目");
+		parent.setNoticeLine(notice);
 	}
 
 }

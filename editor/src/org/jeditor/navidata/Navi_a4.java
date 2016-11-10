@@ -28,6 +28,7 @@ public class Navi_a4 extends AbstractNaviPane {
 	public void setInput(String notice) {
 		super.setInput(notice);
 		noticeLabel.setText("着目している処理　：　" + notice + " 行目");
+		parent.setNoticeLine(notice);
 	}
 
 }

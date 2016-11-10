@@ -614,6 +614,12 @@ public class CodeEditorPainter extends JComponent implements TabExpander {
 	}
 
 	protected void paintHighlight(Graphics gfx, int line, int y) {
+		// まとまりハイライト
+		int[] partition = editor.getPartition();
+		if(partition[0] <= line && line < partition[1]) {
+			paintRect(gfx, line, y, new Color(240, 240, 240));
+		}
+
 		/* added to be able to force highlighting (for example in
 		 * diff presentations */
 		if(highlighter != null && highlighter.getColor(line) != null) {
@@ -623,6 +629,23 @@ public class CodeEditorPainter extends JComponent implements TabExpander {
 		if(line >= editor.getSelectionStartLine() && line <= editor.getSelectionEndLine()) {
 			// 行のハイライト
 			paintLineHighlight(gfx, line, y);
+		}
+
+		// 分割ライン
+		List<Integer> partitionLine = editor.getPartitionLine();
+		for (Integer i : partitionLine) {
+			if(line == i.intValue()) {
+				paintLine(gfx, line, y, Color.RED);
+			}
+		}
+
+		// 変数ハイライト
+		paintVariableHighlight(gfx, line, y, Color.YELLOW);
+
+		// 行ハイライト
+		int noticeLine = editor.getNoticeLine();
+		if(line == noticeLine) {
+			paintRect(gfx, line, y, Color.RED);
 		}
 
 		if(highlights != null) {
@@ -638,12 +661,6 @@ public class CodeEditorPainter extends JComponent implements TabExpander {
 			paintCaret(gfx, line, y);
 		}
 
-		List<Integer> partitionLine = editor.getPartitionLine();
-		for (Integer i : partitionLine) {
-			if(line == i.intValue()) {
-				paintLine(gfx, line, y);
-			}
-		}
 	}
 
 	/* useful to force painting of highlighting (for example in diff presentations) */
@@ -736,11 +753,38 @@ public class CodeEditorPainter extends JComponent implements TabExpander {
 		}
 	}
 
-	protected void paintLine(Graphics gfx, int line, int y) {
+	protected void paintLine(Graphics gfx, int line, int y, Color c) {
 		// 文字幅分yを調整
 		y += fm.getLeading() + fm.getMaxDescent();
 
-		gfx.setColor(Color.RED);
+		gfx.setColor(c);
 		gfx.drawLine(0, y, getWidth(), y);
+	}
+
+	protected void paintRect(Graphics gfx, int line, int y, Color c) {
+		int height = fm.getHeight();
+		y += fm.getLeading() + fm.getMaxDescent();
+
+		gfx.setColor(c);
+		gfx.fillRect(0, y, getWidth(), height);
+	}
+
+	protected void paintVariableHighlight(Graphics gfx, int line, int y, Color c) {
+		String text = editor.getLineText(line);
+		String variableName = editor.getVariableName();
+		if(variableName != null) {
+			int height = fm.getHeight();
+			y += fm.getLeading() + fm.getMaxDescent();
+
+			gfx.setColor(c);
+
+			int i = text.indexOf(variableName, 0);
+			while (i != -1) {
+				int x1 = editor._offsetToX(line, i);
+				int x2 = editor._offsetToX(line, i + variableName.length());
+				gfx.fillRect(x1, y, x2 - x1, height);
+				i = text.indexOf(variableName, i + 1);
+			}
+		}
 	}
 }

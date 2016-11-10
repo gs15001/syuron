@@ -312,18 +312,66 @@ public class JEditor extends JComponent {
 		return compiled;
 	}
 
+	// 分割ライン用データ
 	private List<Integer> partitionLines = new ArrayList<>();
 
 	public void addPartitionLine(int l) {
 		partitionLines.add(l);
+		painter.repaint();
+		gutter.repaint();
 	}
 
 	public List<Integer> getPartitionLine() {
-		partitionLines.add(10);
-		partitionLines.add(20);
 		return partitionLines;
 	}
 
+	public void clearPartitionLine() {
+		partitionLines.clear();
+		painter.repaint();
+		gutter.repaint();
+	}
+
+	// まとまり用データ
+	private int[] partition = { -1, -1 };
+
+	public void addPartition(int from, int to) {
+		partition[0] = from;
+		partition[1] = to;
+		painter.repaint();
+		gutter.repaint();
+	}
+
+	public int[] getPartition() {
+		return partition;
+	}
+
+	// 1行ハイライト用データ
+	private int noticeLine = -1;
+
+	public void setNoticeLine(int i) {
+		noticeLine = i;
+		painter.repaint();
+		gutter.repaint();
+	}
+
+	public int getNoticeLine() {
+		return noticeLine;
+	}
+
+	// 変数ハイライト用データ
+	private String variableName = null;
+
+	public void setVariableName(String name) {
+		variableName = name;
+		painter.repaint();
+		gutter.repaint();
+	}
+
+	public String getVariableName() {
+		return variableName;
+	}
+
+	// 以下初期から
 	public int getTabSize() {
 		return painter.getTabSize();
 	}

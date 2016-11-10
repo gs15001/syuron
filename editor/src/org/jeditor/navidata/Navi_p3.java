@@ -92,6 +92,12 @@ public class Navi_p3 extends AbstractNaviPane {
 		if(!(startEnd[0] <= startEnd[1])) {
 			startEnd[0] = startEnd[1] = -1;
 			startEndString[0] = startEndString[1] = "エラー行目";
+		} else {
+			parent.setPartition(startEnd[0], startEnd[1]);
+		}
+		if(startEnd[2] == 1) {
+			startEnd[0]++;
+			startEndString[0] = startEnd[0] + "行目";
 		}
 		noticeLabel.setText("着目しているまとまり：" + startEndString[0] + "から" + startEndString[1]);
 		refreshLabel(startEnd[2]);

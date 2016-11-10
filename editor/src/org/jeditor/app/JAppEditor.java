@@ -63,6 +63,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
+import org.jeditor.gui.JEditor;
 import org.jeditor.navi.HistoryList;
 import org.jeditor.navi.NaviManager;
 import debugger.gui.GUI;
@@ -662,8 +663,41 @@ public class JAppEditor extends JFrame {
 		}
 	}
 
-	public FilePane getFilePane() {
-		return (FilePane) tab.getSelectedComponent();
+	public void setPartitionLine(int i) {
+		JEditor ed = ((FilePane) tab.getSelectedComponent()).ed;
+		ed.addPartitionLine(i);
+	}
+
+	public void setPartition(int from, int to) {
+		JEditor ed = ((FilePane) tab.getSelectedComponent()).ed;
+		ed.addPartition(from, to);
+	}
+
+	public void setVariable(String name) {
+		JEditor ed = ((FilePane) tab.getSelectedComponent()).ed;
+		// 変数に着目した場合は行の着目をなくす
+		if(ed.getNoticeLine() >= 0) {
+			setNoticeLine("0");
+		}
+		if(name.equals("")) {
+			ed.setVariableName(null);
+		} else {
+			ed.setVariableName(name);
+		}
+
+	}
+
+	public void setNoticeLine(String line) {
+		JEditor ed = ((FilePane) tab.getSelectedComponent()).ed;
+		// 行に着目した場合は変数の着目をなくす
+		if(ed.getVariableName() != null) {
+			setVariable("");
+		}
+		try {
+			ed.setNoticeLine(Integer.parseInt(line) - 1);
+		} catch (NumberFormatException e) {
+
+		}
 	}
 
 	public static void main(String args[]) {

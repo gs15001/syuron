@@ -22,11 +22,12 @@ public class Navi_a2 extends AbstractNaviPane {
 		button = buttons.get(1);
 		button.setText("存在しない");
 	}
-	
+
 	@Override
 	public void setInput(String notice) {
 		super.setInput(notice);
 		noticeLabel.setText("着目している処理　：　" + notice + " 行目");
+		parent.setNoticeLine(notice);
 		this.inputTmp = notice;
 	}
 }

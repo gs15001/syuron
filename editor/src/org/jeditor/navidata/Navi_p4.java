@@ -27,7 +27,7 @@ public class Navi_p4 extends AbstractNaviPane {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				inputTmp = String.valueOf(startEnd[0] + 1) + "-" + String.valueOf(startEnd[1] + "-1");
+				inputTmp = String.valueOf(startEnd[0]) + "-" + String.valueOf(startEnd[1]) + "-1";
 			}
 		});
 
@@ -80,6 +80,8 @@ public class Navi_p4 extends AbstractNaviPane {
 		if(!(startEnd[0] <= startEnd[1])) {
 			startEnd[0] = startEnd[1] = -1;
 			startEndString[0] = startEndString[1] = "エラー行目";
+		} else {
+			parent.setPartition(startEnd[0] - 1, startEnd[0]);
 		}
 		noticeLabel.setText("着目しているまとまり：" + startEndString[0] + "のメソッド");
 		refreshLabel();

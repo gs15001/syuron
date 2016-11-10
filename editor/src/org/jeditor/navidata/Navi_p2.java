@@ -66,6 +66,10 @@ public class Navi_p2 extends AbstractNaviPane {
 		for (int i = 0; i < notices.length; i++) {
 			try {
 				startEnd[i] = Integer.parseInt(notices[i]);
+				if(i == 2) {
+					// エディターにライン表示のための値を渡す
+					parent.setPartitionLine(startEnd[i]);
+				}
 				if(startEnd[i] == 0) {
 					startEndString[i] = "最初";
 				} else if(startEnd[i] == 999) {
@@ -81,6 +85,8 @@ public class Navi_p2 extends AbstractNaviPane {
 		if(!(startEnd[0] <= startEnd[2] && startEnd[2] <= startEnd[1])) {
 			startEnd[0] = startEnd[1] = startEnd[2] = -1;
 			startEndString[0] = startEndString[1] = startEndString[2] = "エラー行目";
+		} else {
+			parent.setPartition(startEnd[0], startEnd[2]);
 		}
 		noticeLabel.setText("着目しているまとまり：" + startEndString[0] + "から" + startEndString[2]);
 		refreshLabel();

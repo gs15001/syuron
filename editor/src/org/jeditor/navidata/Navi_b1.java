@@ -48,6 +48,7 @@ public class Navi_b1 extends AbstractNaviPane {
 		calledLine = notices[1];
 
 		noticeLabel.setText("着目している条件文　：　" + notices[2] + " 行目");
+		parent.setNoticeLine(notices[2]);
 		inputTmp = notices[2];
 	}
 }

@@ -40,12 +40,15 @@ public class InputMyDialog extends JOptionPane implements InputDialog {
 			case METHOD:
 				text = "メソッドを呼び出している行番号を入力してください\n入力なしでスキップ";
 				title = "メソッドを呼び出している行番号の入力";
+				break;
 			case IF:
 				text = "調査する条件文の行番号を入力してください\n入力なしでスキップ";
 				title = "調査する条件文の行番号の入力";
+				break;
 			case FOR:
 				text = "調査する繰り返し文の行番号を入力してください\n入力なしでスキップ";
 				title = "調査する繰り返し文の行番号の入力";
+				break;
 			default:
 				break;
 		}
