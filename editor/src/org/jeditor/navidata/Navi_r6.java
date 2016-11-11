@@ -38,6 +38,6 @@ public class Navi_r6 extends AbstractNaviPane {
 
 		noticeLabel.setText("着目している繰り返し文　：　" + notices[2] + " 行目");
 		parent.setNoticeLine(notices[2]);
-		inputTmp = notices[1];
+		preInput = notices[1];
 	}
 }

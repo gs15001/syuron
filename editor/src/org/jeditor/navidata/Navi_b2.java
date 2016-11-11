@@ -29,7 +29,7 @@ public class Navi_b2 extends AbstractNaviPane {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				inputTmp = notice;
+				preInput = notice;
 			}
 		});
 		

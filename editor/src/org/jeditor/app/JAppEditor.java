@@ -42,6 +42,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.Set;
 import java.util.TreeMap;
 import javax.swing.AbstractAction;
 import javax.swing.JComboBox;
@@ -148,8 +149,8 @@ public class JAppEditor extends JFrame {
 		BOTTOM_WIDTH = WINDOW_WIDTH;
 		BOTTOM_HEIGHT = (int) (WINDOW_HEIGHT * 0.2);
 
-		System.out.println("WINDOW_HIGHT : " + WINDOW_HEIGHT);
-		System.out.println("WINDOW_WIDTH : " + WINDOW_WIDTH);
+		// System.out.println("WINDOW_HIGHT : " + WINDOW_HEIGHT);
+		// System.out.println("WINDOW_WIDTH : " + WINDOW_WIDTH);
 
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		setBackground(Color.lightGray);
@@ -216,7 +217,7 @@ public class JAppEditor extends JFrame {
 		mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		// エディター部分
 		tab.setPreferredSize(new Dimension(LEFT_WIDTH, LEFT_HEIGHT));
-		doOpenFile(new File(DEFAULTPATH, "新規.java"));
+		doOpenFile(new File(DEFAULTPATH, "no_name.java"));
 		// ナビゲーション部分
 		naviManager = new NaviManager(this);
 		history = new HistoryList(naviManager);
@@ -663,14 +664,39 @@ public class JAppEditor extends JFrame {
 		}
 	}
 
-	public void setPartitionLine(int i) {
+	public void clreaAll() {
 		JEditor ed = ((FilePane) tab.getSelectedComponent()).ed;
-		ed.addPartitionLine(i);
+		ed.clearPartitionLine();
+		ed.setPartition(-1, -1);
+		ed.setNoticeLine(-1);
+		ed.setVariableName(null);
+	}
+
+	public void setPartitionLine(Set<Integer> set) {
+		JEditor ed = ((FilePane) tab.getSelectedComponent()).ed;
+		ed.setPartitionLine(set);
+	}
+
+	public String getPartitionLine() {
+		JEditor ed = ((FilePane) tab.getSelectedComponent()).ed;
+		Set<Integer> set = ed.getPartitionLine();
+		StringBuilder sb = new StringBuilder();
+		for (Integer i : set) {
+			sb.append("-");
+			sb.append(i.intValue());
+		}
+		return sb.toString();
 	}
 
 	public void setPartition(int from, int to) {
 		JEditor ed = ((FilePane) tab.getSelectedComponent()).ed;
-		ed.addPartition(from, to);
+		ed.setPartition(from, to);
+	}
+
+	public String getPartition() {
+		JEditor ed = ((FilePane) tab.getSelectedComponent()).ed;
+		int[] tmp = ed.getPartition();
+		return "-" + tmp[0] + "-" + tmp[1];
 	}
 
 	public void setVariable(String name) {

@@ -28,6 +28,6 @@ public class Navi_a2 extends AbstractNaviPane {
 		super.setInput(notice);
 		noticeLabel.setText("着目している処理　：　" + notice + " 行目");
 		parent.setNoticeLine(notice);
-		this.inputTmp = notice;
+		this.preInput = notice;
 	}
 }

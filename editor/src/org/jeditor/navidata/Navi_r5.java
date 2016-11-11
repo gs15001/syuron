@@ -26,6 +26,6 @@ public class Navi_r5 extends AbstractNaviPane {
 		super.setInput(input);
 		noticeLabel.setText("着目している変数　：　" + input);
 		parent.setNoticeLine(input);
-		this.inputTmp = input;
+		this.preInput = input;
 	}
 }

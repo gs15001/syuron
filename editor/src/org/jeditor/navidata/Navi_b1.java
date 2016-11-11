@@ -28,7 +28,7 @@ public class Navi_b1 extends AbstractNaviPane {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				inputTmp = calledLine;
+				preInput = calledLine;
 			}
 		});
 
@@ -49,6 +49,6 @@ public class Navi_b1 extends AbstractNaviPane {
 
 		noticeLabel.setText("着目している条件文　：　" + notices[2] + " 行目");
 		parent.setNoticeLine(notices[2]);
-		inputTmp = notices[2];
+		preInput = notices[2];
 	}
 }

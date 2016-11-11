@@ -62,7 +62,8 @@ public abstract class AbstractNaviPane extends JPanel {
 
 	protected String notice = "";
 	protected String input = "";
-	protected String inputTmp = "";
+	protected String preInput = "";
+	protected String postInput = "";
 	protected String selected = "";
 
 	public AbstractNaviPane(NaviManager mgr, String index, int buttonNum) {
@@ -283,9 +284,10 @@ public abstract class AbstractNaviPane extends JPanel {
 					if(dialog[button.i] != null) {
 						input = dialog[button.i].showInputDialog(parent);
 					}
+					parent.clreaAll();
 					if(input != null || dialog[button.i] == null) {
 						selected = button.getText();
-						naviManager.changeNavi(getIndex(), button.getText(), inputTmp + input);
+						naviManager.changeNavi(getIndex(), button.getText(), preInput + input + postInput);
 					}
 				}
 			});
@@ -315,6 +317,10 @@ public abstract class AbstractNaviPane extends JPanel {
 		this.notice = notice;
 	}
 
+	public void clearState() {
+		parent.clreaAll();
+	}
+
 	public HistoryData createHistoryData() {
 		return new HistoryData(index, indexLabel.getText(), notice);
 	}
@@ -326,7 +332,8 @@ public abstract class AbstractNaviPane extends JPanel {
 			d.updateData(selected, input, "");
 		}
 		selected = "";
-		inputTmp = "";
+		preInput = "";
+		postInput = "";
 		confi.setSelected(false);
 	}
 

@@ -3,6 +3,8 @@ package org.jeditor.navidata;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.JButton;
 import org.jeditor.navi.InputMyDialog;
 import org.jeditor.navi.NaviManager;
@@ -27,7 +29,8 @@ public class Navi_p3 extends AbstractNaviPane {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				inputTmp = String.valueOf(startEnd[0]) + "-" + String.valueOf(startEnd[1]) + "-";
+				preInput = String.valueOf(startEnd[0]) + "-" + String.valueOf(startEnd[1]) + "-";
+				postInput = parent.getPartitionLine();
 			}
 		});
 
@@ -37,12 +40,20 @@ public class Navi_p3 extends AbstractNaviPane {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				inputTmp = String.valueOf(startEnd[0]) + "-" + String.valueOf(startEnd[1]) + "-";
+				preInput = String.valueOf(startEnd[0]) + "-" + String.valueOf(startEnd[1]) + "-";
+				postInput = parent.getPartitionLine();
 			}
 		});
 
 		button = buttons.get(2);
 		button.setText("次へ");
+		button.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				postInput = parent.getPartition();
+			}
+		});
 
 		dialog[0] = new InputMyDialog(InputMyDialog.PARTITION);
 		dialog[1] = new InputMyDialog(InputMyDialog.METHOD);
@@ -72,32 +83,48 @@ public class Navi_p3 extends AbstractNaviPane {
 	@Override
 	public void setInput(String notice) {
 		super.setInput(notice);
+		Set<Integer> partitionLineSet = new HashSet<>();
 
-		String[] notices = notice.split("-", 3);
+		String[] notices = notice.split("-");
 		for (int i = 0; i < notices.length; i++) {
 			try {
-				startEnd[i] = Integer.parseInt(notices[i]);
-				if(startEnd[i] == 0) {
-					startEndString[i] = "最初";
-				} else if(startEnd[i] == 999) {
-					startEndString[i] = "最後";
-				} else {
-					startEndString[i] = notices[i] + "行目";
+				int tmp = Integer.parseInt(notices[i]);
+				if(i <= 2) {
+					startEnd[i] = tmp;
+					if(startEnd[i] == 0) {
+						startEndString[i] = "最初";
+					} else if(startEnd[i] == 999) {
+						startEndString[i] = "最後";
+					} else {
+						startEndString[i] = notices[i] + "行目";
+					}
+				}
+				if(i != 2 && i != 0) {
+					// エディターにライン表示のための値を渡す
+					partitionLineSet.add(tmp);
 				}
 			} catch (NumberFormatException e) {
-				startEnd[i] = -1;
-				startEndString[i] = "エラー行目";
+				if(i <= 2) {
+					startEnd[i] = -1;
+					startEndString[i] = "エラー行目";
+				}
 			}
 		}
+		// 遷移元からの調整　1:正しいから遷移 2:誤りから遷移 3：メソッドの誤りから遷移
+		if(startEnd[2] != 2) {
+			startEndString[0] = startEnd[0] + "行目";
+			startEnd[0]--;
+			partitionLineSet.add(startEnd[0]);
+		} else {
+			partitionLineSet.add(startEnd[0]);
+		}
+		// 値の確認 問題なければエディターに必要な値を渡す
 		if(!(startEnd[0] <= startEnd[1])) {
 			startEnd[0] = startEnd[1] = -1;
 			startEndString[0] = startEndString[1] = "エラー行目";
 		} else {
 			parent.setPartition(startEnd[0], startEnd[1]);
-		}
-		if(startEnd[2] == 1) {
-			startEnd[0]++;
-			startEndString[0] = startEnd[0] + "行目";
+			parent.setPartitionLine(partitionLineSet);
 		}
 		noticeLabel.setText("着目しているまとまり：" + startEndString[0] + "から" + startEndString[1]);
 		refreshLabel(startEnd[2]);

@@ -26,6 +26,6 @@ public class Navi_a7 extends AbstractNaviPane {
 		super.setInput(input);
 		noticeLabel.setText("着目している変数　：　" + input);
 		parent.setVariable(notice);
-		this.inputTmp = input;
+		this.preInput = input;
 	}
 }

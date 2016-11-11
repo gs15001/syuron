@@ -34,13 +34,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -313,15 +314,15 @@ public class JEditor extends JComponent {
 	}
 
 	// 分割ライン用データ
-	private List<Integer> partitionLines = new ArrayList<>();
+	private Set<Integer> partitionLines = new HashSet<>();
 
-	public void addPartitionLine(int l) {
-		partitionLines.add(l);
+	public void setPartitionLine(Set<Integer> set) {
+		partitionLines = set;
 		painter.repaint();
 		gutter.repaint();
 	}
 
-	public List<Integer> getPartitionLine() {
+	public Set<Integer> getPartitionLine() {
 		return partitionLines;
 	}
 
@@ -334,7 +335,7 @@ public class JEditor extends JComponent {
 	// まとまり用データ
 	private int[] partition = { -1, -1 };
 
-	public void addPartition(int from, int to) {
+	public void setPartition(int from, int to) {
 		partition[0] = from;
 		partition[1] = to;
 		painter.repaint();

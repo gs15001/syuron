@@ -16,7 +16,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
-import java.util.List;
+import java.util.Set;
 import javax.swing.JComponent;
 import javax.swing.ToolTipManager;
 import javax.swing.text.PlainDocument;
@@ -632,7 +632,7 @@ public class CodeEditorPainter extends JComponent implements TabExpander {
 		}
 
 		// 分割ライン
-		List<Integer> partitionLine = editor.getPartitionLine();
+		Set<Integer> partitionLine = editor.getPartitionLine();
 		for (Integer i : partitionLine) {
 			if(line == i.intValue()) {
 				paintLine(gfx, line, y, Color.RED);

@@ -38,6 +38,6 @@ public class Navi_p1 extends AbstractNaviPane {
 		// 表示ファイルの行数を取得
 		// int textLength = parent.getFilePane().getFromFile().vfile.size() + 1;
 		// this.inputTmp = "0-" + String.valueOf(textLength) + "-";
-		this.inputTmp = "0-999-";
+		preInput = "0-999-";
 	}
 }

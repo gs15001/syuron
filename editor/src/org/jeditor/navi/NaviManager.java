@@ -269,6 +269,7 @@ public class NaviManager {
 		layout.show(viewPane, nextState);
 		AbstractNaviPane nextPane = naviData.get(nextState);
 		nextPane.refreshLayout();
+		nextPane.clearState();
 		nextPane.setInput(input);
 		historyModel.setHistoryIndex(historyIndex + 1);
 	}

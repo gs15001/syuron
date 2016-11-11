@@ -27,7 +27,7 @@ public class Navi_r2 extends AbstractNaviPane {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				inputTmp = calledLine;
+				preInput = calledLine;
 			}
 		});
 
@@ -48,6 +48,6 @@ public class Navi_r2 extends AbstractNaviPane {
 
 		noticeLabel.setText("着目している繰り返し文　：　" + notices[2] + " 行目");
 		parent.setNoticeLine(notices[2]);
-		inputTmp = notices[2];
+		preInput = notices[2];
 	}
 }
