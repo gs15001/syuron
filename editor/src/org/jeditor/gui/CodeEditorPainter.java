@@ -17,6 +17,8 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JComponent;
 import javax.swing.ToolTipManager;
 import javax.swing.text.PlainDocument;
@@ -778,13 +780,29 @@ public class CodeEditorPainter extends JComponent implements TabExpander {
 
 			gfx.setColor(c);
 
-			int i = text.indexOf(variableName, 0);
-			while (i != -1) {
-				int x1 = editor._offsetToX(line, i);
-				int x2 = editor._offsetToX(line, i + variableName.length());
-				gfx.fillRect(x1, y, x2 - x1, height);
-				i = text.indexOf(variableName, i + 1);
+			Pattern p = Pattern.compile("\\W(" + variableName + ")\\W");
+			Matcher m = p.matcher(text);
+
+			// コメントの記号を探す
+			Pattern p2 = Pattern.compile("//");
+			Matcher m2 = p2.matcher(text);
+
+			while (m.find()) {
+				System.out.println("find");
+				if(!m2.find(0) || m2.start() > m.start()) {
+					int x1 = editor._offsetToX(line, m.start() + 1);
+					int x2 = editor._offsetToX(line, m.start() + 1 + variableName.length());
+					gfx.fillRect(x1, y, x2 - x1, height);
+				}
 			}
+
+			// int i = text.indexOf(variableName, 0);
+			// while (i != -1) {
+			// int x1 = editor._offsetToX(line, i);
+			// int x2 = editor._offsetToX(line, i + variableName.length());
+			// gfx.fillRect(x1, y, x2 - x1, height);
+			// i = text.indexOf(variableName, i + 1);
+			// }
 		}
 	}
 }
