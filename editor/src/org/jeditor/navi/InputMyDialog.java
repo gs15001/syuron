@@ -3,7 +3,7 @@ package org.jeditor.navi;
 import java.awt.Component;
 import javax.swing.JOptionPane;
 
-public class InputMyDialog extends JOptionPane implements InputDialog {
+public class InputMyDialog extends JOptionPane {
 
 	private static final long serialVersionUID = 1L;
 
@@ -54,7 +54,6 @@ public class InputMyDialog extends JOptionPane implements InputDialog {
 		}
 	}
 
-	@Override
 	public String showInputDialog(Component parent) {
 		return JOptionPane.showInputDialog(parent, text, title, JOptionPane.QUESTION_MESSAGE);
 	}

@@ -22,7 +22,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import org.jeditor.app.JAppEditor;
 import org.jeditor.navi.HistoryData;
-import org.jeditor.navi.InputDialog;
+import org.jeditor.navi.InputMyDialog;
 import org.jeditor.navi.NaviManager;
 
 public abstract class AbstractNaviPane extends JPanel {
@@ -50,7 +50,7 @@ public abstract class AbstractNaviPane extends JPanel {
 	private JPanel centerPane;
 	private JPanel southPane;
 
-	protected InputDialog[] dialog = new InputDialog[4];
+	protected InputMyDialog[] dialog = new InputMyDialog[4];
 
 	private final int FONT_SIZE_T = 24;
 	private final int FONT_SIZE_M = 16;

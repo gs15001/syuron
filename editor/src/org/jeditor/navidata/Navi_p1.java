@@ -1,6 +1,8 @@
 /* ソースツリー文字コード識別用文字列ソースツリー文字コード識別用文字列 */
 package org.jeditor.navidata;
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.JButton;
 import org.jeditor.navi.InputMyDialog;
 import org.jeditor.navi.NaviManager;
@@ -8,6 +10,7 @@ import org.jeditor.navi.NaviManager;
 public class Navi_p1 extends AbstractNaviPane {
 
 	private static final long serialVersionUID = 1L;
+	private int[] startEnd = new int[3];
 
 	public Navi_p1(NaviManager mgr) {
 		super(mgr, "p1", 2);
@@ -35,9 +38,29 @@ public class Navi_p1 extends AbstractNaviPane {
 	public void setInput(String notice) {
 		super.setInput(notice);
 		noticeLabel.setText("利用なし");
-		// 表示ファイルの行数を取得
-		// int textLength = parent.getFilePane().getFromFile().vfile.size() + 1;
-		// this.inputTmp = "0-" + String.valueOf(textLength) + "-";
-		preInput = "0-999-";
+		Set<Integer> partitionLineSet = new HashSet<>();
+
+		String[] notices = notice.split("-");
+
+		for (int i = 0; i < notices.length; i++) {
+			try {
+				int tmp = Integer.parseInt(notices[i]);
+				if(i == 0) {
+					tmp--;
+				}
+				// エディターにライン表示のための値を渡す準備
+				partitionLineSet.add(tmp);
+				startEnd[i] = tmp;
+			} catch (NumberFormatException e) {
+				startEnd[i] = -1;
+			}
+		}
+		if(startEnd[0] < startEnd[1]) {
+			parent.setPartition(startEnd[0], startEnd[1]);
+			parent.setPartitionLine(partitionLineSet);
+			preInput = startEnd[0] + "-" + startEnd[1] + "-";
+		} else {
+			preInput = "0-999-";
+		}
 	}
 }
