@@ -1,8 +1,6 @@
 /* ソースツリー文字コード識別用文字列ソースツリー文字コード識別用文字列 */
 package org.jeditor.navidata;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import org.jeditor.navi.NaviManager;
 
@@ -24,13 +22,6 @@ public class Navi_a0 extends AbstractNaviPane {
 
 		JButton button = buttons.get(0);
 		button.setText("次へ");
-		button.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				postInput = parent.getPartition();
-			}
-		});
 	}
 
 	@Override
@@ -40,12 +31,13 @@ public class Navi_a0 extends AbstractNaviPane {
 
 		try {
 			parent.setPartition(Integer.parseInt(notices[1]), Integer.parseInt(notices[2]));
-		} catch (NumberFormatException e) {
+		} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
 			parent.setPartition(-1, -1);
 		}
 
 		noticeLabel.setText("着目している変数　：　" + notices[0]);
 		parent.setVariable(notices[0]);
 		preInput = notices[0];
+		postInput = parent.getPartition();
 	}
 }

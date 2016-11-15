@@ -22,10 +22,18 @@ public class Navi_a7 extends AbstractNaviPane {
 		button.setText("誤り");
 	}
 
-	public void setInput(String input) {
-		super.setInput(input);
-		noticeLabel.setText("着目している変数　：　" + input);
-		parent.setVariable(notice);
-		this.preInput = input;
+	public void setInput(String notice) {
+		super.setInput(notice);
+		String[] notices = notice.split("-");
+
+		try {
+			parent.setPartition(Integer.parseInt(notices[1]), Integer.parseInt(notices[2]));
+		} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+			parent.setPartition(-1, -1);
+		}
+		noticeLabel.setText("着目している変数　：　" + notices[0]);
+		parent.setVariable(notices[0]);
+		preInput = notices[0];
+		postInput = parent.getPartition();
 	}
 }

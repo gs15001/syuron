@@ -25,8 +25,16 @@ public class Navi_r3 extends AbstractNaviPane {
 	@Override
 	public void setInput(String notice) {
 		super.setInput(notice);
-		noticeLabel.setText("着目している繰り返し文　：　" + notice + " 行目");
-		parent.setNoticeLine(notice);
+		String[] notices = notice.split("-");
+
+		try {
+			parent.setPartition(Integer.parseInt(notices[1]), Integer.parseInt(notices[2]));
+		} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+			parent.setPartition(-1, -1);
+		}
+		noticeLabel.setText("着目している繰り返し文　：　" + notices[0] + " 行目");
+		parent.setNoticeLine(notices[0]);
+		postInput = parent.getPartition();
 	}
 
 }

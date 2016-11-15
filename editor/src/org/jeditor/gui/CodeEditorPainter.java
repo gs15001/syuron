@@ -788,7 +788,6 @@ public class CodeEditorPainter extends JComponent implements TabExpander {
 			Matcher m2 = p2.matcher(text);
 
 			while (m.find()) {
-				System.out.println("find");
 				if(!m2.find(0) || m2.start() > m.start()) {
 					int x1 = editor._offsetToX(line, m.start() + 1);
 					int x2 = editor._offsetToX(line, m.start() + 1 + variableName.length());

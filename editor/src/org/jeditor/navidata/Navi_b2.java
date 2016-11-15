@@ -32,7 +32,7 @@ public class Navi_b2 extends AbstractNaviPane {
 				preInput = notice;
 			}
 		});
-		
+
 		button = buttons.get(1);
 		button.setText("誤り");
 
@@ -42,8 +42,16 @@ public class Navi_b2 extends AbstractNaviPane {
 	@Override
 	public void setInput(String notice) {
 		super.setInput(notice);
-		noticeLabel.setText("着目している条件文　：　" + notice + " 行目");
-		parent.setNoticeLine(notice);
+		String[] notices = notice.split("-");
+
+		try {
+			parent.setPartition(Integer.parseInt(notices[1]), Integer.parseInt(notices[2]));
+		} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+			parent.setPartition(-1, -1);
+		}
+		noticeLabel.setText("着目している条件文　：　" + notices[0] + " 行目");
+		parent.setNoticeLine(notices[0]);
+		postInput = parent.getPartition();
 	}
 
 }
