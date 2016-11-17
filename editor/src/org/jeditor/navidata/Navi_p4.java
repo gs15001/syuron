@@ -50,13 +50,14 @@ public class Navi_p4 extends AbstractNaviPane {
 
 	private void refreshLabel() {
 		//@formatter:off
-		questionLabel.setText("<html>" + startEnd[0] + "行目のメソッドが正しく動作しているか確認しましょう。"
-				+ "メソッド呼び出し後の" + (startEnd[0] + 1) + "行目にprint文を挿入して、必要な変数の値を確認しましょう。"
+		questionLabel.setText("<html>" + startEnd[0] + "行目のメソッドが正しく動作しているか確認しましょう。<br>"
+				+ "メソッド呼び出し後の" + (startEnd[0] + 1) + "行目にprint文を挿入して、必要な変数の値を確認しましょう。<br>"
 				+ "確認した値は正しいですか。</html>");
 		
 		descriptLabel.setText("<html>" + (startEnd[0] - 1) + "行目までのまとまりは正しく動いており、バグが無いことが確認できました。<br>"
 				+ "続いて、" + startEnd[0] + "行目のメソッドにバグが無いか確認します。<br>"
-				+ "確認するべき変数は、" + (startEnd[0] + 1) + "行目以降で使用している変数です。</html>");
+				+ "確認するべき変数は、" + (startEnd[0] + 1) + "行目以降で使用している変数です。<br>"
+				+ "正しい変数の値はプログラムの過程を紙などに書いて求めましょう。</html>");
 		//@formatter:on
 
 	}

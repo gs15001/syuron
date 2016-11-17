@@ -15,8 +15,8 @@ public class Navi_i1 extends AbstractNaviPane {
 		//@formatter:off
 		questionLabel.setText("<html>このプログラムには入力はありますか。</html>");
 			
-		descriptLabel.setText("<html>入力の有無によって、再現性の確認をするために行うべきことが<br>"
-				+ "異なります。そのため、入力の有無の確認から行います。</html>");
+		descriptLabel.setText("<html>入力の有無によって、再現性の確認のために行うべきことが異なります。<br>"
+				+ "そのため、入力の有無の確認から行います。</html>");
 		//@formatter:on
 
 		JButton button = buttons.get(0);

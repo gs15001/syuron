@@ -13,15 +13,16 @@ public class Navi_a6 extends AbstractNaviPane {
 		super(mgr, "a6", 3);
 		//@formatter:off
 		indexLabel.setText("条件分岐・繰り返し文の調査");
-		questionLabel.setText("<html>見つけた処理が存在している条件文(if)や繰り返し文(while,for)を選択してください。<br>"
-				+ "複数存在している場合は、外側(コードの上のほう）から選択してください。</html>");
-		descriptLabel.setText("<html>見つけた処理が属している条件文(if)や繰り返し文(while,for)に誤りがないかを調べていきます。<br>"
-				+ "外側にある条件文や繰り返し文の方が結果に大きく影響することが多いため、外側から調べていきます。</html>");
+		questionLabel.setText("<html>着目している処理が存在している条件文(if)や繰り返し文(while,for)を<br>選択してください。<br>"
+				+ "複数存在している場合は、外側(コードの上のほう）から選択してください。<br>"
+				+ "全て調べ終えた場合は、「次へ」を選択してください。</html>");
+		descriptLabel.setText("<html>着目している処理が存在している条件文(if)や繰り返し文(while,for)に誤りが<br>ないかを調べていきます。<br>"
+				+ "外側にある条件文や繰り返し文の方が結果に大きく影響することが多いため、<br>外側から調べていきます。</html>");
 		//@formatter:on
 		JButton button = buttons.get(0);
-		button.setText("if文");
+		button.setText("条件文");
 		button = buttons.get(1);
-		button.setText("for文");
+		button.setText("繰り返し文");
 		button = buttons.get(2);
 		button.setText("次へ");
 		dialog[0] = new InputMyDialog(InputMyDialog.IF);

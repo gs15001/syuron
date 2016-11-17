@@ -19,8 +19,8 @@ public class Navi_a1 extends AbstractNaviPane {
 				+ "複数ある場合は一番最後の処理を対象とします。</html>");
 		
 		descriptLabel.setText("<html>誤っている変数を見つけたなら、次はその原因を探します。<br>"
-				+ "変数は代入された時だけ、保持する値が変更されます。<br>"
-				+ "つまり、変数の値が誤っている場合、代入した値が誤っていることになるため、その部分を探します。</html>");
+				+ "変数は代入された時だけ、値が変更されます。<br>"
+				+ "つまり、変数の値が誤っている場合、代入した値が誤っていることになるため、<br>その部分を探します。</html>");
 		//@formatter:on
 
 		JButton button = buttons.get(0);
@@ -41,7 +41,7 @@ public class Navi_a1 extends AbstractNaviPane {
 		} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
 			parent.setPartition(-1, -1);
 		}
-		noticeLabel.setText("着目している変数　：　" + notices[0]);
+		noticeLabel.setText("誤っている変数　：　" + notices[0]);
 		parent.setVariable(notices[0]);
 		postInput = parent.getPartition();
 	}

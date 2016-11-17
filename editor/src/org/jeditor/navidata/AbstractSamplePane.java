@@ -55,4 +55,8 @@ public abstract class AbstractSamplePane extends JPanel {
 		this.main = main;
 		this.layout = layout;
 	}
+
+	public void addMainPane(JPanel pane) {
+		add(pane, BorderLayout.CENTER);
+	}
 }

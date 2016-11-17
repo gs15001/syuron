@@ -14,10 +14,10 @@ public class Navi_a0 extends AbstractNaviPane {
 		indexLabel.setText("ステップ4 バグの特定");
 		//@formatter:off
 		questionLabel.setText("<html>ステップ3で、バグの潜む範囲を絞り込みました。<br>"
-				+ "ステップ4では、誤っている変数を手がかりにその範囲を細かく調べ、バグを特定していきます。</html>");
+				+ "ステップ4では、誤っている変数を手がかりにその範囲を細かく調べ、<br>バグを特定していきます。</html>");
 		
 		descriptLabel.setText("<html>以降、「左辺」と「右辺」という言葉がでてきます。<br>"
-				+ "数学の方程式と同様に、「左辺」は「=」の左側、「右辺」は「=」の右側を示します。</html>");
+				+ "数学の方程式と同様に、「左辺」は「=」の左側、「右辺」は「=」の右側を<br>示します。</html>");
 		//@formatter:on
 
 		JButton button = buttons.get(0);
@@ -35,7 +35,7 @@ public class Navi_a0 extends AbstractNaviPane {
 			parent.setPartition(-1, -1);
 		}
 
-		noticeLabel.setText("着目している変数　：　" + notices[0]);
+		noticeLabel.setText("誤っている変数　：　" + notices[0]);
 		parent.setVariable(notices[0]);
 		preInput = notices[0];
 		postInput = parent.getPartition();

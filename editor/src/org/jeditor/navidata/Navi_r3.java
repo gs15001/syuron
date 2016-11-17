@@ -16,7 +16,9 @@ public class Navi_r3 extends AbstractNaviPane {
 				+ "繰り返し文の条件、<br>"
 				+ "繰り返し回数を数えるための処理<br>"
 				+ "のいずれかに誤りがあります。順に確認しましょう。</html>");
-		descriptLabel.setText("<html>一定の回数繰り返すタイプで繰り返し回数が正解と異なる場合、その原因は、上記の3つのいずれかになります。</html>");
+		descriptLabel.setText("<html>一定の回数繰り返すタイプで繰り返し回数が正解と異なる場合、<br>"
+				+ "その原因は、上記の3つのいずれかになります。<br>"
+				+ "サンプルも参考にしながら確認しましょう。</html>");
 		//@formatter:on
 		JButton button = buttons.get(0);
 		button.setText("終了");

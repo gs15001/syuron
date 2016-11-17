@@ -15,7 +15,7 @@ public class Navi_a3 extends AbstractNaviPane {
 		super(mgr, "a3", 2);
 		//@formatter:off
 		indexLabel.setText("誤っている変数の右辺の値を調査");
-		questionLabel.setText("<html>見つけた処理の右辺に出てくる変数の値を確認しましょう。<br>"
+		questionLabel.setText("<html>誤っている処理の右辺に出てくる変数の値を確認しましょう。<br>"
 				+ "確認した値は正しいですか。</html>");
 		descriptLabel.setText("<html>代入する値は右辺の式を評価（計算）した結果になります。<br>"
 				+ "代入する値が誤る原因は、<br>"

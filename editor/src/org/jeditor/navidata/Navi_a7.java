@@ -31,7 +31,7 @@ public class Navi_a7 extends AbstractNaviPane {
 		} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
 			parent.setPartition(-1, -1);
 		}
-		noticeLabel.setText("着目している変数　：　" + notices[0]);
+		noticeLabel.setText("誤っている変数　：　" + notices[0]);
 		parent.setVariable(notices[0]);
 		preInput = notices[0];
 		postInput = parent.getPartition();

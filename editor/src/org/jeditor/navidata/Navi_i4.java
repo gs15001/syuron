@@ -13,10 +13,10 @@ public class Navi_i4 extends AbstractNaviPane {
 
 		indexLabel.setText("乱数・日付データの確認");
 		//@formatter:off
-		questionLabel.setText("<html>作成したプログラムに乱数や日付データなどを扱ってはいませんか。</html>");
+		questionLabel.setText("<html>プログラムの中で乱数や日付データなどを扱ってはいませんか。</html>");
 			
-		descriptLabel.setText("<html>入力の無いプログラムで実行毎に結果(出力)が変化し、一部正しい結果(出力)になる場合、<br>"
-				+ "バグの原因は乱数や日付データを扱う部分にある場合がほとんどです。<br>"
+		descriptLabel.setText("<html>入力の無いプログラムで実行毎に結果(出力)が変化し、一部正しい結果(出力)に<br>"
+				+ "なる場合、バグの原因は乱数や日付データを扱う部分にある場合がほとんどです。<br>"
 				+ "乱数や日付データを扱っているか確認します。</html>");
 		//@formatter:on
 

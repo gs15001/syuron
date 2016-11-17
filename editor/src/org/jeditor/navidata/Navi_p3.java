@@ -69,12 +69,12 @@ public class Navi_p3 extends AbstractNaviPane {
 	
 		if(pattern == 1) {
 			descriptLabel.setText("<html>" + startEndString[0] + "までのまとまりは正しく動いており、バグが無いことが確認できました。<br>"
-					+ startEndString[0] + "から" + startEndString[1] + "までのまとまりに同様のことを繰り返し、バグの潜む範囲を絞り込んでいきます。"
+					+ startEndString[0] + "から" + startEndString[1] + "までのまとまりに同様のことを繰り返し、バグの潜む範囲<br>を絞り込んでいきます。<br>"
 					+ "ある程度、絞り込めたら、その範囲を細かく調べていきます。</html>");
 		}else{
 			descriptLabel.setText("<html>" + startEndString[0] + "から" + startEndString[1] + "までのまとまりは正しく動いていないため、"
-					+ "バグは" + startEndString[0] + "から" + startEndString[1] + "までのまとまりに潜んでいることがわかりました。<br>"
-					+ startEndString[0] + "から" + startEndString[1] + "までのまとまりに同様のことを繰り返し、バグの潜む範囲を絞り込んでいきます。"
+					+ "バグは" + startEndString[0] + "から<br>" + startEndString[1] + "までのまとまりに潜んでいることがわかりました。<br>"
+					+ startEndString[0] + "から" + startEndString[1] + "までのまとまりに同様のことを繰り返し、バグの潜む範囲を<br>絞り込んでいきます。<br>"
 					+ "ある程度、絞り込めたら、その範囲を細かく調べていきます。</html>");
 		}
 		//@formatter:on

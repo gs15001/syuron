@@ -17,7 +17,7 @@ public class Navi_r6 extends AbstractNaviPane {
 		questionLabel.setText("<html>この繰り返し文(while,for)の条件式を確認しましょう。<br>"
 				+ "複雑な計算を行っている場合は、分解して1つ1つ確認しましょう。<br>"
 				+ "確認した結果、条件式は正しいですか。</html>");
-		descriptLabel.setText("<html>条件の部分が誤る原因のうち、「使用する変数が誤っている」は先ほど正しいことを確認しました。<br>"
+		descriptLabel.setText("<html>条件の部分が誤る原因のうち、「使用する変数が誤っている」は<br>先ほど正しいことを確認しました。<br>"
 				+ "残る「条件式が誤っている」の確認を行います。</html>");
 		//@formatter:on
 		JButton button = buttons.get(0);

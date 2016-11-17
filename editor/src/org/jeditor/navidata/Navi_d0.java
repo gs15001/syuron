@@ -13,8 +13,8 @@ public class Navi_d0 extends AbstractNaviPane {
 
 		indexLabel.setText("ステップ1 バグの確認");
 		//@formatter:off
-		questionLabel.setText("<html>ステップ1では、プログラムが正しく動作するかを確認し、バグが存在しているかを確認します。<br>"
-				+ "既に実行結果(出力)が誤っており、バグが存在していることを確認しているなら、トップに戻り、「ステップ2」に進みましょう。</html>");
+		questionLabel.setText("<html>ステップ1では、プログラムが正しく動作するかを確認し、バグの存在を確認します。<br>"
+				+ "既に実行結果(出力)が誤っており、バグの存在を確認しているなら、トップに戻り、「ステップ2」に進みましょう。</html>");
 		
 		descriptLabel.setText("<html></html>");
 		//@formatter:on
