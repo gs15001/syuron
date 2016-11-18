@@ -67,6 +67,7 @@ import javax.tools.ToolProvider;
 import org.jeditor.gui.JEditor;
 import org.jeditor.navi.HistoryList;
 import org.jeditor.navi.NaviManager;
+import org.jeditor.navidata.AbstractNaviPane;
 import debugger.gui.GUI;
 import debugger.gui.JDBFileFilter;
 
@@ -724,6 +725,12 @@ public class JAppEditor extends JFrame {
 		} catch (NumberFormatException e) {
 
 		}
+	}
+
+	public void updateData() {
+		AbstractNaviPane pane = naviManager.getCurrentPane();
+		JEditor ed = ((FilePane) tab.getSelectedComponent()).ed;
+		pane.updateData(ed.getNoticeLine(), ed.getPartition(), ed.getPartitionLine());
 	}
 
 	public static void main(String args[]) {

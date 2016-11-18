@@ -13,6 +13,7 @@ public class Navi_p2_2 extends AbstractNaviPane {
 	private static final long serialVersionUID = 1L;
 	private int[] startEnd = new int[3];
 	private String[] startEndString = new String[3];
+	private Set<Integer> partitionLineSet = null;
 
 	public Navi_p2_2(NaviManager mgr) {
 		super(mgr, "p2_2", 2);
@@ -49,6 +50,7 @@ public class Navi_p2_2 extends AbstractNaviPane {
 	}
 
 	private void refreshLabel() {
+		noticeLabel.setText("着目しているまとまり：" + startEndString[0] + "から" + startEndString[2]);
 		//@formatter:off
 		questionLabel.setText("<html>" + startEndString[0] + "から" + startEndString[2] + "までのまとまりが正しく動作しているか確認しましょう。<br>"
 				+ "境目である" + startEndString[2] + "にprint文を挿入して、必要な変数の値を確認しましょう。<br>"
@@ -65,7 +67,7 @@ public class Navi_p2_2 extends AbstractNaviPane {
 	@Override
 	public void setInput(String notice) {
 		super.setInput(notice);
-		Set<Integer> partitionLineSet = new HashSet<>();
+		partitionLineSet = new HashSet<>();
 
 		String[] notices = notice.split("-");
 		for (int i = 0; i < notices.length; i++) {
@@ -75,12 +77,10 @@ public class Navi_p2_2 extends AbstractNaviPane {
 				partitionLineSet.add(tmp);
 				if(i <= 2) {
 					startEnd[i] = tmp;
-					if(startEnd[i] == 0) {
-						startEndString[i] = "最初";
-					} else if(startEnd[i] == 999) {
-						startEndString[i] = "最後";
+					if(i == 0) {
+						startEndString[i] = (startEnd[0] + 1) + "行目";
 					} else {
-						startEndString[i] = startEnd[i] + "行目";
+						startEndString[i] = notices[i] + "行目";
 					}
 				}
 				if(i == 2) {
@@ -107,6 +107,15 @@ public class Navi_p2_2 extends AbstractNaviPane {
 			parent.setPartitionLine(partitionLineSet);
 		}
 		noticeLabel.setText("着目しているまとまり：" + startEndString[0] + "から" + startEndString[2]);
+		refreshLabel();
+	}
+	
+	@Override
+	public void updateData(int noticeLine, int[] partition, Set<Integer> partitionLines) {
+		startEnd[0] = partition[0];
+		startEndString[0] = (startEnd[0] + 1) + "行目";
+		startEnd[2] = partition[1];
+		startEndString[2] = startEnd[2] + "行目";
 		refreshLabel();
 	}
 }

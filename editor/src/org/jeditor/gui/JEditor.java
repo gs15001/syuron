@@ -394,7 +394,6 @@ public class JEditor extends JComponent {
 				if(i.intValue() > startLine) {
 					tmp.add(new Integer(i.intValue() + v));
 				} else if(i.intValue() == startLine && v < 0) {
-
 					tmp.add(new Integer(i.intValue() + v));
 				} else {
 					tmp.add(i);
@@ -402,6 +401,7 @@ public class JEditor extends JComponent {
 			}
 			partitionLines = tmp;
 		}
+		parent.getParent().updateData();
 	}
 
 	// 以下初期から

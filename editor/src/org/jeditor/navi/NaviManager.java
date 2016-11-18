@@ -250,6 +250,7 @@ public class NaviManager {
 		AbstractNaviPane nextPane = naviData.get(nextState);
 		nextPane.setInput(input);
 		layout.show(viewPane, nextState);
+		naviPane = nextPane;
 		// タイトルに戻る場合は履歴削除
 		if(nextState.equals("t")) {
 			historyModel.clear();
@@ -271,6 +272,7 @@ public class NaviManager {
 		nextPane.refreshLayout();
 		nextPane.clearState();
 		nextPane.setInput(input);
+		naviPane = nextPane;
 		historyModel.setHistoryIndex(historyIndex + 1);
 	}
 
@@ -284,5 +286,9 @@ public class NaviManager {
 
 	public HistoryListModel getHistoryListModel() {
 		return historyModel;
+	}
+
+	public AbstractNaviPane getCurrentPane() {
+		return naviPane;
 	}
 }

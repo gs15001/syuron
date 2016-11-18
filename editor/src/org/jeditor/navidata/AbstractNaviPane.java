@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -344,6 +345,10 @@ public abstract class AbstractNaviPane extends JPanel {
 	public void setSamplePane(AbstractSamplePane pane) {
 		pane.setLayout(this, layout);
 		add(pane);
+	}
+
+	public void updateData(int noticeLine, int[] partition, Set<Integer> partitionLines) {
+		// 特定の状態のみ動作する
 	}
 
 	class MyButton extends JButton {

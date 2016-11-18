@@ -14,6 +14,7 @@ public class Navi_p4 extends AbstractNaviPane {
 	private static final long serialVersionUID = 1L;
 	private int[] startEnd = new int[3];
 	private String[] startEndString = new String[3];
+	private Set<Integer> partitionLineSet = null;
 
 	public Navi_p4(NaviManager mgr) {
 		super(mgr, "p4", 2);
@@ -49,13 +50,14 @@ public class Navi_p4 extends AbstractNaviPane {
 	}
 
 	private void refreshLabel() {
+		noticeLabel.setText("着目しているまとまり：" + startEndString[0] + "のメソッド");
 		//@formatter:off
-		questionLabel.setText("<html>" + startEnd[0] + "行目のメソッドが正しく動作しているか確認しましょう。<br>"
+		questionLabel.setText("<html>" + startEndString[0] + "のメソッドが正しく動作しているか確認しましょう。<br>"
 				+ "メソッド呼び出し後の" + (startEnd[0] + 1) + "行目にprint文を挿入して、必要な変数の値を確認しましょう。<br>"
 				+ "確認した値は正しいですか。</html>");
 		
 		descriptLabel.setText("<html>" + (startEnd[0] - 1) + "行目までのまとまりは正しく動いており、バグが無いことが確認できました。<br>"
-				+ "続いて、" + startEnd[0] + "行目のメソッドにバグが無いか確認します。<br>"
+				+ "続いて、" + startEndString[0] + "のメソッドにバグが無いか確認します。<br>"
 				+ "確認するべき変数は、" + (startEnd[0] + 1) + "行目以降で使用している変数です。<br>"
 				+ "正しい変数の値はプログラムの過程を紙などに書いて求めましょう。</html>");
 		//@formatter:on
@@ -65,7 +67,7 @@ public class Navi_p4 extends AbstractNaviPane {
 	@Override
 	public void setInput(String notice) {
 		super.setInput(notice);
-		Set<Integer> partitionLineSet = new HashSet<>();
+		partitionLineSet = new HashSet<>();
 
 		String[] notices = notice.split("-");
 		for (int i = 0; i < notices.length; i++) {
@@ -75,13 +77,7 @@ public class Navi_p4 extends AbstractNaviPane {
 				partitionLineSet.add(tmp);
 				if(i < 2) {
 					startEnd[i] = tmp;
-					if(startEnd[i] == 0) {
-						startEndString[i] = "最初";
-					} else if(startEnd[i] == 999) {
-						startEndString[i] = "最後";
-					} else {
-						startEndString[i] = notices[i] + "行目";
-					}
+					startEndString[i] = notices[i] + "行目";
 				}
 			} catch (NumberFormatException e) {
 				if(i <= 2) {
@@ -99,6 +95,15 @@ public class Navi_p4 extends AbstractNaviPane {
 			parent.setPartitionLine(partitionLineSet);
 		}
 		noticeLabel.setText("着目しているまとまり：" + startEndString[0] + "のメソッド");
+		refreshLabel();
+	}
+
+	@Override
+	public void updateData(int noticeLine, int[] partition, Set<Integer> partitionLines) {
+		startEnd[0] = partition[0];
+		startEndString[0] = startEnd[0] + "行目";
+		startEnd[2] = partition[1];
+		startEndString[2] = startEnd[2] + "行目";
 		refreshLabel();
 	}
 }
