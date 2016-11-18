@@ -372,6 +372,38 @@ public class JEditor extends JComponent {
 		return variableName;
 	}
 
+	// 更新用
+	public void updateData(int v, int startLine, int startOffset) {
+		if(noticeLine > startLine) {
+			noticeLine += v;
+		} else if(noticeLine == startLine) {
+			if(startOffset == 0) {
+				noticeLine += v;
+			}
+		}
+
+		for (int i = 0; i < partition.length; i++) {
+			if(partition[i] > startLine) {
+				partition[i] += v;
+			}
+		}
+
+		if(partitionLines.size() > 0) {
+			Set<Integer> tmp = new HashSet<>();
+			for (Integer i : partitionLines) {
+				if(i.intValue() > startLine) {
+					tmp.add(new Integer(i.intValue() + v));
+				} else if(i.intValue() == startLine && v < 0) {
+
+					tmp.add(new Integer(i.intValue() + v));
+				} else {
+					tmp.add(i);
+				}
+			}
+			partitionLines = tmp;
+		}
+	}
+
 	// 以下初期から
 	public int getTabSize() {
 		return painter.getTabSize();
@@ -2265,8 +2297,13 @@ public class JEditor extends JComponent {
 				inputHandler.keyTyped(evt);
 				break;
 			case KeyEvent.KEY_PRESSED:
+				int oldLineC = getLineCount();
+				int oldLine = selectionStartLine;
+				int offset = getCaretPosition() - getLineStartOffset(selectionStartLine);
 				inputHandler.keyPressed(evt);
 				manageEventforKey(evt);
+				int newLineC = getLineCount();
+				updateData(newLineC - oldLineC, oldLine, offset);
 				break;
 			case KeyEvent.KEY_RELEASED:
 				inputHandler.keyReleased(evt);
