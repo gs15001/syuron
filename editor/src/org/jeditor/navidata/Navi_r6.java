@@ -1,6 +1,7 @@
 /* ソースツリー文字コード識別用文字列ソースツリー文字コード識別用文字列 */
 package org.jeditor.navidata;
 
+import java.util.Set;
 import javax.swing.JButton;
 import org.jeditor.navi.NaviManager;
 
@@ -35,6 +36,7 @@ public class Navi_r6 extends AbstractNaviPane {
 		super.setInput(notice);
 		String[] notices = notice.split("-");
 		called = notices[0];
+		parent.setReturnLine(notices[1]);
 
 		try {
 			parent.setPartition(Integer.parseInt(notices[3]), Integer.parseInt(notices[4]));
@@ -45,5 +47,12 @@ public class Navi_r6 extends AbstractNaviPane {
 		parent.setNoticeLine(notices[2]);
 		preInput = notices[1];
 		postInput = parent.getPartition();
+	}
+
+	@Override
+	public void updateData(int noticeLine, int returnLine, int[] partition, Set<Integer> partitionLines) {
+		postInput = parent.getPartition();
+		preInput = returnLine +"";
+		noticeLabel.setText("着目している繰り返し文　：　" + noticeLine + " 行目");
 	}
 }

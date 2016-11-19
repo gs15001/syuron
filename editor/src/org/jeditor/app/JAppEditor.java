@@ -1,16 +1,16 @@
 /* This file is part of the jEditor library: see http://jeditor.sourceforge.net
  * Copyright (C) 2010 Herve Girod
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -74,7 +74,7 @@ import debugger.gui.JDBFileFilter;
 /**
  * A class showing the use of the package. It presents a panel, which adapt to the
  * different possible scripts and allow to modify them.
- * 
+ *
  * @version 0.4.1
  */
 public class JAppEditor extends JFrame {
@@ -426,7 +426,7 @@ public class JAppEditor extends JFrame {
 		 * JMenuItem item = new JMenuItem(s);
 		 * compare.add(item);
 		 * item.addActionListener(new ActionListener() {
-		 * 
+		 *
 		 * public void actionPerformed(ActionEvent e) {
 		 * FilePane.TextFile toFile = ((FilePane) (tab.getSelectedComponent())).getFile();
 		 * String s = ((JMenuItem) (e.getSource())).getText();
@@ -727,10 +727,24 @@ public class JAppEditor extends JFrame {
 		}
 	}
 
+	public void setReturnLine(String line) {
+		JEditor ed = ((FilePane) tab.getSelectedComponent()).ed;
+		try {
+			ed.setReturnLine(Integer.parseInt(line) - 1);
+		} catch (NumberFormatException e) {
+
+		}
+	}
+
+	public int getReturnLine() {
+		JEditor ed = ((FilePane) tab.getSelectedComponent()).ed;
+		return ed.getReturnLine() + 1;
+	}
+
 	public void updateData() {
 		AbstractNaviPane pane = naviManager.getCurrentPane();
 		JEditor ed = ((FilePane) tab.getSelectedComponent()).ed;
-		pane.updateData(ed.getNoticeLine(), ed.getPartition(), ed.getPartitionLine());
+		pane.updateData(ed.getNoticeLine() + 1, ed.getReturnLine() + 1, ed.getPartition(), ed.getPartitionLine());
 	}
 
 	public static void main(String args[]) {

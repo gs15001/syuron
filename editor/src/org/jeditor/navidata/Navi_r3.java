@@ -1,6 +1,7 @@
 /* ソースツリー文字コード識別用文字列ソースツリー文字コード識別用文字列 */
 package org.jeditor.navidata;
 
+import java.util.Set;
 import javax.swing.JButton;
 import org.jeditor.navi.NaviManager;
 
@@ -39,4 +40,10 @@ public class Navi_r3 extends AbstractNaviPane {
 		postInput = parent.getPartition();
 	}
 
+	@Override
+	public void updateData(int noticeLine, int returnLine, int[] partition, Set<Integer> partitionLines) {
+		postInput = parent.getPartition();
+		preInput = noticeLine + "";
+		noticeLabel.setText("着目している繰り返し文　：　" + noticeLine + " 行目");
+	}
 }

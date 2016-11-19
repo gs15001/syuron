@@ -1,6 +1,7 @@
 /* ソースツリー文字コード識別用文字列ソースツリー文字コード識別用文字列 */
 package org.jeditor.navidata;
 
+import java.util.Set;
 import javax.swing.JButton;
 import org.jeditor.navi.InputMyDialog;
 import org.jeditor.navi.NaviManager;
@@ -44,5 +45,12 @@ public class Navi_a5 extends AbstractNaviPane {
 		parent.setNoticeLine(notices[0]);
 		preInput = getIndex() + "-" + notices[0] + "-";
 		postInput = parent.getPartition();
+	}
+
+	@Override
+	public void updateData(int noticeLine, int returnLine, int[] partition, Set<Integer> partitionLines) {
+		postInput = parent.getPartition();
+		preInput = getIndex() + "-" + noticeLine + "-";
+		noticeLabel.setText("着目している処理　：　" + noticeLine + " 行目");
 	}
 }

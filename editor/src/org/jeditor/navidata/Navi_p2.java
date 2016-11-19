@@ -104,7 +104,7 @@ public class Navi_p2 extends AbstractNaviPane {
 	}
 
 	@Override
-	public void updateData(int noticeLine, int[] partition, Set<Integer> partitionLines) {
+	public void updateData(int noticeLine, int returnLine, int[] partition, Set<Integer> partitionLines) {
 		// 終点を探す
 		TreeSet<Integer> set = new TreeSet<>(partitionLines);
 		Iterator<Integer> ite = set.iterator();

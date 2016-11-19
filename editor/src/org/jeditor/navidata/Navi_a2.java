@@ -1,6 +1,7 @@
 /* ソースツリー文字コード識別用文字列ソースツリー文字コード識別用文字列 */
 package org.jeditor.navidata;
 
+import java.util.Set;
 import javax.swing.JButton;
 import org.jeditor.navi.NaviManager;
 
@@ -10,12 +11,12 @@ public class Navi_a2 extends AbstractNaviPane {
 
 	public Navi_a2(NaviManager mgr) {
 		super(mgr, "a2", 2);
-		//@formatter:off
+		// @formatter:off
 		indexLabel.setText("条件分岐・繰り返しの確認");
 		questionLabel.setText("<html>着目している処理は条件文(if)や繰り返し文(while,for)のブロック（{})内に<br>存在しますか。</html>");
 		descriptLabel.setText("<html>着目している処理が条件文や繰り返し文のブロック内に存在する場合、<br>"
 				+ "条件文や繰り返し文の誤りによって結果が誤ることがあるため、確認します。</html>");
-		//@formatter:on
+		// @formatter:on
 		JButton button = buttons.get(0);
 		button.setText("存在する");
 
@@ -37,5 +38,12 @@ public class Navi_a2 extends AbstractNaviPane {
 		parent.setNoticeLine(notices[0]);
 		preInput = notices[0];
 		postInput = parent.getPartition();
+	}
+
+	@Override
+	public void updateData(int noticeLine, int returnLine, int[] partition, Set<Integer> partitionLines) {
+		postInput = parent.getPartition();
+		preInput = noticeLine + "";
+		noticeLabel.setText("着目している処理　：　" + noticeLine + " 行目");
 	}
 }

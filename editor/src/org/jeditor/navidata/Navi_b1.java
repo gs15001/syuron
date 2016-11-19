@@ -3,6 +3,7 @@ package org.jeditor.navidata;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Set;
 import javax.swing.JButton;
 import org.jeditor.navi.NaviManager;
 
@@ -11,7 +12,6 @@ public class Navi_b1 extends AbstractNaviPane {
 	private static final long serialVersionUID = 1L;
 
 	private String called;
-	private String calledLine;
 
 	public Navi_b1(NaviManager mgr) {
 		super(mgr, "b1", 2);
@@ -30,7 +30,7 @@ public class Navi_b1 extends AbstractNaviPane {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				preInput = calledLine;
+				preInput = parent.getReturnLine() + "";
 			}
 		});
 
@@ -47,7 +47,7 @@ public class Navi_b1 extends AbstractNaviPane {
 		super.setInput(notice);
 		String[] notices = notice.split("-");
 		called = notices[0];
-		calledLine = notices[1];
+		parent.setReturnLine(notices[1]);
 
 		try {
 			parent.setPartition(Integer.parseInt(notices[3]), Integer.parseInt(notices[4]));
@@ -59,5 +59,12 @@ public class Navi_b1 extends AbstractNaviPane {
 		parent.setNoticeLine(notices[2]);
 		preInput = notices[2];
 		postInput = parent.getPartition();
+	}
+
+	@Override
+	public void updateData(int noticeLine, int returnLine, int[] partition, Set<Integer> partitionLines) {
+		postInput = parent.getPartition();
+		preInput = noticeLine + "";
+		noticeLabel.setText("着目している条件文　：　" + noticeLine + " 行目");
 	}
 }

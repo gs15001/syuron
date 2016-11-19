@@ -3,6 +3,7 @@ package org.jeditor.navidata;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Set;
 import javax.swing.JButton;
 import org.jeditor.navi.InputMyDialog;
 import org.jeditor.navi.NaviManager;
@@ -10,6 +11,7 @@ import org.jeditor.navi.NaviManager;
 public class Navi_r4 extends AbstractNaviPane {
 
 	private static final long serialVersionUID = 1L;
+	private String[] notices;
 
 	public Navi_r4(NaviManager mgr) {
 		super(mgr, "r4", 2);
@@ -26,16 +28,16 @@ public class Navi_r4 extends AbstractNaviPane {
 		//@formatter:on
 		JButton button = buttons.get(0);
 		button.setText("正しい");
+
+		button = buttons.get(1);
+		button.setText("誤り");
 		button.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				preInput = notice;
+				preInput = "";
 			}
 		});
-
-		button = buttons.get(1);
-		button.setText("誤り");
 
 		dialog[1] = new InputMyDialog(InputMyDialog.VARIABLE);
 	}
@@ -43,7 +45,7 @@ public class Navi_r4 extends AbstractNaviPane {
 	@Override
 	public void setInput(String notice) {
 		super.setInput(notice);
-		String[] notices = notice.split("-");
+		notices = notice.split("-");
 
 		try {
 			parent.setPartition(Integer.parseInt(notices[3]), Integer.parseInt(notices[4]));
@@ -52,7 +54,17 @@ public class Navi_r4 extends AbstractNaviPane {
 		}
 		noticeLabel.setText("着目している繰り返し文　：　" + notices[2] + " 行目");
 		parent.setNoticeLine(notices[2]);
+		parent.setReturnLine(notices[1]);
+		preInput = notices[0] + "-" + notices[1] + "-" + notices[2];
 		postInput = parent.getPartition();
 	}
 
+	@Override
+	public void updateData(int noticeLine, int returnLine, int[] partition, Set<Integer> partitionLines) {
+		postInput = parent.getPartition();
+		notices[2] = noticeLine + "";
+		notices[1] = returnLine + "";
+		preInput = notices[0] + "-" + notices[1] + "-" + notices[2];
+		noticeLabel.setText("着目している繰り返し文　：　" + noticeLine + " 行目");
+	}
 }

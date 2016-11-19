@@ -347,7 +347,7 @@ public abstract class AbstractNaviPane extends JPanel {
 		add(pane);
 	}
 
-	public void updateData(int noticeLine, int[] partition, Set<Integer> partitionLines) {
+	public void updateData(int noticeLine, int returnLine, int[] partition, Set<Integer> partitionLines) {
 		// 特定の状態のみ動作する
 	}
 

@@ -359,6 +359,17 @@ public class JEditor extends JComponent {
 		return noticeLine;
 	}
 
+	// リターン用データ
+	private int returnLine = -1;
+
+	public void setReturnLine(int i) {
+		returnLine = i;
+	}
+
+	public int getReturnLine() {
+		return returnLine;
+	}
+
 	// 変数ハイライト用データ
 	private String variableName = null;
 
@@ -374,11 +385,20 @@ public class JEditor extends JComponent {
 
 	// 更新用
 	public void updateData(int v, int startLine, int startOffset) {
+		// 選択行を改行する場合は、先頭での改行のみ変更対象とする
 		if(noticeLine > startLine) {
 			noticeLine += v;
 		} else if(noticeLine == startLine) {
 			if(startOffset == 0) {
 				noticeLine += v;
+			}
+		}
+
+		if(returnLine > startLine) {
+			returnLine += v;
+		} else if(returnLine == startLine) {
+			if(startOffset == 0) {
+				returnLine += v;
 			}
 		}
 

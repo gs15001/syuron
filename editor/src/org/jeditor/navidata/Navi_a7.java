@@ -1,6 +1,7 @@
 /* ソースツリー文字コード識別用文字列ソースツリー文字コード識別用文字列 */
 package org.jeditor.navidata;
 
+import java.util.Set;
 import javax.swing.JButton;
 import org.jeditor.navi.NaviManager;
 
@@ -34,6 +35,11 @@ public class Navi_a7 extends AbstractNaviPane {
 		noticeLabel.setText("誤っている変数　：　" + notices[0]);
 		parent.setVariable(notices[0]);
 		preInput = notices[0];
+		postInput = parent.getPartition();
+	}
+
+	@Override
+	public void updateData(int noticeLine, int returnLine, int[] partition, Set<Integer> partitionLines) {
 		postInput = parent.getPartition();
 	}
 }
