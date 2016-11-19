@@ -1,6 +1,6 @@
 /* Copyright (C) 1999 Slava Pestov
  * Copyright (C) 2010, 2012, 2014 Herve Girod
- * 
+ *
  * You may use and modify this package for any purpose. Redistribution is
  * permitted, in both source and binary form, provided that this notice
  * remains intact in all source distributions of this package. */
@@ -97,7 +97,7 @@ import org.jeditor.scripts.base.TokenMarker;
  * <p>
  *
  * To use it in your app, treat it like any other component, for example:
- * 
+ *
  * <pre>
  * JEditTextArea ta = new JEditTextArea();
  * ta.setTokenMarker(new JavaTokenMarker());
@@ -625,10 +625,10 @@ public class JEditor extends JComponent {
 	 * Loads a keymap with a bunch of bindings. This can be used to take a static table of definitions and load them
 	 * into some keymap. The following example illustrates an example of binding some keys to the cut, copy, and paste
 	 * actions associated with a JTextComponent. A code fragment to accomplish this might look as follows:
-	 * 
+	 *
 	 * <pre>
 	 * <code>
-	 * 
+	 *
 	 *   static final JTextComponent.KeyBinding[] defaultBindings = {
 	 *     new JTextComponent.KeyBinding(
 	 *       KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK),
@@ -640,14 +640,14 @@ public class JEditor extends JComponent {
 	 *       KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK),
 	 *       DefaultEditorKit.cutAction),
 	 *   };
-	 * 
+	 *
 	 *   JTextComponent c = new JTextPane();
 	 *   Keymap k = c.getKeymap();
 	 *   JTextComponent.loadKeymap(k, defaultBindings, c.getActions());
-	 * 
+	 *
 	 * </code>
 	 * </pre>
-	 * 
+	 *
 	 * The sets of bindings and actions may be empty but must be non- <code>null</code>.
 	 *
 	 * @param map
@@ -2531,7 +2531,13 @@ public class JEditor extends JComponent {
 			SwingUtilities.invokeLater(new Runnable() {
 
 				public void run() {
-					offsetVerticalScroll(evt.getScrollAmount() * evt.getUnitsToScroll());
+					// offsetVerticalScroll(evt.getScrollAmount() * evt.getUnitsToScroll());
+					if(evt.getUnitsToScroll() > 0) {
+						offsetVerticalScroll(3);
+					}
+					if(evt.getUnitsToScroll() < 0) {
+						offsetVerticalScroll(-3);
+					}
 				}
 			});
 		}
