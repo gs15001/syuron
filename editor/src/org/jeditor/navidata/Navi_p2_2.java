@@ -4,7 +4,9 @@ package org.jeditor.navidata;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
+import java.util.TreeSet;
 import javax.swing.JButton;
 import org.jeditor.navi.NaviManager;
 
@@ -51,16 +53,15 @@ public class Navi_p2_2 extends AbstractNaviPane {
 
 	private void refreshLabel() {
 		noticeLabel.setText("着目しているまとまり：" + startEndString[0] + "から" + startEndString[2]);
-		//@formatter:off
-		questionLabel.setText("<html>" + startEndString[0] + "から" + startEndString[2] + "までのまとまりが正しく動作しているか確認しましょう。<br>"
-				+ "境目である" + startEndString[2] + "にprint文を挿入して、必要な変数の値を確認しましょう。<br>"
+		// @formatter:off
+		questionLabel.setText("<html>" + startEndString[0] + "から" + startEndString[2]
+				+ "までのまとまりが正しく動作しているか確認しましょう。<br>" + "境目である" + startEndString[2] + "にprint文を挿入して、必要な変数の値を確認しましょう。<br>"
 				+ "確認した値は正しいですか。</html>");
-		
+
 		descriptLabel.setText("<html>プログラムをまとまりに分割したので、次はまとまりごとに正しく動作しているか確認します。<br>"
-				+ "正しく動作しているかは、変数の値を確認することで確かめることができます。<br>"
-				+ "確認するべき変数は、" + startEndString[2] + "以降、またはメソッドで使用している変数です。<br>"
-				+ "正しい変数の値はプログラムの過程を紙などに書いて求めましょう。</html>");
-		//@formatter:on
+				+ "正しく動作しているかは、変数の値を確認することで確かめることができます。<br>" + "確認するべき変数は、" + startEndString[2]
+				+ "以降、またはメソッドで使用している変数です。<br>" + "正しい変数の値はプログラムの過程を紙などに書いて求めましょう。</html>");
+		// @formatter:on
 
 	}
 
@@ -109,9 +110,19 @@ public class Navi_p2_2 extends AbstractNaviPane {
 		noticeLabel.setText("着目しているまとまり：" + startEndString[0] + "から" + startEndString[2]);
 		refreshLabel();
 	}
-	
+
 	@Override
 	public void updateData(int noticeLine, int[] partition, Set<Integer> partitionLines) {
+		// 終点を探す
+		TreeSet<Integer> set = new TreeSet<>(partitionLines);
+		Iterator<Integer> ite = set.iterator();
+		while (ite.hasNext()) {
+			if(ite.next().intValue() == partition[1]) {
+				startEnd[1] = ite.next().intValue();
+				break;
+			}
+		}
+
 		startEnd[0] = partition[0];
 		startEndString[0] = (startEnd[0] + 1) + "行目";
 		startEnd[2] = partition[1];

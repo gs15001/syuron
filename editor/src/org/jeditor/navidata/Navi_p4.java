@@ -4,7 +4,9 @@ package org.jeditor.navidata;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
+import java.util.TreeSet;
 import javax.swing.JButton;
 import org.jeditor.navi.InputMyDialog;
 import org.jeditor.navi.NaviManager;
@@ -55,7 +57,7 @@ public class Navi_p4 extends AbstractNaviPane {
 		questionLabel.setText("<html>" + startEndString[0] + "のメソッドが正しく動作しているか確認しましょう。<br>"
 				+ "メソッド呼び出し後の" + (startEnd[0] + 1) + "行目にprint文を挿入して、必要な変数の値を確認しましょう。<br>"
 				+ "確認した値は正しいですか。</html>");
-		
+
 		descriptLabel.setText("<html>" + (startEnd[0] - 1) + "行目までのまとまりは正しく動いており、バグが無いことが確認できました。<br>"
 				+ "続いて、" + startEndString[0] + "のメソッドにバグが無いか確認します。<br>"
 				+ "確認するべき変数は、" + (startEnd[0] + 1) + "行目以降で使用している変数です。<br>"
@@ -100,10 +102,18 @@ public class Navi_p4 extends AbstractNaviPane {
 
 	@Override
 	public void updateData(int noticeLine, int[] partition, Set<Integer> partitionLines) {
-		startEnd[0] = partition[0];
+		// 終点を探す
+		TreeSet<Integer> set = new TreeSet<>(partitionLines);
+		Iterator<Integer> ite = set.iterator();
+		while (ite.hasNext()) {
+			if(ite.next().intValue() == partition[1]) {
+				startEnd[1] = ite.next().intValue();
+				break;
+			}
+		}
+
+		startEnd[0] = partition[1];
 		startEndString[0] = startEnd[0] + "行目";
-		startEnd[2] = partition[1];
-		startEndString[2] = startEnd[2] + "行目";
 		refreshLabel();
 	}
 }
