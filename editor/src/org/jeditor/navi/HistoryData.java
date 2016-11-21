@@ -44,38 +44,48 @@ public class HistoryData {
 	}
 
 	public void updateNotice(int v, int startLine, int startOffset) {
-		if(index.matches("[abpr].*")) {
-			String[] notices = notice.split("-");
-			if(notices.length < 2) {
-				return;
-			}
+		if(index.matches("[^abpr].*")) {
+			return;
+		}
+		String[] notices = notice.split("-");
+		if(notices.length < 2) {
+			return;
+		}
 
-			if(index.equals("p1")) {
-				notices[0] = updatePartition(Integer.parseInt(notices[0]) - 1, v, startLine) + 1 + "";
-				notices[1] = updatePartition(Integer.parseInt(notices[1]), v, startLine) + "";
-			} else if(index.equals("p2") || index.equals("p2_2") || index.equals("p4")) {
-				for (int i = 0; i < notices.length; i++) {
-					notices[i] = updatePartition(Integer.parseInt(notices[i]), v, startLine) + "";
-				}
-			} else if(index.equals("p3")) {
-				for (int i = 0; i < notices.length; i++) {
-					if(i != 2) {
-						if(i == 0 && !notices[2].equals("2")) {
-							notices[i] = updatePartition(Integer.parseInt(notices[i]) - 1, v, startLine) + 1 + "";
-						} else {
-							notices[i] = updatePartition(Integer.parseInt(notices[i]), v, startLine) + "";
-						}
+		if(index.equals("p1")) {
+			notices[0] = updatePartition(Integer.parseInt(notices[0]) - 1, v, startLine) + 1 + "";
+			notices[1] = updatePartition(Integer.parseInt(notices[1]), v, startLine) + "";
+		} else if(index.matches("p[24]")) {
+			for (int i = 0; i < notices.length; i++) {
+				notices[i] = updatePartition(Integer.parseInt(notices[i]), v, startLine) + "";
+			}
+		} else if(index.equals("p3")) {
+			for (int i = 0; i < notices.length; i++) {
+				if(i != 2) {
+					if(i == 0 && !notices[2].equals("2")) {
+						notices[i] = updatePartition(Integer.parseInt(notices[i]) - 1, v, startLine) + 1 + "";
+					} else {
+						notices[i] = updatePartition(Integer.parseInt(notices[i]), v, startLine) + "";
 					}
 				}
 			}
-
-			// 締め処理
-			notice = "";
-			for (int i = 0; i < notices.length - 1; i++) {
-				notice += notices[i] + "-";
+		} else if(index.matches("(a[017])|(b[13])|(r[12456])")) {
+			for (int i = 1; i < notices.length; i++) {
+				notices[i] = updatePartition(Integer.parseInt(notices[i]), v, startLine) + "";
 			}
-			notice += notices[notices.length - 1];
+		} else if(index.matches("(a[23456])|(b[24])|(r[3])")) {
+			for (int i = 0; i < notices.length; i++) {
+				notices[i] = updatePartition(Integer.parseInt(notices[i]), v, startLine) + "";
+			}
 		}
+
+		// 締め処理
+		notice = "";
+		for (int i = 0; i < notices.length - 1; i++) {
+			notice += notices[i] + "-";
+		}
+		notice += notices[notices.length - 1];
+
 	}
 
 	public int updatePartition(int old, int v, int startLine) {
