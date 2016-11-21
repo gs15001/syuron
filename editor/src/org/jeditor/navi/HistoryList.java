@@ -88,6 +88,10 @@ public class HistoryList extends JPanel {
 		table.setRowSelectionInterval(index, index);
 	}
 
+	public void updateNotice(int v, int startLine, int startOffset) {
+		historyModel.updateNotice(v, startLine, startOffset);
+	}
+
 	private void refreshScroll() {
 		SwingUtilities.invokeLater(new Runnable() {
 

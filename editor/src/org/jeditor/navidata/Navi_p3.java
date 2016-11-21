@@ -63,23 +63,22 @@ public class Navi_p3 extends AbstractNaviPane {
 
 	private void refreshLabel(int pattern) {
 		noticeLabel.setText("着目しているまとまり：" + startEndString[0] + "から" + startEndString[1]);
-		//@formatter:off
-		questionLabel.setText("<html>" + startEndString[0] + "から" + startEndString[1] + "までのまとまりをさらに2つのまとまりに分割しましょう。<br>"
-				+ "境目となる行を入力してください。<br>"
-				+ "メソッド呼び出しがある場合は「メソッド」を選択してください。<br>"
+		// @formatter:off
+		questionLabel.setText("<html>" + startEndString[0] + "から" + startEndString[1]
+				+ "までのまとまりをさらに2つのまとまりに分割しましょう。<br>" + "境目となる行を入力してください。<br>" + "メソッド呼び出しがある場合は「メソッド」を選択してください。<br>"
 				+ "境目になるようなキリのいいところがなければ、「次へ」を選択してください。</html>");
-	
+
 		if(pattern == 1) {
 			descriptLabel.setText("<html>" + startEndString[0] + "までのまとまりは正しく動いており、バグが無いことが確認できました。<br>"
 					+ startEndString[0] + "から" + startEndString[1] + "までのまとまりに同様のことを繰り返し、バグの潜む範囲<br>を絞り込んでいきます。<br>"
 					+ "ある程度、絞り込めたら、その範囲を細かく調べていきます。</html>");
-		}else{
+		} else {
 			descriptLabel.setText("<html>" + startEndString[0] + "から" + startEndString[1] + "までのまとまりは正しく動いていないため、"
 					+ "バグは" + startEndString[0] + "から<br>" + startEndString[1] + "までのまとまりに潜んでいることがわかりました。<br>"
 					+ startEndString[0] + "から" + startEndString[1] + "までのまとまりに同様のことを繰り返し、バグの潜む範囲を<br>絞り込んでいきます。<br>"
 					+ "ある程度、絞り込めたら、その範囲を細かく調べていきます。</html>");
 		}
-		//@formatter:on
+		// @formatter:on
 	}
 
 	@Override
@@ -101,6 +100,7 @@ public class Navi_p3 extends AbstractNaviPane {
 				}
 				if(i != 2 && i != 0) {
 					// エディターにライン表示のための値を渡す
+					// i=0のものは後で渡す
 					partitionLineSet.add(tmp);
 				}
 			} catch (NumberFormatException e) {
@@ -129,7 +129,7 @@ public class Navi_p3 extends AbstractNaviPane {
 		noticeLabel.setText("着目しているまとまり：" + startEndString[0] + "から" + startEndString[1]);
 		refreshLabel(startEnd[2]);
 	}
-	
+
 	@Override
 	public void updateData(int noticeLine, int returnLine, int[] partition, Set<Integer> partitionLines) {
 		startEnd[0] = partition[0];

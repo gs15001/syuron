@@ -413,8 +413,9 @@ public class JEditor extends JComponent {
 			for (Integer i : partitionLines) {
 				if(i.intValue() > startLine) {
 					tmp.add(new Integer(i.intValue() + v));
-				} else if(i.intValue() == startLine && v < 0) {
-					tmp.add(new Integer(i.intValue() + v));
+					// } else if(i.intValue() == startLine && v < 0) {
+					// ライン直下から１行減らした時
+					// tmp.add(new Integer(i.intValue() + v));
 				} else {
 					tmp.add(i);
 				}
@@ -422,6 +423,7 @@ public class JEditor extends JComponent {
 			partitionLines = tmp;
 		}
 		parent.getParent().updateData();
+		parent.getParent().updateNotice(v, startLine, startOffset);
 	}
 
 	// 以下初期から

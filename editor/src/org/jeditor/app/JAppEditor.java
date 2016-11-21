@@ -747,6 +747,10 @@ public class JAppEditor extends JFrame {
 		pane.updateData(ed.getNoticeLine() + 1, ed.getReturnLine() + 1, ed.getPartition(), ed.getPartitionLine());
 	}
 
+	public void updateNotice(int v, int startLine, int startOffset) {
+		naviManager.getHistoryListModel().updateNotice(v, startLine, startOffset);
+	}
+
 	public static void main(String args[]) {
 		JAppEditor app = new JAppEditor();
 		app.setVisible(true);

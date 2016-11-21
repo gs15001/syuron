@@ -79,4 +79,13 @@ public class HistoryListModel extends DefaultTableModel {
 		setValueAt(datas[3], historyIndex - 1, 3);
 		setValueAt(datas[4], historyIndex - 1, 4);
 	}
+
+	public void updateNotice(int v, int startLine, int startOffset) {
+		for (int i = 0; i < historyDatas.size(); i++) {
+			HistoryData d = historyDatas.get(i);
+			d.updateNotice(v, startLine, startOffset);
+			Object[] datas = d.getTableData();
+			setValueAt(datas[1], i, 1);
+		}
+	}
 }
