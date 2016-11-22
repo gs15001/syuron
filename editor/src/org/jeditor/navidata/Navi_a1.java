@@ -1,8 +1,14 @@
 /* ソースツリー文字コード識別用文字列ソースツリー文字コード識別用文字列 */
 package org.jeditor.navidata;
 
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.util.Set;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import org.jeditor.navi.InputMyDialog;
 import org.jeditor.navi.NaviManager;
 
@@ -11,7 +17,7 @@ public class Navi_a1 extends AbstractNaviPane {
 	private static final long serialVersionUID = 1L;
 
 	public Navi_a1(NaviManager mgr) {
-		super(mgr, "a1", 2);
+		super(mgr, "a1", 2, true);
 
 		indexLabel.setText("誤っている変数の原因を探す");
 		// @formatter:off
@@ -28,6 +34,7 @@ public class Navi_a1 extends AbstractNaviPane {
 		button.setText("ない");
 
 		dialog[0] = new InputMyDialog(InputMyDialog.ROW);
+		setSamplePane(new a1sample(mgr));
 	}
 
 	@Override
@@ -48,5 +55,20 @@ public class Navi_a1 extends AbstractNaviPane {
 	@Override
 	public void updateData(int noticeLine, int returnLine, int[] partition, Set<Integer> partitionLines) {
 		postInput = parent.getPartition();
+	}
+}
+
+class a1sample extends AbstractSamplePane {
+
+	private static final long serialVersionUID = 1L;
+
+	public a1sample(NaviManager mgr) {
+		super(mgr);
+		JPanel pane = new JPanel();
+		pane.setBackground(new Color(224, 224, 224));
+		JLabel label = new JLabel(new ImageIcon("./res/a1.png"));
+		((FlowLayout) pane.getLayout()).setVgap(50);;
+		pane.add(label);
+		addMainPane(pane);
 	}
 }
