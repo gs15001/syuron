@@ -2314,14 +2314,30 @@ public class JEditor extends JComponent {
 		if(inputHandler == null) {
 			return;
 		}
+		int oldLine = selectionStartLine;
+		int offset = getCaretPosition() - getLineStartOffset(selectionStartLine);
+		// 分割ラインをまたぐような削除は出来ないように
+		if(evt.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+			if(checkLine(oldLine)) {
+				if(offset == 0) {
+					return;
+				}
+			}
+		}
+		if(evt.getKeyCode() == KeyEvent.VK_DELETE) {
+			if(checkLine(oldLine + 1)) {
+				if(getCaretPosition() + 1 == getLineEndOffset(selectionStartLine)) {
+					return;
+				}
+			}
+		}
+
 		switch (evt.getID()) {
 			case KeyEvent.KEY_TYPED:
 				inputHandler.keyTyped(evt);
 				break;
 			case KeyEvent.KEY_PRESSED:
 				int oldLineC = getLineCount();
-				int oldLine = selectionStartLine;
-				int offset = getCaretPosition() - getLineStartOffset(selectionStartLine);
 				inputHandler.keyPressed(evt);
 				manageEventforKey(evt);
 				int newLineC = getLineCount();
@@ -2331,6 +2347,21 @@ public class JEditor extends JComponent {
 				inputHandler.keyReleased(evt);
 				break;
 		}
+	}
+
+	private boolean checkLine(int line) {
+		if(line == partition[0] || line == partition[1]) {
+			return true;
+		} else if(line == noticeLine || line == returnLine) {
+			return true;
+		} else {
+			for (Integer i : partitionLines) {
+				if(line == i.intValue()) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	protected void fireCaretEvent() {
