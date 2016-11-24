@@ -22,7 +22,7 @@ public class Navi_a1 extends AbstractNaviPane {
 		indexLabel.setText("誤っている変数の原因を探す");
 		// @formatter:off
 		questionLabel.setText("<html>誤っている変数に代入している処理を探しましょう。<br>" + "変数に代入している処理とは、その変数が左辺にある処理です。<br>"
-				+ "複数ある場合は一番最後の処理を対象とします。</html>");
+				+ "複数ある場合は一番下にある処理を対象とします。</html>");
 
 		descriptLabel.setText("<html>誤っている変数を見つけたなら、次はその原因を探します。<br>" + "変数は代入された時だけ、値が変更されます。<br>"
 				+ "つまり、変数の値が誤っている場合、代入した値が誤っていることになるため、<br>その部分を探します。</html>");

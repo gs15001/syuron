@@ -1,10 +1,15 @@
 /* ソースツリー文字コード識別用文字列ソースツリー文字コード識別用文字列 */
 package org.jeditor.navidata;
 
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Set;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import org.jeditor.navi.InputMyDialog;
 import org.jeditor.navi.NaviManager;
 
@@ -13,7 +18,7 @@ public class Navi_b2 extends AbstractNaviPane {
 	private static final long serialVersionUID = 1L;
 
 	public Navi_b2(NaviManager mgr) {
-		super(mgr, "b2", 2);
+		super(mgr, "b2", 2, true);
 		// @formatter:off
 		indexLabel.setText("条件に使用する変数の値の調査");
 		questionLabel.setText("<html>この条件文(if)の条件に使用する変数の値を確認しましょう。<br>" + "確認した値は正しいですか。</html>");
@@ -34,6 +39,8 @@ public class Navi_b2 extends AbstractNaviPane {
 		});
 
 		dialog[1] = new InputMyDialog(InputMyDialog.VARIABLE);
+
+		setSamplePane(new b2sample(mgr));
 	}
 
 	@Override
@@ -57,5 +64,20 @@ public class Navi_b2 extends AbstractNaviPane {
 		postInput = parent.getPartition();
 		preInput = noticeLine + "";
 		noticeLabel.setText("着目している条件文　：　" + noticeLine + " 行目");
+	}
+}
+
+class b2sample extends AbstractSamplePane {
+
+	private static final long serialVersionUID = 1L;
+
+	public b2sample(NaviManager mgr) {
+		super(mgr);
+		JPanel pane = new JPanel();
+		pane.setBackground(new Color(224, 224, 224));
+		JLabel label = new JLabel(new ImageIcon("./res/b2.png"));
+		((FlowLayout) pane.getLayout()).setVgap(50);;
+		pane.add(label);
+		addMainPane(pane);
 	}
 }

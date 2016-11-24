@@ -11,7 +11,7 @@ public class Navi_a5 extends AbstractNaviPane {
 	private static final long serialVersionUID = 1L;
 
 	public Navi_a5(NaviManager mgr) {
-		super(mgr, "a5", 3);
+		super(mgr, "a5", 3, true);
 		//@formatter:off
 		indexLabel.setText("条件分岐・繰り返し文の調査");
 		questionLabel.setText("<html>現在着目している範囲にある条件文(if)や繰り返し文(while,for)を選択してください。<br>"
@@ -29,6 +29,8 @@ public class Navi_a5 extends AbstractNaviPane {
 		button.setText("次へ");
 		dialog[0] = new InputMyDialog(InputMyDialog.IF);
 		dialog[1] = new InputMyDialog(InputMyDialog.FOR);
+		
+		setSamplePane(new a6sample(mgr));
 	}
 
 	@Override

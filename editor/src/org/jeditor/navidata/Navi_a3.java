@@ -1,10 +1,15 @@
 /* ソースツリー文字コード識別用文字列ソースツリー文字コード識別用文字列 */
 package org.jeditor.navidata;
 
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Set;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import org.jeditor.navi.InputMyDialog;
 import org.jeditor.navi.NaviManager;
 
@@ -13,7 +18,7 @@ public class Navi_a3 extends AbstractNaviPane {
 	private static final long serialVersionUID = 1L;
 
 	public Navi_a3(NaviManager mgr) {
-		super(mgr, "a3", 2);
+		super(mgr, "a3", 2, true);
 		//@formatter:off
 		indexLabel.setText("誤っている変数の右辺の値を調査");
 		questionLabel.setText("<html>誤っている処理の右辺に出てくる変数の値を確認しましょう。<br>"
@@ -39,6 +44,8 @@ public class Navi_a3 extends AbstractNaviPane {
 		button = buttons.get(1);
 		button.setText("誤り");
 		dialog[1] = new InputMyDialog(InputMyDialog.VARIABLE);
+
+		setSamplePane(new a3sample(mgr));
 	}
 
 	@Override
@@ -61,5 +68,20 @@ public class Navi_a3 extends AbstractNaviPane {
 		postInput = parent.getPartition();
 		preInput = noticeLine + "";
 		noticeLabel.setText("着目している処理　：　" + noticeLine + " 行目");
+	}
+}
+
+class a3sample extends AbstractSamplePane {
+
+	private static final long serialVersionUID = 1L;
+
+	public a3sample(NaviManager mgr) {
+		super(mgr);
+		JPanel pane = new JPanel();
+		pane.setBackground(new Color(224, 224, 224));
+		JLabel label = new JLabel(new ImageIcon("./res/a3.png"));
+		((FlowLayout) pane.getLayout()).setVgap(50);;
+		pane.add(label);
+		addMainPane(pane);
 	}
 }

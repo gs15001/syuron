@@ -1,8 +1,13 @@
 /* ソースツリー文字コード識別用文字列ソースツリー文字コード識別用文字列 */
 package org.jeditor.navidata;
 
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.util.Set;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import org.jeditor.navi.InputMyDialog;
 import org.jeditor.navi.NaviManager;
 
@@ -11,7 +16,7 @@ public class Navi_a6 extends AbstractNaviPane {
 	private static final long serialVersionUID = 1L;
 
 	public Navi_a6(NaviManager mgr) {
-		super(mgr, "a6", 3);
+		super(mgr, "a6", 3, true);
 		//@formatter:off
 		indexLabel.setText("条件分岐・繰り返し文の調査");
 		questionLabel.setText("<html>着目している処理が存在している条件文(if)や繰り返し文(while,for)を<br>選択してください。<br>"
@@ -28,6 +33,8 @@ public class Navi_a6 extends AbstractNaviPane {
 		button.setText("次へ");
 		dialog[0] = new InputMyDialog(InputMyDialog.IF);
 		dialog[1] = new InputMyDialog(InputMyDialog.FOR);
+
+		setSamplePane(new a6sample(mgr));
 	}
 
 	@Override
@@ -51,5 +58,20 @@ public class Navi_a6 extends AbstractNaviPane {
 		postInput = parent.getPartition();
 		preInput = getIndex() + "-" + noticeLine + "-";
 		noticeLabel.setText("着目している処理　：　" + noticeLine + " 行目");
+	}
+}
+
+class a6sample extends AbstractSamplePane {
+
+	private static final long serialVersionUID = 1L;
+
+	public a6sample(NaviManager mgr) {
+		super(mgr);
+		JPanel pane = new JPanel();
+		pane.setBackground(new Color(224, 224, 224));
+		JLabel label = new JLabel(new ImageIcon("./res/a6.png"));
+		((FlowLayout) pane.getLayout()).setVgap(50);;
+		pane.add(label);
+		addMainPane(pane);
 	}
 }
