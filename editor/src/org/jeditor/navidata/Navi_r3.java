@@ -1,8 +1,13 @@
 /* ソースツリー文字コード識別用文字列ソースツリー文字コード識別用文字列 */
 package org.jeditor.navidata;
 
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.util.Set;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import org.jeditor.navi.NaviManager;
 
 public class Navi_r3 extends AbstractNaviPane {
@@ -10,7 +15,7 @@ public class Navi_r3 extends AbstractNaviPane {
 	private static final long serialVersionUID = 1L;
 
 	public Navi_r3(NaviManager mgr) {
-		super(mgr, "r3", 1);
+		super(mgr, "r3", 1, true);
 		//@formatter:off
 		indexLabel.setText("繰り返し処理の部分に誤りがあります");
 		questionLabel.setText("<html>繰り返し回数を数えるための変数の初期値、<br>"
@@ -23,6 +28,8 @@ public class Navi_r3 extends AbstractNaviPane {
 		//@formatter:on
 		JButton button = buttons.get(0);
 		button.setText("終了");
+
+		setSamplePane(new r3sample(mgr));
 	}
 
 	@Override
@@ -45,5 +52,20 @@ public class Navi_r3 extends AbstractNaviPane {
 		postInput = parent.getPartition();
 		preInput = noticeLine + "";
 		noticeLabel.setText("着目している繰り返し文　：　" + noticeLine + " 行目");
+	}
+}
+
+class r3sample extends AbstractSamplePane {
+
+	private static final long serialVersionUID = 1L;
+
+	public r3sample(NaviManager mgr) {
+		super(mgr);
+		JPanel pane = new JPanel();
+		pane.setBackground(new Color(224, 224, 224));
+		JLabel label = new JLabel(new ImageIcon("./res/r3.png"));
+		((FlowLayout) pane.getLayout()).setVgap(50);;
+		pane.add(label);
+		addMainPane(pane);
 	}
 }

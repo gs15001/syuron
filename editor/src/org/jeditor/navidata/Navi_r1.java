@@ -1,8 +1,13 @@
 /* ソースツリー文字コード識別用文字列ソースツリー文字コード識別用文字列 */
 package org.jeditor.navidata;
 
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.util.Set;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import org.jeditor.navi.NaviManager;
 
 public class Navi_r1 extends AbstractNaviPane {
@@ -11,7 +16,7 @@ public class Navi_r1 extends AbstractNaviPane {
 	private String[] notices;
 
 	public Navi_r1(NaviManager mgr) {
-		super(mgr, "r1", 2);
+		super(mgr, "r1", 2, true);
 		// @formatter:off
 		indexLabel.setText("繰り返し文の種類を調査");
 		questionLabel.setText("<html>この繰り返し文(while,for)の繰り返し回数は分かりますか。</html>");
@@ -22,6 +27,8 @@ public class Navi_r1 extends AbstractNaviPane {
 		button.setText("はい");
 		button = buttons.get(1);
 		button.setText("いいえ");
+
+		setSamplePane(new r1sample(mgr));
 	}
 
 	@Override
@@ -48,5 +55,20 @@ public class Navi_r1 extends AbstractNaviPane {
 		notices[1] = returnLine + "";
 		preInput = notices[0] + "-" + notices[1] + "-" + notices[2];
 		noticeLabel.setText("着目している繰り返し文　：　" + noticeLine + " 行目");
+	}
+}
+
+class r1sample extends AbstractSamplePane {
+
+	private static final long serialVersionUID = 1L;
+
+	public r1sample(NaviManager mgr) {
+		super(mgr);
+		JPanel pane = new JPanel();
+		pane.setBackground(new Color(224, 224, 224));
+		JLabel label = new JLabel(new ImageIcon("./res/r1.png"));
+		((FlowLayout) pane.getLayout()).setVgap(50);;
+		pane.add(label);
+		addMainPane(pane);
 	}
 }
