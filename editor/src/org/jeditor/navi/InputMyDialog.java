@@ -26,27 +26,27 @@ public class InputMyDialog extends JOptionPane {
 	public InputMyDialog(int pattern) {
 		switch (pattern) {
 			case VARIABLE:
-				text = "誤っている変数名を入力してください\n入力なしでスキップ";
+				text = "誤っている変数名を入力してください";
 				title = "誤っている変数名の入力";
 				break;
 			case ROW:
-				text = "見つけた処理の行番号を入力してください\n入力なしでスキップ";
+				text = "見つけた処理の行番号を入力してください";
 				title = "見つけた処理の行番号の入力";
 				break;
 			case PARTITION:
-				text = "まとまりの境目となる行番号を入力してください\n入力行と入力行+1行目が境目になります\n入力なしでスキップ";
+				text = "まとまりの境目となる行番号を入力してください\n入力行と入力行+1行目が境目になります";
 				title = "まとまりの境目の行番号の入力";
 				break;
 			case METHOD:
-				text = "メソッドを呼び出している行番号を入力してください\n入力なしでスキップ";
+				text = "メソッドを呼び出している行番号を入力してください";
 				title = "メソッドを呼び出している行番号の入力";
 				break;
 			case IF:
-				text = "調査する条件文の行番号を入力してください\n入力なしでスキップ";
+				text = "調査する条件文の行番号を入力してください";
 				title = "調査する条件文の行番号の入力";
 				break;
 			case FOR:
-				text = "調査する繰り返し文の行番号を入力してください\n入力なしでスキップ";
+				text = "調査する繰り返し文の行番号を入力してください";
 				title = "調査する繰り返し文の行番号の入力";
 				break;
 			default:
@@ -55,7 +55,15 @@ public class InputMyDialog extends JOptionPane {
 	}
 
 	public String showInputDialog(Component parent) {
-		return JOptionPane.showInputDialog(parent, text, title, JOptionPane.QUESTION_MESSAGE);
+		// return JOptionPane.showInputDialog(parent, text, title, JOptionPane.QUESTION_MESSAGE);
+		String input = "";
+		do {
+			input = JOptionPane.showInputDialog(parent, text, title, JOptionPane.QUESTION_MESSAGE);
+			if(input == null) {
+				return null;
+			}
+		} while (input.equals(""));
+		return input;
 	}
 
 }

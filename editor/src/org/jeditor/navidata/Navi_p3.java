@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.swing.JButton;
 import org.jeditor.navi.InputMyDialog;
 import org.jeditor.navi.NaviManager;
+import org.jeditor.navidata.AbstractNaviPane.MyButton;
 
 public class Navi_p3 extends AbstractNaviPane {
 
@@ -37,12 +38,25 @@ public class Navi_p3 extends AbstractNaviPane {
 
 		button = buttons.get(1);
 		button.setText("メソッド");
-		button.addActionListener(new ActionListener() {
+		MyButton button2 = (MyButton) button;
+		button2.removeActionListener(button2.getActionListeners()[0]);
+		button2.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				preInput = String.valueOf(startEnd[0]) + "-" + String.valueOf(startEnd[1]) + "-";
 				postInput = parent.getPartitionLine();
+				input = "";
+				int tmp = 0;
+				if(dialog[button2.i] != null) {
+					input = dialog[button2.i].showInputDialog(parent);
+					tmp = Integer.parseInt(input);
+				}
+				parent.clreaAll();
+				if(input != null || dialog[button2.i] == null) {
+					selected = button2.getText();
+					naviManager.changeNavi(getIndex(), button2.getText(), preInput + (tmp - 1) + "-" + tmp + postInput);
+				}
 			}
 		});
 
@@ -58,7 +72,7 @@ public class Navi_p3 extends AbstractNaviPane {
 
 		dialog[0] = new InputMyDialog(InputMyDialog.PARTITION);
 		dialog[1] = new InputMyDialog(InputMyDialog.METHOD);
-		dialog[2] = new InputMyDialog("誤っていた変数名を入力してください\n入力なしでスキップ", "誤っていた変数名の入力");
+		dialog[2] = new InputMyDialog("誤っていた変数名を入力してください", "誤っていた変数名の入力");
 	}
 
 	private void refreshLabel(int pattern) {

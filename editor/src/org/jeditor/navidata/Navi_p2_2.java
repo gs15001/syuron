@@ -1,24 +1,29 @@
 /* ソースツリー文字コード識別用文字列ソースツリー文字コード識別用文字列 */
 package org.jeditor.navidata;
 
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import org.jeditor.navi.NaviManager;
 
 public class Navi_p2_2 extends AbstractNaviPane {
 
 	private static final long serialVersionUID = 1L;
-	private int[] startEnd = new int[3];
-	private String[] startEndString = new String[3];
+	private int[] startEnd = new int[4];
+	private String[] startEndString = new String[4];
 	private Set<Integer> partitionLineSet = null;
 
 	public Navi_p2_2(NaviManager mgr) {
-		super(mgr, "p2_2", 2);
+		super(mgr, "p2_2", 2, true);
 
 		indexLabel.setText("まとまりの動作確認");
 
@@ -31,7 +36,8 @@ public class Navi_p2_2 extends AbstractNaviPane {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				preInput = String.valueOf(startEnd[2] + 1) + "-" + String.valueOf(startEnd[1]);
+				preInput = String.valueOf(startEnd[2]) + "-" + String.valueOf(startEnd[3]) + "-"
+						+ String.valueOf(startEnd[1]);
 				postInput = parent.getPartitionLine();
 			}
 		});
@@ -49,18 +55,23 @@ public class Navi_p2_2 extends AbstractNaviPane {
 
 		// 変数名を入力させるか
 		// dialog[1] = new InputMyDialog(InputMyDialog.VARIABLE);
+
+		setSamplePane(new p2_2sample(mgr));
 	}
 
 	private void refreshLabel() {
 		noticeLabel.setText("着目しているまとまり：" + startEndString[0] + "から" + startEndString[2]);
 		// @formatter:off
 		questionLabel.setText("<html>" + startEndString[0] + "から" + startEndString[2]
-				+ "までのまとまりが正しく動作しているか確認しましょう。<br>" + "境目である" + startEndString[2] + "にprint文を挿入して、必要な変数の値を確認しましょう。<br>"
+				+ "までのまとまりが正しく動作しているか確認しましょう。<br>"
+				+ "境目である" + (startEnd[2]+1) + "行目にprint文を挿入して、必要な変数の値を確認しましょう。<br>"
 				+ "確認した値は正しいですか。</html>");
 
 		descriptLabel.setText("<html>プログラムをまとまりに分割したので、次はまとまりごとに正しく動作しているか確認します。<br>"
-				+ "正しく動作しているかは、変数の値を確認することで確かめることができます。<br>" + "確認するべき変数は、" + startEndString[2]
-				+ "以降、またはメソッドで使用している変数です。<br>" + "正しい変数の値はプログラムの過程を紙などに書いて求めましょう。</html>");
+				+ "正しく動作しているかは、変数の値を確認することで確かめることができます。<br>"
+				+ "確認するべき変数は、" + startEndString[2] + "までのまとまりと" + (startEnd[3]+1) + "行目からのまとまりで<br>"
+				+ "共通している変数、もしくは、メソッドの引数で使用されている変数です。<br>"
+				+ "正しい変数の値はプログラムの過程を紙などに書いて求めましょう。</html>");
 		// @formatter:on
 
 	}
@@ -76,21 +87,18 @@ public class Navi_p2_2 extends AbstractNaviPane {
 				int tmp = Integer.parseInt(notices[i]);
 				// エディターにライン表示のための値を渡す準備
 				partitionLineSet.add(tmp);
-				if(i <= 2) {
+				if(i < 2) {
 					startEnd[i] = tmp;
 					if(i == 0) {
 						startEndString[i] = (startEnd[0] + 1) + "行目";
 					} else {
 						startEndString[i] = notices[i] + "行目";
 					}
-				}
-				if(i == 2) {
-					// メソッドの行数を指定しているので-1
-					startEnd[i]--;
+				} else if(i < 4) {
+					startEnd[i] = tmp;
 					startEndString[i] = startEnd[i] + "行目";
 					// エディターにライン表示のための値を渡す準備
 					partitionLineSet.add(startEnd[i]);
-					partitionLineSet.add(startEnd[i] + 1);
 				}
 			} catch (NumberFormatException e) {
 				if(i <= 2) {
@@ -118,7 +126,9 @@ public class Navi_p2_2 extends AbstractNaviPane {
 		Iterator<Integer> ite = set.iterator();
 		while (ite.hasNext()) {
 			if(ite.next().intValue() == partition[1]) {
-				startEnd[1] = ite.next().intValue();
+				startEnd[3] = ite.next().intValue();// メソッドの終わりを指しているやつ
+				startEndString[3] = startEnd[3] + "行目";
+				startEnd[1] = ite.next().intValue();// 次のまとまりの終点
 				break;
 			}
 		}
@@ -128,5 +138,20 @@ public class Navi_p2_2 extends AbstractNaviPane {
 		startEnd[2] = partition[1];
 		startEndString[2] = startEnd[2] + "行目";
 		refreshLabel();
+	}
+}
+
+class p2_2sample extends AbstractSamplePane {
+
+	private static final long serialVersionUID = 1L;
+
+	public p2_2sample(NaviManager mgr) {
+		super(mgr);
+		JPanel pane = new JPanel();
+		pane.setBackground(new Color(224, 224, 224));
+		JLabel label = new JLabel(new ImageIcon("./res/p2_2.png"));
+		((FlowLayout) pane.getLayout()).setVgap(50);;
+		pane.add(label);
+		addMainPane(pane);
 	}
 }

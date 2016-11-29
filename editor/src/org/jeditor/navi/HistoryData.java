@@ -55,7 +55,7 @@ public class HistoryData {
 		if(index.equals("p1")) {
 			notices[0] = updatePartition(Integer.parseInt(notices[0]) - 1, v, startLine) + 1 + "";
 			notices[1] = updatePartition(Integer.parseInt(notices[1]), v, startLine) + "";
-		} else if(index.matches("p[24]")) {
+		} else if(index.matches("p[24].*")) {
 			for (int i = 0; i < notices.length; i++) {
 				notices[i] = updatePartition(Integer.parseInt(notices[i]), v, startLine) + "";
 			}

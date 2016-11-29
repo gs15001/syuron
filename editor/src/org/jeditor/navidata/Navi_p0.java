@@ -1,7 +1,12 @@
 /* ソースツリー文字コード識別用文字列ソースツリー文字コード識別用文字列 */
 package org.jeditor.navidata;
 
+import java.awt.Color;
+import java.awt.FlowLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import org.jeditor.navi.InputMyDialog;
 import org.jeditor.navi.NaviManager;
 
@@ -10,7 +15,7 @@ public class Navi_p0 extends AbstractNaviPane {
 	private static final long serialVersionUID = 1L;
 
 	public Navi_p0(NaviManager mgr) {
-		super(mgr, "p0", 1);
+		super(mgr, "p0", 1, true);
 
 		indexLabel.setText("ステップ3 まとまり分割による絞り込み");
 		//@formatter:off
@@ -30,11 +35,28 @@ public class Navi_p0 extends AbstractNaviPane {
 		button.setText("次へ");
 
 		dialog[0] = new InputMyDialog("mainメソッドが定義されている行番号を入力してください。\n「開始行-終了行」の形式で入力", "mainメソッドの定義されている行番号の入力");
+		
+		setSamplePane(new p0sample(mgr));
 	}
 
 	@Override
 	public void setInput(String notice) {
 		super.setInput(notice);
 		noticeLabel.setText("利用なし");
+	}
+}
+
+class p0sample extends AbstractSamplePane {
+
+	private static final long serialVersionUID = 1L;
+
+	public p0sample(NaviManager mgr) {
+		super(mgr);
+		JPanel pane = new JPanel();
+		pane.setBackground(new Color(224, 224, 224));
+		JLabel label = new JLabel(new ImageIcon("./res/p0.png"));
+		((FlowLayout) pane.getLayout()).setVgap(5);;
+		pane.add(label);
+		addMainPane(pane);
 	}
 }

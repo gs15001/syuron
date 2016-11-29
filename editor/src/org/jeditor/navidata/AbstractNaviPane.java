@@ -31,7 +31,7 @@ public abstract class AbstractNaviPane extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	protected JAppEditor parent;
-	private NaviManager naviManager;
+	protected NaviManager naviManager;
 	private CardLayout layout;
 	private JPanel self;
 
@@ -285,8 +285,8 @@ public abstract class AbstractNaviPane extends JPanel {
 					if(dialog[button.i] != null) {
 						input = dialog[button.i].showInputDialog(parent);
 					}
-					parent.clreaAll();
 					if(input != null || dialog[button.i] == null) {
+						parent.clreaAll();
 						selected = button.getText();
 						naviManager.changeNavi(getIndex(), button.getText(), preInput + input + postInput);
 					}
