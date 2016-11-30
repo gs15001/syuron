@@ -20,9 +20,10 @@ public class Navi_d4 extends AbstractNaviPane {
 		//@formatter:off
 		questionLabel.setText("<html>プログラムの最後にprint文を挿入し、そのprint文が出力されるか確認しましょう。</html>");
 			
-		descriptLabel.setText("<html>エラー関連は発生していないことが確認できたので、次にプログラムが<br>"
-				+ "最後まで処理されているかを確認します。<br>"
-				+ "print文を挿入し、そのprint文が出力されていることを確認することで、そのprint文までは確実に処理されていることを確認できます。</html>");
+		descriptLabel.setText("<html>エラーは発生していないことが確認できたので、次にプログラムが最後まで<br>"
+				+ "処理されているかを確認します。<br>"
+				+ "print文を挿入し、そのprint文が出力されていることを確認することで、その<br>"
+				+ "print文までは確実に処理されていることを確認できます。</html>");
 		//@formatter:on
 
 		JButton button = buttons.get(0);

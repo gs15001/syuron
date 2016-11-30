@@ -19,7 +19,7 @@ public class Navi_p0 extends AbstractNaviPane {
 
 		indexLabel.setText("ステップ3 まとまり分割による絞り込み");
 		//@formatter:off
-		questionLabel.setText("<html>ステップ2では、再現性の確認をしてきました。<br>"
+		questionLabel.setText("<html>ステップ2では、再現性の確認をし、誤った結果を確実に出力できるように<br>しました。<br>"
 				+ "ステップ3から、実際にバグを探していきます。まず、バグを効率良く探せる<br>"
 				+ "ようにプログラムを大雑把に調べ、バグの潜む範囲を絞り込んでいきます。<br>"
 				+ "このステップは、小さなプログラムでは恩恵が少なく、無駄に思えますが、<br>"

@@ -22,7 +22,8 @@ public class Navi_d3 extends AbstractNaviPane {
 		
 		descriptLabel.setText("<html>プログラムの実行中にもエラーが発生することがあり、<br>"
 				+ "このエラーをランタイムエラーと言います。<br>"
-				+ "コンパイルエラーと同様に、修正する必要があります。</html>");
+				+ "コンパイルエラーと同様に、修正する必要があります。<br>"
+				+ "ランタイムエラーの例がサンプルにあります。確認しておきましょう。</html>");
 		//@formatter:on
 
 		JButton button = buttons.get(0);

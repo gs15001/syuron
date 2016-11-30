@@ -14,10 +14,11 @@ public class Navi_i0 extends AbstractNaviPane {
 		indexLabel.setText("ステップ2 再現性の確認");
 		//@formatter:off
 		questionLabel.setText("<html>ステップ1では、バグの存在を確認しました。<br>"
-				+ "ステップ2では、どんな時に誤った結果(出力)になるかを確認し、誤った結果(出力)を再現できるようにします。<br></html>");
-				//+ "場合によっては、ある条件の時だけ誤った結果(出力)になることがあるため、その条件を調べていきます。</html>");
+				+ "ステップ2では、どんな時に誤った結果(出力)になるかを確認し、誤った結果(出力)を<br>再現できるようにします。<br>"
+				+ "誤った結果を確実に出力できる場合はトップに戻り、「ステップ3」に<br>進みましょう。</html>");
 			
-		descriptLabel.setText("<html>以降、「誤った結果(出力)を再現できるようにすること」を「再現性の確認」とする。</html>");
+		descriptLabel.setText("<html>以降、「誤った結果(出力)を再現できるようにすること」を「再現性の確認」<br>と言うこととします。<br>"
+				+ "再現性の確認は、複雑なプログラムになるほど重要になります。</html>");
 		//@formatter:on
 
 		JButton button = buttons.get(0);
