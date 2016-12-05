@@ -36,6 +36,8 @@ public class VariableTool extends JPanel {
 
 		tableModel = new VariableTreeTableModel(env);
 		treeTable = new MyJXTreeTable(tableModel);
+		treeTable.setFont(new Font("メイリオ", Font.PLAIN, 12));
+		treeTable.getTableHeader().setFont(new Font("メイリオ", Font.PLAIN, 12));
 		treeRenderer = new VariableTreeCellRenderer();
 		tableRenderer = new VariableTableCellRenderer();
 		treeTable.setDefaultRenderer(Object.class, tableRenderer);

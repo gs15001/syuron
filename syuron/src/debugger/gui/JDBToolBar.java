@@ -9,10 +9,14 @@
 
 package debugger.gui;
 
-import javax.swing.*;
-import java.awt.event.*;
-import java.util.*;
-import debugger.bdi.*;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JButton;
+import javax.swing.JToolBar;
+import debugger.bdi.ExecutionManager;
 
 class JDBToolBar extends JToolBar {
 
@@ -58,6 +62,7 @@ class JDBToolBar extends JToolBar {
 
 	private void addTool(String toolTip, String labelText, String command, boolean state) {
 		JButton button = new JButton(labelText);
+		button.setFont(new Font("メイリオ", Font.PLAIN, 14));
 		button.setEnabled(state);
 		buttonList.add(button);
 		button.setToolTipText(toolTip);

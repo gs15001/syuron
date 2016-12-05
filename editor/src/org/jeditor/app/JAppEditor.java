@@ -25,6 +25,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -131,7 +132,7 @@ public class JAppEditor extends JFrame {
 	public JAppEditor() {
 		// Initialise the window
 		super("JAppEditor");
-		int hight = Toolkit.getDefaultToolkit().getScreenSize().height;
+		int height = Toolkit.getDefaultToolkit().getScreenSize().height;
 		int width = Toolkit.getDefaultToolkit().getScreenSize().width;
 
 		// 推奨スペック(解像度)1366*768以上
@@ -140,7 +141,7 @@ public class JAppEditor extends JFrame {
 			WINDOW_HEIGHT = 768;
 		} else {
 			WINDOW_WIDTH = width;
-			WINDOW_HEIGHT = hight;
+			WINDOW_HEIGHT = height;
 		}
 
 		LEFT_WIDTH = (int) (WINDOW_WIDTH * 0.5);
@@ -218,6 +219,7 @@ public class JAppEditor extends JFrame {
 		mainPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		// エディター部分
 		tab.setPreferredSize(new Dimension(LEFT_WIDTH, LEFT_HEIGHT));
+		tab.setFont(new Font("メイリオ", Font.PLAIN, 14));
 		doOpenFile(new File(DEFAULTPATH, "no_name.java"));
 		// ナビゲーション部分
 		naviManager = new NaviManager(this);

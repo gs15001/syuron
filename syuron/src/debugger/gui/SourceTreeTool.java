@@ -49,6 +49,7 @@ public class SourceTreeTool extends JPanel {
 
 		// Create a tree that allows one selection at a time.
 		tree = new JTree(new DefaultTreeModel(root));
+		tree.setFont(new Font("メイリオ", Font.PLAIN, 12));
 		tree.setSelectionModel(new SingleLeafTreeSelectionModel());
 
 		/******

@@ -20,6 +20,8 @@ import debugger.bdi.*;
 public class GUI extends JPanel {
 
 	private static final long serialVersionUID = 3292463234530679091L;
+
+	private JFrame frame;
 	private CommandTool cmdTool;
 	private ApplicationTool appTool;
 	// ###HACK##
@@ -46,28 +48,37 @@ public class GUI extends JPanel {
 
 	private Font fixedFont = new Font("consolas", Font.PLAIN, 10);
 
-	private final int WINDOW_WIGTH;
-	private final int WINDOW_HIGHT;
+	public final int WINDOW_WIDTH;
+	public final int WINDOW_HEIGHT;
 
 	public GUI() {
-		WINDOW_HIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
-		WINDOW_WIGTH = Toolkit.getDefaultToolkit().getScreenSize().width;
+		int height = Toolkit.getDefaultToolkit().getScreenSize().height;
+		int width = Toolkit.getDefaultToolkit().getScreenSize().width;
+
+		// 推奨スペック(解像度)1366*768以上
+		if(width > 1366) {
+			WINDOW_WIDTH = 1366;
+			WINDOW_HEIGHT = 768;
+		} else {
+			WINDOW_WIDTH = width;
+			WINDOW_HEIGHT = height;
+		}
 
 		setLayout(new BorderLayout());
 
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		add(new JDBToolBar(env), BorderLayout.NORTH);
+		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
 		// ソースビュー
 		srcTool = new SourceTool(env);
-		srcTool.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.4), (int) (WINDOW_HIGHT * 0.55)));
+		srcTool.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIDTH * 0.5), (int) (WINDOW_HEIGHT * 0.7)));
 		srcTool.setTextFont(fixedFont);
 
 		// ソースツリービュー
 		sourceTreeTool = new SourceTreeTool(env);
-		sourceTreeTool
-				.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.05), (int) (WINDOW_HIGHT * 0.55)));
+		sourceTreeTool.setPreferredSize(new Dimension((int) (WINDOW_WIDTH * 0.1), (int) (WINDOW_HEIGHT * 0.7)));
 
 		JSplitPane left = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sourceTreeTool, srcTool);
 
@@ -78,20 +89,20 @@ public class GUI extends JPanel {
 		// variableTool.setPreferredSize(new java.awt.Dimension(500, 150));
 
 		variableTreeTable = new VariableTool(env);
-		variableTreeTable.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.25),
-				(int) (WINDOW_HIGHT * 0.3)));
+		variableTreeTable.setPreferredSize(new Dimension((int) (WINDOW_WIDTH * 0.35), (int) (WINDOW_HEIGHT * 0.3)));
 
 		stackTool = new StackTraceTool(env);
-		stackTool.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.25), (int) (WINDOW_HIGHT * 0.3)));
+		stackTool.setPreferredSize(new Dimension((int) (WINDOW_WIDTH * 0.35), (int) (WINDOW_HEIGHT * 0.3)));
 
 		// デバッグ情報ビューをタブ化
 		JTabbedPane infoPane = new JTabbedPane(SwingConstants.TOP);
+		infoPane.setFont(new Font("メイリオ", Font.PLAIN, 14));
 		infoPane.addTab("変数", variableTreeTable);
 		infoPane.addTab("呼び出し階層", stackTool);
 
 		// 支援情報ビュー
-		supportTool = new JPanel();
-		supportTool.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.25), (int) (WINDOW_HIGHT * 0.25)));
+		supportTool = new SupportTool(this);
+		supportTool.setPreferredSize(new Dimension((int) (WINDOW_WIDTH * 0.35), (int) (WINDOW_HEIGHT * 0.3)));
 
 		JSplitPane right = new JSplitPane(JSplitPane.VERTICAL_SPLIT, infoPane, supportTool);
 
@@ -114,7 +125,7 @@ public class GUI extends JPanel {
 		// cmdTool.setPreferredSize(new java.awt.Dimension(700, 150));
 
 		appTool = new ApplicationTool(env);
-		appTool.setPreferredSize(new java.awt.Dimension((int) (WINDOW_WIGTH * 0.6), (int) (WINDOW_HIGHT * 0.15)));
+		appTool.setPreferredSize(new Dimension((int) (WINDOW_WIDTH * 0.6), (int) (WINDOW_HEIGHT * 0.1)));
 
 		// cmdTool削除によりcenterBottomのスプリット消失
 		// JSplitPane centerBottom = new
@@ -255,7 +266,8 @@ public class GUI extends JPanel {
 		// System.err.println("Error loading L&F: " + exc);
 		// }
 
-		JFrame frame = new JFrame();
+		frame = new JFrame();
+		frame.setPreferredSize(this.getSize());
 		frame.setBackground(Color.lightGray);
 		frame.setTitle(windowBanner);
 		menuBar = new JDBMenuBar(env);

@@ -36,10 +36,14 @@ class JDBMenuBar extends JMenuBar {
 		this.classManager = env.getClassManager();
 		this.sourceManager = env.getSourceManager();
 		this.interpreter = new CommandInterpreter(env, true);
+		
+		setFont(new Font("メイリオ", Font.PLAIN, 12));
 
 		JMenu fileMenu = new JMenu("File");
+		fileMenu.setFont(new Font("メイリオ", Font.PLAIN, 12));
 
 		JMenuItem openItem = new JMenuItem("Open...", 'O');
+		openItem.setFont(new Font("メイリオ", Font.PLAIN, 12));
 		openItem.addActionListener(new ActionListener() {
 
 			@Override
@@ -51,6 +55,7 @@ class JDBMenuBar extends JMenuBar {
 		addTool(fileMenu, "Exit debugger", "Exit", "exit");
 
 		JMenu cmdMenu = new JMenu("Commands");
+		cmdMenu.setFont(new Font("メイリオ", Font.PLAIN, 12));
 
 		addTool(cmdMenu, "実行", "Run", "run");
 		addTool(cmdMenu, "停止", "Stop", "quit");
@@ -66,10 +71,13 @@ class JDBMenuBar extends JMenuBar {
 		addTool(cmdMenu, "全てのBP削除", "ClearBP", "clear all");
 
 		JMenu optionMenu = new JMenu("Option");
+		optionMenu.setFont(new Font("メイリオ", Font.PLAIN, 12));
 		JMenu optionSubMenu1 = new JMenu("実行行表示方法");
+		optionSubMenu1.setFont(new Font("メイリオ", Font.PLAIN, 12));
 		optionSubMenu1.setToolTipText("実行時の今の処理位置の表示方法を選択します");
 		ButtonGroup group1 = new ButtonGroup();
 		JRadioButtonMenuItem radiomenuitem1 = new JRadioButtonMenuItem("行表示", false);
+		radiomenuitem1.setFont(new Font("メイリオ", Font.PLAIN, 12));
 		radiomenuitem1.addActionListener(new ActionListener() {
 
 			@Override
@@ -79,6 +87,7 @@ class JDBMenuBar extends JMenuBar {
 			}
 		});
 		JRadioButtonMenuItem radiomenuitem2 = new JRadioButtonMenuItem("線表示", true);
+		radiomenuitem2.setFont(new Font("メイリオ", Font.PLAIN, 12));
 		radiomenuitem2.addActionListener(new ActionListener() {
 
 			@Override
@@ -94,8 +103,10 @@ class JDBMenuBar extends JMenuBar {
 
 		JMenu optionSubMenu2 = new JMenu("自動停止モード");
 		optionSubMenu2.setToolTipText("ONにするとmainメソッドの最初の命令で停止します");
+		optionSubMenu2.setFont(new Font("メイリオ", Font.PLAIN, 12));
 		ButtonGroup group2 = new ButtonGroup();
 		JRadioButtonMenuItem radiomenuitem3 = new JRadioButtonMenuItem("ON", false);
+		radiomenuitem3.setFont(new Font("メイリオ", Font.PLAIN, 12));
 		radiomenuitem3.addActionListener(new ActionListener() {
 
 			@Override
@@ -104,6 +115,7 @@ class JDBMenuBar extends JMenuBar {
 			}
 		});
 		JRadioButtonMenuItem radiomenuitem4 = new JRadioButtonMenuItem("OFF", true);
+		radiomenuitem4.setFont(new Font("メイリオ", Font.PLAIN, 12));
 		radiomenuitem4.addActionListener(new ActionListener() {
 
 			@Override
@@ -117,9 +129,11 @@ class JDBMenuBar extends JMenuBar {
 		optionSubMenu2.add(radiomenuitem4);
 
 		JMenu optionSubMenu3 = new JMenu("宣言元表示");
+		optionSubMenu3.setFont(new Font("メイリオ", Font.PLAIN, 12));
 		optionSubMenu3.setToolTipText("宣言元の表示方法を選択肢ます");
 		ButtonGroup group3 = new ButtonGroup();
 		JRadioButtonMenuItem radiomenuitem5 = new JRadioButtonMenuItem("値", false);
+		radiomenuitem5.setFont(new Font("メイリオ", Font.PLAIN, 12));
 		radiomenuitem5.setToolTipText("引数の値で表示されます\n配列とオブジェクト型は変数名で表示されます");
 		radiomenuitem5.addActionListener(new ActionListener() {
 
@@ -130,6 +144,7 @@ class JDBMenuBar extends JMenuBar {
 			}
 		});
 		JRadioButtonMenuItem radiomenuitem6 = new JRadioButtonMenuItem("型", true);
+		radiomenuitem6.setFont(new Font("メイリオ", Font.PLAIN, 12));
 		radiomenuitem6.setToolTipText("引数の型で表示されます");
 		radiomenuitem6.addActionListener(new ActionListener() {
 
@@ -149,7 +164,9 @@ class JDBMenuBar extends JMenuBar {
 		optionMenu.add(optionSubMenu3);
 
 		JMenu helpMenu = new JMenu("Help");
+		helpMenu.setFont(new Font("メイリオ", Font.PLAIN, 12));
 		JMenuItem helpItem = new JMenuItem("Help");
+		helpItem.setFont(new Font("メイリオ", Font.PLAIN, 12));
 		helpItem.addActionListener(new ActionListener() {
 
 			@Override
@@ -204,6 +221,7 @@ class JDBMenuBar extends JMenuBar {
 
 	private void addTool(JMenu menu, String toolTip, String labelText, String command) {
 		JMenuItem mi = new JMenuItem(labelText);
+		mi.setFont(new Font("メイリオ", Font.PLAIN, 12));
 		mi.setToolTipText(toolTip);
 		final String cmd = command;
 		mi.addActionListener(new ActionListener() {

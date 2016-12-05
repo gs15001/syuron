@@ -41,6 +41,7 @@ public class StackTraceTool extends JPanel {
 
 		list = new JList(stackModel);
 		list.setCellRenderer(new StackFrameRenderer());
+		list.setFont(new Font("メイリオ", Font.PLAIN, 12));
 
 		JScrollPane listView = new JScrollPane(list);
 		add(listView);
