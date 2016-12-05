@@ -104,7 +104,7 @@ public class Environment {
 	public void setLineMode(boolean lineMode) {
 		this.lineMode = lineMode;
 	}
-	
+
 	public boolean isPrintDecMode() {
 		return printDecMode;
 	}
@@ -147,6 +147,8 @@ public class Environment {
 	// public void removeTool(Tool t);
 
 	public void endProcess() {
+		// 実行待ちコマンドを実行
+		executeWaitCommand();
 		// VMとの接続を切断したらソースを初期値に戻す
 		sourceManager.getSourceTool().showSourceFile(sourceManager.getFirstSourceModel());
 		// 実行行を初期値に戻す

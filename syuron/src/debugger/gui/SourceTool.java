@@ -322,6 +322,10 @@ public class SourceTool extends JPanel {
 				pane.setForeground(list.getSelectionForeground());
 				pane.setBackground(list.getSelectionBackground());
 			}
+			if(!env.isLineMode() && isSelected) {
+				pane.setForeground(list.getSelectionForeground());
+				pane.setBackground(list.getSelectionBackground());
+			}
 			pane.setExecution(isExecute);
 			pane.setBreakpoint(line.hasBreakpoint);
 			pane.setFont(list.getFont());
@@ -426,14 +430,10 @@ public class SourceTool extends JPanel {
 				className = className.substring(className.lastIndexOf("\\") + 1, className.lastIndexOf("."));
 				if(line.preBreakpoint) {
 					interpreter.executeCommand("clear " + className + ":" + ln);
-					if(env.getExecutionManager().vm() == null) {
-						line.preBreakpoint = false;
-					}
+					line.preBreakpoint = false;
 				} else {
 					interpreter.executeCommand("stop at " + className + ":" + ln);
-					if(env.getExecutionManager().vm() == null) {
-						line.preBreakpoint = true;
-					}
+					line.preBreakpoint = true;
 				}
 			}
 		}
@@ -451,14 +451,10 @@ public class SourceTool extends JPanel {
 				className = className.substring(className.lastIndexOf("\\") + 1, className.lastIndexOf("."));
 				if(line.preBreakpoint) {
 					popup.add(commandItem("Clear BP", "clear " + className + ":" + ln));
-					if(env.getExecutionManager().vm() == null) {
-						line.preBreakpoint = false;
-					}
+					line.preBreakpoint = false;
 				} else {
 					popup.add(commandItem("Set BP", "stop at " + className + ":" + ln));
-					if(env.getExecutionManager().vm() == null) {
-						line.preBreakpoint = true;
-					}
+					line.preBreakpoint = true;
 				}
 			}
 
@@ -536,6 +532,9 @@ public class SourceTool extends JPanel {
 		}
 
 		public void paintComponent(Graphics g) {
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
 			Rectangle clip = g.getClipBounds();
 			g.setColor(getBackground());
 			g.fillRect(clip.x, clip.y, clip.width, clip.height);
@@ -557,7 +556,7 @@ public class SourceTool extends JPanel {
 						className = className.substring(className.lastIndexOf("\\") + 1, className.lastIndexOf("."));
 						if(prts.toString().equals(className)) {
 							if(levt.lineNumber() == i + 1) {
-								g.drawImage(Icons.stopSignIcon.getImage(), (DEBUG_BUTTON_MARGIN - fontHeight) / 2,
+								g2.drawImage(Icons.stopSignIcon.getImage(), (DEBUG_BUTTON_MARGIN - fontHeight) / 2,
 										y - 3, fontHeight - 2, fontHeight - 2, getBackground(), this);
 							}
 						}

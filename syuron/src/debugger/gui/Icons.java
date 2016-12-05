@@ -101,7 +101,7 @@ class Icons {
 		return bytes;
 	}
 
-	static ImageIcon stopSignIcon = new ImageIcon("./res/BP.png");
+	static ImageIcon stopSignIcon = new ImageIcon("./res/BP3.png");
 	static ImageIcon blankIcon = new ImageIcon(wordsToBytes(blank));
 	static ImageIcon execIcon = new ImageIcon(wordsToBytes(exec));
 

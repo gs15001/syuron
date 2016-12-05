@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.*;
 import javax.swing.tree.*;
 import org.jdesktop.swingx.*;
@@ -140,6 +141,12 @@ public class VariableTool extends JPanel {
 				g.drawLine(0, r.y + r.height, getWidth(), r.y + r.height);
 			}
 
+			for (int i = 0; i < getColumnCount(); i++) {
+				g.setColor(new Color(180, 180, 180, 120));
+				Rectangle r = getCellRect(0, i, true);
+				g.drawLine(r.x, 0, r.x, getHeight());
+			}
+
 			paintYellowRect(g);
 			paintGrayRect(g);
 		}
@@ -215,6 +222,7 @@ public class VariableTool extends JPanel {
 				boolean hasFocus, int row, int column) {
 
 			super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+			setBorder(new EmptyBorder(0, 10, 0, 0));
 
 			return this;
 		}

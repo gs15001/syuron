@@ -229,6 +229,7 @@ class JDBMenuBar extends JMenuBar {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				interpreter.executeCommand(cmd);
+				env.executeWaitCommand();
 			}
 		});
 		menu.add(mi);
