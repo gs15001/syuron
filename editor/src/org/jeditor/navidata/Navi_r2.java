@@ -22,9 +22,10 @@ public class Navi_r2 extends AbstractNaviPane {
 		super(mgr, "r2", 2, true);
 		// @formatter:off
 		indexLabel.setText("繰り返し回数の調査");
-		questionLabel.setText("<html>この繰り返し文(while,for)の繰り返し回数は正しいですか。<br>"
+		questionLabel.setText("<html>着目している繰り返し文(while,for)の繰り返し回数は正しいですか。<br>"
 				+ "繰り返し文のブロック({})の中にprint文を挿入し、繰り返し回数を<br>数えてみましょう。</html>");
-		descriptLabel.setText("<html>一定の回数繰り返すタイプの繰り返し文では、その回数分繰り返しているかを<br>確認します。</html>");
+		descriptLabel.setText("<html>一定の回数繰り返すタイプの繰り返し文では、正しい回数 繰り返しているかを<br>"
+				+ "確認します。</html>");
 		// @formatter:on
 		JButton button = buttons.get(0);
 		button.setText("正しい");

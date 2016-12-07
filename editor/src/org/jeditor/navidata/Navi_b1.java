@@ -22,12 +22,13 @@ public class Navi_b1 extends AbstractNaviPane {
 		super(mgr, "b1", 2, true);
 		//@formatter:off
 		indexLabel.setText("分岐先の調査");
-		questionLabel.setText("<html>この条件文(if)によってどの分岐先が実行されているか確認しましょう。<br>"
+		questionLabel.setText("<html>着目している条件文(if)によってどの分岐先が実行されているか確認しましょう。<br>"
 				+ "実行されている分岐先は正しいですか。</html>");
 		descriptLabel.setText("<html>条件文に誤りがないかを確認します。<br>"
-				+ "条件文に誤りがある場合、正解とは異なる分岐先の処理を実行している場合が多いです。<br>"
+				+ "条件文に誤りがある場合、正解とは異なる分岐先の処理を実行してしまいます。<br>"
 				+ "そのため、まずどの分岐先が実行されているか確認します。<br>"
-				+ "分岐先の確認はそれぞれに分岐先にprint文を挿入し、出力を確認することでできます。</html>");
+				+ "分岐先の確認はそれぞれに分岐先にprint文を挿入し、出力を確認することで<br>"
+				+ "できます。</html>");
 		//@formatter:on
 		JButton button = buttons.get(0);
 		button.setText("正しい");
@@ -85,7 +86,7 @@ class b1sample extends AbstractSamplePane {
 		JPanel pane = new JPanel();
 		pane.setBackground(new Color(224, 224, 224));
 		JLabel label = new JLabel(new ImageIcon("./res/b1.png"));
-		((FlowLayout) pane.getLayout()).setVgap(5);;
+		((FlowLayout) pane.getLayout()).setVgap(50);;
 		pane.add(label);
 		addMainPane(pane);
 	}

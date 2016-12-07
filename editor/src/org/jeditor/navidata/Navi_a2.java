@@ -18,7 +18,8 @@ public class Navi_a2 extends AbstractNaviPane {
 		super(mgr, "a2", 2, true);
 		// @formatter:off
 		indexLabel.setText("条件分岐・繰り返しの確認");
-		questionLabel.setText("<html>着目している処理は条件文(if)や繰り返し文(while,for)のブロック（{})内に<br>存在しますか。</html>");
+		questionLabel.setText("<html>着目している処理は条件文(if)や繰り返し文(while,for)のブロック（{})内に"
+				+ "<br>存在しますか。</html>");
 		descriptLabel.setText("<html>着目している処理が条件文や繰り返し文のブロック内に存在する場合、<br>"
 				+ "条件文や繰り返し文の誤りによって結果が誤ることがあるため、確認します。</html>");
 		// @formatter:on
@@ -63,7 +64,7 @@ class a2sample extends AbstractSamplePane {
 		JPanel pane = new JPanel();
 		pane.setBackground(new Color(224, 224, 224));
 		JLabel label = new JLabel(new ImageIcon("./res/a2.png"));
-		((FlowLayout) pane.getLayout()).setVgap(5);;
+		((FlowLayout) pane.getLayout()).setVgap(20);;
 		pane.add(label);
 		addMainPane(pane);
 	}

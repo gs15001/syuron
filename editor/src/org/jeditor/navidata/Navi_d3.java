@@ -37,7 +37,7 @@ public class Navi_d3 extends AbstractNaviPane {
 	@Override
 	public void setInput(String notice) {
 		super.setInput(notice);
-		noticeLabel.setText("利用なし");
+		noticeLabel.setText("全体");
 	}
 }
 

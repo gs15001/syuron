@@ -72,7 +72,8 @@ public class Navi_p4 extends AbstractNaviPane {
 
 		descriptLabel.setText("<html>" + startEnd[0] + "行目までのまとまりは正しく動いており、バグが無いことが確認できました。<br>"
 				+ "続いて、" + startEndString[1] + "のメソッドにバグが無いか確認します。<br>"
-				+ "確認するべき変数は、" + (startEnd[1] + 1) + "行目以降で使用している変数です。<br>"
+				+ "確認するべき変数は、" + (startEnd[1] + 1) + "行目以降のまとまりでも使用している変数です。<br>"
+				+ "基本的にはメソッドの返り値を確認します。<br>"
 				+ "正しい変数の値はプログラムの過程を紙などに書いて求めましょう。</html>");
 		//@formatter:on
 		} else {
@@ -87,7 +88,8 @@ public class Navi_p4 extends AbstractNaviPane {
 
 		descriptLabel.setText("<html>" + startEnd[0] + "行目までのまとまりは正しく動いており、バグが無いことが確認できました。<br>"
 				+ "続いて、" + (startEnd[0] + 1) + "～" + (startEndString[1]) + "内のメソッドにバグが無いか確認します。<br>"
-				+ "確認するべき変数は、" + (startEnd[1] + 1) + "行目以降で使用している変数です。<br>"
+				+ "確認するべき変数は、" + (startEnd[1] + 1) + "行目以降のまとまりでも使用している変数です。<br>"
+				+ "基本的にはメソッドの返り値を確認します。<br>"
 				+ "正しい変数の値はプログラムの過程を紙などに書いて求めましょう。</html>");
 		//@formatter:on
 		}
@@ -168,7 +170,7 @@ class p4sample extends AbstractSamplePane {
 		JPanel pane = new JPanel();
 		pane.setBackground(new Color(224, 224, 224));
 		JLabel label = new JLabel(new ImageIcon("./res/p4.png"));
-		((FlowLayout) pane.getLayout()).setVgap(50);;
+		((FlowLayout) pane.getLayout()).setVgap(5);;
 		pane.add(label);
 		addMainPane(pane);
 	}

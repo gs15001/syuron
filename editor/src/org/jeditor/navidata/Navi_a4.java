@@ -17,11 +17,13 @@ public class Navi_a4 extends AbstractNaviPane {
 	public Navi_a4(NaviManager mgr) {
 		super(mgr, "a4", 2, true);
 		//@formatter:off
-		indexLabel.setText("誤っている変数の右辺の式を調査");
-		questionLabel.setText("<html>見つけた処理の右辺の式を確認しましょう。<br>"
-				+ "複雑な計算を行っている場合は、分解して1つ1つ確認しましょう。<br>"
+		indexLabel.setText("誤っている変数の右辺の式の調査");
+		questionLabel.setText("<html>着目している処理の右辺の式を確認しましょう。<br>"
+				+ "四則演算の優先順位や括弧の位置などを確認しましょう。<br>"
+				+ "また、複雑な計算を行っている場合は、分解して1つ1つ確認しましょう。<br>"
 				+ "確認した結果、式は正しいですか。</html>");
-		descriptLabel.setText("<html>代入する値が誤る原因のうち、「使用する変数が誤っている」は先ほど正しいことを確認しました。<br>"
+		descriptLabel.setText("<html>代入する値が誤る原因のうち、「使用する変数の値が誤っている」は<br>"
+				+ "先ほど正しいことを確認しました。"
 				+ "残る「式が誤っている」の確認を行います。</html>");
 		//@formatter:on
 		JButton button = buttons.get(0);

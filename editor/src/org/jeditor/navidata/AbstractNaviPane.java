@@ -142,7 +142,7 @@ public abstract class AbstractNaviPane extends JPanel {
 		questionTitleLabel.setBorder(new EmptyBorder(tmpHeight, tmpWidth, tmpHeight, tmpWidth));
 
 		// 着目しているもの
-		noticeLabel = new JLabel("着目している何か");
+		noticeLabel = new JLabel("着目する場所が表示されます");
 		noticeLabel.setFont(new Font("メイリオ", Font.PLAIN, FONT_SIZE_M));
 		noticeLabel.setHorizontalAlignment(JLabel.RIGHT);
 		// noticeLabel.setPreferredSize(new Dimension(parent.RIGHT_WIDTH, (int) (parent.RIGHT_HEIGHT * 0.05)));

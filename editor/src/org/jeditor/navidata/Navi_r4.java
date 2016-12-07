@@ -22,11 +22,11 @@ public class Navi_r4 extends AbstractNaviPane {
 		super(mgr, "r4", 2,true);
 		//@formatter:off
 		indexLabel.setText("条件に使用する変数の値の調査");
-		questionLabel.setText("<html>この繰り返し文(while,for)の条件に使用する変数の値を確認しましょう。<br>"
+		questionLabel.setText("<html>着目している繰り返し文(while,for)の条件に使用する変数の値を確認しましょう。<br>"
 				+ "確認した値は正しいですか。</html>");
-		descriptLabel.setText("<html>一定の条件を満たすまで繰り返すタイプの繰り返し文では条件の部分に誤りがないかを確認します。<br>"
+		descriptLabel.setText("<html>一定の条件を満たすまで繰り返すタイプの繰り返し文では、条件の部分に誤りがないかを確認します。<br>"
 				+ "条件の部分が誤る原因は、<br>"
-				+ "・使用する変数が誤っている<br>"
+				+ "・使用する変数の値が誤っている<br>"
 				+ "・条件式が誤っている<br>"
 				+ "のどちらかになります。<br>"
 				+ "まず、前者の確認を行います。</html>");

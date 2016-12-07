@@ -70,7 +70,7 @@ public class Navi_p2_2 extends AbstractNaviPane {
 		descriptLabel.setText("<html>プログラムをまとまりに分割したので、次はまとまりごとに正しく動作しているか確認します。<br>"
 				+ "正しく動作しているかは、変数の値を確認することで確かめることができます。<br>"
 				+ "確認するべき変数は、" + startEndString[2] + "までのまとまりと" + (startEnd[3]+1) + "行目からのまとまりで<br>"
-				+ "共通している変数、もしくは、メソッドの引数で使用されている変数です。<br>"
+				+ "共通している変数、もしくは、メソッドの引数に使用されている変数です。<br>"
 				+ "正しい変数の値はプログラムの過程を紙などに書いて求めましょう。</html>");
 		// @formatter:on
 
@@ -150,7 +150,7 @@ class p2_2sample extends AbstractSamplePane {
 		JPanel pane = new JPanel();
 		pane.setBackground(new Color(224, 224, 224));
 		JLabel label = new JLabel(new ImageIcon("./res/p2_2.png"));
-		((FlowLayout) pane.getLayout()).setVgap(50);;
+		((FlowLayout) pane.getLayout()).setVgap(5);;
 		pane.add(label);
 		addMainPane(pane);
 	}

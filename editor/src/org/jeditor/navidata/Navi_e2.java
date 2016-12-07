@@ -12,9 +12,9 @@ public class Navi_e2 extends AbstractNaviPane {
 		super(mgr, "e2", 1);
 		//@formatter:off
 		indexLabel.setText("エラー");
-		questionLabel.setText("<html>エラーを見つけることができませんでした。<br>"
+		questionLabel.setText("<html>バグを見つけることができませんでした。<br>"
 				+ "自信のない回答をした箇所があれば、そこに戻り、<br>"
-				+ "もう１度考えてみましょう。それでも見つけられない場合は<br>"
+				+ "もう１度考え直してみましょう。それでも見つけられない場合は<br>"
 				+ "友達やTAに聞いてみましょう。</html>");
 		descriptLabel.setText("");
 		//@formatter:on

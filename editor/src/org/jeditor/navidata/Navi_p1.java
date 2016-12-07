@@ -28,7 +28,8 @@ public class Navi_p1 extends AbstractNaviPane {
 				+ "境目となる行を入力してください。<br>"
 				+ "メソッド呼び出しがある場合は、そこを境目とするので「メソッド」を選択してください。</html>");
 		
-		descriptLabel.setText("<html>プログラムを大雑把に調べるために、プログラムをいくつかのまとまりに<br>分割します。<br>"
+		descriptLabel.setText("<html>プログラムを大雑把に調べるために、処理の役割毎にまとまりを作り、<br>"
+				+ "プログラムをいくつかのまとまりに分割します。<br>"
 				+ "まとまりに分割し、まとまり毎に動作を確認することで、バグの潜む範囲を大雑把に絞り込んでいきます。</html>");
 		//@formatter:on
 
@@ -90,6 +91,7 @@ public class Navi_p1 extends AbstractNaviPane {
 		} else {
 			preInput = "0-999-";
 		}
+		noticeLabel.setText("着目しているまとまり：" + startEnd[0] + "行目から" + startEnd[2] + "行目");
 	}
 }
 

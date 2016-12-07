@@ -79,18 +79,21 @@ public class Navi_p3 extends AbstractNaviPane {
 		noticeLabel.setText("着目しているまとまり：" + startEndString[0] + "から" + startEndString[1]);
 		// @formatter:off
 		questionLabel.setText("<html>" + startEndString[0] + "から" + startEndString[1]
-				+ "までのまとまりをさらに2つのまとまりに分割しましょう。<br>" + "境目となる行を入力してください。<br>" + "メソッド呼び出しがある場合は「メソッド」を選択してください。<br>"
-				+ "境目になるようなキリのいいところがなければ、「次へ」を選択してください。</html>");
+				+ "までのまとまりをさらに2つのまとまりに分割しましょう。<br>" + "境目となる行を入力してください。<br>"
+				+ "メソッド呼び出しがある場合は「メソッド」を選択してください。<br>"
+				+ "もう分割できないと判断したなら、「次へ」を選択してください。<br>"
+				+ "「次へ」を選択した場合、最後に確認した誤っている変数名の入力を促されます。</html>");
 
 		if(pattern == 1) {
-			descriptLabel.setText("<html>" + startEndString[0] + "までのまとまりは正しく動いており、バグが無いことが確認できました。<br>"
+			descriptLabel.setText("<html>" + (startEnd[0]-1) + "までのまとまりは正しく動いており、バグが無いことが確認できました。<br>"
+					+ "そのため、バグは" + startEndString[0] + "から" + startEndString[1] + "までのまとまりに潜んでいることが分かります。<br>"
 					+ startEndString[0] + "から" + startEndString[1] + "までのまとまりに同様のことを繰り返し、バグの潜む範囲<br>を絞り込んでいきます。<br>"
-					+ "ある程度、絞り込めたら、その範囲を細かく調べていきます。</html>");
+					+ "分割できないくらいまで絞り込めたら、その範囲を順に調べていきます。</html>");
 		} else {
-			descriptLabel.setText("<html>" + startEndString[0] + "から" + startEndString[1] + "までのまとまりは正しく動いていないため、"
-					+ "バグは" + startEndString[0] + "から<br>" + startEndString[1] + "までのまとまりに潜んでいることがわかりました。<br>"
+			descriptLabel.setText("<html>" + startEndString[0] + "から" + startEndString[1] + "までのまとまりが正しく動いていないため、"
+					+ "バグは" + startEndString[0] + "から<br>" + startEndString[1] + "までのまとまりに潜んでいることが分かりました。<br>"
 					+ startEndString[0] + "から" + startEndString[1] + "までのまとまりに同様のことを繰り返し、バグの潜む範囲を<br>絞り込んでいきます。<br>"
-					+ "ある程度、絞り込めたら、その範囲を細かく調べていきます。</html>");
+					+ "分割できないくらいまで絞り込めたら、その範囲を順に調べていきます。</html>");
 		}
 		// @formatter:on
 	}

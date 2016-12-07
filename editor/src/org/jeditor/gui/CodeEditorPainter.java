@@ -619,7 +619,7 @@ public class CodeEditorPainter extends JComponent implements TabExpander {
 		// まとまりハイライト
 		int[] partition = editor.getPartition();
 		if(partition[0] <= line && line < partition[1]) {
-			paintRect(gfx, line, y, new Color(240, 240, 240));
+			paintRect(gfx, line, y, new Color(200, 200, 200, 50));
 		}
 
 		/* added to be able to force highlighting (for example in
@@ -647,7 +647,7 @@ public class CodeEditorPainter extends JComponent implements TabExpander {
 		// 行ハイライト
 		int noticeLine = editor.getNoticeLine();
 		if(line == noticeLine) {
-			paintRect(gfx, line, y, Color.RED);
+			paintRect(gfx, line, y, new Color(255, 0, 0, 100));
 		}
 
 		if(highlights != null) {

@@ -15,7 +15,7 @@ public class Navi_a0 extends AbstractNaviPane {
 		indexLabel.setText("ステップ4 バグの特定");
 		// @formatter:off
 		questionLabel.setText("<html>ステップ3で、バグの潜む範囲を絞り込みました。<br>"
-				+ "ステップ4では、誤っている変数を手がかりにその範囲を細かく調べ、<br>バグを特定していきます。</html>");
+				+ "ステップ4では、<b>誤っている変数を手がかりにその範囲を順に調べ、<br>バグを特定していきます。</b></html>");
 
 		descriptLabel.setText("<html>以降、「左辺」と「右辺」という言葉がでてきます。<br>"
 				+ "数学の方程式と同様に、「左辺」は「=」の左側、「右辺」は「=」の右側を<br>示します。</html>");

@@ -14,10 +14,10 @@ public class Navi_i0 extends AbstractNaviPane {
 		indexLabel.setText("ステップ2 再現性の確認");
 		//@formatter:off
 		questionLabel.setText("<html>ステップ1では、バグの存在を確認しました。<br>"
-				+ "ステップ2では、どんな時に誤った結果(出力)になるかを確認し、誤った結果(出力)を<br>再現できるようにします。<br>"
+				+ "ステップ2では、どんな時に誤った結果(出力)になるかを確認し、<b>誤った結果(出力)<br>を再現できるようにします。</b><br>"
 				+ "誤った結果を確実に出力できる場合はトップに戻り、「ステップ3」に<br>進みましょう。</html>");
 			
-		descriptLabel.setText("<html>以降、「誤った結果(出力)を再現できるようにすること」を「再現性の確認」<br>と言うこととします。<br>"
+		descriptLabel.setText("<html>以降、「誤った結果(出力)を再現できるようにすること」を<b>「再現性の確認」</b><br>と言うこととします。<br>"
 				+ "再現性の確認は、複雑なプログラムになるほど重要になります。</html>");
 		//@formatter:on
 
@@ -28,6 +28,6 @@ public class Navi_i0 extends AbstractNaviPane {
 	@Override
 	public void setInput(String notice) {
 		super.setInput(notice);
-		noticeLabel.setText("利用なし");
+		noticeLabel.setText("全体");
 	}
 }

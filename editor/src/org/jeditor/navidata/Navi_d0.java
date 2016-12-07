@@ -13,8 +13,8 @@ public class Navi_d0 extends AbstractNaviPane {
 
 		indexLabel.setText("ステップ1 バグの確認");
 		//@formatter:off
-		questionLabel.setText("<html>ステップ1では、プログラムが正しく動作するかを確認し、バグの存在を<br>"
-				+ "確認します。<br>"
+		questionLabel.setText("<html>ステップ1では、プログラムが正しく動作するかを確認し、<b>バグの存在を<br>"
+				+ "確認します。</b><br>"
 				+ "既に実行結果(出力)が誤っており、バグの存在を確認しているなら、トップに<br>"
 				+ "戻り、「ステップ2」に進みましょう。</html>");
 		
@@ -28,6 +28,6 @@ public class Navi_d0 extends AbstractNaviPane {
 	@Override
 	public void setInput(String notice) {
 		super.setInput(notice);
-		noticeLabel.setText("利用なし");
+		noticeLabel.setText("全体");
 	}
 }
