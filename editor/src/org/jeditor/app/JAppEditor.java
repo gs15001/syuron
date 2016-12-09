@@ -1,16 +1,16 @@
 /* This file is part of the jEditor library: see http://jeditor.sourceforge.net
  * Copyright (C) 2010 Herve Girod
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -43,6 +43,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
 import javax.swing.AbstractAction;
@@ -428,7 +430,7 @@ public class JAppEditor extends JFrame {
 		 * JMenuItem item = new JMenuItem(s);
 		 * compare.add(item);
 		 * item.addActionListener(new ActionListener() {
-		 *
+		 * 
 		 * public void actionPerformed(ActionEvent e) {
 		 * FilePane.TextFile toFile = ((FilePane) (tab.getSelectedComponent())).getFile();
 		 * String s = ((JMenuItem) (e.getSource())).getText();
@@ -671,7 +673,8 @@ public class JAppEditor extends JFrame {
 		JEditor ed = ((FilePane) tab.getSelectedComponent()).ed;
 		ed.clearPartitionLine();
 		ed.setPartition(-1, -1);
-		ed.setNoticeLine(-1);
+		ed.clearNoticeLine();
+		ed.clearReturnLine();
 		ed.setVariableName(null);
 	}
 
@@ -705,9 +708,8 @@ public class JAppEditor extends JFrame {
 	public void setVariable(String name) {
 		JEditor ed = ((FilePane) tab.getSelectedComponent()).ed;
 		// 変数に着目した場合は行の着目をなくす
-		if(ed.getNoticeLine() >= 0) {
-			setNoticeLine("0");
-		}
+		ed.clearNoticeLine();
+
 		if(name.equals("")) {
 			ed.setVariableName(null);
 		} else {
@@ -723,7 +725,12 @@ public class JAppEditor extends JFrame {
 			setVariable("");
 		}
 		try {
-			ed.setNoticeLine(Integer.parseInt(line) - 1);
+			String[] lines = line.split(",");
+			List<Integer> list = new ArrayList<>();
+			for (String s : lines) {
+				list.add(Integer.parseInt(s) - 1);
+			}
+			ed.setNoticeLine(list);
 		} catch (NumberFormatException e) {
 
 		}
@@ -732,21 +739,40 @@ public class JAppEditor extends JFrame {
 	public void setReturnLine(String line) {
 		JEditor ed = ((FilePane) tab.getSelectedComponent()).ed;
 		try {
-			ed.setReturnLine(Integer.parseInt(line) - 1);
+			String[] lines = line.split(",");
+			List<Integer> list = new ArrayList<>();
+			for (String s : lines) {
+				list.add(Integer.parseInt(s) - 1);
+			}
+			ed.setReturnLine(list);
 		} catch (NumberFormatException e) {
 
 		}
 	}
 
-	public int getReturnLine() {
+	public String getReturnLine() {
 		JEditor ed = ((FilePane) tab.getSelectedComponent()).ed;
-		return ed.getReturnLine() + 1;
+		List<Integer> list = ed.getReturnLine();
+		String s = "";
+		for (int i = 0; i < list.size() - 1; i++) {
+			int v = list.get(i) + 1;
+			s += v + ",";
+		}
+		if(list.size() > 0) {
+			s += (list.get(list.size() - 1) + 1);
+		}
+		return s;
+	}
+
+	public void clearReturnLine() {
+		JEditor ed = ((FilePane) tab.getSelectedComponent()).ed;
+		ed.clearReturnLine();
 	}
 
 	public void updateData() {
 		AbstractNaviPane pane = naviManager.getCurrentPane();
 		JEditor ed = ((FilePane) tab.getSelectedComponent()).ed;
-		pane.updateData(ed.getNoticeLine() + 1, ed.getReturnLine() + 1, ed.getPartition(), ed.getPartitionLine());
+		pane.updateData(ed.getNoticeLine(), getReturnLine(), ed.getPartition(), ed.getPartitionLine());
 	}
 
 	public void updateNotice(int v, int startLine, int startOffset) {

@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Set;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -74,10 +75,18 @@ public class Navi_a6 extends AbstractNaviPane {
 	}
 
 	@Override
-	public void updateData(int noticeLine, int returnLine, int[] partition, Set<Integer> partitionLines) {
+	public void updateData(List<Integer> noticeLine, String returnLine, int[] partition, Set<Integer> partitionLines) {
 		postInput = parent.getPartition();
-		preInput = getIndex() + "-" + noticeLine + "-";
-		noticeLabel.setText("着目している処理　：　" + noticeLine + " 行目");
+		
+		String preInput2 = "";
+		for (int i = 0; i < noticeLine.size(); i++) {
+			preInput2 += (noticeLine.get(i) + 1) + ",";
+		}
+		preInput2 = preInput2.substring(0, preInput2.length());
+		
+		
+		preInput = getIndex() + "-" + preInput2 + "-";
+		noticeLabel.setText("着目している処理　：　" + preInput2 + " 行目");
 	}
 }
 

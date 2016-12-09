@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Set;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,7 +20,7 @@ public class Navi_r4 extends AbstractNaviPane {
 	private String[] notices;
 
 	public Navi_r4(NaviManager mgr) {
-		super(mgr, "r4", 2,true);
+		super(mgr, "r4", 2, true);
 		//@formatter:off
 		indexLabel.setText("条件に使用する変数の値の調査");
 		questionLabel.setText("<html>着目している繰り返し文(while,for)の条件に使用する変数の値を確認しましょう。<br>"
@@ -45,7 +46,7 @@ public class Navi_r4 extends AbstractNaviPane {
 		});
 
 		dialog[1] = new InputMyDialog(InputMyDialog.VARIABLE);
-		
+
 		setSamplePane(new r4sample(mgr));
 	}
 
@@ -67,12 +68,16 @@ public class Navi_r4 extends AbstractNaviPane {
 	}
 
 	@Override
-	public void updateData(int noticeLine, int returnLine, int[] partition, Set<Integer> partitionLines) {
+	public void updateData(List<Integer> noticeLine, String returnLine, int[] partition, Set<Integer> partitionLines) {
 		postInput = parent.getPartition();
-		notices[2] = noticeLine + "";
-		notices[1] = returnLine + "";
-		preInput = notices[0] + "-" + notices[1] + "-" + notices[2];
-		noticeLabel.setText("着目している繰り返し文　：　" + noticeLine + " 行目");
+		String preInput2 = "";
+		for (int i = 0; i < noticeLine.size(); i++) {
+			preInput2 += (noticeLine.get(i) + 1) + ",";
+		}
+		preInput2 = preInput2.substring(0, preInput2.length());
+		notices[1] = returnLine;
+		preInput = notices[0] + "-" + notices[1] + "-" + preInput2;
+		noticeLabel.setText("着目している繰り返し文　：　" + preInput2 + " 行目");
 	}
 }
 

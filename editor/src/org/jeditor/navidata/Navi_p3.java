@@ -4,6 +4,7 @@ package org.jeditor.navidata;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.swing.JButton;
 import org.jeditor.navi.InputMyDialog;
@@ -148,7 +149,7 @@ public class Navi_p3 extends AbstractNaviPane {
 	}
 
 	@Override
-	public void updateData(int noticeLine, int returnLine, int[] partition, Set<Integer> partitionLines) {
+	public void updateData(List<Integer> noticeLine, String returnLine, int[] partition, Set<Integer> partitionLines) {
 		startEnd[0] = partition[0];
 		startEndString[0] = (startEnd[0] + 1) + "行目";
 		startEnd[1] = partition[1];

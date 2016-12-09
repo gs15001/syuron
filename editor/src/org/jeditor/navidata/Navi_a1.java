@@ -4,6 +4,7 @@ package org.jeditor.navidata;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.util.List;
 import java.util.Set;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,7 +24,9 @@ public class Navi_a1 extends AbstractNaviPane {
 		// @formatter:off
 		questionLabel.setText("<html>誤っている変数に代入している処理を探しましょう。<br>"
 				+ "変数に代入している処理とは、その変数が左辺にある処理です。<br>"
-				+ "複数ある場合は一番下にある処理を対象とします。</html>");
+				+ "複数ある場合は一番下にある処理を対象とします。<br><br>"
+				+ "※誤っている変数が配列の場合は、代入している処理全てを<br>"
+				+ "対象にします。</html>");
 
 		descriptLabel.setText("<html>まずは、変数の値が誤っている原因を探します。<br>"
 				+ "変数は代入された時だけ、値が変更されます。<br>"
@@ -36,7 +39,7 @@ public class Navi_a1 extends AbstractNaviPane {
 		button = buttons.get(1);
 		button.setText("ない");
 
-		dialog[0] = new InputMyDialog(InputMyDialog.ROW);
+		dialog[0] = new InputMyDialog("見つけた処理の行番号を入力してください\n配列の場合は、「,]で区切って複数入力してください","見つけた処理の行番号の入力");
 		setSamplePane(new a1sample(mgr));
 	}
 
@@ -56,7 +59,7 @@ public class Navi_a1 extends AbstractNaviPane {
 	}
 
 	@Override
-	public void updateData(int noticeLine, int returnLine, int[] partition, Set<Integer> partitionLines) {
+	public void updateData(List<Integer> noticeLine, String returnLine, int[] partition, Set<Integer> partitionLines) {
 		postInput = parent.getPartition();
 	}
 }

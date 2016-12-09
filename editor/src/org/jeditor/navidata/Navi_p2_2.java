@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import javax.swing.ImageIcon;
@@ -120,7 +121,7 @@ public class Navi_p2_2 extends AbstractNaviPane {
 	}
 
 	@Override
-	public void updateData(int noticeLine, int returnLine, int[] partition, Set<Integer> partitionLines) {
+	public void updateData(List<Integer> noticeLine, String returnLine, int[] partition, Set<Integer> partitionLines) {
 		// 終点を探す
 		TreeSet<Integer> set = new TreeSet<>(partitionLines);
 		Iterator<Integer> ite = set.iterator();

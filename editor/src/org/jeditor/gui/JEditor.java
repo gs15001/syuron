@@ -1,6 +1,6 @@
 /* Copyright (C) 1999 Slava Pestov
  * Copyright (C) 2010, 2012, 2014 Herve Girod
- *
+ * 
  * You may use and modify this package for any purpose. Redistribution is
  * permitted, in both source and binary form, provided that this notice
  * remains intact in all source distributions of this package. */
@@ -34,6 +34,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -347,27 +348,35 @@ public class JEditor extends JComponent {
 	}
 
 	// 1行ハイライト用データ
-	private int noticeLine = -1;
+	private List<Integer> noticeLine = new ArrayList<>();
 
-	public void setNoticeLine(int i) {
-		noticeLine = i;
+	public void setNoticeLine(List<Integer> newNoticeLine) {
+		noticeLine = newNoticeLine;
 		painter.repaint();
 		gutter.repaint();
 	}
 
-	public int getNoticeLine() {
+	public List<Integer> getNoticeLine() {
 		return noticeLine;
 	}
 
-	// リターン用データ
-	private int returnLine = -1;
-
-	public void setReturnLine(int i) {
-		returnLine = i;
+	public void clearNoticeLine() {
+		noticeLine.clear();
 	}
 
-	public int getReturnLine() {
+	// リターン用データ
+	private List<Integer> returnLine = new ArrayList<>();;
+
+	public void setReturnLine(List<Integer> newReturnLine) {
+		returnLine = newReturnLine;
+	}
+
+	public List<Integer> getReturnLine() {
 		return returnLine;
+	}
+	
+	public void clearReturnLine() {
+		returnLine.clear();
 	}
 
 	// 変数ハイライト用データ
@@ -386,21 +395,33 @@ public class JEditor extends JComponent {
 	// 更新用
 	public void updateData(int v, int startLine, int startOffset) {
 		// 選択行を改行する場合は、先頭での改行のみ変更対象とする
-		if(noticeLine > startLine) {
-			noticeLine += v;
-		} else if(noticeLine == startLine) {
-			if(startOffset == 0) {
-				noticeLine += v;
+		List<Integer> newNoticeLine = new ArrayList<>();
+		for (Integer I : noticeLine) {
+			int i = I;
+			if(i > startLine) {
+				i += v;
+			} else if(i == startLine) {
+				if(startOffset == 0) {
+					i += v;
+				}
 			}
+			newNoticeLine.add(i);
 		}
+		noticeLine = newNoticeLine;
 
-		if(returnLine > startLine) {
-			returnLine += v;
-		} else if(returnLine == startLine) {
-			if(startOffset == 0) {
-				returnLine += v;
+		List<Integer> newReturnLine = new ArrayList<>();
+		for (Integer I : returnLine) {
+			int i = I;
+			if(i > startLine) {
+				i += v;
+			} else if(i == startLine) {
+				if(startOffset == 0) {
+					i += v;
+				}
 			}
+			newReturnLine.add(i);
 		}
+		returnLine = newReturnLine;
 
 		for (int i = 0; i < partition.length; i++) {
 			if(partition[i] > startLine) {
@@ -650,7 +671,7 @@ public class JEditor extends JComponent {
 	 *
 	 * <pre>
 	 * <code>
-	 *
+	 * 
 	 *   static final JTextComponent.KeyBinding[] defaultBindings = {
 	 *     new JTextComponent.KeyBinding(
 	 *       KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK),
@@ -662,11 +683,11 @@ public class JEditor extends JComponent {
 	 *       KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK),
 	 *       DefaultEditorKit.cutAction),
 	 *   };
-	 *
+	 * 
 	 *   JTextComponent c = new JTextPane();
 	 *   Keymap k = c.getKeymap();
 	 *   JTextComponent.loadKeymap(k, defaultBindings, c.getActions());
-	 *
+	 * 
 	 * </code>
 	 * </pre>
 	 *
@@ -2352,9 +2373,15 @@ public class JEditor extends JComponent {
 	private boolean checkLine(int line) {
 		if(line == partition[0] || line == partition[1]) {
 			return true;
-		} else if(line == noticeLine || line == returnLine) {
-			return true;
 		} else {
+			for (Integer i : returnLine) {
+				if(line == i.intValue())
+					return true;
+			}
+			for (Integer i : noticeLine) {
+				if(line == i.intValue())
+					return true;
+			}
 			for (Integer i : partitionLines) {
 				if(line == i.intValue()) {
 					return true;

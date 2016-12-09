@@ -1,6 +1,7 @@
 /* ソースツリー文字コード識別用文字列ソースツリー文字コード識別用文字列 */
 package org.jeditor.navidata;
 
+import java.util.List;
 import java.util.Set;
 import javax.swing.JButton;
 import org.jeditor.navi.NaviManager;
@@ -41,7 +42,7 @@ public class Navi_a7 extends AbstractNaviPane {
 	}
 
 	@Override
-	public void updateData(int noticeLine, int returnLine, int[] partition, Set<Integer> partitionLines) {
+	public void updateData(List<Integer> noticeLine, String returnLine, int[] partition, Set<Integer> partitionLines) {
 		postInput = parent.getPartition();
 	}
 }

@@ -3,6 +3,7 @@ package org.jeditor.navidata;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.util.List;
 import java.util.Set;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -55,12 +56,16 @@ public class Navi_r1 extends AbstractNaviPane {
 	}
 
 	@Override
-	public void updateData(int noticeLine, int returnLine, int[] partition, Set<Integer> partitionLines) {
+	public void updateData(List<Integer> noticeLine, String returnLine, int[] partition, Set<Integer> partitionLines) {
 		postInput = parent.getPartition();
-		notices[2] = noticeLine + "";
-		notices[1] = returnLine + "";
-		preInput = notices[0] + "-" + notices[1] + "-" + notices[2];
-		noticeLabel.setText("着目している繰り返し文　：　" + noticeLine + " 行目");
+		String preInput2 = "";
+		for (int i = 0; i < noticeLine.size(); i++) {
+			preInput2 += (noticeLine.get(i) + 1) + ",";
+		}
+		preInput2 = preInput2.substring(0, preInput2.length());
+		notices[1] = returnLine;
+		preInput = notices[0] + "-" + notices[1] + "-" + preInput2;
+		noticeLabel.setText("着目している繰り返し文　：　" + preInput2 + " 行目");
 	}
 }
 

@@ -3,6 +3,7 @@ package org.jeditor.navidata;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.util.List;
 import java.util.Set;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,7 +20,9 @@ public class Navi_a2 extends AbstractNaviPane {
 		// @formatter:off
 		indexLabel.setText("条件分岐・繰り返しの確認");
 		questionLabel.setText("<html>着目している処理は条件文(if)や繰り返し文(while,for)のブロック（{})内に"
-				+ "<br>存在しますか。</html>");
+				+ "<br>存在しますか。<br>"
+				+ "複数行着目している場合は、いずれかの行がブロック内に存在していれば<br>"
+				+ "「存在する」を選択してください。</html>");
 		descriptLabel.setText("<html>着目している処理が条件文や繰り返し文のブロック内に存在する場合、<br>"
 				+ "条件文や繰り返し文の誤りによって結果が誤ることがあるため、確認します。</html>");
 		// @formatter:on
@@ -48,10 +51,14 @@ public class Navi_a2 extends AbstractNaviPane {
 	}
 
 	@Override
-	public void updateData(int noticeLine, int returnLine, int[] partition, Set<Integer> partitionLines) {
+	public void updateData(List<Integer> noticeLine, String returnLine, int[] partition, Set<Integer> partitionLines) {
 		postInput = parent.getPartition();
-		preInput = noticeLine + "";
-		noticeLabel.setText("着目している処理　：　" + noticeLine + " 行目");
+		preInput = "";
+		for (int i = 0; i < noticeLine.size(); i++) {
+			preInput += (noticeLine.get(i) + 1) + ",";
+		}
+		preInput = preInput.substring(0, preInput.length());
+		noticeLabel.setText("着目している処理　：　" + preInput + " 行目");
 	}
 }
 

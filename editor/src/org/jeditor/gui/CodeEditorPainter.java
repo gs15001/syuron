@@ -16,6 +16,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -645,9 +646,11 @@ public class CodeEditorPainter extends JComponent implements TabExpander {
 		paintVariableHighlight(gfx, line, y, Color.YELLOW);
 
 		// 行ハイライト
-		int noticeLine = editor.getNoticeLine();
-		if(line == noticeLine) {
-			paintRect(gfx, line, y, new Color(255, 0, 0, 100));
+		List<Integer> noticeLines = editor.getNoticeLine();
+		for (Integer noticeLine : noticeLines) {
+			if(line == noticeLine.intValue()) {
+				paintRect(gfx, line, y, new Color(255, 0, 0, 100));
+			}
 		}
 
 		if(highlights != null) {
