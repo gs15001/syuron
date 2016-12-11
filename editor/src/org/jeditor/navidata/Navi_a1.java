@@ -18,15 +18,15 @@ public class Navi_a1 extends AbstractNaviPane {
 	private static final long serialVersionUID = 1L;
 
 	public Navi_a1(NaviManager mgr) {
-		super(mgr, "a1", 2, true);
+		super(mgr, "a1", 3, true);
 
 		indexLabel.setText("誤っている変数の原因を探す");
 		// @formatter:off
 		questionLabel.setText("<html>誤っている変数に代入している処理を探しましょう。<br>"
 				+ "変数に代入している処理とは、その変数が左辺にある処理です。<br>"
 				+ "複数ある場合は一番下にある処理を対象とします。<br><br>"
-				+ "※誤っている変数が配列の場合は、代入している処理全てを<br>"
-				+ "対象にします。</html>");
+				+ "※誤っている変数が配列の場合は、「配列」を選択してください。<br>"
+				+ "配列に代入している処理全てを対象とします。</html>");
 
 		descriptLabel.setText("<html>まずは、変数の値が誤っている原因を探します。<br>"
 				+ "変数は代入された時だけ、値が変更されます。<br>"
@@ -37,9 +37,12 @@ public class Navi_a1 extends AbstractNaviPane {
 		JButton button = buttons.get(0);
 		button.setText("ある");
 		button = buttons.get(1);
+		button.setText("配列");
+		button = buttons.get(2);
 		button.setText("ない");
 
-		dialog[0] = new InputMyDialog("見つけた処理の行番号を入力してください\n配列の場合は、「,]で区切って複数入力してください","見つけた処理の行番号の入力");
+		dialog[0] = new InputMyDialog(InputMyDialog.ROW);
+		dialog[1] = new InputMyDialog("配列に代入している処理の行番号を全て入力してください\n行番号は、「,」で区切って複数入力してください", "代入している処理の行番号の入力");
 		setSamplePane(new a1sample(mgr));
 	}
 
@@ -73,7 +76,7 @@ class a1sample extends AbstractSamplePane {
 		JPanel pane = new JPanel();
 		pane.setBackground(new Color(224, 224, 224));
 		JLabel label = new JLabel(new ImageIcon("./res/a1.png"));
-		((FlowLayout) pane.getLayout()).setVgap(5);;
+		((FlowLayout) pane.getLayout()).setVgap(5);
 		pane.add(label);
 		addMainPane(pane);
 	}

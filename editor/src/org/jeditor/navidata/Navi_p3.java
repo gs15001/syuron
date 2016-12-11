@@ -73,7 +73,7 @@ public class Navi_p3 extends AbstractNaviPane {
 
 		dialog[0] = new InputMyDialog(InputMyDialog.PARTITION);
 		dialog[1] = new InputMyDialog(InputMyDialog.METHOD);
-		dialog[2] = new InputMyDialog("誤っていた変数名を入力してください", "誤っていた変数名の入力");
+		dialog[2] = new InputMyDialog("誤っていた変数名を入力してください\n配列の場合は「[]」は入力しないでください", "誤っていた変数名の入力");
 	}
 
 	private void refreshLabel(int pattern) {
@@ -90,8 +90,19 @@ public class Navi_p3 extends AbstractNaviPane {
 					+ "そのため、バグは" + startEndString[0] + "から" + startEndString[1] + "までのまとまりに潜んでいることが分かります。<br>"
 					+ startEndString[0] + "から" + startEndString[1] + "までのまとまりに同様のことを繰り返し、バグの潜む範囲<br>を絞り込んでいきます。<br>"
 					+ "分割できないくらいまで絞り込めたら、その範囲を順に調べていきます。</html>");
-		} else {
+		} else if(pattern == 2) {
 			descriptLabel.setText("<html>" + startEndString[0] + "から" + startEndString[1] + "までのまとまりが正しく動いていないため、"
+					+ "バグは" + startEndString[0] + "から<br>" + startEndString[1] + "までのまとまりに潜んでいることが分かりました。<br>"
+					+ startEndString[0] + "から" + startEndString[1] + "までのまとまりに同様のことを繰り返し、バグの潜む範囲を<br>絞り込んでいきます。<br>"
+					+ "分割できないくらいまで絞り込めたら、その範囲を順に調べていきます。</html>");
+		}else{
+			questionLabel.setText("<html>" + startEndString[0] + "から" + startEndString[1]
+					+ "までのまとまりをさらに2つのまとまりに分割しましょう。<br>" + "境目となる行を入力してください。<br>"
+					+ "メソッド呼び出しがある場合は「メソッド」を選択してください。<br>"
+					+ "もう分割できないと判断したなら、「次へ」を選択してください。<br>"
+					+ "「次へ」を選択した場合、最後に確認した誤っている変数名の入力を促されます。<br>"
+					+ "メソッドの返り値が誤っていたので、returnしている変数名を入力しましょう。</html>");
+			descriptLabel.setText("<html>" + startEndString[0] + "から" + startEndString[1] + "までのまとまりのメソッドが正しく動いていないため、"
 					+ "バグは" + startEndString[0] + "から<br>" + startEndString[1] + "までのまとまりに潜んでいることが分かりました。<br>"
 					+ startEndString[0] + "から" + startEndString[1] + "までのまとまりに同様のことを繰り返し、バグの潜む範囲を<br>絞り込んでいきます。<br>"
 					+ "分割できないくらいまで絞り込めたら、その範囲を順に調べていきます。</html>");

@@ -26,12 +26,13 @@ public class InputMyDialog extends JOptionPane {
 	public InputMyDialog(int pattern) {
 		switch (pattern) {
 			case VARIABLE:
-				text = "誤っている変数名を入力してください";
+				text = "誤っている変数名を入力してください\n"
+						+ "配列の場合は「[]」は入力しないでください";
 				title = "誤っている変数名の入力";
 				break;
 			case ROW:
-				text = "見つけた処理の行番号を入力してください";
-				title = "見つけた処理の行番号の入力";
+				text = "代入している処理の行番号を入力してください";
+				title = "代入している処理の行番号の入力";
 				break;
 			case PARTITION:
 				text = "まとまりの境目となる行番号を入力してください\n入力行と入力行+1行目が境目になります";

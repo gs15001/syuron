@@ -17,6 +17,7 @@ import org.jeditor.navidata.Navi_a4;
 import org.jeditor.navidata.Navi_a5;
 import org.jeditor.navidata.Navi_a6;
 import org.jeditor.navidata.Navi_a7;
+import org.jeditor.navidata.Navi_a8;
 import org.jeditor.navidata.Navi_b1;
 import org.jeditor.navidata.Navi_b2;
 import org.jeditor.navidata.Navi_b3;
@@ -113,6 +114,9 @@ public class NaviManager {
 		viewPane.add(naviPane, naviPane.getIndex());
 		naviData.put(naviPane.getIndex(), naviPane);
 		naviPane = new Navi_a7(this);
+		viewPane.add(naviPane, naviPane.getIndex());
+		naviData.put(naviPane.getIndex(), naviPane);
+		naviPane = new Navi_a8(this);
 		viewPane.add(naviPane, naviPane.getIndex());
 		naviData.put(naviPane.getIndex(), naviPane);
 

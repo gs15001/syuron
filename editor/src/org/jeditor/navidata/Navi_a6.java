@@ -43,8 +43,8 @@ public class Navi_a6 extends AbstractNaviPane {
 			public void actionPerformed(ActionEvent e) {
 				//@formatter:off
 				String m = "以降、繰り返し文のブロック({})内でprint文を挿入する場合、繰り返し回数分出力がされます。\n"
-						+ "全部を確認する必要はなく、一部だけを確認し、正しいかどうか判断しましょう。\n\n"
-						+ "ただし、確認しなかった部分に誤りがあるかもしれないことを忘れないようにしましょう。";
+						+ "全ての出力を確認してもいいですが、一部だけの確認で正しいか判断しても問題ありません。\n\n"
+						+ "ただし、確認しなかった部分に誤りがある可能性をを忘れないようにしましょう。";
 				//@formatter:on
 				JOptionPane.showMessageDialog(parent, m, "注意", JOptionPane.WARNING_MESSAGE);
 			}
@@ -99,7 +99,7 @@ class a6sample extends AbstractSamplePane {
 		JPanel pane = new JPanel();
 		pane.setBackground(new Color(224, 224, 224));
 		JLabel label = new JLabel(new ImageIcon("./res/a6.png"));
-		((FlowLayout) pane.getLayout()).setVgap(50);;
+		((FlowLayout) pane.getLayout()).setVgap(50);
 		pane.add(label);
 		addMainPane(pane);
 	}

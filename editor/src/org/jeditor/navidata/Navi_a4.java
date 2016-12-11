@@ -22,7 +22,8 @@ public class Navi_a4 extends AbstractNaviPane {
 		questionLabel.setText("<html>着目している処理の右辺の式を確認しましょう。<br>"
 				+ "四則演算の優先順位や括弧の位置などを確認しましょう。<br>"
 				+ "また、複雑な計算を行っている場合は、分解して1つ1つ確認しましょう。<br>"
-				+ "確認した結果、式は正しいですか。</html>");
+				+ "確認した結果、式は正しいですか。<br>"
+				+ "複数行着目している場合は、全ての処理の右辺を確認しましょう。</html>");
 		descriptLabel.setText("<html>代入する値が誤る原因のうち、「使用する変数の値が誤っている」は<br>"
 				+ "先ほど正しいことを確認しました。"
 				+ "残る「式が誤っている」の確認を行います。</html>");
@@ -71,7 +72,7 @@ class a4sample extends AbstractSamplePane {
 		JPanel pane = new JPanel();
 		pane.setBackground(new Color(224, 224, 224));
 		JLabel label = new JLabel(new ImageIcon("./res/a4.png"));
-		((FlowLayout) pane.getLayout()).setVgap(50);;
+		((FlowLayout) pane.getLayout()).setVgap(50);
 		pane.add(label);
 		addMainPane(pane);
 	}

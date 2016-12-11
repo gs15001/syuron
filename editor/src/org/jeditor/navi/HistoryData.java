@@ -76,7 +76,7 @@ public class HistoryData {
 					notices[i] = containComma(notices[i], v, startLine, startOffset);
 				}
 			}
-		} else if(index.matches("(a[23456])|(b[24])|(r[3])")) {
+		} else if(index.matches("(a[234568])|(b[24])|(r[3])")) {
 			for (int i = 0; i < notices.length; i++) {
 				if(notices[i].indexOf(",") == -1) {
 					notices[i] = updatePartition(notices[i], v, startLine, startOffset);

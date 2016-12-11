@@ -116,7 +116,7 @@ public abstract class AbstractNaviPane extends JPanel {
 		// 中部のコンテンツ
 		centerPane = new JPanel();
 		// centerPane.setBackground(new Color(224, 224, 224));
-		centerPane.setLayout(new GridLayout(2, 1));;
+		centerPane.setLayout(new GridLayout(2, 1));
 
 		// ナビゲーションパネル
 		JPanel questionPane = new JPanel();
@@ -227,7 +227,7 @@ public abstract class AbstractNaviPane extends JPanel {
 		// (int) (parent.RIGHT_HEIGHT * 0.38)));
 		// ボーダーを使った余白の設定
 		tmpWidth = (int) (parent.RIGHT_WIDTH * 0.03);
-		tmpHeight = (int) (parent.RIGHT_HEIGHT * 0.01);;
+		tmpHeight = (int) (parent.RIGHT_HEIGHT * 0.01);
 		descriptLabel.setBorder(new EmptyBorder(tmpHeight, tmpWidth, tmpHeight, tmpWidth));
 		// descriptLabel.setBackground(Color.WHITE);
 		// descriptLabel.setOpaque(true);

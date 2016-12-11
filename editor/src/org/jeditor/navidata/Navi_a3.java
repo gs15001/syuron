@@ -23,7 +23,8 @@ public class Navi_a3 extends AbstractNaviPane {
 		//@formatter:off
 		indexLabel.setText("誤っている変数の右辺の値の調査");
 		questionLabel.setText("<html>着目している処理の右辺に出てくる変数の値を確認しましょう。<br>"
-				+ "確認した値は正しいですか。</html>");
+				+ "確認した値は正しいですか。<br>"
+				+ "複数行着目している場合は、全ての処理の右辺を確認しましょう。</html>");
 		descriptLabel.setText("<html>代入する値は右辺の式を評価（計算）した結果になります。<br>"
 				+ "代入する値が誤る原因は、<br>"
 				+ "・右辺の式で使用する変数の値が誤っている<br>"
@@ -85,7 +86,7 @@ class a3sample extends AbstractSamplePane {
 		JPanel pane = new JPanel();
 		pane.setBackground(new Color(224, 224, 224));
 		JLabel label = new JLabel(new ImageIcon("./res/a3.png"));
-		((FlowLayout) pane.getLayout()).setVgap(50);;
+		((FlowLayout) pane.getLayout()).setVgap(50);
 		pane.add(label);
 		addMainPane(pane);
 	}

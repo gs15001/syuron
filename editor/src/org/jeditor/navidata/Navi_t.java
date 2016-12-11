@@ -2,7 +2,9 @@
 package org.jeditor.navidata;
 
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,10 +23,12 @@ public class Navi_t extends AbstractNaviPane {
 		questionLabel.setText("<html>ここに表示されるナビゲーションに従ってデバッグを進めていきましょう。<br>"
 				+ "下のボタンをクリックして、ナビゲーションに応答してください。<br>"
 				+ "まずは、「ステップ1」をクリックしてください。<br><br>"
-				+ "「サンプル」ボタンを押すと、具体例が表示されます。ナビゲーションがよく分からない場合は見てみましょう。</html>");
+				+ "「サンプル」ボタンを押すと、具体例が表示されます。ナビゲーションが<br>"
+				+ "よく分からない場合は見てみましょう。今回は、変数の値を確認するための<br>"
+				+ "print文の例が表示されます。確認しておきましょう。</html>");
 		descriptLabel.setText("<html>ここにはナビゲーションの解説が表示されます。<br>"
 				+ "「なぜそのナビゲーションなのか」といった理由などが表示されます。<br><br>"
-				+ "ボタンの左横にあるチェックボックスは応答に自信が無い場合にチェックを付けます。<br>"
+				+ "下のボタンの左横にあるチェックボックスは応答に自信が無い場合にチェックを付けます。<br>"
 				+ "チェックをして置くことで、やり直しをする際に目安になります。</html>");
 		//@formatter:on
 		JButton button = buttons.get(0);
@@ -55,12 +59,8 @@ class sample extends AbstractSamplePane {
 		super(mgr);
 		JPanel pane = new JPanel();
 		pane.setBackground(new Color(224, 224, 224));
-		JLabel label = new JLabel();
-		//@formatter:off
-		label.setText("<html><br>この画面には各ナビゲーションの具体例が表示されます。<br>"
-				+ "この画面も参考にしつつ、デバッグを進めていきましょう。</html>");
-		//@formatter:on
-		label.setFont(new Font("メイリオ", Font.PLAIN, 22));
+		JLabel label = new JLabel(new ImageIcon("./res/t.png"));
+		((FlowLayout) pane.getLayout()).setVgap(50);
 		pane.add(label);
 		addMainPane(pane);
 	}
