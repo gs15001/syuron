@@ -19,12 +19,11 @@ public class HistoryData {
 	}
 
 	public Object[] getTableData() {
-		Object[] data = new Object[5];
+		Object[] data = new Object[4];
 		data[0] = indexLabel;
-		data[1] = notice;
-		data[2] = selected;
-		data[3] = input;
-		data[4] = confi;
+		data[1] = selected;
+		data[2] = input;
+		data[3] = confi;
 
 		return data;
 	}

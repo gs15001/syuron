@@ -71,7 +71,7 @@ class a2sample extends AbstractSamplePane {
 		JPanel pane = new JPanel();
 		pane.setBackground(new Color(224, 224, 224));
 		JLabel label = new JLabel(new ImageIcon("./res/a2.png"));
-		((FlowLayout) pane.getLayout()).setVgap(20);;
+		((FlowLayout) pane.getLayout()).setVgap(20);
 		pane.add(label);
 		addMainPane(pane);
 	}

@@ -171,7 +171,7 @@ class p4sample extends AbstractSamplePane {
 		JPanel pane = new JPanel();
 		pane.setBackground(new Color(224, 224, 224));
 		JLabel label = new JLabel(new ImageIcon("./res/p4.png"));
-		((FlowLayout) pane.getLayout()).setVgap(5);;
+		((FlowLayout) pane.getLayout()).setVgap(5);
 		pane.add(label);
 		addMainPane(pane);
 	}

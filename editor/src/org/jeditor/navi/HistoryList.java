@@ -46,10 +46,9 @@ public class HistoryList extends JPanel {
 
 		// 列幅調整
 		table.getColumn(HistoryListModel.columnNames[0]).setPreferredWidth((int) (parent.RIGHT_WIDTH * 0.4));
-		table.getColumn(HistoryListModel.columnNames[1]).setPreferredWidth((int) (parent.RIGHT_WIDTH * 0.15));
-		table.getColumn(HistoryListModel.columnNames[2]).setPreferredWidth((int) (parent.RIGHT_WIDTH * 0.15));
-		table.getColumn(HistoryListModel.columnNames[3]).setPreferredWidth((int) (parent.RIGHT_WIDTH * 0.15));
-		table.getColumn(HistoryListModel.columnNames[4]).setPreferredWidth((int) (parent.RIGHT_WIDTH * 0.15));
+		table.getColumn(HistoryListModel.columnNames[1]).setPreferredWidth((int) (parent.RIGHT_WIDTH * 0.2));
+		table.getColumn(HistoryListModel.columnNames[2]).setPreferredWidth((int) (parent.RIGHT_WIDTH * 0.2));
+		table.getColumn(HistoryListModel.columnNames[3]).setPreferredWidth((int) (parent.RIGHT_WIDTH * 0.2));
 
 		// テーブルヘッダーの余白調整のおまじない
 		UIManager.put("TableHeader.cellBorder", new MetalBorders.TableHeaderBorder() {

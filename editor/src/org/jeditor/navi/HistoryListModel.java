@@ -8,7 +8,7 @@ import org.jeditor.navidata.AbstractNaviPane;
 public class HistoryListModel extends DefaultTableModel {
 
 	private static final long serialVersionUID = 1L;
-	static String[] columnNames = { "タイトル", "着目した変数・行", "選択肢", "入力", "自信" };
+	static String[] columnNames = { "タイトル", "選択肢", "入力", "自信" };
 
 	private List<HistoryData> historyDatas;
 	private int historyIndex = 0;
@@ -75,9 +75,9 @@ public class HistoryListModel extends DefaultTableModel {
 		HistoryData d = historyDatas.get(historyIndex - 1);
 		e.updateHistoryData(d);
 		Object[] datas = d.getTableData();
+		setValueAt(datas[1], historyIndex - 1, 1);
 		setValueAt(datas[2], historyIndex - 1, 2);
 		setValueAt(datas[3], historyIndex - 1, 3);
-		setValueAt(datas[4], historyIndex - 1, 4);
 	}
 
 	public void updateNotice(int v, int startLine, int startOffset) {

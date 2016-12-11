@@ -30,7 +30,9 @@ public class Navi_p1 extends AbstractNaviPane {
 		
 		descriptLabel.setText("<html>プログラムを大雑把に調べるために、処理の役割毎にまとまりを作り、<br>"
 				+ "プログラムをいくつかのまとまりに分割します。<br>"
-				+ "まとまりに分割し、まとまり毎に動作を確認することで、バグの潜む範囲を大雑把に絞り込んでいきます。</html>");
+				+ "まとまりに分割し、まとまり毎に動作を確認することで、バグの潜む範囲を大雑把に絞り込んでいきます。<br><br>"
+				+ "メソッドは一連の処理をまとめたものであり、今回作るまとまりと同じ意味になります。<br>"
+				+ "そのため、メソッド呼び出しがある場合は、メソッドを1まとまりとしてその前後で分割します。</html>");
 		//@formatter:on
 
 		JButton button = buttons.get(0);
@@ -104,7 +106,7 @@ class p1sample extends AbstractSamplePane {
 		JPanel pane = new JPanel();
 		pane.setBackground(new Color(224, 224, 224));
 		JLabel label = new JLabel(new ImageIcon("./res/p1.png"));
-		((FlowLayout) pane.getLayout()).setVgap(5);;
+		((FlowLayout) pane.getLayout()).setVgap(5);
 		pane.add(label);
 		addMainPane(pane);
 	}

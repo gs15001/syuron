@@ -365,7 +365,7 @@ public class JEditor extends JComponent {
 	}
 
 	// リターン用データ
-	private List<Integer> returnLine = new ArrayList<>();;
+	private List<Integer> returnLine = new ArrayList<>();
 
 	public void setReturnLine(List<Integer> newReturnLine) {
 		returnLine = newReturnLine;
