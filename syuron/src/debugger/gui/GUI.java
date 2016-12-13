@@ -9,13 +9,21 @@
 
 package debugger.gui;
 
-import java.io.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import java.awt.*;
-import java.awt.event.*;
-import com.sun.jdi.*;
-import debugger.bdi.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.io.File;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
+import javax.swing.border.EmptyBorder;
+import com.sun.jdi.VirtualMachine;
+import debugger.bdi.ExecutionManager;
 
 public class GUI extends JPanel {
 
@@ -46,7 +54,7 @@ public class GUI extends JPanel {
 	public static final String version = "1.0Beta"; // ### FIX ME.
 	public static final String windowBanner = "Java(tm) platform Debug Tool";
 
-	private Font fixedFont = new Font("consolas", Font.PLAIN, 10);
+	private Font fixedFont = new Font("consolas", Font.PLAIN, 11);
 
 	public final int WINDOW_WIDTH;
 	public final int WINDOW_HEIGHT;
@@ -274,13 +282,14 @@ public class GUI extends JPanel {
 		frame.setJMenuBar(menuBar);
 		frame.setContentPane(mainPanel);
 
-		frame.addWindowListener(new WindowAdapter() {
-
-			@Override
-			public void windowClosing(WindowEvent e) {
-				env.terminate();
-			}
-		});
+		// frame.addWindowListener(new WindowAdapter() {
+		//
+		// @Override
+		// public void windowClosing(WindowEvent e) {
+		// env.terminate();
+		// }
+		// });
+		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
 		frame.pack();
 		frame.setVisible(true);

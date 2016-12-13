@@ -174,10 +174,10 @@ class ChildSession extends Session {
 		try {
 			in = new PrintWriter(new OutputStreamWriter(process.getOutputStream()));
 			// ### Note small buffer sizes!
-			// out = new BufferedReader(new InputStreamReader(process.getInputStream(), "SJIS"), 1);
-			// err = new BufferedReader(new InputStreamReader(process.getErrorStream(), "SJIS"), 1);
-			out = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"), 1);
-			err = new BufferedReader(new InputStreamReader(process.getErrorStream(), "UTF-8"), 1);
+			 out = new BufferedReader(new InputStreamReader(process.getInputStream(), "SJIS"), 1);
+			 err = new BufferedReader(new InputStreamReader(process.getErrorStream(), "SJIS"), 1);
+			// out = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"), 1);
+			// err = new BufferedReader(new InputStreamReader(process.getErrorStream(), "UTF-8"), 1);
 		} catch (Exception e) {
 
 		}

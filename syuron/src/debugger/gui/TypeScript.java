@@ -40,6 +40,7 @@ public class TypeScript extends JPanel {
 
 		history = new JTextArea(0, 0);
 		history.setEditable(false);
+		history.setFont(new Font("メイリオ", Font.PLAIN, 12));
 		JScrollPane scroller = new JScrollPane(history);
 		historyVScrollBar = scroller.getVerticalScrollBar();
 		historyHScrollBar = scroller.getHorizontalScrollBar();
