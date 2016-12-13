@@ -22,6 +22,7 @@
 package org.jeditor.app;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -91,6 +92,10 @@ public class JAppEditor extends JFrame {
 	private JTabbedPane tab = new JTabbedPane();
 	private ConsolePane console = new ConsolePane();
 	private NaviManager naviManager;
+	private JPanel naviPane;
+	private JPanel rightPane;
+	private CardLayout layout = new CardLayout();
+	private boolean isNavi;
 	private HistoryList history;
 	private JMenuBar Mbar = new JMenuBar();
 	private JMenu fileMenu = new JMenu("File");
@@ -224,17 +229,22 @@ public class JAppEditor extends JFrame {
 		tab.setFont(new Font("メイリオ", Font.PLAIN, 14));
 		doOpenFile(new File(DEFAULTPATH, "no_name.java"));
 		// ナビゲーション部分
+		isNavi = true;
 		naviManager = new NaviManager(this);
 		history = new HistoryList(naviManager);
-		JPanel naviPane = naviManager.getViewPane();
+		naviPane = naviManager.getViewPane();
 		naviPane.setPreferredSize(new Dimension(RIGHT_WIDTH, (int) (RIGHT_HEIGHT * 0.87)));
 		history.setPreferredSize(new Dimension(RIGHT_WIDTH, (int) (RIGHT_HEIGHT * 0.1)));
 		JSplitPane centerRight = new JSplitPane(JSplitPane.VERTICAL_SPLIT, naviPane, history);
+		rightPane = new JPanel();
+		rightPane.setLayout(layout);
+		rightPane.add(centerRight);
+		rightPane.add(new JPanel());
 		// コンソール部分
 		console.setPreferredSize(new Dimension(BOTTOM_WIDTH, BOTTOM_HEIGHT));
 
 		// パネルの合体
-		JSplitPane centerTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tab, centerRight);
+		JSplitPane centerTop = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tab, rightPane);
 		centerTop.setDividerLocation(LEFT_WIDTH);
 		JSplitPane center = new JSplitPane(JSplitPane.VERTICAL_SPLIT, centerTop, console);
 		center.setDividerLocation(LEFT_HEIGHT);
@@ -311,7 +321,7 @@ public class JAppEditor extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				toggleNavi();
 			}
 		};
 
@@ -676,6 +686,10 @@ public class JAppEditor extends JFrame {
 		ed.clearNoticeLine();
 		ed.clearReturnLine();
 		ed.setVariableName(null);
+	}
+
+	public void toggleNavi() {
+		layout.next(rightPane);
 	}
 
 	public void setPartitionLine(Set<Integer> set) {
