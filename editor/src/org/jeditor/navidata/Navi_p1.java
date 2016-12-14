@@ -93,7 +93,7 @@ public class Navi_p1 extends AbstractNaviPane {
 		} else {
 			preInput = "0-999-";
 		}
-		noticeLabel.setText("着目しているまとまり：" + startEnd[0] + "行目から" + startEnd[2] + "行目");
+		noticeLabel.setText("着目しているまとまり：" + startEnd[0] + "行目から" + startEnd[1] + "行目");
 	}
 }
 

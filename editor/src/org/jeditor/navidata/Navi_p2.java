@@ -69,7 +69,7 @@ public class Navi_p2 extends AbstractNaviPane {
 
 		descriptLabel.setText("<html>プログラムをまとまりに分割したので、次はまとまり毎に正しく動作しているか<br>を確認します。<br>"
 				+ "正しく動作しているかは、変数の値を確認することで確かめることができます。<br>"
-				+ "確認するべき変数は、" + startEndString[2] + "までのまとまりと" + (startEnd[2]+1) + "行目からのまとまりで<br>"
+				+ "確認するべき変数は、" + startEndString[2] + "までのまとまりと" + (startEnd[2]+1) + "行目以降のまとまりで<br>"
 				+ "共通している変数です。<br>"
 				+ "正しい変数の値はプログラムの過程を紙などに書いて求めましょう。</html>");
 		// @formatter:on
