@@ -86,7 +86,7 @@ public class Navi_p3 extends AbstractNaviPane {
 				+ "「次へ」を選択した場合、最後に確認した誤っている変数名の入力を促されます。</html>");
 
 		if(pattern == 1) {
-			descriptLabel.setText("<html>" + (startEnd[0]-1) + "までのまとまりは正しく動いており、バグが無いことが確認できました。<br>"
+			descriptLabel.setText("<html>" + (startEnd[0]-1) + "行目までのまとまりは正しく動いており、バグが無いことが確認できました。<br>"
 					+ "そのため、バグは" + startEndString[0] + "から" + startEndString[1] + "までのまとまりに潜んでいることが分かります。<br>"
 					+ startEndString[0] + "から" + startEndString[1] + "までのまとまりに同様のことを繰り返し、バグの潜む範囲<br>を絞り込んでいきます。<br>"
 					+ "分割できないくらいまで絞り込めたら、その範囲を順に調べていきます。</html>");
