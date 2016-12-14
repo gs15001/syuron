@@ -524,12 +524,17 @@ public class JAppEditor extends JFrame {
 		if(fp != null) {
 			if(!fp.ed.isEdited()) {
 				JavaCompiler javac = ToolProvider.getSystemJavaCompiler();
+				if(javac == null) {
+					System.setProperty("java.home", "C:\\Program Files\\Java\\jdk1.8.0_65\\jre");
+					javac = ToolProvider.getSystemJavaCompiler();
+				}
 
 				File file = ((FilePane) (tab.getSelectedComponent())).getFile().file;
 				String fileName = file.getName();
 				String fileLoc = file.getParent();
 				// String[] commands = { "-g", "-encoding", "Shift_JIS", "-cp", fileLoc, fileLoc + "\\" + fileName };
-				String[] commands = { "-g", "-cp", fileLoc, fileLoc + "\\" + fileName };
+				// String[] commands = { "-g", "-cp", fileLoc, fileLoc + "\\" + fileName };
+				String[] commands = { "-g", "-encoding", "UTF-8", "-cp", fileLoc, fileLoc + "\\" + fileName };
 				// コンパイル時の出力を受け取るストリームの生成(これでいいかは不明）
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
 				ByteArrayOutputStream err = new ByteArrayOutputStream();
