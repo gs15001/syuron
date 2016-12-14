@@ -9,6 +9,7 @@
 
 package debugger.gui;
 
+import java.net.URL;
 import javax.swing.ImageIcon;
 
 class Icons {
@@ -101,11 +102,16 @@ class Icons {
 		return bytes;
 	}
 
-	static ImageIcon stopSignIcon = new ImageIcon("./res/BP3.png");
+	static ClassLoader classLoader = Icons.class.getClassLoader();
+
+	static ImageIcon stopSignIcon = new ImageIcon(classLoader.getResource("res/BP3.png"));
+	static ImageIcon openIcon = new ImageIcon(classLoader.getResource("res/open.png"));
+	static ImageIcon closeIcon = new ImageIcon(classLoader.getResource("res/close.png"));
+	// static ImageIcon stopSignIcon = new ImageIcon("./res/BP3.png");
 	static ImageIcon blankIcon = new ImageIcon(wordsToBytes(blank));
 	static ImageIcon execIcon = new ImageIcon(wordsToBytes(exec));
 
-	static ImageIcon openIcon = new ImageIcon("./res/open.png");
-	static ImageIcon closeIcon = new ImageIcon("./res/close.png");
+	// static ImageIcon openIcon = new ImageIcon("./res/open.png");
+	// static ImageIcon closeIcon = new ImageIcon("./res/close.png");
 
 }

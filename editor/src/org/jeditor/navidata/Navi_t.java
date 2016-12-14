@@ -3,7 +3,7 @@ package org.jeditor.navidata;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Font;
+import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -59,7 +59,12 @@ class sample extends AbstractSamplePane {
 		super(mgr);
 		JPanel pane = new JPanel();
 		pane.setBackground(new Color(224, 224, 224));
-		JLabel label = new JLabel(new ImageIcon("./res/t.png"));
+
+		ClassLoader classLoader = this.getClass().getClassLoader();
+		URL resUrl = classLoader.getResource("res/t.png");
+		JLabel label = new JLabel(new ImageIcon(resUrl));
+
+		// JLabel label = new JLabel(new ImageIcon("./res/t.png"));
 		((FlowLayout) pane.getLayout()).setVgap(50);
 		pane.add(label);
 		addMainPane(pane);

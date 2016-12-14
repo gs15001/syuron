@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 import javax.swing.ImageIcon;
@@ -105,7 +106,12 @@ class p1sample extends AbstractSamplePane {
 		super(mgr);
 		JPanel pane = new JPanel();
 		pane.setBackground(new Color(224, 224, 224));
-		JLabel label = new JLabel(new ImageIcon("./res/p1.png"));
+
+		ClassLoader classLoader = this.getClass().getClassLoader();
+		URL resUrl = classLoader.getResource("res/p1.png");
+		JLabel label = new JLabel(new ImageIcon(resUrl));
+
+		// JLabel label = new JLabel(new ImageIcon("./res/p1.png"));
 		((FlowLayout) pane.getLayout()).setVgap(5);
 		pane.add(label);
 		addMainPane(pane);

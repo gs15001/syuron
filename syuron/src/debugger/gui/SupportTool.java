@@ -8,6 +8,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -31,13 +32,13 @@ public class SupportTool extends JPanel {
 		main = new JPanel();
 		layout = new CardLayout();
 		main.setLayout(layout);
-		main.add(createPage("./res/debugger1.png"));
-		main.add(createPage("./res/debugger2.png"));
-		main.add(createPage("./res/debugger3.png"));
-		main.add(createPage("./res/debugger4.png"));
-		main.add(createPage("./res/debugger5.png"));
-		main.add(createPage("./res/debugger6.png"));
-		main.add(createPage("./res/debugger7.png"));
+		main.add(createPage("res/debugger1.png"));
+		main.add(createPage("res/debugger2.png"));
+		main.add(createPage("res/debugger3.png"));
+		main.add(createPage("res/debugger4.png"));
+		main.add(createPage("res/debugger5.png"));
+		main.add(createPage("res/debugger6.png"));
+		main.add(createPage("res/debugger7.png"));
 
 		// 戻る用ボタン
 		JPanel buttonPane = new JPanel();
@@ -84,7 +85,12 @@ public class SupportTool extends JPanel {
 	private JPanel createPage(String path) {
 		JPanel pane = new JPanel();
 		pane.setBackground(new Color(224, 224, 224));
-		JLabel label = new JLabel(new ImageIcon(path));
+
+		ClassLoader classLoader = this.getClass().getClassLoader();
+		URL resUrl = classLoader.getResource(path);
+		JLabel label = new JLabel(new ImageIcon(resUrl));
+
+		// JLabel label = new JLabel(new ImageIcon(path));
 		pane.add(label);
 		return pane;
 	}

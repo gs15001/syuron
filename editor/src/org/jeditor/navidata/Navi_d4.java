@@ -3,6 +3,7 @@ package org.jeditor.navidata;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -49,7 +50,12 @@ class d4sample extends AbstractSamplePane {
 		super(mgr);
 		JPanel pane = new JPanel();
 		pane.setBackground(new Color(224, 224, 224));
-		JLabel label = new JLabel(new ImageIcon("./res/d4.png"));
+
+		ClassLoader classLoader = this.getClass().getClassLoader();
+		URL resUrl = classLoader.getResource("res/d4.png");
+		JLabel label = new JLabel(new ImageIcon(resUrl));
+
+		// JLabel label = new JLabel(new ImageIcon("./res/d4.png"));
 		((FlowLayout) pane.getLayout()).setVgap(50);
 		pane.add(label);
 		addMainPane(pane);

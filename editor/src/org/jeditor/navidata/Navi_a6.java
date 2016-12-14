@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.List;
 import java.util.Set;
 import javax.swing.ImageIcon;
@@ -77,14 +78,13 @@ public class Navi_a6 extends AbstractNaviPane {
 	@Override
 	public void updateData(List<Integer> noticeLine, String returnLine, int[] partition, Set<Integer> partitionLines) {
 		postInput = parent.getPartition();
-		
+
 		String preInput2 = "";
 		for (int i = 0; i < noticeLine.size(); i++) {
 			preInput2 += (noticeLine.get(i) + 1) + ",";
 		}
 		preInput2 = preInput2.substring(0, preInput2.length());
-		
-		
+
 		preInput = getIndex() + "-" + preInput2 + "-";
 		noticeLabel.setText("着目している処理　：　" + preInput2 + " 行目");
 	}
@@ -98,7 +98,12 @@ class a6sample extends AbstractSamplePane {
 		super(mgr);
 		JPanel pane = new JPanel();
 		pane.setBackground(new Color(224, 224, 224));
-		JLabel label = new JLabel(new ImageIcon("./res/a6.png"));
+
+		ClassLoader classLoader = this.getClass().getClassLoader();
+		URL resUrl = classLoader.getResource("res/a6.png");
+		JLabel label = new JLabel(new ImageIcon(resUrl));
+
+		// JLabel label = new JLabel(new ImageIcon("./res/a6.png"));
 		((FlowLayout) pane.getLayout()).setVgap(50);
 		pane.add(label);
 		addMainPane(pane);

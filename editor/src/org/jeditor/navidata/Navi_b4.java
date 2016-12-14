@@ -3,6 +3,7 @@ package org.jeditor.navidata;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.net.URL;
 import java.util.List;
 import java.util.Set;
 import javax.swing.ImageIcon;
@@ -30,7 +31,7 @@ public class Navi_b4 extends AbstractNaviPane {
 		button.setText("正しい");
 		button = buttons.get(1);
 		button.setText("誤り");
-		
+
 		setSamplePane(new b4sample(mgr));
 	}
 
@@ -69,7 +70,12 @@ class b4sample extends AbstractSamplePane {
 		super(mgr);
 		JPanel pane = new JPanel();
 		pane.setBackground(new Color(224, 224, 224));
-		JLabel label = new JLabel(new ImageIcon("./res/b4.png"));
+
+		ClassLoader classLoader = this.getClass().getClassLoader();
+		URL resUrl = classLoader.getResource("res/b4.png");
+		JLabel label = new JLabel(new ImageIcon(resUrl));
+
+		// JLabel label = new JLabel(new ImageIcon("./res/b4.png"));
 		((FlowLayout) pane.getLayout()).setVgap(50);
 		pane.add(label);
 		addMainPane(pane);

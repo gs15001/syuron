@@ -114,7 +114,7 @@ public class SourceModel extends AbstractListModel {
 	}
 
 	public BufferedReader sourceReader() throws IOException {
-		return new BufferedReader(new FileReader(path));
+		return new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF-8"));
 	}
 
 	public Line line(int lineNo) {

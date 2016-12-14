@@ -3,6 +3,7 @@ package org.jeditor.navidata;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -35,7 +36,7 @@ public class Navi_p0 extends AbstractNaviPane {
 		button.setText("次へ");
 
 		dialog[0] = new InputMyDialog("mainメソッドが定義されている行番号を入力してください。\n「開始行-終了行」の形式で入力", "mainメソッドの定義されている行番号の入力");
-		
+
 		setSamplePane(new p0sample(mgr));
 	}
 
@@ -54,7 +55,12 @@ class p0sample extends AbstractSamplePane {
 		super(mgr);
 		JPanel pane = new JPanel();
 		pane.setBackground(new Color(224, 224, 224));
-		JLabel label = new JLabel(new ImageIcon("./res/p0.png"));
+
+		ClassLoader classLoader = this.getClass().getClassLoader();
+		URL resUrl = classLoader.getResource("res/p0.png");
+		JLabel label = new JLabel(new ImageIcon(resUrl));
+
+		// JLabel label = new JLabel(new ImageIcon("./res/p0.png"));
 		((FlowLayout) pane.getLayout()).setVgap(5);
 		pane.add(label);
 		addMainPane(pane);
