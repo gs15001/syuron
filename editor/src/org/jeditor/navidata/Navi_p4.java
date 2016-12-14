@@ -39,7 +39,7 @@ public class Navi_p4 extends AbstractNaviPane {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				preInput = String.valueOf(startEnd[1] + 2) + "-" + String.valueOf(startEnd[2]) + "-1";
+				preInput = String.valueOf(startEnd[1] + 1) + "-" + String.valueOf(startEnd[2]) + "-1";
 				postInput = parent.getPartitionLine();
 			}
 		});
