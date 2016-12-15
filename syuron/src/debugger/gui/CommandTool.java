@@ -9,15 +9,43 @@
 
 package debugger.gui;
 
-import java.io.*;
-import java.util.*;
-import javax.swing.*;
 import java.awt.BorderLayout;
-import java.awt.event.*;
-import com.sun.jdi.*;
-import com.sun.jdi.event.*;
-import debugger.bdi.*;
-import debugger.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.PrintWriter;
+import java.util.EventObject;
+import javax.swing.JPanel;
+import com.sun.jdi.Location;
+import com.sun.jdi.ThreadReference;
+import com.sun.jdi.event.BreakpointEvent;
+import com.sun.jdi.event.Event;
+import com.sun.jdi.event.EventIterator;
+import com.sun.jdi.event.MethodEntryEvent;
+import com.sun.jdi.event.MethodExitEvent;
+import com.sun.jdi.event.StepEvent;
+import debugger.bdi.EventRequestSpec;
+import debugger.bdi.ExecutionManager;
+import debugger.bdi.LineBreakpointSpec;
+import debugger.bdi.OutputListener;
+import debugger.bdi.PatternReferenceTypeSpec;
+import debugger.bdi.SessionListener;
+import debugger.bdi.SpecErrorEvent;
+import debugger.bdi.SpecEvent;
+import debugger.bdi.SpecListener;
+import debugger.bdi.Utils;
+import debugger.event.AccessWatchpointEventSet;
+import debugger.event.ClassPrepareEventSet;
+import debugger.event.ClassUnloadEventSet;
+import debugger.event.ExceptionEventSet;
+import debugger.event.JDIListener;
+import debugger.event.LocatableEventSet;
+import debugger.event.LocationTriggerEventSet;
+import debugger.event.ModificationWatchpointEventSet;
+import debugger.event.ThreadDeathEventSet;
+import debugger.event.ThreadStartEventSet;
+import debugger.event.VMDeathEventSet;
+import debugger.event.VMDisconnectEventSet;
+import debugger.event.VMStartEventSet;
 
 public class CommandTool extends JPanel {
 

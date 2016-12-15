@@ -22,19 +22,14 @@ public class Navi_a6 extends AbstractNaviPane {
 
 	public Navi_a6(NaviManager mgr) {
 		super(mgr, "a6", 3, true);
-		//@formatter:off
+		// @formatter:off
 		indexLabel.setText("条件文・繰り返し文の調査");
-		questionLabel.setText("<html>着目している処理が存在している条件文(if)や繰り返し文(while,for)を"
-				+ "<br>選択してください。<br>"
-				+ "複数存在している場合は、外側(コードの上のほう）から選択してください。<br>"
-				+ "条件文・繰り返し文を調べ終わると再度この画面に戻ってきます。<br>"
-				+ "存在している条件文・繰り返し文を全て調べ終えた場合は、<br>"
-				+ "「次へ」を選択してください。</html>");
-		descriptLabel.setText("<html>着目している処理が存在している条件文や繰り返し文に誤りがないか<br>"
-				+ "を調べていきます。<br>"
-				+ "外側にある条件文や繰り返し文の方が結果に大きく影響することが多いため、"
-				+ "<br>外側から順に調べていきます。</html>");
-		//@formatter:on
+		questionLabel.setText("<html>着目している処理が存在している条件文(if)や繰り返し文(while,for)を" + "<br>選択してください。<br>"
+				+ "複数存在している場合は、外側(コードの上のほう）から選択してください。<br>" + "条件文・繰り返し文を調べ終わると再度この画面に戻ってきます。<br>"
+				+ "存在している条件文・繰り返し文を全て調べ終えた場合は、<br>" + "「次へ」を選択してください。</html>");
+		descriptLabel.setText("<html>着目している処理が存在している条件文や繰り返し文に誤りがないか<br>" + "を調べていきます。<br>"
+				+ "外側にある条件文や繰り返し文の方が結果に大きく影響することが多いため、" + "<br>外側から順に調べていきます。</html>");
+		// @formatter:on
 		JButton button = buttons.get(0);
 		button.setText("条件文");
 		button = buttons.get(1);
@@ -42,17 +37,24 @@ public class Navi_a6 extends AbstractNaviPane {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//@formatter:off
+				// @formatter:off
 				String m = "以降、繰り返し文のブロック({})内でprint文を挿入する場合、繰り返し回数分出力がされます。\n"
-						+ "全ての出力を確認してもいいですが、一部だけの確認で正しいか判断しても問題ありません。\n\n"
-						+ "ただし、確認しなかった部分に誤りがある可能性をを忘れないようにしましょう。";
-				//@formatter:on
+						+ "全ての出力を確認してもいいですが、一部だけの確認で正しいか判断しても問題ありません。\n\n" + "ただし、確認しなかった部分に誤りがある可能性をを忘れないようにしましょう。";
+				// @formatter:on
 				JOptionPane.showMessageDialog(parent, m, "注意", JOptionPane.WARNING_MESSAGE);
 			}
 		});
 		button.setText("繰り返し文");
 		button = buttons.get(2);
 		button.setText("次へ");
+		button.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String[] preInputs = preInput.split("-");
+				preInput = preInputs[1] + "-";
+			}
+		});
 		dialog[0] = new InputMyDialog(InputMyDialog.IF);
 		dialog[1] = new InputMyDialog(InputMyDialog.FOR);
 
