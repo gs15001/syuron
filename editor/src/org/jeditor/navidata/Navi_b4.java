@@ -21,7 +21,8 @@ public class Navi_b4 extends AbstractNaviPane {
 		// @formatter:off
 		indexLabel.setText("条件の条件式の調査");
 		questionLabel.setText("<html>着目している条件文(if)の条件式を確認しましょう。<br>"
-				+ "複数の条件式を判定している場合は、分解して1つ1つ確認しましょう。<br>"
+				+ "そもそもその条件式で正しいのかなどを確認しましょう。<br>"
+				+ "また、複数の条件式を判定している場合は、分解して1つ1つ確認しましょう。<br>"
 				+ "確認した結果、条件式は正しいですか。</html>");
 		descriptLabel.setText("<html>条件文の誤りの原因のうち、「使用する変数の値が誤っている」は<br>"
 				+ "先ほど正しいことを確認しました。<br>"

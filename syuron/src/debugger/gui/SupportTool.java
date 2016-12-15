@@ -39,6 +39,7 @@ public class SupportTool extends JPanel {
 		main.add(createPage("res/debugger5.png"));
 		main.add(createPage("res/debugger6.png"));
 		main.add(createPage("res/debugger7.png"));
+		main.add(createPage("res/debugger8.png"));
 
 		// 戻る用ボタン
 		JPanel buttonPane = new JPanel();
