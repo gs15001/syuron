@@ -43,7 +43,7 @@ public class Navi_a1 extends AbstractNaviPane {
 		button.setText("ない");
 
 		dialog[0] = new InputMyDialog(InputMyDialog.ROW);
-		dialog[1] = new InputMyDialog("配列に代入している処理の行番号を全て入力してください\n行番号は、「,」で区切って複数入力してください", "代入している処理の行番号の入力");
+		dialog[1] = new InputMyDialog("配列に代入している処理の行番号を全て入力してください\n行番号は、「,」で区切って複数入力してください", "代入している処理の行番号の入力", -1);
 		setSamplePane(new a1sample(mgr));
 	}
 

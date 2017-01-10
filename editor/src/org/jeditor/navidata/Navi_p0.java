@@ -35,7 +35,7 @@ public class Navi_p0 extends AbstractNaviPane {
 		JButton button = buttons.get(0);
 		button.setText("次へ");
 
-		dialog[0] = new InputMyDialog("mainメソッドが定義されている行番号を入力してください。\n「開始行-終了行」の形式で入力", "mainメソッドの定義されている行番号の入力");
+		dialog[0] = new InputMyDialog("mainメソッドが定義されている行番号を入力してください。\n「開始行-終了行」の形式で入力", "mainメソッドの定義されている行番号の入力", 6);
 
 		setSamplePane(new p0sample(mgr));
 	}

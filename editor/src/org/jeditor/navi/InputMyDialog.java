@@ -1,14 +1,17 @@
 package org.jeditor.navi;
 
 import java.awt.Component;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 public class InputMyDialog extends JOptionPane {
 
 	private static final long serialVersionUID = 1L;
 
-	String text;
-	String title;
+	private String text;
+	private String title;
+	private int pattern = -1;
 
 	public static final int VARIABLE = 0;
 	public static final int ROW = 1;
@@ -17,17 +20,18 @@ public class InputMyDialog extends JOptionPane {
 	public static final int IF = 4;
 	public static final int FOR = 5;
 
-	public InputMyDialog(String text, String title) {
+	public InputMyDialog(String text, String title, int pattern) {
 		super();
 		this.text = text;
 		this.title = title;
+		this.pattern = pattern;
 	}
 
 	public InputMyDialog(int pattern) {
+		this.pattern = pattern;
 		switch (pattern) {
 			case VARIABLE:
-				text = "誤っている変数名を入力してください\n"
-						+ "配列の場合は「[]」は入力しないでください";
+				text = "誤っている変数名を入力してください\n" + "配列の場合は「[]」は入力しないでください";
 				title = "誤っている変数名の入力";
 				break;
 			case ROW:
@@ -63,8 +67,37 @@ public class InputMyDialog extends JOptionPane {
 			if(input == null) {
 				return null;
 			}
-		} while (input.equals(""));
+		} while (!judgedError(input));
 		return input;
 	}
 
+	public boolean judgedError(String input) {
+		// 入力なしの判定
+		if(input.equals("")) {
+			return false;
+		}
+		// ハイフン付き
+		if(pattern == 6) {
+			Pattern p = Pattern.compile("^[0-9]*\\-[0-9]*$");
+			Matcher m = p.matcher(input);
+			if(m.matches()) {
+				return true;
+			} else {
+				JOptionPane.showMessageDialog(this, "「開始行-終了行」の形式で入力してください", "エラー", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+		}
+		// 数字を入力しているかの判定
+		if(pattern > 0) {
+			Pattern p = Pattern.compile("^[0-9]*$");
+			Matcher m = p.matcher(input);
+			if(m.matches()) {
+				return true;
+			} else {
+				JOptionPane.showMessageDialog(this, "数値で入力してください", "エラー", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+		}
+		return true;
+	}
 }

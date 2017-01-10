@@ -56,7 +56,7 @@ public class Navi_p4 extends AbstractNaviPane {
 			}
 		});
 
-		dialog[1] = new InputMyDialog("メソッドが定義されている行番号を入力してください。\n「開始行-終了行」の形式で入力", "メソッドの定義されている行番号の入力");
+		dialog[1] = new InputMyDialog("メソッドが定義されている行番号を入力してください。\n「開始行-終了行」の形式で入力", "メソッドの定義されている行番号の入力", 6);
 
 		setSamplePane(new p4sample(mgr));
 	}
