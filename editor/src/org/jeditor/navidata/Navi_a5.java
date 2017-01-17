@@ -30,7 +30,7 @@ public class Navi_a5 extends AbstractNaviPane {
 		button.setText("次へ");
 		dialog[0] = new InputMyDialog(InputMyDialog.IF);
 		dialog[1] = new InputMyDialog(InputMyDialog.FOR);
-		
+
 		setSamplePane(new a6sample(mgr));
 	}
 
@@ -57,7 +57,7 @@ public class Navi_a5 extends AbstractNaviPane {
 		for (int i = 0; i < noticeLine.size(); i++) {
 			preInput += (noticeLine.get(i) + 1) + ",";
 		}
-		preInput = preInput.substring(0, preInput.length());
+		preInput = preInput.substring(0, preInput.length() - 1);
 		noticeLabel.setText("着目している処理　：　" + preInput + " 行目");
 	}
 }

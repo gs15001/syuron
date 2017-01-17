@@ -75,7 +75,7 @@ public class Navi_r2 extends AbstractNaviPane {
 		for (int i = 0; i < noticeLine.size(); i++) {
 			preInput += (noticeLine.get(i) + 1) + ",";
 		}
-		preInput = preInput.substring(0, preInput.length());
+		preInput = preInput.substring(0, preInput.length() - 1);
 		noticeLabel.setText("着目している繰り返し文　：　" + preInput + " 行目");
 	}
 }

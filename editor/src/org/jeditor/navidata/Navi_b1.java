@@ -79,7 +79,7 @@ public class Navi_b1 extends AbstractNaviPane {
 		for (int i = 0; i < noticeLine.size(); i++) {
 			preInput += (noticeLine.get(i) + 1) + ",";
 		}
-		preInput = preInput.substring(0, preInput.length());
+		preInput = preInput.substring(0, preInput.length() - 1);
 		noticeLabel.setText("着目している条件文　：　" + preInput + " 行目");
 	}
 }

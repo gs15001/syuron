@@ -73,7 +73,7 @@ public class Navi_a3 extends AbstractNaviPane {
 		for (int i = 0; i < noticeLine.size(); i++) {
 			preInput += (noticeLine.get(i) + 1) + ",";
 		}
-		preInput = preInput.substring(0, preInput.length());
+		preInput = preInput.substring(0, preInput.length() - 1);
 		noticeLabel.setText("着目している処理　：　" + preInput + " 行目");
 	}
 }
